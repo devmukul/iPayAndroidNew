@@ -283,6 +283,7 @@ public class Constants {
     public static final String ZONE_CODE = "ZONE_CODE";
     public static final String DUE_DATE = "DUE_DATE";
     public static final String BILL_NUMBER = "BILL_NUMBER";
+    public static final String URL_WITHDRAW_MONEY_V3 = "withdraw-money/v3";
 
 
     public static String ROLEID = "ROLEID";
@@ -516,6 +517,7 @@ public class Constants {
     public static final String URL_PAY_BY_DEEP_LINK = "orderId/pay";
     public static final String URL_PAYMENT_REVERT = "payment-revert";
     public static final String URL_PAYMENT_V3 = "payment/v3";
+    public static final String URL_ADD_MONEY_BY_BANK_V3 = "add-money/v3";
 
     public static final String X_IPAY_OTP = "X-iPay-OTP";
     public static final String X_IPAY_PIN = "X-iPay-PIN";
@@ -619,7 +621,7 @@ public class Constants {
 
     // FCM notification
     public static final String URL_REFRESH_FIREBASE_TOKEN = "firebase/login/";
-    public static final String URL_FIREBASE_LOGOUT  = "firebase/logout/";
+    public static final String URL_FIREBASE_LOGOUT = "firebase/logout/";
 
     // FCM notification
     public static final String URL_PROMO_ACTIVE = "promo/activate";
@@ -1057,8 +1059,8 @@ public class Constants {
     public static String MINIMUM_PAY = "Minimum pay";
     public static String OTHER = "Other";
 
-    public static final String APP_LANGUAGE_ENGLISH="en";
-    public static final String APP_LANGUAGE_BENGALI="bn";
+    public static final String APP_LANGUAGE_ENGLISH = "en";
+    public static final String APP_LANGUAGE_BENGALI = "bn";
     public static long ACTIVE = 1;
     public static long BLOCKED = 2;
     public static final int MAX_TICKET = 4;
@@ -1066,6 +1068,6 @@ public class Constants {
 
     public static final String CARD_TYPE = "CARD_TYPE";
     public static final String transaction = "transaction";
-    public static final  String other = "other";
-    public static  final String  request_money ="request_money";
+    public static final String other = "other";
+    public static final String request_money = "request_money";
 }

@@ -30,8 +30,8 @@ import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.BaseFragments.BaseFragment;
-import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomPinCheckerWithInputDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.AnimatedProgressDialog;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomPinCheckerWithInputDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.OTPVerificationForTwoFactorAuthenticationServicesDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
@@ -56,41 +56,41 @@ import bd.com.ipay.ipayskeleton.Utilities.TwoFactorAuthConstants;
 import bd.com.ipay.ipayskeleton.Utilities.Utilities;
 
 public class AmberITBillPayFragment extends BaseFragment implements HttpResponseListener {
-	private TextView mNameTextView;
-	private EditText mAccountIDEditText;
-	private EditText mAmountEditText;
-	private TextView mCurrentPackageView;
-	private Button mContinueButton;
-	private View infoView;
-	private View customerIDView;
-	private CustomProgressDialog mProgressDialog;
-	private OTPVerificationForTwoFactorAuthenticationServicesDialog mOTPVerificationForTwoFactorAuthenticationServicesDialog;
+    private TextView mNameTextView;
+    private EditText mAccountIDEditText;
+    private EditText mAmountEditText;
+    private TextView mCurrentPackageView;
+    private Button mContinueButton;
+    private View infoView;
+    private View customerIDView;
+    private CustomProgressDialog mProgressDialog;
+    private OTPVerificationForTwoFactorAuthenticationServicesDialog mOTPVerificationForTwoFactorAuthenticationServicesDialog;
 
     private String mAmount;
     private String mCustomerID;
 
-	private HttpRequestPostAsyncTask mGetAmberItUserInfo = null;
-	private AmberITCustomerInfoResponse amberITCustomerInfoResponse;
-	private HttpRequestPostAsyncTask mAmberITBillPayTask = null;
-	private AmberITBillPayRequest mAmberITBillPayRequest;
-	private HttpRequestGetAsyncTask mGetBusinessRuleTask;
-	private GenericBillPayResponse mGenericBillPayResponse;
-	private AnimatedProgressDialog mCustomProgressDialog;
+    private HttpRequestPostAsyncTask mGetAmberItUserInfo = null;
+    private AmberITCustomerInfoResponse amberITCustomerInfoResponse;
+    private HttpRequestPostAsyncTask mAmberITBillPayTask = null;
+    private AmberITBillPayRequest mAmberITBillPayRequest;
+    private HttpRequestGetAsyncTask mGetBusinessRuleTask;
+    private GenericBillPayResponse mGenericBillPayResponse;
+    private AnimatedProgressDialog mCustomProgressDialog;
 
     @Nullable
     @Override
 
-	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_amberit_bill_payment, container, false);
-		if (getActivity() == null)
-			return view;
-		getActivity().setTitle("AmberIT");
-		attemptGetBusinessRule(ServiceIdConstants.UTILITY_BILL_PAYMENT);
-		mProgressDialog = new CustomProgressDialog(getContext());
-		mCustomProgressDialog = new AnimatedProgressDialog(getContext());
-		setUpView(view);
-		return view;
-	}
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_amberit_bill_payment, container, false);
+        if (getActivity() == null)
+            return view;
+        getActivity().setTitle("AmberIT");
+        attemptGetBusinessRule(ServiceIdConstants.UTILITY_BILL_PAYMENT);
+        mProgressDialog = new CustomProgressDialog(getContext());
+        mCustomProgressDialog = new AnimatedProgressDialog(getContext());
+        setUpView(view);
+        return view;
+    }
 
     private void setUpView(View view) {
         if (UtilityBillPaymentActivity.mMandatoryBusinessRules == null) {
@@ -187,18 +187,18 @@ public class AmberITBillPayFragment extends BaseFragment implements HttpResponse
         }
     }
 
-	private void attemptBillPay(String pin) {
-		if (mAmberITBillPayTask == null) {
-			mAmberITBillPayRequest = new AmberITBillPayRequest(mCustomerID, mAmount, pin);
-			Gson gson = new Gson();
-			String json = gson.toJson(mAmberITBillPayRequest);
-			mAmberITBillPayTask = new HttpRequestPostAsyncTask(Constants.COMMAND_AMBERIT_BILL_PAY,
-					Constants.BASE_URL_UTILITY + Constants.URL_AMBERIT_BILL_PAY, json, getActivity(), false);
-			mAmberITBillPayTask.mHttpResponseListener = this;
-			mAmberITBillPayTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-			mCustomProgressDialog.showDialog();
-		}
-	}
+    private void attemptBillPay(String pin) {
+        if (mAmberITBillPayTask == null) {
+            mAmberITBillPayRequest = new AmberITBillPayRequest(mCustomerID, mAmount, pin);
+            Gson gson = new Gson();
+            String json = gson.toJson(mAmberITBillPayRequest);
+            mAmberITBillPayTask = new HttpRequestPostAsyncTask(Constants.COMMAND_AMBERIT_BILL_PAY,
+                    Constants.BASE_URL_UTILITY + Constants.URL_AMBERIT_BILL_PAY, json, getActivity(), false);
+            mAmberITBillPayTask.mHttpResponseListener = this;
+            mAmberITBillPayTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            mCustomProgressDialog.showDialog();
+        }
+    }
 
     private void attemptGetBusinessRule(int serviceID) {
         if (mGetBusinessRuleTask != null) {
@@ -210,17 +210,17 @@ public class AmberITBillPayFragment extends BaseFragment implements HttpResponse
         mGetBusinessRuleTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-	private void getCustomerInfo() {
-		if (mGetAmberItUserInfo == null) {
-			String mUri = Constants.BASE_URL_UTILITY + Constants.URL_GET_AMBERIT_CUSTOMER;
-			AmberItCustomerRequest amberItCustomerRequest = new AmberItCustomerRequest(mCustomerID, mAmount);
-			String json = new Gson().toJson(amberItCustomerRequest);
-			mGetAmberItUserInfo = new HttpRequestPostAsyncTask(Constants.COMMAND_GET_AMBERIT_CUSTOMER, mUri, json,
-					getActivity(), this, false);
-			mGetAmberItUserInfo.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-			mProgressDialog.show();
-		}
-	}
+    private void getCustomerInfo() {
+        if (mGetAmberItUserInfo == null) {
+            String mUri = Constants.BASE_URL_UTILITY + Constants.URL_GET_AMBERIT_CUSTOMER;
+            AmberItCustomerRequest amberItCustomerRequest = new AmberItCustomerRequest(mCustomerID, mAmount);
+            String json = new Gson().toJson(amberItCustomerRequest);
+            mGetAmberItUserInfo = new HttpRequestPostAsyncTask(Constants.COMMAND_GET_AMBERIT_CUSTOMER, mUri, json,
+                    getActivity(), this, false);
+            mGetAmberItUserInfo.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            mProgressDialog.show();
+        }
+    }
 
     private boolean verifyUserInput() {
         Editable editableAccountID;

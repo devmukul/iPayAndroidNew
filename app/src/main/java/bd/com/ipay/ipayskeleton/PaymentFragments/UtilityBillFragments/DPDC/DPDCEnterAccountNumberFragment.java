@@ -18,7 +18,6 @@ import com.google.gson.Gson;
 import com.tsongkha.spinnerdatepicker.DatePicker;
 import com.tsongkha.spinnerdatepicker.DatePickerDialog;
 import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder;
-import com.whiteelephant.monthpicker.MonthPickerDialog;
 
 import java.lang.reflect.Field;
 import java.text.NumberFormat;
@@ -201,6 +200,7 @@ public class DPDCEnterAccountNumberFragment extends BaseFragment implements Http
                         Bundle bundle = new Bundle();
                         bundle.putString(Constants.BILL_MONTH, mBillMonth);
                         bundle.putString(Constants.BILL_YEAR, mBillYear);
+                        bundle.putString(Constants.LOCATION_CODE, mLocationCode);
 
                         bundle.putString(Constants.BILL_NUMBER, mDpdcCustomerInfoResponse.getBillNumber());
                         bundle.putSerializable(Constants.ZONE_CODE, numberFormat.parse(mDpdcCustomerInfoResponse.getZoneCode()));
@@ -264,7 +264,7 @@ public class DPDCEnterAccountNumberFragment extends BaseFragment implements Http
     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
 
         final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
-        mBillMonth = String.valueOf(month+1);
+        mBillMonth = getFormattedDate(month+1);
         mBillYear = String.valueOf(year);
         final Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         calendar.set(Calendar.YEAR, year);
@@ -273,6 +273,14 @@ public class DPDCEnterAccountNumberFragment extends BaseFragment implements Http
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMMM, yyyy", Locale.getDefault());
         mMonthEditText.setError(null);
         mMonthEditText.setText(simpleDateFormat.format(calendar.getTime()));
+    }
+
+    private String getFormattedDate(int value) {
+        if(value<10) {
+            return String.format(Locale.US,"0%d",value);
+        } else {
+            return Integer.toString(value);
+        }
     }
 
     public static com.tsongkha.spinnerdatepicker.DatePickerDialog initDatePickerDialog(Context context, com.tsongkha.spinnerdatepicker.DatePickerDialog.OnDateSetListener onDateSetListener, boolean showDay) {

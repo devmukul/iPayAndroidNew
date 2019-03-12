@@ -56,6 +56,10 @@ public class DPDCBillInfoFragment extends Fragment {
     private String zoneCodeString;
     private String accountIdString;
     private String billNumberString;
+
+    private String billMonth;
+    private String billYear;
+    private String locationCode;
     //private String dueDate;
     private Button payBillButton;
     private final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
@@ -76,6 +80,9 @@ public class DPDCBillInfoFragment extends Fragment {
         billAmountString = numberFormat.format(billAmount);
         billNumberString = bundle.getString(Constants.BILL_NUMBER);
         accountIdString = bundle.getString(Constants.ACCOUNT_ID);
+        billMonth = bundle.getString(Constants.BILL_MONTH);
+        billYear = bundle.getString(Constants.BILL_YEAR);
+        locationCode = bundle.getString(Constants.LOCATION_CODE);
         if (stampAmount != null) {
             stampAmountString = numberFormat.format(stampAmount);
         } else {
@@ -136,9 +143,12 @@ public class DPDCBillInfoFragment extends Fragment {
                 if (checkBalance()) {
                     Bundle bundle = new Bundle();
                     bundle.putString(Constants.BILL_NUMBER, billNumberString);
+                    bundle.putString(Constants.BILL_MONTH, billMonth);
+                    bundle.putString(Constants.BILL_YEAR, billYear);
+                    bundle.putString(Constants.LOCATION_CODE, locationCode);
                     bundle.putSerializable(Constants.TOTAL_AMOUNT, totalAmount);
                     bundle.putString(Constants.ACCOUNT_ID, accountIdString);
-                    ((UtilityBillPaymentActivity) getActivity()).switchToDescoBillConfirmationFragment(bundle);
+                    ((UtilityBillPaymentActivity) getActivity()).switchToDPDCBillConfirmationFragment(bundle);
                 }
             }
         });

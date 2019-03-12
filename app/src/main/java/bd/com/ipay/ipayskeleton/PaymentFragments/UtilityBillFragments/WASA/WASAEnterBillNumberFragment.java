@@ -36,6 +36,8 @@ import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.GenericResponseWithMessa
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.DescoBillPayRequest;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.DescoBillPayResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.DescoCustomerInfoResponse;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.WasaCustomerInfoResponse;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.WasaUserInfoGetRequest;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.BusinessRuleCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.BusinessRuleConstants;
@@ -45,32 +47,29 @@ import bd.com.ipay.ipayskeleton.Utilities.Utilities;
 
 
 public class WASAEnterBillNumberFragment extends BaseFragment implements HttpResponseListener {
+    private EditText mEnterAccountNumberEditText;
     private EditText mEnterBillNumberEditText;
     private Button mContinueButton;
-    private View infoView;
-    private View customerIDView;
     private CustomProgressDialog mProgressDialog;
     private final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
     private OTPVerificationForTwoFactorAuthenticationServicesDialog mOTPVerificationForTwoFactorAuthenticationServicesDialog;
 
     private String mUri;
+    private String mAccountNumber;
     private String mBillNumber;
-    private String mAmount;
 
-    private HttpRequestGetAsyncTask mDescoCustomerInfoTask = null;
-    private DescoCustomerInfoResponse mDescoCustomerInfoResponse;
-    private HttpRequestPostAsyncTask mDescoBillPayTask = null;
-    private DescoBillPayRequest mDescoBillPayRequest;
+    private HttpRequestPostAsyncTask mWasaCustomerInfoTask = null;
+    private WasaUserInfoGetRequest mWasaUserInfoGetRequest;
+    private WasaCustomerInfoResponse mWasaCustomerInfoResponse;
     private HttpRequestGetAsyncTask mGetBusinessRuleTask;
-    private DescoBillPayResponse mDescoBillPayResponse;
     private AnimatedProgressDialog mCustomProgressDialog;
 
     @Nullable
     @Override
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_desco_bill_payment, container, false);
-        getActivity().setTitle(getString(R.string.desco));
+        View view = inflater.inflate(R.layout.fragment_wasa_bill_payment, container, false);
+        getActivity().setTitle(getString(R.string.wasa));
         attemptGetBusinessRule(ServiceIdConstants.UTILITY_BILL_PAYMENT);
         mProgressDialog = new CustomProgressDialog(getContext());
         mCustomProgressDialog = new AnimatedProgressDialog(getContext());
@@ -82,8 +81,7 @@ public class WASAEnterBillNumberFragment extends BaseFragment implements HttpRes
         if (UtilityBillPaymentActivity.mMandatoryBusinessRules == null) {
             UtilityBillPaymentActivity.mMandatoryBusinessRules = new MandatoryBusinessRules(Constants.UTILITY_BILL_PAYMENT);
         }
-        customerIDView = view.findViewById(R.id.customer_id_view);
-        infoView = view.findViewById(R.id.info_view);
+        mEnterAccountNumberEditText = (EditText) view.findViewById(R.id.account_no_edit_text);
         mEnterBillNumberEditText = (EditText) view.findViewById(R.id.customer_id_edit_text);
         mContinueButton = (Button) view.findViewById(R.id.continue_button);
         UtilityBillPaymentActivity.mMandatoryBusinessRules = BusinessRuleCacheManager.getBusinessRules(Constants.UTILITY_BILL_PAYMENT);
@@ -117,13 +115,15 @@ public class WASAEnterBillNumberFragment extends BaseFragment implements HttpRes
     }
 
     private void getCustomerInfo() {
-        if (mDescoCustomerInfoTask != null) {
+        if (mWasaCustomerInfoTask != null) {
             return;
         } else {
-            mUri = Constants.BASE_URL_UTILITY + Constants.URL_DESCO_CUSTOMER_INFO + mBillNumber;
-            mDescoCustomerInfoTask = new HttpRequestGetAsyncTask(Constants.COMMAND_GET_DESCO_CUSTOMER, mUri,
+            mUri = Constants.BASE_URL_UTILITY + Constants.URL_WASA_CUSTOMER_INFO;
+            mWasaUserInfoGetRequest = new WasaUserInfoGetRequest(mAccountNumber, mBillNumber);
+            String json = new Gson().toJson(mWasaUserInfoGetRequest);
+            mWasaCustomerInfoTask = new HttpRequestPostAsyncTask(Constants.COMMAND_GET_WASA_CUSTOMER, mUri, json,
                     getActivity(), this, false);
-            mDescoCustomerInfoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            mWasaCustomerInfoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             mProgressDialog.show();
         }
     }
@@ -150,7 +150,7 @@ public class WASAEnterBillNumberFragment extends BaseFragment implements HttpRes
         if (HttpErrorHandler.isErrorFoundWithout404(result, getContext(), mCustomProgressDialog)) {
             mProgressDialog.dismiss();
             mCustomProgressDialog.dismissDialog();
-            mDescoCustomerInfoTask = null;
+            mWasaCustomerInfoTask = null;
             mGetBusinessRuleTask = null;
             if (result != null && result.getStatus() == Constants.HTTP_RESPONSE_STATUS_NOT_FOUND) {
                 try {
@@ -166,32 +166,32 @@ public class WASAEnterBillNumberFragment extends BaseFragment implements HttpRes
             try {
                 mProgressDialog.dismiss();
                 Gson gson = new Gson();
-                if (result.getApiCommand().equals(Constants.COMMAND_GET_DESCO_CUSTOMER)) {
-                    mDescoCustomerInfoResponse = gson.fromJson(result.getJsonString(), DescoCustomerInfoResponse.class);
+                if (result.getApiCommand().equals(Constants.URL_WASA_CUSTOMER_INFO)) {
+                    mWasaCustomerInfoResponse = gson.fromJson(result.getJsonString(), WasaCustomerInfoResponse.class);
                     if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
                         Utilities.hideKeyboard(getActivity());
                         Bundle bundle = new Bundle();
                         bundle.putString(Constants.BILL_NUMBER, mBillNumber);
-                        bundle.putSerializable(Constants.ZONE_CODE, numberFormat.parse(mDescoCustomerInfoResponse.getZoneCode()));
-                        bundle.putString(Constants.DUE_DATE, mDescoCustomerInfoResponse.getDueDate());
-                        bundle.putString(Constants.ACCOUNT_ID, mDescoCustomerInfoResponse.getAccountNumber());
-                        bundle.putSerializable(Constants.BILL_AMOUNT, numberFormat.parse(mDescoCustomerInfoResponse.getBillAmount()));
-                        if (mDescoCustomerInfoResponse.getStampAmount() != null && Integer.parseInt(mDescoCustomerInfoResponse.getStampAmount()) != 0) {
-                            bundle.putSerializable(Constants.STAMP_AMOUNT, numberFormat.parse(mDescoCustomerInfoResponse.getStampAmount()));
+                        bundle.putSerializable(Constants.ZONE_CODE, numberFormat.parse(mWasaCustomerInfoResponse.getZoneCode()));
+                        bundle.putString(Constants.DUE_DATE, mWasaCustomerInfoResponse.getDueDate());
+                        bundle.putString(Constants.ACCOUNT_ID, mWasaCustomerInfoResponse.getAccountNumber());
+                        bundle.putSerializable(Constants.BILL_AMOUNT, numberFormat.parse(mWasaCustomerInfoResponse.getBillAmount()));
+                        if (mWasaCustomerInfoResponse.getStampAmount() != null && Integer.parseInt(mWasaCustomerInfoResponse.getStampAmount()) != 0) {
+                            bundle.putSerializable(Constants.STAMP_AMOUNT, numberFormat.parse(mWasaCustomerInfoResponse.getStampAmount()));
                         }
-                        bundle.putSerializable(Constants.VAT_AMOUNT, numberFormat.parse(mDescoCustomerInfoResponse.getVatAmount()));
-                        bundle.putSerializable(Constants.LPC_AMOUNT, numberFormat.parse(mDescoCustomerInfoResponse.getLpcAmount()));
-                        bundle.putSerializable(Constants.TOTAL_AMOUNT, numberFormat.parse(mDescoCustomerInfoResponse.getTotalAmount()));
-                        ((UtilityBillPaymentActivity) getActivity()).switchToDescoBillInfoFragment(bundle);
+                        bundle.putSerializable(Constants.VAT_AMOUNT, numberFormat.parse(mWasaCustomerInfoResponse.getVatAmount()));
+                        bundle.putSerializable(Constants.LPC_AMOUNT, numberFormat.parse(mWasaCustomerInfoResponse.getLpcAmount()));
+                        bundle.putSerializable(Constants.TOTAL_AMOUNT, numberFormat.parse(mWasaCustomerInfoResponse.getTotalAmount()));
+                        ((UtilityBillPaymentActivity) getActivity()).switchToWASABillInfoFragment(bundle);
                     } else {
-                        if (!TextUtils.isEmpty(mDescoCustomerInfoResponse.getMessage())) {
-                            Utilities.showErrorDialog(getContext(), mDescoCustomerInfoResponse.getMessage());
+                        if (!TextUtils.isEmpty(mWasaCustomerInfoResponse.getMessage())) {
+                            Utilities.showErrorDialog(getContext(), mWasaCustomerInfoResponse.getMessage());
                         } else {
                             Utilities.showErrorDialog(getContext(), getString(R.string.not_found));
 
                         }
                     }
-                    mDescoCustomerInfoTask = null;
+                    mWasaCustomerInfoTask = null;
                 } else if (result.getApiCommand().equals(Constants.COMMAND_GET_BUSINESS_RULE)) {
                     if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
                         gson = new Gson();
@@ -221,7 +221,7 @@ public class WASAEnterBillNumberFragment extends BaseFragment implements HttpRes
                 }
             } catch (Exception e) {
                 mProgressDialog.dismiss();
-                mDescoCustomerInfoTask = null;
+                mWasaCustomerInfoTask = null;
                 mGetBusinessRuleTask = null;
                 Utilities.showErrorDialog(getContext(), getString(R.string.request_failed));
                 e.printStackTrace();

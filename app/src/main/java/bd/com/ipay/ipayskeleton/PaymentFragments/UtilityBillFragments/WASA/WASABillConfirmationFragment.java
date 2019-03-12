@@ -148,7 +148,7 @@ public class WASABillConfirmationFragment extends IPayAbstractTransactionConfirm
                                         bundle.putString(Constants.BILL_NUMBER, billNumber);
                                         bundle.putSerializable(Constants.TOTAL_AMOUNT, totalAmount);
                                         if (getActivity() instanceof UtilityBillPaymentActivity) {
-                                            ((UtilityBillPaymentActivity) getActivity()).switchToDescoBillSuccessFragment(bundle);
+                                            ((UtilityBillPaymentActivity) getActivity()).switchToWASABillSuccessFragment(bundle);
                                         }
 
                                     }

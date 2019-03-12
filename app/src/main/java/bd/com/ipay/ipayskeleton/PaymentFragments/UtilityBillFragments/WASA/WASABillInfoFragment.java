@@ -143,7 +143,7 @@ public class WASABillInfoFragment extends Fragment {
                     bundle.putString(Constants.BILL_NUMBER, billNumberString);
                     bundle.putSerializable(Constants.TOTAL_AMOUNT, totalAmount);
                     bundle.putString(Constants.ACCOUNT_ID, accountIdString);
-                    ((UtilityBillPaymentActivity) getActivity()).switchToDescoBillConfirmationFragment(bundle);
+                    ((UtilityBillPaymentActivity) getActivity()).switchToWASABillConfirmationFragment(bundle);
                 }
             }
         });

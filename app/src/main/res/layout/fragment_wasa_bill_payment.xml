@@ -8,21 +8,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/continue_button"
-        android:padding="@dimen/activity_horizontal_margin_double">
+        android:padding="@dimen/activity_horizontal_margin"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:animateLayoutChanges="true"
+            android:gravity="center"
             android:orientation="vertical"
-            android:paddingTop="@dimen/value15"
-            android:layout_gravity="center">
+            android:paddingTop="@dimen/value15">
 
             <ImageView
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/dpdc" />
+                android:src="@drawable/desco" />
 
             <LinearLayout
                 android:id="@+id/customer_id_view"
@@ -38,62 +40,39 @@
                     android:theme="@style/CustomTextInputLayout">
 
                     <EditText
+                        android:id="@+id/account_no_edit_text"
+                        style="@style/CustomEditText"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="0dp"
+                        android:hint="Wasa Account Number"
+                        android:inputType="text"
+                        android:maxLines="1" />
+                </android.support.design.widget.TextInputLayout>
+
+                <View
+                    style="@style/Divider"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/CustomTextInputLayout">
+
+                    <EditText
                         android:id="@+id/customer_id_edit_text"
                         style="@style/CustomEditText"
+                        android:gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="0dp"
                         android:layout_marginRight="0dp"
-                        android:hint="DPDC Account Number"
+                        android:hint="Wasa Bill Number"
                         android:inputType="text"
                         android:maxLines="1" />
-                </android.support.design.widget.TextInputLayout>
-
-                <View
-                    style="@style/Divider"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="0dp" />
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:theme="@style/CustomTextInputLayout">
-
-                    <EditText
-                        android:id="@+id/location_code_edit_text"
-                        style="@style/CustomEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="0dp"
-                        android:layout_marginRight="0dp"
-                        android:hint="Location Code"
-                        android:inputType="text"
-                        android:maxLines="1" />
-                </android.support.design.widget.TextInputLayout>
-
-
-                <View
-                    style="@style/Divider"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="0dp" />
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:theme="@style/CustomTextInputLayout">
-
-                    <EditText
-                        android:id="@+id/month_edit_text"
-                        style="@style/CustomEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="0dp"
-                        android:layout_marginRight="0dp"
-                        android:hint="Bill Month"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:focusable="false"
-                        android:drawableRight="@drawable/dropdown"/>
                 </android.support.design.widget.TextInputLayout>
 
                 <View
@@ -110,9 +89,8 @@
                     android:layout_marginRight="0dp"
                     android:gravity="center"
                     android:text="@string/desco_bill_pay_message" />
+
             </LinearLayout>
-
-
         </LinearLayout>
     </ScrollView>
 

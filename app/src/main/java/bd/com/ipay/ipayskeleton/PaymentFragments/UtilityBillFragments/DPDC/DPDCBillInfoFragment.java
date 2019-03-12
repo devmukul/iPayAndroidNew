@@ -1,4 +1,4 @@
-package bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.Desco;
+package bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.DPDC;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,7 +24,7 @@ import bd.com.ipay.ipayskeleton.Utilities.CacheManager.SharedPrefManager;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Widgets.IPaySnackbar;
 
-public class DescoBillInfoFragment extends Fragment {
+public class DPDCBillInfoFragment extends Fragment {
     private TextView mAccountIDTextView;
     private TextView mDueDateTextView;
     private TextView mVatAmountTextView;
@@ -44,20 +44,19 @@ public class DescoBillInfoFragment extends Fragment {
     private Number vatAmount;
     private Number stampAmount;
     private Number billAmount;
-    private Number lpcAmount;
+//    private Number lpcAmount;
     private Number zoneCode;
-    private Number accountId;
-    private Number billNumber;
+//    private Number accountId;
+//    private Number billNumber;
 
 
     private String vatAmountString;
     private String stampAmountString;
-    private String lpcAmountString;
     private String billAmountString;
     private String zoneCodeString;
     private String accountIdString;
     private String billNumberString;
-    private String dueDate;
+    //private String dueDate;
     private Button payBillButton;
     private final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
 
@@ -69,12 +68,10 @@ public class DescoBillInfoFragment extends Fragment {
         vatAmount = (Number) bundle.getSerializable(Constants.VAT_AMOUNT);
         stampAmount = (Number) bundle.getSerializable(Constants.STAMP_AMOUNT);
         zoneCode = (Number) bundle.getSerializable(Constants.ZONE_CODE);
-        lpcAmount = (Number) bundle.getSerializable(Constants.LPC_AMOUNT);
         billAmount = (Number) bundle.getSerializable(Constants.BILL_AMOUNT);
 
         totalAmountString = numberFormat.format(totalAmount);
         vatAmountString = numberFormat.format(vatAmount);
-        lpcAmountString = numberFormat.format(lpcAmount);
         zoneCodeString = numberFormat.format(zoneCode);
         billAmountString = numberFormat.format(billAmount);
         billNumberString = bundle.getString(Constants.BILL_NUMBER);
@@ -85,7 +82,7 @@ public class DescoBillInfoFragment extends Fragment {
             stampAmountString = null;
         }
 
-        dueDate = bundle.getString(Constants.DUE_DATE);
+        //dueDate = bundle.getString(Constants.DUE_DATE);
         return inflater.inflate(R.layout.fragment_desco_bill_info_show, container, false);
     }
 
@@ -129,10 +126,8 @@ public class DescoBillInfoFragment extends Fragment {
         }
 
         mTotalAmountTextView.setText(getString(R.string.tk) + " " + totalAmountString);
-        mlpcAmountTextView.setText(getString(R.string.tk) + " " + lpcAmountString);
-
         mZoneCodeTextView.setText(zoneCodeString);
-        mDueDateTextView.setText(getFormattedDate(dueDate));
+        //mDueDateTextView.setText(getFormattedDate(dueDate));
         mAccountIDTextView.setText(accountIdString);
 
         payBillButton.setOnClickListener(new View.OnClickListener() {

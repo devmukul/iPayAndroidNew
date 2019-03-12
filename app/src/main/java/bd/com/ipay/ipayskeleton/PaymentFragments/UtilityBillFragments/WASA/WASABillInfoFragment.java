@@ -1,4 +1,4 @@
-package bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.Desco;
+package bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.WASA;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,7 +24,7 @@ import bd.com.ipay.ipayskeleton.Utilities.CacheManager.SharedPrefManager;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Widgets.IPaySnackbar;
 
-public class DescoBillInfoFragment extends Fragment {
+public class WASABillInfoFragment extends Fragment {
     private TextView mAccountIDTextView;
     private TextView mDueDateTextView;
     private TextView mVatAmountTextView;

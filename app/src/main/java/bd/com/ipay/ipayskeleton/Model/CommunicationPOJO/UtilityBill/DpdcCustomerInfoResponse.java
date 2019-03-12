@@ -8,8 +8,15 @@ public class DpdcCustomerInfoResponse {
     private String billStatus;
     private String principalAmount;
     private String vatAmount;
-    private String totalBillAmount;
+    private String stampAmount;
+    private String totalAmount;
+
+    private String transactionId;
+    private String outReferenceId;
+
+    private String dueDate;
     private String billNumber;
+    private String zoneCode;
     private String message;
 
     public String getName() {
@@ -60,12 +67,44 @@ public class DpdcCustomerInfoResponse {
         this.vatAmount = vatAmount;
     }
 
-    public String getTotalBillAmount() {
-        return totalBillAmount;
+    public String getStampAmount() {
+        return stampAmount;
     }
 
-    public void setTotalBillAmount(String totalBillAmount) {
-        this.totalBillAmount = totalBillAmount;
+    public void setStampAmount(String stampAmount) {
+        this.stampAmount = stampAmount;
+    }
+
+    public String getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(String totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
+    }
+
+    public String getOutReferenceId() {
+        return outReferenceId;
+    }
+
+    public void setOutReferenceId(String outReferenceId) {
+        this.outReferenceId = outReferenceId;
+    }
+
+    public String getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
     }
 
     public String getBillNumber() {
@@ -78,5 +117,17 @@ public class DpdcCustomerInfoResponse {
 
     public String getMessage() {
         return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getZoneCode() {
+        return zoneCode;
+    }
+
+    public void setZoneCode(String zoneCode) {
+        this.zoneCode = zoneCode;
     }
 }

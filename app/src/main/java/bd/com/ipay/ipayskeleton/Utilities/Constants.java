@@ -283,6 +283,9 @@ public class Constants {
     public static final String ZONE_CODE = "ZONE_CODE";
     public static final String DUE_DATE = "DUE_DATE";
     public static final String BILL_NUMBER = "BILL_NUMBER";
+    public static final String BILL_MONTH = "BILL_MONTH";
+    public static final String BILL_YEAR = "BILL_YEAR";
+    public static final String WASA = "WASA";
 
 
     public static String ROLEID = "ROLEID";

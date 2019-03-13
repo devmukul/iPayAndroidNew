@@ -256,6 +256,8 @@
     <string name="verify_otp_for_trust_description">
 আপনি এটি দেখছেন কারণ আপনি এই ডিভাইস থেকে প্রথমবার লগ ইন করছেন অথবা আপনি সর্বোচ্চ সংখ্যক ট্রাস্টেড ডিভাইস যোগ করে ফেলেছেন।
 </string>
+    <string name="ipdc_instant_payment">আইপিডিসি তাৎক্ষনিক পেমেন্ট</string>
+    <string name="installment_id">ইন্সটলমেন্ট আইডি</string>
     <string name="resend">পুনরায় পাঠান</string>
     <string name="send_money">সেন্ড মানি</string>
     <string name="continue_button_text">পরবর্তী</string>

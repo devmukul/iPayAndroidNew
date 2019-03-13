@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/image"
+        android:id="@+id/product_image"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginRight="16dp"

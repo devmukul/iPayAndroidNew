@@ -1180,5 +1180,9 @@
     <string name="not_found">Not found</string>
     <string name="buy_this_ticket">BUY THIS TICKET</string>
     <string name="fare">Fare(Tk)</string>
+    <string name="installment_id">Installment ID</string>
+    <string name="ipdc_instant_payment">Ipdc instant payment</string>
+    <string name="please_enter_an_installment_id">Please enter an installment ID</string>
+    <string name="scheduled_payment">Scheduled Payment</string>
 
 </resources>

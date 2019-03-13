@@ -8,11 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
-import java.util.ArrayList;
-
 import bd.com.ipay.ipayskeleton.Activities.BaseActivity;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.MyCard;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractTransactionSuccessFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.IpdcScheduledPaymentListFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.Carnival.CarnivalIdInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.CreditCard.CreditCardBankSelectionFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.LankaBangla.Card.LankaBanglaCardNumberInputFragment;
@@ -30,6 +28,7 @@ public final class IPayUtilityBillPayActionActivity extends BaseActivity {
     public static final String BILL_PAY_CARNIVAL = "CARNIVAL";
     public static final String BILL_PAY_PARTY_NAME_KEY = "BILL_PAY_PARTY_NAME";
     public static final String BILL_PAY_LANKABANGLA_DPS = "LANKABANGLA_DPS";
+    public static final String SCHEDULED_PAY_IPDC = "SCHEDULED_PAY_IPDC";
     public static final String CREDIT_CARD = "CREDIT_CARD";
 
     public static final String CARD_NUMBER_KEY = "CARD_NUMBER";
@@ -40,7 +39,6 @@ public final class IPayUtilityBillPayActionActivity extends BaseActivity {
     public static final String BILL_AMOUNT_KEY = "BILL_AMOUNT";
     public static final String BANK_CODE = "BANK_CODE";
 
-    public ArrayList<MyCard> myCards;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +63,10 @@ public final class IPayUtilityBillPayActionActivity extends BaseActivity {
             case BILL_PAY_LANKABANGLA_DPS:
                 switchFragment(new LankaBanglaDpsNumberInputFragment(), bundle, 0, false);
                 break;
+            case SCHEDULED_PAY_IPDC:
+                switchFragment(new IpdcScheduledPaymentListFragment(), bundle, 0, false);
+                break;
+
             default:
                 finish();
         }

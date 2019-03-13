@@ -347,6 +347,7 @@ public class Constants {
 
     public static final String BASE_URL_MM = BuildConfig.BASE_URL_IPAY + "/api/v1/";
     public static final String BASE_URL_SM = BuildConfig.BASE_URL_IPAY + "/api/v1/money/";
+    public static final String BASE_URL_SCHEDULED_PAYMENT = BuildConfig.BASE_URL_IPAY + "/api/sp/";
     public static final String BASE_URL_PG = BuildConfig.BASE_URL_IPAY + "/api/pg/order/";
     public static final String BASE_URL_CARD = BuildConfig.BASE_URL_IPAY + "/api/v1/card/";
     public static final String BASE_URL_EDU = BuildConfig.BASE_URL_IPAY + "/api/v1/em/";

@@ -9,8 +9,18 @@ public class ScheduledPaymentInfo {
     private long installmentAmount;
     private long installmentNumber;
     private String product;
+    private UserInfo receiverInfo;
+
     private String schedulerType;
     private long startDate;
+
+    public UserInfo getReceiverInfo() {
+        return receiverInfo;
+    }
+
+    public void setReceiverInfo(UserInfo receiverInfo) {
+        this.receiverInfo = receiverInfo;
+    }
 
     public long getUpdatedAt() {
         return updatedAt;

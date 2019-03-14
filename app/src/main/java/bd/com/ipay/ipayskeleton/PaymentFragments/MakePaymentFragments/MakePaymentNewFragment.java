@@ -220,7 +220,20 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
         mDescoBillPayView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                payBill(Constants.DESCO, null);
+                if (!ACLManager.hasServicesAccessibility(ServiceIdConstants.DESCO)) {
+                    DialogUtils.showServiceNotAllowedDialog(getContext());
+                    return;
+                }
+                pinChecker = new PinChecker(getActivity(), new PinChecker.PinCheckerListener() {
+                    @Override
+                    public void ifPinAdded() {
+                        Intent intent = new Intent(getActivity(), UtilityBillPaymentActivity.class);
+                        intent.putExtra(Constants.SERVICE, Constants.DESCO);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+                });
+                pinChecker.execute();
             }
         });
 
@@ -234,7 +247,20 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
         mDpdcBillPayView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                payBill(Constants.DPDC, null);
+                if (!ACLManager.hasServicesAccessibility(ServiceIdConstants.DPDC)) {
+                    DialogUtils.showServiceNotAllowedDialog(getContext());
+                    return;
+                }
+                pinChecker = new PinChecker(getActivity(), new PinChecker.PinCheckerListener() {
+                    @Override
+                    public void ifPinAdded() {
+                        Intent intent = new Intent(getActivity(), UtilityBillPaymentActivity.class);
+                        intent.putExtra(Constants.SERVICE, Constants.DPDC);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+                });
+                pinChecker.execute();
             }
         });
 
@@ -320,7 +346,37 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
                         }
                     });
                     pinChecker.execute();
-                } else
+                } else if (name.equals(getContext().getString(R.string.desco))) {
+                    if (!ACLManager.hasServicesAccessibility(ServiceIdConstants.DESCO)) {
+                        DialogUtils.showServiceNotAllowedDialog(getContext());
+                        return;
+                    }
+                    pinChecker = new PinChecker(getActivity(), new PinChecker.PinCheckerListener() {
+                        @Override
+                        public void ifPinAdded() {
+                            Intent intent = new Intent(getActivity(), UtilityBillPaymentActivity.class);
+                            intent.putExtra(Constants.SERVICE, Constants.DESCO);
+                            startActivity(intent);
+                            getActivity().finish();
+                        }
+                    });
+                    pinChecker.execute();
+                }else if (name.equals(getContext().getString(R.string.dpdc))) {
+                    if (!ACLManager.hasServicesAccessibility(ServiceIdConstants.DPDC)) {
+                        DialogUtils.showServiceNotAllowedDialog(getContext());
+                        return;
+                    }
+                    pinChecker = new PinChecker(getActivity(), new PinChecker.PinCheckerListener() {
+                        @Override
+                        public void ifPinAdded() {
+                            Intent intent = new Intent(getActivity(), UtilityBillPaymentActivity.class);
+                            intent.putExtra(Constants.SERVICE, Constants.DPDC);
+                            startActivity(intent);
+                            getActivity().finish();
+                        }
+                    });
+                    pinChecker.execute();
+                }else
                     payBill(id, null);
             }
         });
@@ -351,6 +407,7 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
                     case Constants.AMBERIT:
                     case Constants.WESTZONE:
                     case Constants.DESCO:
+                    case Constants.WASA:
                     case Constants.DPDC:
                         intent = new Intent(getActivity(), UtilityBillPaymentActivity.class);
                         intent.putExtra(Constants.SERVICE, provider);

@@ -3,6 +3,10 @@ package bd.com.ipay.ipayskeleton.Widget.View;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -17,29 +22,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import bd.com.ipay.ipayskeleton.Activities.UtilityBillPayActivities.IPayUtilityBillPayActionActivity;
 import bd.com.ipay.ipayskeleton.CustomView.ProfileImageView;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.AddOrWithdrawMoney.CardType;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.CreditCard.Bank;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.CreditCard.CreditCardBankSelectionFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.CreditCard.CreditCardInfoInputFragment;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
 
 public class CreditCardSelectDialog {
-	private final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 	private AlertDialog alertDialog;
 	private final TextView titleTextView;
-	private final Button continueButton;
 	private final ImageButton closeButton;
 	private RecyclerView cardTypeRecyclerView;
-	private CardTypeAdapter mCardTypeAdapter;
-	List<CardType> cardTypes;
-	private String selectedCard = null;
-    private int selectedPos = -1;
+	private BankListAdapter mBankListAdapter;
+	Context context;
+    private int selectedBankIconId;
+    private String selectedBankCode;
 
-	public CreditCardSelectDialog(Context context) {
-		numberFormat.setMinimumFractionDigits(2);
-		numberFormat.setMaximumFractionDigits(2);
+	public CreditCardSelectDialog(Context context, ArrayList<Bank> mBankList) {
+	    this.context = context;
 
 		@SuppressLint("InflateParams") final View customTitleView = LayoutInflater.from(context).inflate(R.layout.layout_dialog_custom_title, null, false);
-		@SuppressLint("InflateParams") final View customView = LayoutInflater.from(context).inflate(R.layout.layout_dialog_credit_card_type, null, false);
+		@SuppressLint("InflateParams") final View customView = LayoutInflater.from(context).inflate(R.layout.layout_dialog_credit_card, null, false);
 
 		closeButton = customTitleView.findViewById(R.id.close_button);
 		titleTextView = customTitleView.findViewById(R.id.title_text_view);
@@ -50,7 +56,6 @@ public class CreditCardSelectDialog {
 				alertDialog.cancel();
 			}
 		});
-		continueButton = customView.findViewById(R.id.button_send_money);
 
         cardTypeRecyclerView = customView.findViewById(R.id.card_type_recycler_view);
 
@@ -60,33 +65,14 @@ public class CreditCardSelectDialog {
 				.setCancelable(false)
 				.create();
 
-		genarateCardType();
-        mCardTypeAdapter = new CardTypeAdapter(context,cardTypes);
+        mBankListAdapter = new BankListAdapter(context, mBankList);
         cardTypeRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        cardTypeRecyclerView.setAdapter(mCardTypeAdapter);
+        cardTypeRecyclerView.setAdapter(mBankListAdapter);
 
-	}
-
-	private void genarateCardType() {
-	    cardTypes = new ArrayList<>();
-		CardType cardType = new CardType(Constants.VISA_CARD, Constants.VISA, R.drawable.visa);
-		cardTypes.add(cardType);
-		cardType = new CardType(Constants.MASTER_CARD, Constants.MASTERCARD, R.drawable.mastercard);
-        cardTypes.add(cardType);
-        cardType = new CardType(Constants.AMEX_CARD, Constants.AMEX, R.drawable.amex);
-        cardTypes.add(cardType);
 	}
 
 	public void setTitle(CharSequence title) {
 		titleTextView.setText(title, TextView.BufferType.SPANNABLE);
-	}
-
-    public String getSelectedCardType() {
-        return selectedCard;
-    }
-
-	public void setPayBillButtonAction(final View.OnClickListener onClickListener) {
-        continueButton.setOnClickListener(onClickListener);
 	}
 
 	public void setCloseButtonAction(final View.OnClickListener onClickListener) {
@@ -104,75 +90,110 @@ public class CreditCardSelectDialog {
 	}
 
 
-    public class CardTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    public class BankListAdapter extends RecyclerView.Adapter<BankListAdapter.BankViewHolder> {
 
-        private List<CardType> mCardType;
+        private ArrayList<Bank> mBankList;
         Context context;
 
 
-        public CardTypeAdapter(Context context, List<CardType> mCardType) {
+        public BankListAdapter(Context context, ArrayList<Bank> mBankList) {
             this.context = context;
-            this.mCardType = mCardType;
+            this.mBankList = mBankList;
         }
 
+
+        @NonNull
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v;
-            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_card_type, parent, false);
-            return new ViewHolder(v);
+        public BankViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(context).inflate(R.layout.list_bank_item, null, false);
+            return new BankListAdapter.BankViewHolder(view);
         }
 
+
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            try {
-                ViewHolder vh = (ViewHolder) holder;
-                vh.bindView(position);
-            } catch (Exception e) {
-                e.printStackTrace();
+        public void onBindViewHolder(@NonNull final BankViewHolder holder, final int position) {
+            holder.bankNameTextView.setText(mBankList.get(position).getBankName());
+
+            if(mBankList.get(position).getBankName().equalsIgnoreCase("Lanka Bangla")){
+                holder.bankIconImageView.setImageResource(R.drawable.ic_lankabd2);
+            }else {
+                holder.bankIconImageView.setImageResource(getBankIcon(mBankList.get(position)));
             }
+
+            holder.bankIconImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(mBankList.get(position).getBankName().equalsIgnoreCase("Lanka Bangla")){
+                        Intent intent = new Intent(context, IPayUtilityBillPayActionActivity.class);
+                        intent.putExtra(IPayUtilityBillPayActionActivity.BILL_PAY_PARTY_NAME_KEY, IPayUtilityBillPayActionActivity.BILL_PAY_LANKABANGLA_CARD);
+                        context.startActivity(intent);
+                    }else {
+                        selectedBankIconId = getBankIcon(mBankList.get(position));
+                        selectedBankCode = mBankList.get(position).getBankCode();
+                        Bundle bundle = new Bundle();
+                        bundle.putString(IPayUtilityBillPayActionActivity.BANK_CODE, selectedBankCode);
+                        bundle.putInt(IPayUtilityBillPayActionActivity.BANK_ICON, selectedBankIconId);
+                        Intent intent = new Intent(context, IPayUtilityBillPayActionActivity.class);
+                        intent.putExtra(Constants.FROM_DASHBOARD, true);
+                        intent.putExtra(Constants.BUNDLE, bundle);
+                        context.startActivity(intent);
+                    }
+                    alertDialog.cancel();
+                }
+            });
+            holder.parentView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(mBankList.get(position).getBankName().equalsIgnoreCase("Lanka Bangla")){
+                        Intent intent = new Intent(context, IPayUtilityBillPayActionActivity.class);
+                        intent.putExtra(IPayUtilityBillPayActionActivity.BILL_PAY_PARTY_NAME_KEY, IPayUtilityBillPayActionActivity.BILL_PAY_LANKABANGLA_CARD);
+                        context.startActivity(intent);
+                    }else {
+                        selectedBankIconId = getBankIcon(mBankList.get(position));
+                        selectedBankCode = mBankList.get(position).getBankCode();
+                        Bundle bundle = new Bundle();
+                        bundle.putString(IPayUtilityBillPayActionActivity.BANK_CODE, selectedBankCode);
+                        bundle.putInt(IPayUtilityBillPayActionActivity.BANK_ICON, selectedBankIconId);
+                        Intent intent = new Intent(context, IPayUtilityBillPayActionActivity.class);
+                        intent.putExtra(Constants.FROM_DASHBOARD, true);
+                        intent.putExtra(Constants.BUNDLE, bundle);
+                        context.startActivity(intent);
+                    }
+                    alertDialog.cancel();
+                }
+            });
+
         }
 
         @Override
         public int getItemCount() {
-            if (mCardType == null)
-                return 0;
-            else
-                return mCardType.size();
+            return mBankList.size();
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            private final View itemView;
-            private ProfileImageView cardIcon;
-            private TextView mNameTextView;
+        public class BankViewHolder extends RecyclerView.ViewHolder {
+            public TextView bankNameTextView;
+            private ImageView bankIconImageView;
+            private View parentView;
 
-            public ViewHolder(View itemView) {
 
+            public BankViewHolder(View itemView) {
                 super(itemView);
-
-                this.itemView = itemView;
-                cardIcon = (ProfileImageView) itemView.findViewById(R.id.card_icon);
-                mNameTextView = (TextView) itemView.findViewById(R.id.card_name);
-                cardIcon.setBusinessLogoPlaceHolder();
-            }
-
-            public void bindView(final int position) {
-                mNameTextView.setText(mCardType.get(position).getCardName());
-                cardIcon.setProfilePicture(mCardType.get(position).getCardIconDrawable());
-                if(position != selectedPos) {
-                    itemView.setBackgroundColor(context.getResources().getColor(R.color.colorTransparent));
-                }else{
-                    itemView.setBackgroundColor(context.getResources().getColor(R.color.colorSelectorBack));
-                }
-
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        selectedCard = mCardType.get(position).getCardKey();
-                        selectedPos = position;
-                        notifyDataSetChanged();
-                    }
-                });
+                bankIconImageView = itemView.findViewById(R.id.bank_icon);
+                bankNameTextView = itemView.findViewById(R.id.bank_name);
+                parentView = itemView;
             }
         }
+    }
+
+    public int getBankIcon(Bank bank) {
+        Resources resources = context.getResources();
+        int resourceId;
+        if (bank.getBankCode() != null)
+            resourceId = resources.getIdentifier("ic_bank" + bank.getBankCode(), "drawable",
+                    context.getPackageName());
+        else
+            resourceId = resources.getIdentifier("ic_bank" + "111", "drawable",
+                    context.getPackageName());
+        return resourceId;
     }
 }

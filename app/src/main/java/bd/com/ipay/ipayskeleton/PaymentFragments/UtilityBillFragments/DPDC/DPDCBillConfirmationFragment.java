@@ -60,10 +60,10 @@ public class DPDCBillConfirmationFragment extends IPayAbstractTransactionConfirm
 
     @Override
     protected void setupViewProperties() {
-        setTransactionImageResource(R.drawable.desco);
+        setTransactionImageResource(R.drawable.dpdc);
         setTransactionDescription(getStyledTransactionDescription(R.string.pay_bill_confirmation_message, totalAmount));
-        setName(descoAccountId);
-        setUserName(billNumber);
+        setName(getString(R.string.account_number)+": "+descoAccountId);
+        setUserName(getString(R.string.bill_number)+": "+billNumber);
         setTransactionConfirmationButtonTitle(getString(R.string.pay));
     }
 

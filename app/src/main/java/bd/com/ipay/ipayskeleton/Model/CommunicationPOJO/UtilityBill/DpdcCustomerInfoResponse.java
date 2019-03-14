@@ -4,19 +4,12 @@ package bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill;
 public class DpdcCustomerInfoResponse {
     private String name;
     private String accountNumber;
-    private String billMonth;
-    private String billStatus;
-    private String principalAmount;
+    private String billAmount;
     private String vatAmount;
     private String stampAmount;
     private String totalAmount;
-
-    private String transactionId;
-    private String outReferenceId;
-
     private String dueDate;
     private String billNumber;
-    private String zoneCode;
     private String message;
 
     public String getName() {
@@ -33,30 +26,6 @@ public class DpdcCustomerInfoResponse {
 
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
-    }
-
-    public String getBillMonth() {
-        return billMonth;
-    }
-
-    public void setBillMonth(String billMonth) {
-        this.billMonth = billMonth;
-    }
-
-    public String getBillStatus() {
-        return billStatus;
-    }
-
-    public void setBillStatus(String billStatus) {
-        this.billStatus = billStatus;
-    }
-
-    public String getPrincipalAmount() {
-        return principalAmount;
-    }
-
-    public void setPrincipalAmount(String principalAmount) {
-        this.principalAmount = principalAmount;
     }
 
     public String getVatAmount() {
@@ -83,22 +52,6 @@ public class DpdcCustomerInfoResponse {
         this.totalAmount = totalAmount;
     }
 
-    public String getTransactionId() {
-        return transactionId;
-    }
-
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
-    }
-
-    public String getOutReferenceId() {
-        return outReferenceId;
-    }
-
-    public void setOutReferenceId(String outReferenceId) {
-        this.outReferenceId = outReferenceId;
-    }
-
     public String getDueDate() {
         return dueDate;
     }
@@ -123,11 +76,11 @@ public class DpdcCustomerInfoResponse {
         this.message = message;
     }
 
-    public String getZoneCode() {
-        return zoneCode;
+    public String getBillAmount() {
+        return billAmount;
     }
 
-    public void setZoneCode(String zoneCode) {
-        this.zoneCode = zoneCode;
+    public void setBillAmount(String billAmount) {
+        this.billAmount = billAmount;
     }
 }

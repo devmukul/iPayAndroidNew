@@ -203,10 +203,9 @@ public class DPDCEnterAccountNumberFragment extends BaseFragment implements Http
                         bundle.putString(Constants.LOCATION_CODE, mLocationCode);
 
                         bundle.putString(Constants.BILL_NUMBER, mDpdcCustomerInfoResponse.getBillNumber());
-                        bundle.putSerializable(Constants.ZONE_CODE, numberFormat.parse(mDpdcCustomerInfoResponse.getZoneCode()));
                         bundle.putString(Constants.DUE_DATE, mDpdcCustomerInfoResponse.getDueDate());
                         bundle.putString(Constants.ACCOUNT_ID, mDpdcCustomerInfoResponse.getAccountNumber());
-                        bundle.putSerializable(Constants.BILL_AMOUNT, numberFormat.parse(mDpdcCustomerInfoResponse.getPrincipalAmount()));
+                        bundle.putSerializable(Constants.BILL_AMOUNT, numberFormat.parse(mDpdcCustomerInfoResponse.getBillAmount()));
                         if (mDpdcCustomerInfoResponse.getStampAmount() != null && Integer.parseInt(mDpdcCustomerInfoResponse.getStampAmount()) != 0) {
                             bundle.putSerializable(Constants.STAMP_AMOUNT, numberFormat.parse(mDpdcCustomerInfoResponse.getStampAmount()));
                         }

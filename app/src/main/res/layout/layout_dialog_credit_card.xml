@@ -9,20 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/value10"
-        android:layout_marginBottom="@dimen/value10">
+        android:layout_marginBottom="@dimen/value10"
+        android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
 
     </android.support.v7.widget.RecyclerView>
-
-    <Button
-        android:id="@+id/button_send_money"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#19acacac"
-        android:fontFamily="@font/open_sans"
-        android:padding="16dip"
-        android:text="@string/continue_text"
-        android:textColor="#00c0af"
-        android:textStyle="bold" />
 
 
 </LinearLayout>

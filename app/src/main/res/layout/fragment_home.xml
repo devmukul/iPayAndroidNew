@@ -210,7 +210,8 @@
                                 android:ellipsize="marquee"
                                 android:fontFamily="@font/open_sans_semibold"
                                 android:singleLine="true"
-                                android:text="@string/send_money" />
+                                android:text="@string/send_money"
+                                android:gravity="center"/>
 
                         </LinearLayout>
 
@@ -234,7 +235,8 @@
                                 android:ellipsize="marquee"
                                 android:fontFamily="@font/open_sans_semibold"
                                 android:singleLine="true"
-                                android:text="@string/request_money" />
+                                android:text="@string/request_money"
+                                android:gravity="center" />
 
                         </LinearLayout>
 
@@ -260,7 +262,8 @@
                                 android:ellipsize="marquee"
                                 android:fontFamily="@font/open_sans_semibold"
                                 android:singleLine="true"
-                                android:text="@string/pay_by_QR_code" />
+                                android:text="@string/pay_by_QR_code"
+                                android:gravity="center" />
 
                         </LinearLayout>
 
@@ -294,7 +297,8 @@
                                 android:ellipsize="marquee"
                                 android:fontFamily="@font/open_sans_semibold"
                                 android:singleLine="true"
-                                android:text="@string/desco" />
+                                android:text="@string/desco"
+                                android:gravity="center"/>
 
                         </LinearLayout>
 
@@ -318,7 +322,8 @@
                                 android:ellipsize="marquee"
                                 android:fontFamily="@font/open_sans_semibold"
                                 android:singleLine="true"
-                                android:text="@string/dpdc" />
+                                android:text="@string/dpdc"
+                                android:gravity="center"/>
 
                         </LinearLayout>
 
@@ -330,17 +335,18 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/button_wasa_bill_payment"
+                            android:id="@+id/button_isp_bill_payment"
                             style="@style/HomeImageLinearLayoutStyleHorizontal"
                             android:layout_weight="1">
 
                             <TextView
                                 style="@style/HomeImageLinearLayoutTextStyleHorizontal"
-                                android:drawableTop="@drawable/ic_home_wasa"
+                                android:drawableTop="@drawable/ic_home_isp"
                                 android:ellipsize="marquee"
                                 android:fontFamily="@font/open_sans_semibold"
                                 android:singleLine="true"
-                                android:text="@string/wasa" />
+                                android:text="@string/isp"
+                                android:gravity="center"/>
 
                         </LinearLayout>
 
@@ -372,7 +378,8 @@
                                 android:ellipsize="marquee"
                                 android:fontFamily="@font/open_sans_semibold"
                                 android:singleLine="true"
-                                android:text="@string/mobile_topup" />
+                                android:text="@string/mobile_topup"
+                                android:gravity="center"/>
 
                         </LinearLayout>
 
@@ -387,7 +394,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/button_credit_card_bill_payment"
+                            android:id="@+id/button_credit_card"
                             style="@style/HomeImageLinearLayoutStyleHorizontal"
                             android:layout_weight="1">
 
@@ -397,7 +404,8 @@
                                 android:ellipsize="marquee"
                                 android:fontFamily="@font/open_sans_semibold"
                                 android:singleLine="true"
-                                android:text="@string/credit_card" />
+                                android:text="@string/credit_card"
+                                android:gravity="center"/>
 
                         </LinearLayout>
 
@@ -414,7 +422,8 @@
                                 android:ellipsize="marquee"
                                 android:singleLine="true"
                                 android:fontFamily="@font/open_sans_semibold"
-                                android:text="@string/request_payment" />
+                                android:text="@string/request_payment"
+                                android:gravity="center"/>
 
                         </LinearLayout>
 
@@ -438,7 +447,8 @@
                                 android:ellipsize="marquee"
                                 android:fontFamily="@font/open_sans_semibold"
                                 android:singleLine="true"
-                                android:text="@string/make_payment" />
+                                android:text="@string/make_payment"
+                                android:gravity="center"/>
 
                         </LinearLayout>
 

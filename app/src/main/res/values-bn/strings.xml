@@ -1313,7 +1313,7 @@
     <string name="unconsented">অনুনমোদিত</string>
     <string name="profile_completeness_percentage">আপনার প্রোফাইল %1$d\%% সম্পন্ন হয়েছে।</string>
     <string name="profile_completeness_information">ভেরিফাইড হতে নীচে দেওয়া তথ্য গুলি প্রয়োজন:%1$s\n.</string>
-    <string name="qr_code_helper_text">সঠিক ও নির্ভুলভাবে স্ক্যান করার জন্য,কিউআর কোডটি ফ্রেমের মধ্যে ধরুন।</string>
+    <string name="qr_code_helper_text">কিউ আর কোড দ্রুত স্ক্যান করতে ফ্রেমের মধ্যে কিউ আর কোডটি রাখুন</string>
     <string name="invie_msg_text">%1$s এই আমন্ত্রণ কোড দিয়ে সাইন আপ করুন। লিঙ্ক:</string>
     <string name="shop_outlet_name">দোকান বা আউটলেট নাম</string>
     <string name="paying_message">আপনি পেমেন্ট করছেন</string>
@@ -1356,8 +1356,14 @@
     <string name="national_id_no">জাতীয় পরিচয়পত্রের নম্বর</string>
     <string name="buy_this_ticket">টিকেট ক্রয় করুন</string>
     <string name="fare">ভাড়া (৳)</string>
-    <string name="select_bill_month">Select Bill Month</string>
-    <string name="wasa">Dhaka WASA</string>
+    <string name="select_bill_month">বিলের মাস নির্বাচন করুন</string>
+    <string name="wasa">ঢাকা ওয়াসা</string>
+    <string name="select_card">কার্ড নির্বাচন করুন</string>
+    <string name="isp">ইন্টারনেট বিল</string>
+    <string name="select_isp">আইএসপি নির্বাচন করুন</string>
+    <string name="dpdc_account_number">ডিপিডিসি একাউন্ট নম্বর</string>
+    <string name="location_code">লোকেশন কোড</string>
+    <string name="desco" >ডেসকো</string>
 </resources>
 
 

@@ -30,9 +30,6 @@ public class DPDCBillInfoFragment extends Fragment {
     private TextView mVatAmountTextView;
     private TextView mTotalAmountTextView;
     private TextView mStampAmountTextView;
-    private TextView mZoneCodeTextView;
-    private TextView mTransactionIdTextView;
-    private TextView mlpcAmountTextView;
     private TextView mBillNumberTextView;
     private TextView mBillAmountTextView;
 
@@ -45,7 +42,6 @@ public class DPDCBillInfoFragment extends Fragment {
     private Number stampAmount;
     private Number billAmount;
 //    private Number lpcAmount;
-    private Number zoneCode;
 //    private Number accountId;
 //    private Number billNumber;
 
@@ -53,14 +49,13 @@ public class DPDCBillInfoFragment extends Fragment {
     private String vatAmountString;
     private String stampAmountString;
     private String billAmountString;
-    private String zoneCodeString;
     private String accountIdString;
     private String billNumberString;
 
     private String billMonth;
     private String billYear;
     private String locationCode;
-    //private String dueDate;
+    private String dueDate;
     private Button payBillButton;
     private final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
 
@@ -71,17 +66,16 @@ public class DPDCBillInfoFragment extends Fragment {
         totalAmount = (Number) bundle.getSerializable(Constants.TOTAL_AMOUNT);
         vatAmount = (Number) bundle.getSerializable(Constants.VAT_AMOUNT);
         stampAmount = (Number) bundle.getSerializable(Constants.STAMP_AMOUNT);
-        zoneCode = (Number) bundle.getSerializable(Constants.ZONE_CODE);
         billAmount = (Number) bundle.getSerializable(Constants.BILL_AMOUNT);
 
         totalAmountString = numberFormat.format(totalAmount);
         vatAmountString = numberFormat.format(vatAmount);
-        zoneCodeString = numberFormat.format(zoneCode);
         billAmountString = numberFormat.format(billAmount);
         billNumberString = bundle.getString(Constants.BILL_NUMBER);
         accountIdString = bundle.getString(Constants.ACCOUNT_ID);
         billMonth = bundle.getString(Constants.BILL_MONTH);
         billYear = bundle.getString(Constants.BILL_YEAR);
+        dueDate = bundle.getString(Constants.DUE_DATE);
         locationCode = bundle.getString(Constants.LOCATION_CODE);
         if (stampAmount != null) {
             stampAmountString = numberFormat.format(stampAmount);
@@ -90,7 +84,7 @@ public class DPDCBillInfoFragment extends Fragment {
         }
 
         //dueDate = bundle.getString(Constants.DUE_DATE);
-        return inflater.inflate(R.layout.fragment_desco_bill_info_show, container, false);
+        return inflater.inflate(R.layout.fragment_dpdc_bill_info_show, container, false);
     }
 
     private String getFormattedDate(String date) {
@@ -110,12 +104,10 @@ public class DPDCBillInfoFragment extends Fragment {
         mAccountIDTextView = view.findViewById(R.id.account_number_view);
         mVatAmountTextView = view.findViewById(R.id.vat_amount_view);
         mTotalAmountTextView = view.findViewById(R.id.total_amount_view);
-        mlpcAmountTextView = view.findViewById(R.id.lpc_amount_view);
         mBillNumberTextView = view.findViewById(R.id.bill_number_view);
         mDueDateTextView = view.findViewById(R.id.due_date_view);
         mStampAmountTextView = view.findViewById(R.id.stamp_amount_view);
         mBillAmountTextView = view.findViewById(R.id.bill_amount_view);
-        mZoneCodeTextView = view.findViewById(R.id.zone_code_view);
         View divider = view.findViewById(R.id.divider);
         payBillButton = view.findViewById(R.id.continue_button);
         View stampView = view.findViewById(R.id.stamp_view);
@@ -133,8 +125,7 @@ public class DPDCBillInfoFragment extends Fragment {
         }
 
         mTotalAmountTextView.setText(getString(R.string.tk) + " " + totalAmountString);
-        mZoneCodeTextView.setText(zoneCodeString);
-        //mDueDateTextView.setText(getFormattedDate(dueDate));
+        mDueDateTextView.setText(getFormattedDate(dueDate));
         mAccountIDTextView.setText(accountIdString);
 
         payBillButton.setOnClickListener(new View.OnClickListener() {

@@ -9,7 +9,7 @@
         android:layout_height="120dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/value24"
-        android:src="@drawable/desco" />
+        android:src="@drawable/dpdc" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -85,35 +85,6 @@
                 android:layout_marginRight="0dp"
                 android:layout_marginBottom="@dimen/value8"
                 android:visibility="gone" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/value8"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="@string/zone_code" />
-
-                <TextView
-                    android:id="@+id/zone_code_view"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:text="" />
-            </LinearLayout>
-
-            <View
-                style="@style/Divider"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                android:layout_marginBottom="@dimen/value8" />
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -868,7 +868,7 @@
     <string name="ipc">Ipc</string>
     <string name="desco_bill_pay_message">From 8 AM until 10 PM you can pay the bills.</string>
     <string name="enter_bill_no">Enter bill number</string>
-    <string name="desco"  translatable="false">Desco</string>
+    <string name="desco" >Desco</string>
     <string name="dpdc_bill_pay_message">Please enter your DPDC account number and your location code</string>
     <string name="enter_account_number">Please enter an account number</string>
     <string name="dpdc">Dpdc</string>
@@ -1182,5 +1182,10 @@
     <string name="fare">Fare(Tk)</string>
     <string name="select_bill_month">Select Bill Month</string>
     <string name="wasa">Dhaka WASA</string>
+    <string name="select_card">Select Card</string>
+    <string name="isp">Internet Bill</string>
+    <string name="select_isp">Select ISP</string>
+    <string name="dpdc_account_number">DPDC Account Number</string>
+    <string name="location_code">Location Code</string>
 
 </resources>

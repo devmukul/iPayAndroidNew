@@ -29,6 +29,6 @@ public class DPDCBillSuccessFragment extends IPayAbstractTransactionSuccessFragm
         setSuccessDescription(getString(R.string.pay_bill_success_description));
         setName(billNumber);
         setUserName(descoAccountId);
-        setReceiverImage(R.drawable.desco);
+        setReceiverImage(R.drawable.dpdc);
     }
 }

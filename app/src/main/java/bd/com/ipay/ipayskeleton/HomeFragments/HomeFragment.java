@@ -32,6 +32,7 @@ import com.google.gson.Gson;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -61,6 +62,8 @@ import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.TransactionHistory.Trans
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.TransactionHistory.TransactionHistoryRequest;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.TransactionHistory.TransactionHistoryResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.TransactionHistory.TransactionMetaData;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.GetAvailableCreditCardBanks;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.CreditCard.Bank;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ACLManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
@@ -72,6 +75,8 @@ import bd.com.ipay.ipayskeleton.Utilities.PinChecker;
 import bd.com.ipay.ipayskeleton.Utilities.ServiceIdConstants;
 import bd.com.ipay.ipayskeleton.Utilities.ToasterAndLogger.Toaster;
 import bd.com.ipay.ipayskeleton.Utilities.Utilities;
+import bd.com.ipay.ipayskeleton.Widget.View.CreditCardSelectDialog;
+import bd.com.ipay.ipayskeleton.Widget.View.ISPSelectDialog;
 
 import static android.view.View.GONE;
 
@@ -85,6 +90,9 @@ public class HomeFragment extends BaseFragment implements HttpResponseListener {
 	private CustomProgressDialog mProgressDialog;
 	private TextView balanceView;
 	public ImageButton refreshBalanceButton;
+
+	private ArrayList<Bank> mBankList;
+	private HttpRequestGetAsyncTask mGetBankListAsyncTask;
 
 	private final BroadcastReceiver mBalanceUpdateBroadcastReceiver = new BroadcastReceiver() {
 		@Override
@@ -124,20 +132,20 @@ public class HomeFragment extends BaseFragment implements HttpResponseListener {
 		LinearLayout mPayByQRCodeButton = view.findViewById(R.id.button_pay_by_qr_code);
 		LinearLayout mMakePaymentButton = view.findViewById(R.id.button_make_payment);
 		LinearLayout mTopUpButton = view.findViewById(R.id.button_topup);
-		LinearLayout mCreditCardBillButton = view.findViewById(R.id.button_credit_card_bill_payment);
 		ImageButton mShowQRCodeButton = view.findViewById(R.id.show_qr_code_button);
 		LinearLayout mRequestPaymentButton = view.findViewById(R.id.button_request_paymnet);
 
 		LinearLayout mDescoBillButton = view.findViewById(R.id.button_desco_bill_payment);
 		LinearLayout mDpdcBillButton = view.findViewById(R.id.button_dpdc_bill_payment);
-		LinearLayout mWasaBillButton = view.findViewById(R.id.button_wasa_bill_payment);
+		LinearLayout mIspBillButton = view.findViewById(R.id.button_isp_bill_payment);
+		LinearLayout mCreditCard = view.findViewById(R.id.button_credit_card);
 
 		if (ProfileInfoCacheManager.isBusinessAccount()) {
 			mRequestPaymentButton.setVisibility(View.VISIBLE);
-			mCreditCardBillButton.setVisibility(GONE);
+			mCreditCard.setVisibility(GONE);
 		} else {
 			mRequestPaymentButton.setVisibility(GONE);
-			mCreditCardBillButton.setVisibility(View.VISIBLE);
+			mCreditCard.setVisibility(View.VISIBLE);
 		}
 
         mAddMoneyButton.setOnClickListener(new View.OnClickListener() {
@@ -292,7 +300,7 @@ public class HomeFragment extends BaseFragment implements HttpResponseListener {
 
 		mDescoBillButton.setOnClickListener(new View.OnClickListener() {
 			@Override
-			@ValidateAccess({ServiceIdConstants.UTILITY_BILL_PAYMENT})
+			@ValidateAccess({ServiceIdConstants.DESCO})
 			public void onClick(View v) {
 				payBill(Constants.DESCO, null);
 			}
@@ -300,25 +308,33 @@ public class HomeFragment extends BaseFragment implements HttpResponseListener {
 
 		mDpdcBillButton.setOnClickListener(new View.OnClickListener() {
 			@Override
-			@ValidateAccess({ServiceIdConstants.UTILITY_BILL_PAYMENT})
+			@ValidateAccess({ServiceIdConstants.DPDC})
 			public void onClick(View v) {
 				payBill(Constants.DPDC, null);
 			}
 		});
 
-		mWasaBillButton.setOnClickListener(new View.OnClickListener() {
+		mIspBillButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			@ValidateAccess({ServiceIdConstants.UTILITY_BILL_PAYMENT})
 			public void onClick(View v) {
-				payBill(Constants.WASA, null);
+				final ISPSelectDialog creditCardSelectDialog = new ISPSelectDialog(getContext());
+				creditCardSelectDialog.setTitle(getString(R.string.select_isp));
+				creditCardSelectDialog.setCloseButtonAction(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						creditCardSelectDialog.cancel();
+					}
+				});
+				creditCardSelectDialog.show();
 			}
 		});
 
-		mCreditCardBillButton.setOnClickListener(new View.OnClickListener() {
+		mCreditCard.setOnClickListener(new View.OnClickListener() {
 			@Override
 			@ValidateAccess({ServiceIdConstants.UTILITY_BILL_PAYMENT})
 			public void onClick(View v) {
-				payBill(Constants.CREDIT_CARD, null);
+				attemptGetBankList();
 			}
 		});
 
@@ -449,95 +465,37 @@ public class HomeFragment extends BaseFragment implements HttpResponseListener {
 				refreshBalanceButton.clearAnimation();
 
 				break;
-		}
-	}
 
-	private class ProfileCompletionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-		List<DashboardProfileCompletionPOJO> requiredInfo;
+			case Constants.COMMAND_GET_BANK_LIST:
+				mBankList = new ArrayList<>();
+				mBankList.add(new Bank("Lanka Bangla", null));
+				if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
+					ArrayList<Bank> bankList = new Gson().fromJson(result.getJsonString(), GetAvailableCreditCardBanks.class).getBankList();
+					mBankList.addAll(bankList);
+				} else {
+					Toaster.makeText(getContext(), "Bank List Fetch Failed", Toast.LENGTH_LONG);
+				}
 
-		ProfileCompletionAdapter(List<DashboardProfileCompletionPOJO> requiredInfo) {
-			this.requiredInfo = requiredInfo;
-		}
-
-		public class ViewHolder extends RecyclerView.ViewHolder {
-			private final TextView mTitleView;
-			private final TextView mSubTitleView;
-			private final TextView mNumberView;
-			private final ImageView mImageView;
-
-			public ViewHolder(final View itemView) {
-				super(itemView);
-				mTitleView = itemView.findViewById(R.id.profile_completion_msg_view);
-				mSubTitleView = itemView.findViewById(R.id.profile_completion_subtitle_view);
-				mNumberView = itemView.findViewById(R.id.number_view);
-				mImageView = itemView.findViewById(R.id.other_image);
-			}
-
-			public void bindView(int pos) {
-				final DashboardProfileCompletionPOJO profileCompletionData = requiredInfo.get(pos);
-
-				mTitleView.setText(profileCompletionData.getTitle());
-				mSubTitleView.setText(profileCompletionData.getSubTitle());
-				mImageView.setImageResource(profileCompletionData.getImgDrawable());
-				mNumberView.setText(String.format(Locale.getDefault(), "%d/%d", pos + 1, requiredInfo.size()));
-
-				itemView.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						if (profileCompletionData.getProperty().equals(ProfileCompletionPropertyConstants.PROFILE_PICTURE) && ProfileInfoCacheManager.isAccountVerified()) {
-							DialogUtils.showProfilePictureUpdateRestrictionDialog(getContext());
-						} else {
-							Intent i = new Intent(getActivity(), ProfileActivity.class);
-							i.putExtra(Constants.TARGET_FRAGMENT, profileCompletionData.getProperty());
-							startActivity(i);
-
+				if(mBankList.size()>0){
+					final CreditCardSelectDialog creditCardSelectDialog = new CreditCardSelectDialog(getContext(), mBankList);
+					creditCardSelectDialog.setTitle(getString(R.string.select_card));
+					creditCardSelectDialog.setCloseButtonAction(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							creditCardSelectDialog.cancel();
 						}
-					}
-				});
-			}
+					});
+					creditCardSelectDialog.show();
+				}
+
+				mProgressDialog.dismiss();
+				mGetBankListAsyncTask = null;
+				break;
+
 		}
-
-		// Now define the view holder for Normal list item
-		class NormalViewHolder extends ViewHolder {
-			NormalViewHolder(View itemView) {
-				super(itemView);
-
-				itemView.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						// Do whatever you want on clicking the normal items
-					}
-				});
-			}
-		}
-
-		@NonNull
-		@Override
-		public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-			return new NormalViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_dashboard_profile_completion, parent, false));
-		}
-
-		@Override
-		public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-			try {
-				NormalViewHolder vh = (NormalViewHolder) holder;
-				vh.bindView(position);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
-		@Override
-		public int getItemCount() {
-			return requiredInfo.size();
-		}
-
-		@Override
-		public int getItemViewType(int position) {
-			return super.getItemViewType(position);
-		}
-
 	}
+
+
 
 	private void payBill(final String provider, final String type) {
 		PinChecker pinChecker;
@@ -552,16 +510,15 @@ public class HomeFragment extends BaseFragment implements HttpResponseListener {
 				switch (provider) {
 					case Constants.DESCO:
 					case Constants.DPDC:
+					case Constants.WASA:
 						intent = new Intent(getActivity(), UtilityBillPaymentActivity.class);
 						intent.putExtra(Constants.SERVICE, provider);
 						startActivity(intent);
-						getActivity().finish();
 						break;
 					case Constants.CREDIT_CARD:
 						intent = new Intent(getActivity(), IPayUtilityBillPayActionActivity.class);
 						intent.putExtra(IPayUtilityBillPayActionActivity.BILL_PAY_PARTY_NAME_KEY, IPayUtilityBillPayActionActivity.CREDIT_CARD);
 						startActivityForResult(intent, REQUEST_CODE_SUCCESSFUL_ACTIVITY_FINISH);
-						getActivity().finish();
 						break;
 					case Constants.LANKABANGLA:
 						intent = new Intent(getActivity(), IPayUtilityBillPayActionActivity.class);
@@ -570,12 +527,22 @@ public class HomeFragment extends BaseFragment implements HttpResponseListener {
 						else
 							intent.putExtra(IPayUtilityBillPayActionActivity.BILL_PAY_PARTY_NAME_KEY, IPayUtilityBillPayActionActivity.BILL_PAY_LANKABANGLA_DPS);
 						startActivityForResult(intent, REQUEST_CODE_SUCCESSFUL_ACTIVITY_FINISH);
-						getActivity().finish();
 						break;
 				}
 			}
 		});
 		pinChecker.execute();
+	}
+
+	public void attemptGetBankList() {
+		if (mGetBankListAsyncTask != null) {
+			return;
+		} else {
+			mProgressDialog.showDialog();
+			mGetBankListAsyncTask = new HttpRequestGetAsyncTask(Constants.COMMAND_GET_BANK_LIST,
+					Constants.BASE_URL_SM + Constants.URL_GET_BANK_LIST, getContext(), this, false);
+			mGetBankListAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		}
 	}
 
 }

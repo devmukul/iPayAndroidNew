@@ -290,6 +290,7 @@ public class Constants {
     public static final String WASA = "WASA";
     public static final String LOCATION_CODE = "LOCATION_CODE";
     public static final String COMMAND_GET_WASA_CUSTOMER = "COMMAND_GET_WASA_CUSTOMER";
+    public static final String FROM_DASHBOARD = "FROM_DASHBOARD";
 
 
     public static String ROLEID = "ROLEID";

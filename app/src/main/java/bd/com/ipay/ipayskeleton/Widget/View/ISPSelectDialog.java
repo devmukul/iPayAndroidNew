@@ -17,11 +17,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import bd.com.ipay.ipayskeleton.Activities.PaymentActivities.UtilityBillPaymentActivity;
 import bd.com.ipay.ipayskeleton.Activities.UtilityBillPayActivities.IPayUtilityBillPayActionActivity;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.AddOrWithdrawMoney.CardType;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.ISP;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.CreditCard.Bank;
 import bd.com.ipay.ipayskeleton.R;
+import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ACLManager;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
+import bd.com.ipay.ipayskeleton.Utilities.DialogUtils;
+import bd.com.ipay.ipayskeleton.Utilities.PinChecker;
+import bd.com.ipay.ipayskeleton.Utilities.ServiceIdConstants;
 
 public class ISPSelectDialog {
 	private AlertDialog alertDialog;
@@ -33,7 +41,9 @@ public class ISPSelectDialog {
     private int selectedBankIconId;
     private String selectedBankCode;
 
-	public ISPSelectDialog(Context context, ArrayList<Bank> mBankList) {
+    List<ISP> cardTypes;
+
+	public ISPSelectDialog(Context context) {
 	    this.context = context;
 
 		@SuppressLint("InflateParams") final View customTitleView = LayoutInflater.from(context).inflate(R.layout.layout_dialog_custom_title, null, false);
@@ -57,11 +67,26 @@ public class ISPSelectDialog {
 				.setCancelable(false)
 				.create();
 
-        mBankListAdapter = new BankListAdapter(context, mBankList);
+        genarateCardType();
+        mBankListAdapter = new BankListAdapter(context, cardTypes);
         cardTypeRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         cardTypeRecyclerView.setAdapter(mBankListAdapter);
 
 	}
+
+    private void genarateCardType() {
+        cardTypes = new ArrayList<>();
+        ISP cardType = new ISP(context.getString(R.string.amberIT), Constants.AMBERIT , R.drawable.ic_amber_it);
+        cardTypes.add(cardType);
+        cardType = new ISP(context.getString(R.string.banglalion), Constants.BLION , R.drawable.banglalion);
+        cardTypes.add(cardType);
+        cardType = new ISP(context.getString(R.string.brilliant), Constants.BRILLIANT , R.drawable.brilliant_logo);
+        cardTypes.add(cardType);
+        cardType = new ISP(context.getString(R.string.carnival), Constants.CARNIVAL ,  R.drawable.ic_carnival);
+        cardTypes.add(cardType);
+        cardType = new ISP(context.getString(R.string.link_three), Constants.LINK3 , R.drawable.link_three_logo);
+        cardTypes.add(cardType);
+    }
 
 	public void setTitle(CharSequence title) {
 		titleTextView.setText(title, TextView.BufferType.SPANNABLE);
@@ -84,11 +109,11 @@ public class ISPSelectDialog {
 
     public class BankListAdapter extends RecyclerView.Adapter<BankListAdapter.BankViewHolder> {
 
-        private ArrayList<Bank> mBankList;
+        private List<ISP> mBankList;
         Context context;
 
 
-        public BankListAdapter(Context context, ArrayList<Bank> mBankList) {
+        public BankListAdapter(Context context, List<ISP> mBankList) {
             this.context = context;
             this.mBankList = mBankList;
         }
@@ -104,53 +129,20 @@ public class ISPSelectDialog {
 
         @Override
         public void onBindViewHolder(@NonNull final BankViewHolder holder, final int position) {
-            holder.bankNameTextView.setText(mBankList.get(position).getBankName());
-
-            if(mBankList.get(position).getBankName().equalsIgnoreCase("Lanka Bangla")){
-                holder.bankIconImageView.setImageResource(R.drawable.ic_lankabd2);
-            }else {
-                holder.bankIconImageView.setImageResource(getBankIcon(mBankList.get(position)));
-            }
+            holder.bankNameTextView.setText(mBankList.get(position).getIspName());
+            holder.bankIconImageView.setImageResource(mBankList.get(position).getIspIconDrawable());
 
             holder.bankIconImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(mBankList.get(position).getBankName().equalsIgnoreCase("Lanka Bangla")){
-                        Intent intent = new Intent(context, IPayUtilityBillPayActionActivity.class);
-                        intent.putExtra(IPayUtilityBillPayActionActivity.BILL_PAY_PARTY_NAME_KEY, IPayUtilityBillPayActionActivity.BILL_PAY_LANKABANGLA_CARD);
-                        context.startActivity(intent);
-                    }else {
-                        selectedBankIconId = getBankIcon(mBankList.get(position));
-                        selectedBankCode = mBankList.get(position).getBankCode();
-                        Bundle bundle = new Bundle();
-                        bundle.putString(IPayUtilityBillPayActionActivity.BANK_CODE, selectedBankCode);
-                        bundle.putInt(IPayUtilityBillPayActionActivity.BANK_ICON, selectedBankIconId);
-                        Intent intent = new Intent(context, IPayUtilityBillPayActionActivity.class);
-                        intent.putExtra(Constants.FROM_DASHBOARD, true);
-                        intent.putExtra(Constants.BUNDLE, bundle);
-                        context.startActivity(intent);
-                    }
+                    payBill(mBankList.get(position).getIspCode(), null);
                     alertDialog.cancel();
                 }
             });
             holder.parentView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(mBankList.get(position).getBankName().equalsIgnoreCase("Lanka Bangla")){
-                        Intent intent = new Intent(context, IPayUtilityBillPayActionActivity.class);
-                        intent.putExtra(IPayUtilityBillPayActionActivity.BILL_PAY_PARTY_NAME_KEY, IPayUtilityBillPayActionActivity.BILL_PAY_LANKABANGLA_CARD);
-                        context.startActivity(intent);
-                    }else {
-                        selectedBankIconId = getBankIcon(mBankList.get(position));
-                        selectedBankCode = mBankList.get(position).getBankCode();
-                        Bundle bundle = new Bundle();
-                        bundle.putString(IPayUtilityBillPayActionActivity.BANK_CODE, selectedBankCode);
-                        bundle.putInt(IPayUtilityBillPayActionActivity.BANK_ICON, selectedBankIconId);
-                        Intent intent = new Intent(context, IPayUtilityBillPayActionActivity.class);
-                        intent.putExtra(Constants.FROM_DASHBOARD, true);
-                        intent.putExtra(Constants.BUNDLE, bundle);
-                        context.startActivity(intent);
-                    }
+                    payBill(mBankList.get(position).getIspCode(), null);
                     alertDialog.cancel();
                 }
             });
@@ -177,15 +169,40 @@ public class ISPSelectDialog {
         }
     }
 
-    public int getBankIcon(Bank bank) {
-        Resources resources = context.getResources();
-        int resourceId;
-        if (bank.getBankCode() != null)
-            resourceId = resources.getIdentifier("ic_bank" + bank.getBankCode(), "drawable",
-                    context.getPackageName());
-        else
-            resourceId = resources.getIdentifier("ic_bank" + "111", "drawable",
-                    context.getPackageName());
-        return resourceId;
+    private void payBill(final String provider, final String type) {
+        if (!ACLManager.hasServicesAccessibility(ServiceIdConstants.UTILITY_BILL_PAYMENT)) {
+            DialogUtils.showServiceNotAllowedDialog(context);
+            return;
+        }
+        PinChecker pinChecker = new PinChecker(context, new PinChecker.PinCheckerListener() {
+            @Override
+            public void ifPinAdded() {
+                Intent intent;
+                switch (provider) {
+                    case Constants.BRILLIANT:
+                    case Constants.AMBERIT:
+                        intent = new Intent(context, UtilityBillPaymentActivity.class);
+                        intent.putExtra(Constants.SERVICE, provider);
+                        context.startActivity(intent);
+                        break;
+                    case Constants.LINK3:
+                        intent = new Intent(context, IPayUtilityBillPayActionActivity.class);
+                        intent.putExtra(IPayUtilityBillPayActionActivity.BILL_PAY_PARTY_NAME_KEY, IPayUtilityBillPayActionActivity.BILL_PAY_LINK_THREE);
+                        context.startActivity(intent);
+                        break;
+                    case Constants.CARNIVAL:
+                        intent = new Intent(context, IPayUtilityBillPayActionActivity.class);
+                        intent.putExtra(IPayUtilityBillPayActionActivity.BILL_PAY_PARTY_NAME_KEY, IPayUtilityBillPayActionActivity.BILL_PAY_CARNIVAL);
+                        context.startActivity(intent);
+                        break;
+                    case Constants.BLION:
+                        intent = new Intent(context, UtilityBillPaymentActivity.class);
+                        intent.putExtra(Constants.SERVICE, Constants.BANGLALION);
+                        context.startActivity(intent);
+                        break;
+                }
+            }
+        });
+        pinChecker.execute();
     }
 }

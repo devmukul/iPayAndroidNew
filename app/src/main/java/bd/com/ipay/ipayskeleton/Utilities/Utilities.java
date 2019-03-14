@@ -587,6 +587,7 @@ public class Utilities {
         return DATE_FORMAT_WITHOUT_TIME.format(time);
     }
 
+
     public static String formatDayMonthYear(long time) {
         return dateFormat.format(time);
     }

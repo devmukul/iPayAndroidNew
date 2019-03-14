@@ -9,8 +9,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
 import bd.com.ipay.ipayskeleton.Activities.BaseActivity;
+import bd.com.ipay.ipayskeleton.PaymentFragments.GlobalScheduledPaymentListFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractTransactionSuccessFragment;
-import bd.com.ipay.ipayskeleton.PaymentFragments.IpdcScheduledPaymentListFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.Carnival.CarnivalIdInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.CreditCard.CreditCardBankSelectionFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.LankaBangla.Card.LankaBanglaCardNumberInputFragment;
@@ -64,8 +64,9 @@ public final class IPayUtilityBillPayActionActivity extends BaseActivity {
                 switchFragment(new LankaBanglaDpsNumberInputFragment(), bundle, 0, false);
                 break;
             case SCHEDULED_PAY_IPDC:
-                switchFragment(new IpdcScheduledPaymentListFragment(), bundle, 0, false);
+                switchFragment(new GlobalScheduledPaymentListFragment(), bundle, 0, false);
                 break;
+
 
             default:
                 finish();

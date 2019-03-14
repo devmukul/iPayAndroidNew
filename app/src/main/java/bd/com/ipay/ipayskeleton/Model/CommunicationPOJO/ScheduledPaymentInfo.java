@@ -10,6 +10,7 @@ public class ScheduledPaymentInfo {
     private long installmentNumber;
     private String product;
     private UserInfo receiverInfo;
+    private UserInfo customerInfo;
 
     private String schedulerType;
     private long startDate;

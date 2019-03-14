@@ -1184,5 +1184,7 @@
     <string name="ipdc_instant_payment">Ipdc instant payment</string>
     <string name="please_enter_an_installment_id">Please enter an installment ID</string>
     <string name="scheduled_payment">Scheduled Payment</string>
+    <string name="schedule_payment_service_list">Schedule Payment Service List</string>
+    <string name="my_schedule_list">My Schedule List</string>
 
 </resources>

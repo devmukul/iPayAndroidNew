@@ -1,15 +1,16 @@
 package bd.com.ipay.ipayskeleton.Model.CommunicationPOJO;
 
+import java.io.Serializable;
 import java.util.List;
 
 import bd.com.ipay.ipayskeleton.SourceOfFund.models.ProfilePicture;
 
-public class UserInfo {
+public class UserInfo implements Serializable {
     private long accountId;
     private String mobileNumber;
     private String name;
-    private List<ProfilePicture>profilePictures;
-    private String photoUrl;
+    private List<ProfilePicture> profilePictures;
+
     private long pendingUpdates;
 
     public long getAccountId() {
@@ -42,14 +43,6 @@ public class UserInfo {
 
     public void setProfilePictures(List<ProfilePicture> profilePictures) {
         this.profilePictures = profilePictures;
-    }
-
-    public String getPhotoUrl() {
-        return photoUrl;
-    }
-
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
     }
 
     public long getPendingUpdates() {

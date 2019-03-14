@@ -184,7 +184,7 @@ public class BanglalionBillPayFragment extends BaseFragment implements HttpRespo
         mErrorTextView = v.findViewById(R.id.errortext);
 
         mPayBillButton = v.findViewById(R.id.bill_pay_button);
-        mContinue = v.findViewById(R.id.continue_button);
+        mContinue = v.findViewById(R.id.button_send_money);
         mCustomProgressDialog = new AnimatedProgressDialog(getContext());
 
         UtilityBillPaymentActivity.mMandatoryBusinessRules = BusinessRuleCacheManager.getBusinessRules(Constants.UTILITY_BILL_PAYMENT);

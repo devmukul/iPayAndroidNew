@@ -140,7 +140,7 @@ public abstract class IPayAbstractAmountFragment extends Fragment {
         final Toolbar toolbar = view.findViewById(R.id.toolbar);
 
 
-        continueButton = view.findViewById(R.id.continue_button);
+        continueButton = view.findViewById(R.id.button_send_money);
         amountDummyEditText = view.findViewById(R.id.amount_dummy_edit_text);
         nameTextView = view.findViewById(R.id.name_text_view);
         userNameTextView = view.findViewById(R.id.user_name_text_view);

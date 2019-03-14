@@ -85,7 +85,7 @@ public class DescoEnterBillNumberFragment extends BaseFragment implements HttpRe
         customerIDView = view.findViewById(R.id.customer_id_view);
         infoView = view.findViewById(R.id.info_view);
         mEnterBillNumberEditText = (EditText) view.findViewById(R.id.customer_id_edit_text);
-        mContinueButton = (Button) view.findViewById(R.id.continue_button);
+        mContinueButton = (Button) view.findViewById(R.id.button_send_money);
         UtilityBillPaymentActivity.mMandatoryBusinessRules = BusinessRuleCacheManager.getBusinessRules(Constants.UTILITY_BILL_PAYMENT);
         setUpButtonAction();
     }

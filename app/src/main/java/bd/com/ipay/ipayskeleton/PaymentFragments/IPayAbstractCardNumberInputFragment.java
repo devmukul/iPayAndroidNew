@@ -40,7 +40,7 @@ public abstract class IPayAbstractCardNumberInputFragment extends Fragment {
 		cardIconImageView = view.findViewById(R.id.card_icon_image_view);
 		cardMessageTextView = view.findViewById(R.id.card_message_image_view);
 		cardNumberEditText = view.findViewById(R.id.card_number_edit_text);
-		continueButton = view.findViewById(R.id.continue_button);
+		continueButton = view.findViewById(R.id.button_send_money);
 		if (getActivity() instanceof AppCompatActivity) {
 			((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 			final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();

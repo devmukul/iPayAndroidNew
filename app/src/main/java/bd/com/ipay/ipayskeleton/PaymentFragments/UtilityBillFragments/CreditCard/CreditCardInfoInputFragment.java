@@ -53,11 +53,11 @@ public class CreditCardInfoInputFragment extends Fragment{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mContinueButton = view.findViewById(R.id.continue_button);
+        mContinueButton = view.findViewById(R.id.button_send_money);
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         mCardNumberEditText = view.findViewById(R.id.card_number);
         mNameEditText = view.findViewById(R.id.card_holder_name);
-        mContinueButton = view.findViewById(R.id.continue_button);
+        mContinueButton = view.findViewById(R.id.button_send_money);
         transactionImageView = view.findViewById(R.id.transaction_image_view);
         mContinueButton.setOnClickListener(new View.OnClickListener() {
             @Override

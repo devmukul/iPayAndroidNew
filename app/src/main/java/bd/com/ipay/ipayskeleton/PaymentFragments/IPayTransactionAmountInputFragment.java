@@ -135,7 +135,7 @@ public class IPayTransactionAmountInputFragment extends Fragment implements View
         final EditText amountDummyEditText = view.findViewById(R.id.amount_dummy_edit_text);
         mAmountDummyEditText = view.findViewById(R.id.amount_dummy_edit_text);
         final TextView ipayBalanceTextView = view.findViewById(R.id.ipay_balance_text_view);
-        mContinueButton = view.findViewById(R.id.continue_button);
+        mContinueButton = view.findViewById(R.id.button_send_money);
         final View balanceInfoLayout = view.findViewById(R.id.balance_info_layout);
         sponsorView = view.findViewById(R.id.source_of_fund_view);
         sponsorView.setOnClickListener(new View.OnClickListener() {

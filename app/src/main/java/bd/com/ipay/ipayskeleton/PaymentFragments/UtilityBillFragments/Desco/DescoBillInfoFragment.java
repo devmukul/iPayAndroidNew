@@ -113,7 +113,7 @@ public class DescoBillInfoFragment extends Fragment {
         mBillAmountTextView = view.findViewById(R.id.bill_amount_view);
         mZoneCodeTextView = view.findViewById(R.id.zone_code_view);
         View divider = view.findViewById(R.id.divider);
-        payBillButton = view.findViewById(R.id.continue_button);
+        payBillButton = view.findViewById(R.id.button_send_money);
         View stampView = view.findViewById(R.id.stamp_view);
 
 

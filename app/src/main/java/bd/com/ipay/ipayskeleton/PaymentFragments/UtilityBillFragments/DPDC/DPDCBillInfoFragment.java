@@ -32,6 +32,8 @@ public class DPDCBillInfoFragment extends Fragment {
     private TextView mStampAmountTextView;
     private TextView mBillNumberTextView;
     private TextView mBillAmountTextView;
+    private TextView mTransactionIdTextView;
+    private TextView mZoneCodeTextView;
 
     private Bundle bundle;
 
@@ -51,6 +53,8 @@ public class DPDCBillInfoFragment extends Fragment {
     private String billAmountString;
     private String accountIdString;
     private String billNumberString;
+
+    private String transactionId;
 
     private String billMonth;
     private String billYear;
@@ -76,6 +80,7 @@ public class DPDCBillInfoFragment extends Fragment {
         billMonth = bundle.getString(Constants.BILL_MONTH);
         billYear = bundle.getString(Constants.BILL_YEAR);
         dueDate = bundle.getString(Constants.DUE_DATE);
+        transactionId = bundle.getString(Constants.TRANSACTION_ID);
         locationCode = bundle.getString(Constants.LOCATION_CODE);
         if (stampAmount != null) {
             stampAmountString = numberFormat.format(stampAmount);
@@ -108,9 +113,14 @@ public class DPDCBillInfoFragment extends Fragment {
         mDueDateTextView = view.findViewById(R.id.due_date_view);
         mStampAmountTextView = view.findViewById(R.id.stamp_amount_view);
         mBillAmountTextView = view.findViewById(R.id.bill_amount_view);
+        mTransactionIdTextView = view.findViewById(R.id.transaction_id_view);
+        mZoneCodeTextView = view.findViewById(R.id.zone_code_view);
+
         View divider = view.findViewById(R.id.divider);
         payBillButton = view.findViewById(R.id.continue_button);
         View stampView = view.findViewById(R.id.stamp_view);
+        mTransactionIdTextView.setText(transactionId);
+        mZoneCodeTextView.setText(locationCode);
 
 
         mBillNumberTextView.setText(billNumberString);

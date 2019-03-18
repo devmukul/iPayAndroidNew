@@ -147,7 +147,7 @@ public class DPDCEnterAccountNumberFragment extends BaseFragment implements Http
             mDpdcUserInfoGetRequest = new DPDCUserInfoGetRequest(mBillNumber, mLocationCode, mBillMonth, mBillYear);
             String mJsonString = new Gson().toJson(mDpdcUserInfoGetRequest);
             mDpdcCustomerInfoTask = new HttpRequestPostAsyncTask(Constants.COMMAND_GET_DPDC_CUSTOMER, mUri, mJsonString,
-                    getActivity(), this, true);
+                    getActivity(), this, false);
             mDpdcCustomerInfoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             mProgressDialog.show();
         }
@@ -200,11 +200,11 @@ public class DPDCEnterAccountNumberFragment extends BaseFragment implements Http
                         Bundle bundle = new Bundle();
                         bundle.putString(Constants.BILL_MONTH, mBillMonth);
                         bundle.putString(Constants.BILL_YEAR, mBillYear);
-                        bundle.putString(Constants.LOCATION_CODE, mLocationCode);
-
                         bundle.putString(Constants.BILL_NUMBER, mDpdcCustomerInfoResponse.getBillNumber());
                         bundle.putString(Constants.DUE_DATE, mDpdcCustomerInfoResponse.getDueDate());
                         bundle.putString(Constants.ACCOUNT_ID, mDpdcCustomerInfoResponse.getAccountNumber());
+                        bundle.putString(Constants.TRANSACTION_ID, mDpdcCustomerInfoResponse.getTransactionId());
+                        bundle.putString(Constants.LOCATION_CODE, mDpdcCustomerInfoResponse.getZoneCode());
                         bundle.putSerializable(Constants.BILL_AMOUNT, numberFormat.parse(mDpdcCustomerInfoResponse.getBillAmount()));
                         if (mDpdcCustomerInfoResponse.getStampAmount() != null && Integer.parseInt(mDpdcCustomerInfoResponse.getStampAmount()) != 0) {
                             bundle.putSerializable(Constants.STAMP_AMOUNT, numberFormat.parse(mDpdcCustomerInfoResponse.getStampAmount()));

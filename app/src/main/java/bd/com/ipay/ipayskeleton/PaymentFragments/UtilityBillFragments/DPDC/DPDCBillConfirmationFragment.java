@@ -64,7 +64,6 @@ public class DPDCBillConfirmationFragment extends IPayAbstractTransactionConfirm
         setTransactionDescription(getStyledTransactionDescription(R.string.pay_bill_confirmation_message, totalAmount));
         setName(getString(R.string.account_number)+": "+descoAccountId);
         setUserName(getString(R.string.bill_number)+": "+billNumber);
-        setTransactionConfirmationButtonTitle(getString(R.string.pay));
     }
 
     @Override
@@ -105,7 +104,7 @@ public class DPDCBillConfirmationFragment extends IPayAbstractTransactionConfirm
             Toaster.makeText(getContext(), R.string.no_internet_connection, Toast.LENGTH_SHORT);
         }
         if (descoBillPayTask == null) {
-            mDpdcBillPayRequest = new DpdcBillPayRequest(billNumber, billMonth, billYear, null ,getPin(), locationCode);
+            mDpdcBillPayRequest = new DpdcBillPayRequest(descoAccountId, billMonth, billYear, null ,getPin(), locationCode);
             String json = gson.toJson(mDpdcBillPayRequest);
             uri = Constants.BASE_URL_UTILITY + Constants.URL_DPDC_BILL_PAY;
             descoBillPayTask = new HttpRequestPostAsyncTask(Constants.COMMAND_DPDC_BILL_PAY,

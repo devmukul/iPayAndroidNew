@@ -11,6 +11,10 @@ public class DpdcCustomerInfoResponse {
     private String dueDate;
     private String billNumber;
     private String message;
+    private String transactionId;
+    private String outReferenceId;
+    private String zoneCode;
+
 
     public String getName() {
         return name;
@@ -82,5 +86,29 @@ public class DpdcCustomerInfoResponse {
 
     public void setBillAmount(String billAmount) {
         this.billAmount = billAmount;
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
+    }
+
+    public String getOutReferenceId() {
+        return outReferenceId;
+    }
+
+    public void setOutReferenceId(String outReferenceId) {
+        this.outReferenceId = outReferenceId;
+    }
+
+    public String getZoneCode() {
+        return zoneCode;
+    }
+
+    public void setZoneCode(String zoneCode) {
+        this.zoneCode = zoneCode;
     }
 }

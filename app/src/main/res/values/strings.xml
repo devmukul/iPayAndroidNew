@@ -1186,5 +1186,9 @@
     <string name="scheduled_payment">Scheduled Payment</string>
     <string name="schedule_payment_service_list">Schedule Payment Service List</string>
     <string name="my_schedule_list">My Schedule List</string>
+    <string name="paid_till_today">Paid till today</string>
+    <string name="schedule_date">Schedule date</string>
+    <string name="no_of_installmenr">No. of installment</string>
+    <string name="loan_amount">Loan ammount</string>
 
 </resources>

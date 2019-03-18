@@ -1,4 +1,4 @@
-package bd.com.ipay.ipayskeleton.PaymentFragments;
+package bd.com.ipay.ipayskeleton.PaymentFragments.IPDC;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,9 +14,11 @@ import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import bd.com.ipay.ipayskeleton.Activities.UtilityBillPayActivities.IPayUtilityBillPayActionActivity;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.GroupedScheduledPaymentInfo;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.ScheduledPaymentInfo;
 import bd.com.ipay.ipayskeleton.R;
@@ -78,6 +80,15 @@ public class IpdcScheduledPaymentFragment extends Fragment {
             scheduledPaymentViewHolder.productNameTextView.setText(scheduledPaymentInfoList.get(i).getProduct());
             String date = Utilities.formatDayMonthYear(scheduledPaymentInfoList.get(i).getStartDate());
             scheduledPaymentViewHolder.createdAtTextView.setText(date);
+
+            scheduledPaymentViewHolder.parentView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("scheduledPaymentList", (Serializable) groupedScheduledPaymentInfoList);
+                    ((IPayUtilityBillPayActionActivity) getActivity()).switchFragment(new IpdcScheduledPaymentDetailsFragment(), bundle, 2, true);
+                }
+            });
         }
 
         @Override

@@ -1,7 +1,6 @@
 package bd.com.ipay.ipayskeleton.PaymentFragments.RequestMoneyFragments;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,6 +35,7 @@ import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.Aspect.ValidateAccess;
 import bd.com.ipay.ipayskeleton.BaseFragments.BaseFragment;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomPinCheckerWithInputDialog;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.AnimatedProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.OTPVerificationForTwoFactorAuthenticationServicesDialog;
 import bd.com.ipay.ipayskeleton.CustomView.ProfileImageView;
@@ -73,7 +73,7 @@ public class SentReceivedRequestReviewFragment extends BaseFragment implements H
     private RequestMoneyAcceptRejectOrCancelRequest mRequestMoneyAcceptRejectOrCancelRequest;
     private RequestMoneyAcceptRejectOrCancelResponse mRequestMoneyAcceptRejectOrCancelResponse;
 
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
 
     private int mRequestType;
     private BigDecimal mAmount;
@@ -100,7 +100,7 @@ public class SentReceivedRequestReviewFragment extends BaseFragment implements H
     private boolean switchedFromTransactionHistory = false;
     private Tracker mTracker;
 
-    private CustomProgressDialog mCustomProgressDialog;
+    private AnimatedProgressDialog mCustomProgressDialog;
 
     private Context mContext;
 
@@ -126,7 +126,7 @@ public class SentReceivedRequestReviewFragment extends BaseFragment implements H
         mReceiverName = getActivity().getIntent().getStringExtra(Constants.NAME);
         mPhotoUri = getActivity().getIntent().getStringExtra(Constants.PHOTO_URI);
         mContext = getContext();
-        mCustomProgressDialog = new CustomProgressDialog(mContext);
+        mCustomProgressDialog = new AnimatedProgressDialog(mContext);
         mRequestType = getActivity().getIntent()
                 .getIntExtra(Constants.REQUEST_TYPE, Constants.REQUEST_TYPE_RECEIVED_REQUEST);
 
@@ -152,7 +152,8 @@ public class SentReceivedRequestReviewFragment extends BaseFragment implements H
         mRejectButton = v.findViewById(R.id.button_reject);
         mCancelButton = v.findViewById(R.id.button_cancel);
 
-        mProgressDialog = new ProgressDialog(getActivity());
+
+        mProgressDialog = new CustomProgressDialog(getActivity());
 
         if (mRequestType == Constants.REQUEST_TYPE_RECEIVED_REQUEST) {
             getActivity().setTitle(R.string.request_money);
@@ -187,6 +188,7 @@ public class SentReceivedRequestReviewFragment extends BaseFragment implements H
             mRejectButton.setVisibility(View.GONE);
             mCancelButton.setVisibility(View.VISIBLE);
         }
+
 
         if (!isInContacts) {
             mAddInContactsCheckBox.setVisibility(View.VISIBLE);
@@ -301,7 +303,6 @@ public class SentReceivedRequestReviewFragment extends BaseFragment implements H
             return;
         }
 
-        mProgressDialog.setMessage(getString(R.string.progress_dialog_cancelling));
         mProgressDialog.show();
         mProgressDialog.setCancelable(false);
         // No PIN needed for now to place a request from me
@@ -329,7 +330,6 @@ public class SentReceivedRequestReviewFragment extends BaseFragment implements H
         if (mRejectRequestTask != null) {
             return;
         }
-        mProgressDialog.setMessage(getString(R.string.progress_dialog_rejecting));
         mProgressDialog.show();
         mProgressDialog.setCancelable(false);
         if (!switchedFromTransactionHistory) {
@@ -358,8 +358,6 @@ public class SentReceivedRequestReviewFragment extends BaseFragment implements H
         if (mAcceptRequestTask != null) {
             return;
         }
-
-        mCustomProgressDialog.setLoadingMessage(getString(R.string.progress_dialog_accepted));
         mCustomProgressDialog.showDialog();
 
         if (!switchedFromTransactionHistory) {

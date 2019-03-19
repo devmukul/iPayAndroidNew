@@ -39,7 +39,8 @@ public class IPayRequestMoneyAmountInputFragment extends IPayAbstractAmountFragm
 
 	@Override
 	protected void setupViewProperties() {
-		setTransactionDescription(getString(R.string.request_money_from));
+		hideTransactionDescription();
+		hideBalance();
 		setName(name);
 		setUserName(mobileNumber);
 		setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_CLASS_NUMBER);

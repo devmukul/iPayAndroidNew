@@ -1,7 +1,6 @@
 package bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,6 +29,7 @@ import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.BaseFragments.BaseFragment;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomPinCheckerWithInputDialog;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.AnimatedProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.OTPVerificationForTwoFactorAuthenticationServicesDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
@@ -67,7 +67,7 @@ public class WestzoneBillPaymentFragment extends BaseFragment implements HttpRes
     private Button mContinueButton;
     private View infoView;
     private View customerIDView;
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
     private OTPVerificationForTwoFactorAuthenticationServicesDialog mOTPVerificationForTwoFactorAuthenticationServicesDialog;
 
     private String mUri;
@@ -80,7 +80,7 @@ public class WestzoneBillPaymentFragment extends BaseFragment implements HttpRes
     private WestZoneBillPayRequest mWestZoneBillPayRequest;
     private HttpRequestGetAsyncTask mGetBusinessRuleTask;
     private GenericBillPayResponse mGenericBillPayResponse;
-    private CustomProgressDialog mCustomProgressDialog;
+    private AnimatedProgressDialog mCustomProgressDialog;
 
     @Nullable
     @Override
@@ -89,8 +89,8 @@ public class WestzoneBillPaymentFragment extends BaseFragment implements HttpRes
         View view = inflater.inflate(R.layout.fragment_westzone_bill_pay, container, false);
         getActivity().setTitle("West Zone");
         attemptGetBusinessRule(ServiceIdConstants.UTILITY_BILL_PAYMENT);
-        mProgressDialog = new ProgressDialog(getContext());
-        mCustomProgressDialog = new CustomProgressDialog(getContext());
+        mProgressDialog = new CustomProgressDialog(getContext());
+        mCustomProgressDialog = new AnimatedProgressDialog(getContext());
         setUpView(view);
         return view;
     }
@@ -111,10 +111,8 @@ public class WestzoneBillPaymentFragment extends BaseFragment implements HttpRes
         customerIDView = view.findViewById(R.id.customer_id_view);
         infoView = view.findViewById(R.id.info_view);
         mAccountIDEditText = (EditText) view.findViewById(R.id.customer_id_edit_text);
-        mContinueButton = (Button) view.findViewById(R.id.continue_button);
+        mContinueButton = (Button) view.findViewById(R.id.button_send_money);
         mBillNumberTextView = (TextView) view.findViewById(R.id.bill_number);
-
-        mPrevMonthView.setText("( Bill month " + ((UtilityBillPaymentActivity) getActivity()).getPreviousMonth() + " )");
 
         UtilityBillPaymentActivity.mMandatoryBusinessRules = BusinessRuleCacheManager.getBusinessRules(Constants.UTILITY_BILL_PAYMENT);
         setUpButtonAction();
@@ -174,7 +172,6 @@ public class WestzoneBillPaymentFragment extends BaseFragment implements HttpRes
                     Constants.BASE_URL_UTILITY + Constants.URL_WEST_ZONE_BILL_PAY, json, getActivity(), false);
             mWestZoneBillPayTask.mHttpResponseListener = this;
             mWestZoneBillPayTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            mCustomProgressDialog.setLoadingMessage("Please wait");
             mCustomProgressDialog.showDialog();
         }
     }
@@ -193,7 +190,6 @@ public class WestzoneBillPaymentFragment extends BaseFragment implements HttpRes
         if (mWestZoneCustomerInfoTask != null) {
             return;
         } else {
-            mProgressDialog.setMessage("Please wait");
             mUri = Constants.BASE_URL_UTILITY + Constants.URL_WEST_ZONE + mCustomerID;
             mWestZoneCustomerInfoTask = new HttpRequestGetAsyncTask(Constants.COMMAND_GET_WEST_ZONE_CUSTOMER, mUri,
                     getActivity(), this, true);

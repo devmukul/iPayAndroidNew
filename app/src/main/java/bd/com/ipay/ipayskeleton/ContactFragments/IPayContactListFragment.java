@@ -1,7 +1,6 @@
 package bd.com.ipay.ipayskeleton.ContactFragments;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,6 +25,7 @@ import bd.com.ipay.ipayskeleton.Activities.IPayTransactionActionActivity;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestGetAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.ProfileImageView;
 import bd.com.ipay.ipayskeleton.DatabaseHelper.DBConstants;
 import bd.com.ipay.ipayskeleton.DatabaseHelper.DataHelper;
@@ -58,7 +58,7 @@ public class IPayContactListFragment extends Fragment implements LoaderManager.L
 
 
 	private HttpRequestGetAsyncTask mGetProfileInfoTask = null;
-	private ProgressDialog mProgressDialog;
+	private CustomProgressDialog mProgressDialog;
 
 	private ContactListAdapter mAdapter;
 	private Cursor mCursor;
@@ -70,11 +70,12 @@ public class IPayContactListFragment extends Fragment implements LoaderManager.L
 	private LinearLayout mSearchedNumberLayout;
 
 	private int transactionType;
+    private static final String NUMERIC_PATTERN_WITH_SPACE = "^[0-9\\s\\+\\-!@#$%^&*(),.?\":{}|<>]*$";
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mProgressDialog = new ProgressDialog(getActivity());
+		mProgressDialog = new CustomProgressDialog(getActivity());
 
 		if (getArguments() != null) {
 			transactionType = getArguments().getInt(IPayTransactionActionActivity.TRANSACTION_TYPE_KEY);
@@ -96,7 +97,7 @@ public class IPayContactListFragment extends Fragment implements LoaderManager.L
 		mSearchedNumberLayout = view.findViewById(R.id.searched_number_layout);
 		mContactListEmptyMessageTextView = view.findViewById(R.id.contact_list_empty_message_text_view);
 		mContactListRecyclerView = view.findViewById(R.id.contact_list_recycler_view);
-		mContinueButton = view.findViewById(R.id.continue_button);
+		mContinueButton = view.findViewById(R.id.button_send_money);
 
 		mContactSearchView.setIconified(false);
 		mContactSearchView.setOnQueryTextListener(this);
@@ -161,7 +162,6 @@ public class IPayContactListFragment extends Fragment implements LoaderManager.L
 				}
 			}
 		}, false);
-		mProgressDialog.setMessage(getString(R.string.fetching_user_info));
 		mProgressDialog.setCancelable(false);
 		mProgressDialog.show();
 		mGetProfileInfoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -276,8 +276,11 @@ public class IPayContactListFragment extends Fragment implements LoaderManager.L
 	@Override
 	public boolean onQueryTextChange(String newText) {
 		mQuery = newText;
+		if(newText.matches(NUMERIC_PATTERN_WITH_SPACE)){
+            newText = newText.replaceAll("[^0-9.]", "");
+            mQuery = newText;
+        }
 		getLoaderManager().restartLoader(CONTACTS_QUERY_LOADER, null, this);
-
 		return true;
 	}
 

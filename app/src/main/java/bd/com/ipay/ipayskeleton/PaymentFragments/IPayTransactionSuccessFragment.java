@@ -1,16 +1,11 @@
 package bd.com.ipay.ipayskeleton.PaymentFragments;
 
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -35,37 +30,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import bd.com.ipay.ipayskeleton.Activities.HomeActivity;
 import bd.com.ipay.ipayskeleton.Activities.IPayTransactionActionActivity;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
-import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.AnimatedProgressDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.AddOrWithdrawMoney.AddMoneyByCreditOrDebitCardRequest;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.MakePayment.PaymentRequest;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.RequestMoney.RequestMoneyRequest;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SendMoney.IPayTransactionResponse;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SendMoney.SendMoneyRequest;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.TopUp.TopupRequest;
 import bd.com.ipay.ipayskeleton.Model.Rating.Feedback;
 import bd.com.ipay.ipayskeleton.Model.Rating.Meta;
 import bd.com.ipay.ipayskeleton.Model.Rating.RatingSubmitRequestBuilder;
 import bd.com.ipay.ipayskeleton.Model.Rating.RatingSubmitResponse;
 import bd.com.ipay.ipayskeleton.R;
-import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.CircleTransform;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
-import bd.com.ipay.ipayskeleton.Utilities.ContactEngine;
-import bd.com.ipay.ipayskeleton.Utilities.MyApplication;
-import bd.com.ipay.ipayskeleton.Utilities.ToasterAndLogger.Toaster;
-import bd.com.ipay.ipayskeleton.Utilities.TwoFactorAuthConstants;
 import bd.com.ipay.ipayskeleton.Utilities.Utilities;
 
 import static android.view.View.GONE;
 
 public class IPayTransactionSuccessFragment extends Fragment implements HttpResponseListener {
-    private static final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+    private static final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
     private int transactionType;
     private String name;
     private String mobileNumber;
@@ -74,12 +57,18 @@ public class IPayTransactionSuccessFragment extends Fragment implements HttpResp
     private String senderProfilePicture;
     private String receiverProfilePicture;
     private String mAddressString;
-    private CustomProgressDialog mCustomProgressDialog;
+    private AnimatedProgressDialog mCustomProgressDialog;
 
+
+    private RoundedImageView sponsorImageView;
+
+    private String sponsorProfilePictureUrl;
+    private String sponsorName;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         if (getArguments() != null) {
             transactionType = getArguments().getInt(IPayTransactionActionActivity.TRANSACTION_TYPE_KEY);
@@ -89,8 +78,13 @@ public class IPayTransactionSuccessFragment extends Fragment implements HttpResp
             receiverProfilePicture = getArguments().getString(Constants.RECEIVER_IMAGE_URL);
             amount = (BigDecimal) getArguments().getSerializable(Constants.AMOUNT);
             mAddressString = getArguments().getString(Constants.ADDRESS);
-            if(getArguments().containsKey(Constants.TRANSACTION_ID)) {
-                transactionId = getArguments().getString(Constants.TRANSACTION_ID);
+            sponsorProfilePictureUrl = getArguments().getString(Constants.SPONSOR_PROFILE_PICTURE);
+            sponsorName = getArguments().getString(Constants.SPONSOR_NAME);
+
+            if (sponsorProfilePictureUrl != null) {
+                if (!sponsorProfilePictureUrl.contains("ipay.com")) {
+                    sponsorProfilePictureUrl = Constants.BASE_URL_FTP_SERVER + sponsorProfilePictureUrl;
+                }
             }
         }
         numberFormat.setMinimumFractionDigits(0);
@@ -98,7 +92,7 @@ public class IPayTransactionSuccessFragment extends Fragment implements HttpResp
         numberFormat.setMinimumIntegerDigits(1);
 
         if (getActivity() != null) {
-            mCustomProgressDialog = new CustomProgressDialog(getActivity());
+            mCustomProgressDialog = new AnimatedProgressDialog(getActivity());
         }
     }
 
@@ -111,9 +105,12 @@ public class IPayTransactionSuccessFragment extends Fragment implements HttpResp
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
         final TextView transactionSuccessMessageTextView = view.findViewById(R.id.transaction_success_message_text_view);
         final TextView nameTextView = view.findViewById(R.id.name_text_view);
         final TextView addressTextView = view.findViewById(R.id.address_text_view);
+        final RoundedImageView sponsorImageView = view.findViewById(R.id.sponsor_image_view);
         final RoundedImageView receiverProfilePictureImageView = view.findViewById(R.id.receiver_profile_picture_image_view);
         final RoundedImageView senderProfilePictureImageView = view.findViewById(R.id.sender_profile_picture_image_view);
         final TextView successDescriptionTextView = view.findViewById(R.id.success_description_text_view);
@@ -121,15 +118,34 @@ public class IPayTransactionSuccessFragment extends Fragment implements HttpResp
         final String amountValue = getString(R.string.balance_holder, numberFormat.format(amount));
         final View ratingView = view.findViewById(R.id.rating_layout);
         final RatingBar ratingBar = view.findViewById(R.id.rate_merchant);
+
+        if (sponsorName != null) {
+            sponsorImageView.setVisibility(View.VISIBLE);
+            Glide.with(getActivity())
+                    .load(sponsorProfilePictureUrl)
+                    .centerCrop()
+                    .error(R.drawable.user_brand_bg)
+                    .into(sponsorImageView);
+        } else {
+            sponsorImageView.setVisibility(GONE);
+        }
+
         switch (transactionType) {
             case IPayTransactionActionActivity.TRANSACTION_TYPE_SEND_MONEY:
                 updateTransactionDescription(transactionSuccessMessageTextView, getString(R.string.send_money_success_message, amountValue), 18, 18 + amountValue.length());
                 successDescriptionTextView.setText(R.string.send_money_success_description);
                 break;
             case IPayTransactionActionActivity.TRANSACTION_TYPE_MAKE_PAYMENT:
-                updateTransactionDescription(transactionSuccessMessageTextView, getString(R.string.make_payment_success_message, amountValue), 18, 18 + amountValue.length());
+                updateTransactionDescription(transactionSuccessMessageTextView, getString(R.string.make_payment_success_message, amountValue), getString(R.string.payment_success_message).length()+1, getString(R.string.payment_success_message).length()+1 + amountValue.length());
                 successDescriptionTextView.setText(getString(R.string.make_payment_success_description, name));
                 ratingView.setVisibility(View.VISIBLE);
+                if (sponsorName != null) {
+                    successDescriptionTextView.setText("Successfully paid to " + name + " using " + sponsorName + "'s" +
+                            " iPay wallet. " + name + " and " + sponsorName + " will be notified about this transaction." +
+                            " See the details of this transaction in your Transaction History.");
+                } else {
+                    successDescriptionTextView.setText(getString(R.string.make_payment_success_description, name));
+                }
                 break;
             case IPayTransactionActionActivity.TRANSACTION_TYPE_REQUEST_MONEY:
                 updateTransactionDescription(transactionSuccessMessageTextView, getString(R.string.request_money_success_message, amountValue), 23, 23 + amountValue.length());
@@ -148,7 +164,7 @@ public class IPayTransactionSuccessFragment extends Fragment implements HttpResp
         if (!TextUtils.isEmpty(mAddressString)) {
             addressTextView.setVisibility(View.VISIBLE);
             addressTextView.setText(mAddressString);
-        }else {
+        } else {
             addressTextView.setVisibility(GONE);
         }
 
@@ -202,7 +218,6 @@ public class IPayTransactionSuccessFragment extends Fragment implements HttpResp
         if (httpRequestPostAsyncTask != null)
             return;
 
-        mCustomProgressDialog.setTitle(R.string.please_wait_no_ellipsis);
         mCustomProgressDialog.showDialog();
         final String apiCommand;
         final String url;
@@ -219,7 +234,6 @@ public class IPayTransactionSuccessFragment extends Fragment implements HttpResp
         RatingSubmitRequestBuilder ratingSubmitRequestBuilder = new RatingSubmitRequestBuilder(feedbackList);
         requestJson = gson.toJson(ratingSubmitRequestBuilder);
         url = Constants.BASE_URL_MM + Constants.URL_FEEDBACK;
-        mCustomProgressDialog.setMessage(getString(R.string.progress_dialog_sending_fragment));
         httpRequestPostAsyncTask = new HttpRequestPostAsyncTask(apiCommand, url, requestJson, getContext(), this, false);
         httpRequestPostAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }

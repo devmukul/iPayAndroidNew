@@ -16,23 +16,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="5dp"
-                android:gravity="center_horizontal"
-                android:text="@string/mandatory_field"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_small" />
 
             <ImageView
                 android:id="@+id/button_cross"
                 android:layout_width="@dimen/value30"
                 android:layout_height="@dimen/value30"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin_card"
                 android:padding="@dimen/activity_horizontal_margin_card"
-                android:visibility="gone"
                 android:src="@drawable/ic_crossw" />
         </RelativeLayout>
 
@@ -129,80 +121,6 @@
 
         </LinearLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:visibility="gone">
-
-            <CheckBox
-                android:id="@+id/checkBoxTermsConditions"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:buttonTint="@android:color/white" />
-
-            <LinearLayout
-                android:id="@+id/signUpTermsWrapperLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/checkBoxTermsConditions"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:visibility="visible">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="@string/oath_sign_up"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_small" />
-
-                <TextView
-                    android:id="@+id/textViewTermsConditions"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:background="@drawable/linked_textview_selector"
-                    android:clickable="true"
-                    android:text="@string/terms_condition_url"
-                    android:textColor="@android:color/white"
-                    android:textColorLink="@android:color/white"
-                    android:textSize="@dimen/text_size_small" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/signUpTermsWrapperLayout"
-                android:layout_toRightOf="@id/checkBoxTermsConditions"
-                android:gravity="center_horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="@string/and"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_small" />
-
-                <TextView
-                    android:id="@+id/textViewPrivacyPolicy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:background="@drawable/linked_textview_selector"
-                    android:clickable="true"
-                    android:text="@string/privacy_policy_url"
-                    android:textColor="@android:color/white"
-                    android:textColorLink="@android:color/white"
-                    android:textSize="@dimen/text_size_small" />
-            </LinearLayout>
-
-        </RelativeLayout>
-
         <Button
             android:id="@+id/business_next_button"
             style="@style/ButtonSecondary_No_Border"
@@ -214,14 +132,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal"
             android:paddingBottom="@dimen/activity_horizontal_margin_card">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/value2"
+                android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
+                android:layout_marginBottom="@dimen/value2"
                 android:text="@string/already_have_an_account"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
@@ -230,15 +150,14 @@
                 android:id="@+id/button_log_in"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:background="?android:attr/selectableItemBackground"
-                android:gravity="left|center_vertical"
-                android:minHeight="@dimen/value0"
+                android:gravity="start|center_vertical"
                 android:minWidth="@dimen/value0"
-                android:paddingBottom="@dimen/activity_horizontal_margin_card"
+                android:minHeight="@dimen/value0"
                 android:paddingLeft="@dimen/activity_horizontal_margin_card"
-                android:paddingRight="@dimen/activity_horizontal_margin_card"
                 android:paddingTop="@dimen/activity_horizontal_margin_card"
+                android:paddingRight="@dimen/activity_horizontal_margin_card"
+                android:paddingBottom="@dimen/activity_horizontal_margin_card"
                 android:text="@string/log_in"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"

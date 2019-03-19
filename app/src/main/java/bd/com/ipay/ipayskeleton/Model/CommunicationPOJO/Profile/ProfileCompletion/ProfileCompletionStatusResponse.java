@@ -1,5 +1,7 @@
 package bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.ProfileCompletion;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -130,7 +132,7 @@ public class ProfileCompletionStatusResponse {
         return message;
     }
 
-    public List<DashboardProfileCompletionPOJO> dashboardProfileCompletionData() {
+    public List<DashboardProfileCompletionPOJO> dashboardProfileCompletionData(Context context) {
 
         List<DashboardProfileCompletionPOJO> tempData = new ArrayList<>();
 
@@ -143,35 +145,35 @@ public class ProfileCompletionStatusResponse {
 
             if (mCompletionStatus.getProperty().equals(PROFILE_PICTURE)) {
                 if (propertyDetails.getPropertyTitle() != null && propertyCompletionPercentage<100) {
-                    tempData.add(new DashboardProfileCompletionPOJO(propertyDetails.getPropertyName(), "Profile Picture", "Please upload your profile picture for verification purpose.",
+                    tempData.add(new DashboardProfileCompletionPOJO(propertyDetails.getPropertyName(), context.getString(R.string.dashboard_profile_picture), context.getString(R.string.dashboard_profile_picture_text),
                             R.drawable.ic_onboard_profile_pic_upload_small,propertyDetails.getTag()));
                 }
 
             } else if (mCompletionStatus.getProperty().equals(BASIC_PROFILE)) {
 
                 if (propertyDetails.getPropertyTitle() != null && propertyCompletionPercentage<100) {
-                    tempData.add(new DashboardProfileCompletionPOJO(propertyDetails.getPropertyName(), "Basic Profile", "Please update your basic information.",
+                    tempData.add(new DashboardProfileCompletionPOJO(propertyDetails.getPropertyName(), context.getString(R.string.dashboard_basic_info), context.getString(R.string.dashboard_basic_info_text),
                             R.drawable.ic_onboard_basic_info_small,propertyDetails.getTag()));
                 }
 
             } else if (mCompletionStatus.getProperty().equals(PERSONAL_ADDRESS)) {
 
                 if (propertyDetails.getPropertyTitle() != null && propertyCompletionPercentage<100) {
-                    tempData.add(new DashboardProfileCompletionPOJO(propertyDetails.getPropertyName(), "Personal Address", "We require your present address along with basic info for faster verification.",
+                    tempData.add(new DashboardProfileCompletionPOJO(propertyDetails.getPropertyName(), context.getString(R.string.dashboard_present_address), context.getString(R.string.dashboard_personal_address_text),
                             R.drawable.ic_onboard_basic_info_small,propertyDetails.getTag()));
                 }
 
             } else if (mCompletionStatus.getProperty().equals(PHOTOID)) {
 
                 if (propertyDetails.getPropertyTitle() != null && propertyCompletionPercentage<100) {
-                    tempData.add(new DashboardProfileCompletionPOJO(propertyDetails.getPropertyName(), "Photo ID", "Please upload your Photo ID(i.e National ID).",
+                    tempData.add(new DashboardProfileCompletionPOJO(propertyDetails.getPropertyName(), context.getString(R.string.dashboard_national_id), context.getString(R.string.dashboard_photo_id_text),
                             R.drawable.ic_onboard_photo_id_small,propertyDetails.getTag()));
                 }
 
             } else if (mCompletionStatus.getProperty().equals(VERIFY_BANK_OR_CARD)) {
 
                 if (propertyDetails.getPropertyTitle() != null && propertyCompletionPercentage<100) {
-                    tempData.add(new DashboardProfileCompletionPOJO(propertyDetails.getPropertyName(), "Verify Bank or Card", "Add your bank or debit/card card as a source of fund.",
+                    tempData.add(new DashboardProfileCompletionPOJO(propertyDetails.getPropertyName(), context.getString(R.string.dashboard_verify_bank), context.getString(R.string.dashboard_verify_bank_text),
                             R.drawable.ic_onboard_add_bank_helper_small,propertyDetails.getTag()));
                 }
             }

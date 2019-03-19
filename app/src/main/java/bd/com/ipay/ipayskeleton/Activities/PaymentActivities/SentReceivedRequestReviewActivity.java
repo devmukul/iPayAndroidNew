@@ -8,17 +8,21 @@ import bd.com.ipay.ipayskeleton.Activities.BaseActivity;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.BusinessRuleAndServiceCharge.BusinessRule.MandatoryBusinessRules;
 import bd.com.ipay.ipayskeleton.PaymentFragments.RequestMoneyFragments.SentReceivedRequestReviewFragment;
 import bd.com.ipay.ipayskeleton.R;
+import bd.com.ipay.ipayskeleton.Utilities.Constants;
 
 
 public class SentReceivedRequestReviewActivity extends BaseActivity {
 
     public static MandatoryBusinessRules mMandatoryBusinessRules;
 
+    public boolean isAcceptedFromNotification;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receieved_request_review);
-
+        isAcceptedFromNotification = getIntent().getBooleanExtra
+                (Constants.ACTION_FROM_NOTIFICATION, false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         switchToReceivedRequestReviewFragment();

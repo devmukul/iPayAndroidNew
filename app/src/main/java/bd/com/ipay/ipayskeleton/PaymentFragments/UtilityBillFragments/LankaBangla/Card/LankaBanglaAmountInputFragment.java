@@ -53,7 +53,7 @@ public class LankaBanglaAmountInputFragment extends IPayAbstractAmountFragment {
             addShortCutOption(2, getString(R.string.minimum_pay).toUpperCase(), minimumPayAmount);
 
         setBalanceInfoLayoutVisibility(View.VISIBLE);
-        setTransactionDescription(getString(R.string.paying_bill_message));
+        hideTransactionDescription();
         setInputType(InputType.TYPE_CLASS_NUMBER);
         setTransactionImageResource(R.drawable.ic_lankabd2);
         setName(CardNumberValidator.deSanitizeEntry(cardNumber, ' '));

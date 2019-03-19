@@ -106,7 +106,7 @@ public class IPayTransactionHistoryFragment extends BaseFragment {
 
 	private String getTransactionHistoryViewModelKey(
 			TransactionHistoryType transactionHistoryType) {
-		return String.format(Locale.US, "%s:%s", transactionHistoryType.toString(),
+		return String.format(Locale.getDefault(), "%s:%s", transactionHistoryType.toString(),
 				TransactionHistoryViewModel.class.getCanonicalName());
 	}
 

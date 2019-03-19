@@ -31,6 +31,7 @@ public class TransactionHistory implements Parcelable {
     private final long outletId;
     private final TransactionMetaData metaData;
 
+
     protected TransactionHistory(Parcel in) {
         insertTime = in.readLong();
         accountId = in.readString();

@@ -51,8 +51,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/value32"
-                    android:layout_marginTop="@dimen/activity_horizontal_margin"
                     android:layout_marginRight="@dimen/value32"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
                     android:fontFamily="@font/open_sans"
                     android:gravity="center"
                     android:textColor="@color/colorWhite"
@@ -81,7 +81,7 @@
                     android:gravity="center"
                     android:textColor="@color/colorWhite"
                     android:textSize="12sp"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/transaction_image_view"
@@ -139,9 +139,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignTop="@id/amount_text_view"
                         android:layout_alignEnd="@id/amount_text_view"
                         android:layout_alignRight="@id/amount_text_view"
+                        android:layout_alignTop="@id/amount_text_view"
                         android:layout_marginTop="@dimen/value6"
                         android:fontFamily="@font/open_sans"
                         android:text="@string/tk"
@@ -208,8 +208,49 @@
                         android:gravity="center"
                         android:text="500Tk"
                         android:textColor="@color/colorWhite" />
-
                 </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/source_of_fund_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginTop="@dimen/value12"
+                    android:background="@drawable/background_oval_source_of_fund"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/cancel"
+                        android:layout_marginLeft="@dimen/value16"
+                        android:layout_marginRight="@dimen/value16"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:text="TAP TO PAY FROM OTHER SOURCE"
+                        android:textColor="#ffffff"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:id="@+id/cancel"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@drawable/background_white_circle"
+                        android:layout_alignParentRight="true"
+                        android:padding="@dimen/value5"
+                        android:layout_marginTop="@dimen/value6"
+                        android:layout_marginBottom="@dimen/value6"
+                        android:layout_centerVertical="true"
+                        android:visibility="gone"
+                        android:layout_marginRight="@dimen/value6"
+                        app:srcCompat="@drawable/ic_close" />
+                </RelativeLayout>
 
                 <LinearLayout
                     android:id="@+id/balance_info_layout"
@@ -242,7 +283,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/continue_button"
+        android:id="@+id/button_send_money"
         android:layout_width="match_parent"
         android:layout_height="@dimen/value50"
         android:layout_gravity="bottom"

@@ -29,7 +29,7 @@ public class IPayTransactionHistoryDateFilterFragment extends BottomSheetDialogF
 
 	private OnDateSelectListener onDateSelectListener;
 
-	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -190,7 +190,7 @@ public class IPayTransactionHistoryDateFilterFragment extends BottomSheetDialogF
 
 	private String getTransactionHistoryViewModelKey(
 			TransactionHistoryType transactionHistoryType) {
-		return String.format(Locale.US, "%s:%s", transactionHistoryType.toString(),
+		return String.format(Locale.getDefault(), "%s:%s", transactionHistoryType.toString(),
 				TransactionHistoryViewModel.class.getCanonicalName());
 	}
 

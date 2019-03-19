@@ -1,7 +1,5 @@
 package bd.com.ipay.ipayskeleton.SecuritySettingsFragments;
 
-
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,6 +19,7 @@ import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPutAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.BaseFragments.BaseFragment;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomSelectorDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Security.PreviousSecurityQuestionClass;
@@ -38,7 +37,7 @@ public class UpdateSecurityQuestionFragment extends BaseFragment implements Http
     private HttpRequestPutAsyncTask mUpdateSecurityAnswerTask = null;
     private UpdateSecurityAnswerResponse mUpdateSecurityAnswerResponse;
 
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
 
     private List<String> mAllSecurityQuestionClassList, mTempSecurityQuestionClassList;
 
@@ -79,7 +78,7 @@ public class UpdateSecurityQuestionFragment extends BaseFragment implements Http
         mPasswordEditText = (EditText) v.findViewById(R.id.password);
         mUpdateButton = (Button) v.findViewById(R.id.button_update);
 
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
 
         setQuestion();
         setQuestionAdapter();
@@ -182,7 +181,6 @@ public class UpdateSecurityQuestionFragment extends BaseFragment implements Http
     }
 
     private void attemptSaveSecurityAnswers(String password) {
-        mProgressDialog.setMessage(getString(R.string.set_security_answer));
         mProgressDialog.show();
 
         UpdateSecurityAnswerRequest updateSecurityAnswerRequest = new UpdateSecurityAnswerRequest(mUpdateQuestionAnswerClassList, password);

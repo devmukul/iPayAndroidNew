@@ -1,6 +1,5 @@
 package bd.com.ipay.ipayskeleton.Activities;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,13 +15,13 @@ import com.google.gson.Gson;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.LoginAndSignUp.LogoutRequest;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.LoginAndSignUp.LogoutResponse;
 import bd.com.ipay.ipayskeleton.ProfileCompletionHelperFragments.OnBoardAddBasicInfoFragment;
 import bd.com.ipay.ipayskeleton.ProfileCompletionHelperFragments.OnBoardAddBasicInfoHelperFragment;
 import bd.com.ipay.ipayskeleton.ProfileCompletionHelperFragments.OnBoardAddSourceOfFundHelperFragment;
-import bd.com.ipay.ipayskeleton.ProfileCompletionHelperFragments.OnBoardAskForIntroductionHelperFragment;
 import bd.com.ipay.ipayskeleton.ProfileCompletionHelperFragments.OnBoardContactsFragment;
 import bd.com.ipay.ipayskeleton.ProfileCompletionHelperFragments.OnBoardIdentificationDocumentUploadFragment;
 import bd.com.ipay.ipayskeleton.ProfileCompletionHelperFragments.OnBoardPhotoIdUploadHelperFragment;
@@ -39,7 +38,7 @@ import bd.com.ipay.ipayskeleton.Utilities.Utilities;
 public class ProfileVerificationHelperActivity extends BaseActivity implements HttpResponseListener {
     private HttpRequestPostAsyncTask mLogoutTask = null;
     private LogoutResponse mLogOutResponse;
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
     public Uri mProfilePhotoUri;
     private DeepLinkAction mDeepLinkAction;
 
@@ -49,7 +48,7 @@ public class ProfileVerificationHelperActivity extends BaseActivity implements H
         setContentView(R.layout.activity_profile_verification_helper);
         mDeepLinkAction = getIntent().getParcelableExtra(Constants.DEEP_LINK_ACTION);
         SharedPrefManager.setFirstLaunch(false);
-        mProgressDialog = new ProgressDialog(ProfileVerificationHelperActivity.this);
+        mProgressDialog = new CustomProgressDialog(ProfileVerificationHelperActivity.this);
         if (ProfileInfoCacheManager.isSwitchedFromSignup()) {
             switchToProfilePictureFragment();
         } else {
@@ -111,7 +110,6 @@ public class ProfileVerificationHelperActivity extends BaseActivity implements H
             return;
         }
 
-        mProgressDialog.setMessage(getString(R.string.progress_dialog_signing_out));
         mProgressDialog.show();
         LogoutRequest mLogoutModel = new LogoutRequest(ProfileInfoCacheManager.getMobileNumber());
         Gson gson = new Gson();
@@ -171,11 +169,6 @@ public class ProfileVerificationHelperActivity extends BaseActivity implements H
     public void switchToBasicInfoEditFragment() {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new OnBoardAddBasicInfoFragment()).addToBackStack(null).commit();
-    }
-
-    public void switchToAskedIntroductionHelperFragment() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new OnBoardAskForIntroductionHelperFragment()).commit();
     }
 
     public void switchToContactFragment() {

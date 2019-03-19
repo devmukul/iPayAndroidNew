@@ -142,7 +142,7 @@ public class ServiceAccessValidatorAspect {
         boolean hasNavigationAccess = true;
         MenuItem item = (MenuItem) joinPoint.getArgs()[0];
         switch (item.getItemId()) {
-            case R.id.nav_bank_account:
+            case R.id.nav_ipay_source_of_fund:
                 hasNavigationAccess = ACLManager.hasServicesAccessibility(ServiceIdConstants.SEE_BANK_ACCOUNTS);
                 break;
             case R.id.nav_user_activity:

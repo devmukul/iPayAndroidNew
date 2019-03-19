@@ -1,7 +1,6 @@
 package bd.com.ipay.ipayskeleton.ProfileFragments;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -33,6 +32,7 @@ import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.Aspect.ValidateAccess;
 import bd.com.ipay.ipayskeleton.BaseFragments.BaseFragment;
 import bd.com.ipay.ipayskeleton.BuildConfig;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.PhotoSelectionHelperDialog;
 import bd.com.ipay.ipayskeleton.CustomView.IconifiedTextViewWithButton;
 import bd.com.ipay.ipayskeleton.CustomView.ProfileImageView;
@@ -91,7 +91,7 @@ public class AccountFragment extends BaseFragment implements HttpResponseListene
     private HttpRequestGetAsyncTask mGetProfileCompletionStatusTask = null;
     private ProfileCompletionStatusResponse mProfileCompletionStatusResponse;
 
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
     private MaterialDialog.Builder mProfilePictureErrorDialogBuilder;
     private MaterialDialog mProfilePictureErrorDialog;
     private PhotoSelectionHelperDialog photoSelectionHelperDialog;
@@ -103,22 +103,22 @@ public class AccountFragment extends BaseFragment implements HttpResponseListene
         View view = inflater.inflate(R.layout.fragment_account, container, false);
         getActivity().setTitle(R.string.account);
 
-        mProfilePictureView = (ProfileImageView) view.findViewById(R.id.profile_picture);
-        mNameView = (TextView) view.findViewById(R.id.textview_name);
-        mMobileNumberView = (TextView) view.findViewById(R.id.textview_mobile_number);
-        mProfileCompletionStatusView = (TextView) view.findViewById(R.id.textview_profile_completion_status);
-        mVerificationStatusView = (ImageView) view.findViewById(R.id.textview_verification_status);
-        mEditProfilePicButton = (ImageView) view.findViewById(R.id.button_profile_picture_edit);
+        mProfilePictureView =  view.findViewById(R.id.profile_picture);
+        mNameView =  view.findViewById(R.id.textview_name);
+        mMobileNumberView =  view.findViewById(R.id.textview_mobile_number);
+        mProfileCompletionStatusView =  view.findViewById(R.id.textview_profile_completion_status);
+        mVerificationStatusView =  view.findViewById(R.id.textview_verification_status);
+        mEditProfilePicButton =  view.findViewById(R.id.button_profile_picture_edit);
         mProfilePictureHolderView = view.findViewById(R.id.profile_picture_layout);
 
-        mBasicInfo = (IconifiedTextViewWithButton) view.findViewById(R.id.basic_info);
-        mEmail = (IconifiedTextViewWithButton) view.findViewById(R.id.email);
-        mAddress = (IconifiedTextViewWithButton) view.findViewById(R.id.present_address);
-        mIntroducer = (IconifiedTextViewWithButton) view.findViewById(R.id.introducer);
-        mDocuments = (IconifiedTextViewWithButton) view.findViewById(R.id.documents);
-        mProfileCompleteness = (IconifiedTextViewWithButton) view.findViewById(R.id.profile_completion);
+        mBasicInfo =  view.findViewById(R.id.basic_info);
+        mEmail =  view.findViewById(R.id.email);
+        mAddress =  view.findViewById(R.id.present_address);
+        mIntroducer =  view.findViewById(R.id.introducer);
+        mDocuments =  view.findViewById(R.id.documents);
+        mProfileCompleteness =  view.findViewById(R.id.profile_completion);
 
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
 
         mName = ProfileInfoCacheManager.getUserName();
         mMobileNumber = ProfileInfoCacheManager.getMobileNumber();
@@ -365,9 +365,7 @@ public class AccountFragment extends BaseFragment implements HttpResponseListene
                     uri = DocumentPicker.getDocumentFromResult(getActivity(), resultCode, data, "profile_picture.jpg");
                     if (uri == null) {
                         if (getActivity() != null)
-                            Toast.makeText(getActivity(),
-                                    R.string.could_not_load_image,
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), R.string.could_not_load_image, Toast.LENGTH_SHORT).show();
                     } else {
                         // Check for a valid profile picture
                         if (isSelectedProfilePictureValid(uri)) {
@@ -415,7 +413,6 @@ public class AccountFragment extends BaseFragment implements HttpResponseListene
     }
 
     private void updateProfilePicture(Uri selectedImageUri) {
-        mProgressDialog.setMessage(getString(R.string.uploading_profile_picture));
         mProgressDialog.show();
 
         mSelectedImagePath = selectedImageUri.getPath();
@@ -492,9 +489,7 @@ public class AccountFragment extends BaseFragment implements HttpResponseListene
                     LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
 
                     if (!mProfileCompletionStatusResponse.isCompletedMandatoryFields()) {
-                        mProfileCompletionStatusView.setText("Your profile is " +
-                                mProfileCompletionStatusResponse.getCompletionPercentage() + "% "
-                                + "complete.\nSubmit documents and other information to improve your profile.");
+                        mProfileCompletionStatusView.setText(getString(R.string.profile_completeness_percentage, mProfileCompletionStatusResponse.getCompletionPercentage()));
                         mProfileCompletionStatusView.setVisibility(View.VISIBLE);
                     }
                 }

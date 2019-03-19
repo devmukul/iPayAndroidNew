@@ -1,6 +1,5 @@
 package bd.com.ipay.ipayskeleton.HomeFragments;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,6 +18,7 @@ import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestGetAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.BaseFragments.BaseFragment;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.InvitationCode.GetPromoResponse;
 import bd.com.ipay.ipayskeleton.R;
@@ -32,7 +32,7 @@ public class InviteFriendFragment extends BaseFragment implements HttpResponseLi
 
     private Button buttonInvitePeople;
     private EditText mInvitationCodeEditText;
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
     private String mInvitationCode;
 
     @Override
@@ -46,7 +46,7 @@ public class InviteFriendFragment extends BaseFragment implements HttpResponseLi
         View v = inflater.inflate(R.layout.fragment_invite_friend, container, false);
         buttonInvitePeople = (Button) v.findViewById(R.id.button_invite_people);
         mInvitationCodeEditText = (EditText) v.findViewById(R.id.invitation_code);
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
 
         buttonInvitePeople.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +104,6 @@ public class InviteFriendFragment extends BaseFragment implements HttpResponseLi
         if (mGetInvitationCodeTask != null) {
             return;
         }
-        mProgressDialog.setMessage(getString(R.string.please_wait_loading));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
         mGetInvitationCodeTask = new HttpRequestGetAsyncTask(Constants.COMMAND_GET_INVITATION_CODE,
@@ -116,7 +115,7 @@ public class InviteFriendFragment extends BaseFragment implements HttpResponseLi
 
 
     private void shareQrCode(String code) {
-        String share_qr_code_message = "Signup with this invitation code " + code + " and get 50 taka after you get verified  - https://app.ipay.com.bd/signup/personal?code=" + code;
+        String share_qr_code_message = getString(R.string.invie_msg_text, code)+ " https://app.ipay.com.bd/signup/personal?code=" + code;
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");

@@ -91,8 +91,6 @@ public class IPayRequestMoneyConfirmationFragment extends IPayAbstractTransactio
 			sendMoneyRequestTask = new HttpRequestPostAsyncTask(Constants.COMMAND_REQUEST_MONEY,
 					uri, json, getActivity(), this, false);
 			sendMoneyRequestTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-			customProgressDialog.setTitle(getString(R.string.please_wait_no_ellipsis));
-			customProgressDialog.setLoadingMessage(getString(R.string.requesting_money));
 			customProgressDialog.showDialog();
 		}
 	}

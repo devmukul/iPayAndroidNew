@@ -1,7 +1,6 @@
 package bd.com.ipay.ipayskeleton.ProfileFragments;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,6 +28,7 @@ import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.Aspect.ValidateAccess;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.ProfileImageView;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.Introducer.GetIntroducerListResponse;
@@ -57,7 +57,7 @@ public class IntroducerFragment extends ProgressFragment implements HttpResponse
     private List<RecommendationRequest> mSentRequestList;
     private List<Introducer> mIntroducerList;
 
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
     private RecyclerView mRecyclerView;
     private TextView mEmptyListTextView;
     private RelativeLayout mCompleteIntroducerHeaderLayout;
@@ -94,7 +94,7 @@ public class IntroducerFragment extends ProgressFragment implements HttpResponse
         mIntroducerStatusTextView = (TextView) v.findViewById(R.id.intoduce_status);
         mAskForRecommendation = (ImageView) v.findViewById(R.id.ask_for_recommendation);
 
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
 
         mIntroduceAdapter = new IntroduceAdapter();
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -142,7 +142,6 @@ public class IntroducerFragment extends ProgressFragment implements HttpResponse
     private void sendRecommendationRequest(String mobileNumber) {
         if (mAskForRecommendationTask != null) return;
 
-        mProgressDialog.setMessage(getString(R.string.progress_dialog_send_for_recommendation));
         mProgressDialog.show();
         mAskForRecommendationTask = new HttpRequestPostAsyncTask(Constants.COMMAND_ASK_FOR_RECOMMENDATION,
                 Constants.BASE_URL_MM + Constants.URL_ASK_FOR_INTRODUCTION + mobileNumber, null, getActivity(), false);

@@ -4,13 +4,17 @@ package bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill;
 public class DpdcCustomerInfoResponse {
     private String name;
     private String accountNumber;
-    private String billMonth;
-    private String billStatus;
-    private String principalAmount;
+    private String billAmount;
     private String vatAmount;
-    private String totalBillAmount;
+    private String stampAmount;
+    private String totalAmount;
+    private String dueDate;
     private String billNumber;
     private String message;
+    private String transactionId;
+    private String outReferenceId;
+    private String zoneCode;
+
 
     public String getName() {
         return name;
@@ -28,30 +32,6 @@ public class DpdcCustomerInfoResponse {
         this.accountNumber = accountNumber;
     }
 
-    public String getBillMonth() {
-        return billMonth;
-    }
-
-    public void setBillMonth(String billMonth) {
-        this.billMonth = billMonth;
-    }
-
-    public String getBillStatus() {
-        return billStatus;
-    }
-
-    public void setBillStatus(String billStatus) {
-        this.billStatus = billStatus;
-    }
-
-    public String getPrincipalAmount() {
-        return principalAmount;
-    }
-
-    public void setPrincipalAmount(String principalAmount) {
-        this.principalAmount = principalAmount;
-    }
-
     public String getVatAmount() {
         return vatAmount;
     }
@@ -60,12 +40,28 @@ public class DpdcCustomerInfoResponse {
         this.vatAmount = vatAmount;
     }
 
-    public String getTotalBillAmount() {
-        return totalBillAmount;
+    public String getStampAmount() {
+        return stampAmount;
     }
 
-    public void setTotalBillAmount(String totalBillAmount) {
-        this.totalBillAmount = totalBillAmount;
+    public void setStampAmount(String stampAmount) {
+        this.stampAmount = stampAmount;
+    }
+
+    public String getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(String totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public String getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
     }
 
     public String getBillNumber() {
@@ -78,5 +74,41 @@ public class DpdcCustomerInfoResponse {
 
     public String getMessage() {
         return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getBillAmount() {
+        return billAmount;
+    }
+
+    public void setBillAmount(String billAmount) {
+        this.billAmount = billAmount;
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
+    }
+
+    public String getOutReferenceId() {
+        return outReferenceId;
+    }
+
+    public void setOutReferenceId(String outReferenceId) {
+        this.outReferenceId = outReferenceId;
+    }
+
+    public String getZoneCode() {
+        return zoneCode;
+    }
+
+    public void setZoneCode(String zoneCode) {
+        this.zoneCode = zoneCode;
     }
 }

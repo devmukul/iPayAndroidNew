@@ -1,7 +1,6 @@
 package bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,12 +28,14 @@ import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.BaseFragments.BaseFragment;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.BanglalionPackageSelectorDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomPinCheckerWithInputDialog;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.AnimatedProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.OTPVerificationForTwoFactorAuthenticationServicesDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.BusinessRuleAndServiceCharge.BusinessRule.BusinessRuleV2;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.BusinessRuleAndServiceCharge.BusinessRule.MandatoryBusinessRules;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.BusinessRuleAndServiceCharge.BusinessRule.Rule;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.GenericResponseWithMessageOnly;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.AllowablePackage;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.BanglalionBillPayRequest;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.BanglalionBillPayResponse;
@@ -82,8 +83,8 @@ public class BanglalionBillPayFragment extends BaseFragment implements HttpRespo
     private Button mContinue;
 
     private List<AllowablePackage> mAllowedPackage;
-    private ProgressDialog mProgressDialog;
-    private CustomProgressDialog mCustomProgressDialog;
+    private CustomProgressDialog mProgressDialog;
+    private AnimatedProgressDialog mCustomProgressDialog;
 
     private String mCunnectionType = "";
     private int mAmount;
@@ -96,8 +97,7 @@ public class BanglalionBillPayFragment extends BaseFragment implements HttpRespo
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mProgressDialog = new ProgressDialog(getActivity());
-        mProgressDialog.setMessage(getString(R.string.progress_dialog_fetching_customer_info));
+        mProgressDialog = new CustomProgressDialog(getActivity());
     }
 
     @Nullable
@@ -184,8 +184,8 @@ public class BanglalionBillPayFragment extends BaseFragment implements HttpRespo
         mErrorTextView = v.findViewById(R.id.errortext);
 
         mPayBillButton = v.findViewById(R.id.bill_pay_button);
-        mContinue = v.findViewById(R.id.continue_button);
-        mCustomProgressDialog = new CustomProgressDialog(getContext());
+        mContinue = v.findViewById(R.id.button_send_money);
+        mCustomProgressDialog = new AnimatedProgressDialog(getContext());
 
         UtilityBillPaymentActivity.mMandatoryBusinessRules = BusinessRuleCacheManager.getBusinessRules(Constants.UTILITY_BILL_PAYMENT);
     }
@@ -194,7 +194,6 @@ public class BanglalionBillPayFragment extends BaseFragment implements HttpRespo
         if (mGetCustomerInfoTask != null) {
             return;
         }
-        mProgressDialog.setMessage(getString(R.string.progress_dialog_fetching_customer_info));
         mProgressDialog.show();
         mCustomerId = mCustomerIdEditText.getText().toString();
         mGetCustomerInfoTask = new HttpRequestGetAsyncTask(Constants.COMMAND_GET_BANGLALION_CUSTOMER_INFO,
@@ -244,7 +243,6 @@ public class BanglalionBillPayFragment extends BaseFragment implements HttpRespo
             return;
         mBanglalionBillPayRequestModel = new BanglalionBillPayRequest(mCustomerId, mAmount, pin);
 
-        mCustomProgressDialog.setLoadingMessage(getString(R.string.progress_dialog_bill_payment_in_progress));
         mCustomProgressDialog.showDialog();
         Gson gson = new Gson();
         String json = gson.toJson(mBanglalionBillPayRequestModel);
@@ -386,11 +384,20 @@ public class BanglalionBillPayFragment extends BaseFragment implements HttpRespo
 
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
-        if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
+        if (HttpErrorHandler.isErrorFoundWithout404(result, getContext(), mProgressDialog)) {
             mProgressDialog.dismiss();
             mGetCustomerInfoTask = null;
             mGetBusinessRuleTask = null;
             mBanglalionBillPayTask = null;
+            if (result != null && result.getStatus() == Constants.HTTP_RESPONSE_STATUS_NOT_FOUND) {
+                try {
+                    GenericResponseWithMessageOnly genericResponseWithMessageOnly = new Gson().
+                            fromJson(result.getJsonString(), GenericResponseWithMessageOnly.class);
+                    Utilities.showErrorDialog(getContext(), genericResponseWithMessageOnly.getMessage());
+                } catch (Exception e) {
+                    Utilities.showErrorDialog(getContext(), getString(R.string.not_found));
+                }
+            }
             return;
         }
 
@@ -400,7 +407,9 @@ public class BanglalionBillPayFragment extends BaseFragment implements HttpRespo
 
         switch (result.getApiCommand()) {
             case Constants.COMMAND_GET_BANGLALION_CUSTOMER_INFO:
-                GetCustomerInfoResponse mCustomerInfoResponse;
+                mProgressDialog.dismiss();
+                mCustomProgressDialog.dismissDialog();
+                GetCustomerInfoResponse mCustomerInfoResponse = null;
                 switch (result.getStatus()) {
                     case Constants.HTTP_RESPONSE_STATUS_OK:
                         try {
@@ -432,8 +441,11 @@ public class BanglalionBillPayFragment extends BaseFragment implements HttpRespo
                         }
                         break;
                     default:
-                        if (getActivity() != null)
-                            Toaster.makeText(getActivity(), R.string.fetch_info_failed, Toast.LENGTH_LONG);
+                        if (!TextUtils.isEmpty(mCustomerInfoResponse.getMessage())) {
+                            Utilities.showErrorDialog(getContext(), mCustomerInfoResponse.getMessage());
+                        } else {
+                            Utilities.showErrorDialog(getContext(), getString(R.string.service_not_available));
+                        }
                         break;
                 }
                 break;

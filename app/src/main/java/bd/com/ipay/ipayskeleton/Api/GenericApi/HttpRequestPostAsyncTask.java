@@ -17,6 +17,8 @@ public class HttpRequestPostAsyncTask extends HttpRequestAsyncTask {
     private String pinAsHeader;
     private String otpAsHeader;
 
+    private long sponsorAccountId;
+
     public HttpRequestPostAsyncTask(String API_COMMAND, String mUri, String mJsonString,
                                     Context mContext, HttpResponseListener listener, boolean isSilent) {
         super(API_COMMAND, mUri, mContext, listener, isSilent);
@@ -41,6 +43,14 @@ public class HttpRequestPostAsyncTask extends HttpRequestAsyncTask {
 
     public void setOtpAsHeader(String otpAsHeader) {
         this.otpAsHeader = otpAsHeader;
+    }
+
+    public long getSponsorAccountId() {
+        return sponsorAccountId;
+    }
+
+    public void setSponsorAccountId(long sponsorAccountId) {
+        this.sponsorAccountId = sponsorAccountId;
     }
 
     @Override
@@ -68,6 +78,9 @@ public class HttpRequestPostAsyncTask extends HttpRequestAsyncTask {
         }
         if (this.otpAsHeader != null && !this.otpAsHeader.isEmpty()) {
             requestBuilder.header(Constants.X_IPAY_OTP, otpAsHeader);
+        }
+        if (this.sponsorAccountId >0) {
+            requestBuilder.header(Constants.SPONSOR_ACCOUNT_ID_AS_HEADER, Long.toString(sponsorAccountId));
         }
         if (TokenManager.getOnAccountId() != null && TokenManager.getOnAccountId() != "") {
             requestBuilder.header(Constants.OPERATING_ON_ACCOUNT_ID, TokenManager.getOnAccountId());

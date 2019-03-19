@@ -14,14 +14,28 @@
         android:orientation="horizontal"
         tools:ignore="SmallSp">
 
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/transaction_image_view"
-            android:layout_width="@dimen/value48"
-            android:layout_height="@dimen/value48"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            app:riv_oval="true"
-            tools:src="@drawable/ic_transaction_ipaylogo" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/transaction_image_view"
+                android:layout_width="@dimen/value48"
+                android:layout_height="@dimen/value48"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                app:riv_oval="true"
+                tools:src="@drawable/ic_transaction_ipaylogo" />
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/sponsor_or_beneficiary_image"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignEnd="@+id/transaction_image_view"
+                android:layout_alignRight="@+id/transaction_image_view"
+                android:layout_alignBottom="@+id/transaction_image_view"
+                app:riv_oval="true" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -105,6 +119,18 @@
                     android:textColor="@color/colorPaymentReviewNoteText"
                     android:textSize="11sp"
                     tools:text="@string/dummy_amount" />
+
+                <TextView
+                    android:id="@+id/sponsor_or_beneficiary_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/receiver_name_text_view"
+                    android:fontFamily="sans-serif"
+                    android:textColor="#333333"
+                    android:textSize="12sp"
+                    android:textStyle="normal"
+                    android:visibility="gone"
+                    tools:text="Paid by: Arifur Rahman" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
@@ -114,6 +140,5 @@
         android:layout_height="1dip"
         android:layout_marginStart="64dip"
         android:layout_marginLeft="64dip"
-        android:layout_marginTop="@dimen/activity_horizontal_margin_card"
         android:background="@color/divider_gray" />
 </LinearLayout>

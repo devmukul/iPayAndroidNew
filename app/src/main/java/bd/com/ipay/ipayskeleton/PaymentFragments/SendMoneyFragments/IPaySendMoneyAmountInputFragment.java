@@ -40,7 +40,7 @@ public class IPaySendMoneyAmountInputFragment extends IPayAbstractAmountFragment
 
 	@Override
 	protected void setupViewProperties() {
-		setTransactionDescription(getString(R.string.send_money_to));
+		hideTransactionDescription();
 		setName(name);
 		setUserName(mobileNumber);
 		setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_CLASS_NUMBER);

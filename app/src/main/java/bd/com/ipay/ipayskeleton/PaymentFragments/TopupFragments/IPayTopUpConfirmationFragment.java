@@ -105,8 +105,6 @@ public class IPayTopUpConfirmationFragment extends IPayAbstractTransactionConfir
 					uri, json, getActivity(), this, false);
 			topupRequestTask.setPinAsHeader(getPin());
 			topupRequestTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-			customProgressDialog.setTitle(getString(R.string.please_wait_no_ellipsis));
-			customProgressDialog.setLoadingMessage(getString(R.string.progress_dialog_processing));
 			customProgressDialog.showDialog();
 		}
 	}

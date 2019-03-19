@@ -2,7 +2,6 @@ package bd.com.ipay.ipayskeleton.PaymentFragments.RequestPaymentFragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
@@ -28,6 +27,7 @@ import bd.com.ipay.ipayskeleton.Activities.PaymentActivities.RequestPaymentActiv
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.AnimatedProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.OTPVerificationForTwoFactorAuthenticationServicesDialog;
 import bd.com.ipay.ipayskeleton.CustomView.ProfileImageView;
@@ -47,7 +47,7 @@ public class RequestPaymentReviewFragment extends ReviewFragment implements Http
 
     private SendNewPaymentRequest mSendNewPaymentRequest;
 
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
     private OTPVerificationForTwoFactorAuthenticationServicesDialog mOTPVerificationForTwoFactorAuthenticationServicesDialog;
 
     private String mReceiverMobileNumber;
@@ -63,7 +63,7 @@ public class RequestPaymentReviewFragment extends ReviewFragment implements Http
     private View mServiceChargeViewHolder;
 
     private Context mContext;
-    private CustomProgressDialog mCustomProgressDialog;
+    private AnimatedProgressDialog mCustomProgressDialog;
 
     private Tracker mTracker;
 
@@ -76,11 +76,10 @@ public class RequestPaymentReviewFragment extends ReviewFragment implements Http
         mAmount = new BigDecimal(getActivity().getIntent().getStringExtra(Constants.AMOUNT));
         mReceiverName = getArguments().getString(Constants.NAME);
         mPhotoUri = getArguments().getString(Constants.PHOTO_URI);
-
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
 
         mContext = getContext();
-        mCustomProgressDialog = new CustomProgressDialog(mContext);
+        mCustomProgressDialog = new AnimatedProgressDialog(mContext);
 
         mTracker = Utilities.getTracker(getActivity());
     }
@@ -192,8 +191,6 @@ public class RequestPaymentReviewFragment extends ReviewFragment implements Http
         if (mSendPaymentRequestTask != null) {
             return;
         }
-
-        mCustomProgressDialog.setLoadingMessage(getString(R.string.progress_dialog_sending_payment_request));
         mCustomProgressDialog.showDialog();
         mSendNewPaymentRequest = new SendNewPaymentRequest(mAmount, mReceiverMobileNumber, mDescription, null, null);
         Gson gson = new Gson();

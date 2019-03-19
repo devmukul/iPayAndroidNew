@@ -1,6 +1,5 @@
 package bd.com.ipay.ipayskeleton.HomeFragments;
 
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,12 +30,14 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import bd.com.ipay.ipayskeleton.Activities.RichNotificationDetailsActivity;
 import bd.com.ipay.ipayskeleton.Activities.WebViewActivity;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestGetAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPutAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.CustomView.CustomSwipeRefreshLayout;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.ProfileImageView;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.DeepLinkedNotification;
@@ -45,7 +46,6 @@ import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UpdateNotificationRespon
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UpdateNotificationStateRequest;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
-import bd.com.ipay.ipayskeleton.Utilities.DeepLinkAction;
 import bd.com.ipay.ipayskeleton.Utilities.Utilities;
 
 public class NotificationDeeplinkedFragment extends ProgressFragment implements HttpResponseListener {
@@ -71,7 +71,7 @@ public class NotificationDeeplinkedFragment extends ProgressFragment implements 
     private HttpRequestGetAsyncTask mGetNotificationAsyncTask;
     private HttpRequestPutAsyncTask mUpdateNotificationStateTask;
 
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
 
     private NotificationBroadcastReceiver notificationBroadcastReceiver;
     private Tracker mTracker;
@@ -91,7 +91,6 @@ public class NotificationDeeplinkedFragment extends ProgressFragment implements 
 
         mSwipeRefreshLayout = (CustomSwipeRefreshLayout) v.findViewById(R.id.swipe_refresh_layout);
         mNotificationsRecyclerView = (RecyclerView) v.findViewById(R.id.list_notification);
-        mProgressDialog = new ProgressDialog(getActivity());
         mEmptyListTextView = (TextView) v.findViewById(R.id.empty_list_text);
         if (mEmptyListTextView != null) {
             mEmptyListTextView.setText("You do not have any notifications");
@@ -100,7 +99,7 @@ public class NotificationDeeplinkedFragment extends ProgressFragment implements 
         mLayoutManager = new LinearLayoutManager(getActivity());
         mNotificationsRecyclerView.setLayoutManager(mLayoutManager);
         mNotificationsRecyclerView.setAdapter(mNotificationListAdapter);
-        mProgressDialog = new ProgressDialog(getContext());
+        mProgressDialog = new CustomProgressDialog(getContext());
         getNotifications();
 
         mSwipeRefreshLayout.setOnRefreshListener(new CustomSwipeRefreshLayout.OnRefreshListener() {
@@ -222,12 +221,11 @@ public class NotificationDeeplinkedFragment extends ProgressFragment implements 
                         GetDeepLinkedNotificationResponse getDeepLinkedNotificationResponse = new Gson().
                                 fromJson(result.getJsonString(), GetDeepLinkedNotificationResponse.class);
                         List<DeepLinkedNotification> deepLinkedNotifications = getDeepLinkedNotificationResponse.getNotificationList();
-                        if(deepLinkedNotifications != null && deepLinkedNotifications.size()>0) {
+                        if (deepLinkedNotifications != null && deepLinkedNotifications.size() > 0) {
                             checkNotificationStatusAndUpdate(deepLinkedNotifications);
                             loadNotifications(deepLinkedNotifications, getDeepLinkedNotificationResponse.isHasNext());
-                        }
-                        else{
-                            if(mDeepLinkedNotifications == null || mDeepLinkedNotifications.size() == 0){
+                        } else {
+                            if (mDeepLinkedNotifications == null || mDeepLinkedNotifications.size() == 0) {
                                 mEmptyListTextView.setVisibility(View.VISIBLE);
                             }
                         }
@@ -308,7 +306,6 @@ public class NotificationDeeplinkedFragment extends ProgressFragment implements 
             boolean isSilent = true;
             if (state.toUpperCase().equals("CLEARED")) {
                 isSilent = false;
-                mProgressDialog.setMessage("Please wait");
                 mProgressDialog.show();
             }
             UpdateNotificationStateRequest updateNotificationStateRequest = new UpdateNotificationStateRequest(timeList, state.toUpperCase());
@@ -384,22 +381,33 @@ public class NotificationDeeplinkedFragment extends ProgressFragment implements 
                     @Override
                     public void onClick(View view) {
                         Uri uri = Uri.parse(mDeepLinkedNotifications.get(pos).getDeepLink());
-                        DeepLinkAction deepLinkAction;
+                        List<Long> timeList = new ArrayList<>();
+                        timeList.clear();
+                        timeList.add(mDeepLinkedNotifications.get(pos).getTime());
+                        updateNotificationState(timeList, "VISITED");
                         try {
-                            List<Long> timeList = new ArrayList<>();
-                            timeList.clear();
-                            timeList.add(mDeepLinkedNotifications.get(pos).getTime());
-                            updateNotificationState(timeList, "VISITED");
-                            Intent intent = new Intent(getActivity(), WebViewActivity.class);
-                            intent.putExtra("url", mDeepLinkedNotifications.get(pos).getDeepLink());
-                            intent.putExtra("sourceActivity", "Notification");
-                            startActivity(intent);
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    notificationHolderLayout.setBackgroundColor(getResources().getColor(R.color.colorWhite));
-                                }
-                            }, 500);
+                            DeepLinkedNotification deepLinkedNotification = mDeepLinkedNotifications.get(pos);
+                            if (deepLinkedNotification.getMeta() == null ||
+                                    deepLinkedNotification.getMeta().getImageUrl() == null||
+                                    deepLinkedNotification.getMeta().getImageUrl().equals("")) {
+                                Intent intent = new Intent(getActivity(), WebViewActivity.class);
+                                intent.putExtra("url", mDeepLinkedNotifications.get(pos).getDeepLink());
+                                intent.putExtra("sourceActivity", "Notification");
+                                startActivity(intent);
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        notificationHolderLayout.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+                                    }
+                                }, 500);
+                            } else {
+                                Intent intent = new Intent(getContext(), RichNotificationDetailsActivity.class);
+                                intent.putExtra(Constants.TITLE, deepLinkedNotification.getTitle());
+                                intent.putExtra(Constants.DESCRIPTION, deepLinkedNotification.getMeta().getDescription());
+                                intent.putExtra(Constants.DEEP_LINK, deepLinkedNotification.getDeepLink());
+                                intent.putExtra(Constants.IMAGE_URL, deepLinkedNotification.getMeta().getImageUrl());
+                                startActivity(intent);
+                            }
 
                         } catch (Exception e) {
                             e.printStackTrace();

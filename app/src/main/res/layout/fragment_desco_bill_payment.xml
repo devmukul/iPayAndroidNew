@@ -7,12 +7,14 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/continue_button"
-        android:padding="@dimen/activity_horizontal_margin">
+        android:layout_above="@+id/button_send_money"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:animateLayoutChanges="true"
             android:gravity="center"
             android:orientation="vertical"
@@ -40,11 +42,12 @@
                     <EditText
                         android:id="@+id/customer_id_edit_text"
                         style="@style/CustomEditText"
+                        android:gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="0dp"
                         android:layout_marginRight="0dp"
-                        android:hint="Desco bill number"
+                        android:hint="@string/desco_bill_number"
                         android:inputType="text"
                         android:maxLines="1" />
                 </android.support.design.widget.TextInputLayout>
@@ -61,8 +64,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp"
-                    android:gravity="left"
+                    android:gravity="center"
                     android:text="@string/desco_bill_pay_message" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -91,17 +95,77 @@
                     <TextView
                         android:id="@+id/account_number_view"
                         android:layout_width="0dp"
-                        android:gravity="right"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:gravity="right"
                         android:text="" />
                 </LinearLayout>
 
                 <View
                     style="@style/Divider"
-                    android:layout_marginBottom="@dimen/value8"
                     android:layout_marginLeft="0dp"
-                    android:layout_marginRight="0dp" />
+                    android:layout_marginRight="0dp"
+                    android:layout_marginBottom="@dimen/value8" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/value8"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="@string/transaction_id" />
+
+                    <TextView
+                        android:id="@+id/transaction_id_view"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="" />
+                </LinearLayout>
+
+                <View
+                    style="@style/Divider"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginBottom="@dimen/value8"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/value8"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="@string/zone_code" />
+
+                    <TextView
+                        android:id="@+id/zone_code_view"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="" />
+                </LinearLayout>
+
+                <View
+                    style="@style/Divider"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginBottom="@dimen/value8" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -119,18 +183,18 @@
                     <TextView
                         android:id="@+id/due_date_view"
                         android:layout_width="0dp"
-                        android:gravity="right"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:gravity="right"
                         android:text="" />
                 </LinearLayout>
 
 
                 <View
                     style="@style/Divider"
-                    android:layout_marginBottom="@dimen/value8"
                     android:layout_marginLeft="0dp"
-                    android:layout_marginRight="0dp" />
+                    android:layout_marginRight="0dp"
+                    android:layout_marginBottom="@dimen/value8" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -148,24 +212,22 @@
                     <TextView
                         android:id="@+id/bill_number_view"
                         android:layout_width="0dp"
-                        android:gravity="right"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:gravity="right"
                         android:text="" />
                 </LinearLayout>
 
                 <View
                     style="@style/Divider"
-                    android:layout_marginBottom="@dimen/value8"
                     android:layout_marginLeft="0dp"
-                    android:visibility="gone"
-                    android:layout_marginRight="0dp" />
+                    android:layout_marginRight="0dp"
+                    android:layout_marginBottom="@dimen/value8" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/value8"
-                    android:visibility="gone"
                     android:orientation="horizontal"
                     android:weightSum="2">
 
@@ -173,29 +235,28 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="@string/net_amount" />
+                        android:text="@string/bill_amount" />
 
                     <TextView
-                        android:id="@+id/net_amount_view"
+                        android:id="@+id/bill_amount_view"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:gravity="right"
                         android:text="" />
                 </LinearLayout>
 
                 <View
                     style="@style/Divider"
-                    android:layout_marginBottom="@dimen/value8"
                     android:layout_marginLeft="0dp"
-                    android:visibility="gone"
-                    android:layout_marginRight="0dp" />
+                    android:layout_marginRight="0dp"
+                    android:layout_marginBottom="@dimen/value8" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/value8"
                     android:orientation="horizontal"
-                    android:visibility="gone"
                     android:weightSum="2">
 
                     <TextView
@@ -209,14 +270,15 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:gravity="right"
                         android:text="" />
                 </LinearLayout>
 
                 <View
                     style="@style/Divider"
-                    android:layout_marginBottom="@dimen/value8"
                     android:layout_marginLeft="0dp"
-                    android:layout_marginRight="0dp" />
+                    android:layout_marginRight="0dp"
+                    android:layout_marginBottom="@dimen/value8" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -229,22 +291,50 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="@string/ipc" />
+                        android:text="@string/stamp_amount" />
 
                     <TextView
-                        android:id="@+id/ipc_view"
+                        android:id="@+id/stamp_amount_view"
                         android:layout_width="0dp"
-                        android:gravity="right"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:gravity="right"
                         android:text="" />
                 </LinearLayout>
 
                 <View
                     style="@style/Divider"
-                    android:layout_marginBottom="@dimen/value8"
                     android:layout_marginLeft="0dp"
-                    android:layout_marginRight="0dp" />
+                    android:layout_marginRight="0dp"
+                    android:layout_marginBottom="@dimen/value8" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/value8"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="@string/lpc" />
+
+                    <TextView
+                        android:id="@+id/lpc_amount_view"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="" />
+                </LinearLayout>
+
+                <View
+                    style="@style/Divider"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginBottom="@dimen/value8" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -262,22 +352,23 @@
                     <TextView
                         android:id="@+id/total_amount_view"
                         android:layout_width="0dp"
-                        android:gravity="right"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:gravity="right"
                         android:text="" />
                 </LinearLayout>
 
                 <View
                     style="@style/Divider"
-                    android:layout_marginBottom="@dimen/value8"
                     android:layout_marginLeft="0dp"
-                    android:layout_marginRight="0dp" />
+                    android:layout_marginRight="0dp"
+                    android:layout_marginBottom="@dimen/value8" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:visibility="gone"
                     android:weightSum="2">
 
                     <TextView
@@ -289,9 +380,9 @@
                     <TextView
                         android:id="@+id/bill_status_view"
                         android:layout_width="0dp"
-                        android:gravity="right"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:gravity="right"
                         android:text="" />
                 </LinearLayout>
             </LinearLayout>
@@ -299,7 +390,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/continue_button"
+        android:id="@+id/button_send_money"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

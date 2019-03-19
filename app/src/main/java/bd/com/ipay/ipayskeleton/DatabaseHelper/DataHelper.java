@@ -125,7 +125,7 @@ public class DataHelper {
             SQLiteDatabase db = dOpenHelper.getWritableDatabase();
             db.beginTransaction();
             try {
-	            db.execSQL("DELETE FROM " + DBConstants.DB_TABLE_BUSINESS_ACCOUNTS);
+                db.execSQL("DELETE FROM " + DBConstants.DB_TABLE_BUSINESS_ACCOUNTS);
                 for (BusinessAccountEntry mBusinessAccountEntry : businessAccountEntries) {
                     ContentValues values = new ContentValues();
                     values.put(DBConstants.KEY_BUSINESS_MOBILE_NUMBER, mBusinessAccountEntry.getMobileNumber());
@@ -308,7 +308,7 @@ public class DataHelper {
 
             String queryString = "SELECT * FROM " + DBConstants.DB_TABLE_BUSINESS_ACCOUNTS
                     + " WHERE (" + DBConstants.KEY_BUSINESS_NAME + " LIKE '%" + query + "%'"
-                    +  ")" + " ORDER BY " + DBConstants.KEY_BUSINESS_NAME
+                    + ")" + " ORDER BY " + DBConstants.KEY_BUSINESS_NAME
                     + " COLLATE NOCASE";
 
             Logger.logW("Query", queryString);
@@ -326,6 +326,77 @@ public class DataHelper {
         return cursor;
     }
 
+    public Cursor searchPersonalContacts(String query, boolean memberOnly, boolean personalUserOnly, boolean nonMemberOnly,
+                                         boolean verifiedOnly, boolean invitedOnly, boolean nonInvitedOnly, List<String> invitees) {
+        Cursor cursor = null;
+
+        try {
+            SQLiteDatabase db = dOpenHelper.getReadableDatabase();
+
+            String queryString = "SELECT * FROM " + DBConstants.DB_TABLE_CONTACTS
+                    + " WHERE (" + DBConstants.KEY_NAME + " LIKE '%" + query + "%'"
+                    + " OR " + DBConstants.KEY_MOBILE_NUMBER + " LIKE '%" + query + "%'"
+                    + " OR " + DBConstants.KEY_ORIGINAL_NAME + " LIKE '%" + query + "%')";
+
+            // Get Verified Users
+            if (verifiedOnly)
+                queryString += " AND " + DBConstants.KEY_VERIFICATION_STATUS + " = " + DBConstants.VERIFIED_USER;
+
+            // Get iPay Users
+            if (memberOnly)
+                queryString += " AND " + DBConstants.KEY_IS_MEMBER + " = " + DBConstants.IPAY_MEMBER;
+
+            // Get iPay Business Users
+            if (personalUserOnly)
+                queryString += " AND " + DBConstants.KEY_IS_MEMBER + " = " + DBConstants.IPAY_MEMBER + " AND " + DBConstants.KEY_ACCOUNT_TYPE + " = " + DBConstants.PERSONAL_USER;
+
+            // Get Non-iPay Users
+            if (nonMemberOnly)
+                queryString += " AND " + DBConstants.KEY_IS_MEMBER + " != " + DBConstants.IPAY_MEMBER;
+
+            if (invitees != null) {
+                List<String> quotedInvitees = new ArrayList<>();
+                for (String invitee : invitees) {
+                    quotedInvitees.add("'" + invitee + "'");
+                }
+
+                String inviteeListStr = "(" + TextUtils.join(", ", quotedInvitees) + ")";
+
+                if (invitedOnly) {
+                    // Get invited users
+                    queryString += " AND " + DBConstants.KEY_MOBILE_NUMBER + " IN " + inviteeListStr;
+                }
+
+                if (nonInvitedOnly) {
+                    // Get invited users
+                    queryString += " AND " + DBConstants.KEY_MOBILE_NUMBER + " NOT IN " + inviteeListStr;
+                }
+            }
+            // Select only active contacts
+            queryString += " AND " + DBConstants.KEY_IS_ACTIVE + " = " + DBConstants.ACTIVE;
+
+            // If original name exists, then user original name as the sorting parameter.
+            // Otherwise use normal name as the sorting parameter.
+            queryString += " ORDER BY CASE "
+                    + "WHEN (" + DBConstants.KEY_ORIGINAL_NAME + " IS NULL OR " + DBConstants.KEY_ORIGINAL_NAME + " = '')"
+                    + " THEN " + DBConstants.KEY_NAME
+                    + " ELSE "
+                    + DBConstants.KEY_ORIGINAL_NAME + " END COLLATE NOCASE";
+
+            Logger.logW("Query", queryString);
+
+            cursor = db.rawQuery(queryString, null);
+
+            if (cursor != null) {
+                cursor.getCount();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return cursor;
+    }
+
 
     public Cursor searchBusinessAccountsByMobile(String query) {
         Cursor cursor = null;
@@ -335,7 +406,7 @@ public class DataHelper {
 
             String queryString = "SELECT * FROM " + DBConstants.DB_TABLE_BUSINESS_ACCOUNTS
                     + " WHERE (" + DBConstants.KEY_BUSINESS_MOBILE_NUMBER + " LIKE '%" + query + "%'"
-                    +  ")" + " ORDER BY " + DBConstants.KEY_BUSINESS_NAME
+                    + ")" + " ORDER BY " + DBConstants.KEY_BUSINESS_NAME
                     + " COLLATE NOCASE";
 
             Logger.logW("Query", queryString);

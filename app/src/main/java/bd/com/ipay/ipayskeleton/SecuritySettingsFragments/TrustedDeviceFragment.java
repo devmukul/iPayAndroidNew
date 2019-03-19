@@ -1,6 +1,5 @@
 package bd.com.ipay.ipayskeleton.SecuritySettingsFragments;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,6 +28,7 @@ import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.Aspect.ValidateAccess;
 import bd.com.ipay.ipayskeleton.CustomView.CustomSwipeRefreshLayout;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomSelectorDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.TrustedDevice.GetTrustedDeviceResponse;
@@ -56,7 +56,7 @@ public class TrustedDeviceFragment extends ProgressFragment implements HttpRespo
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView mTrustedDevicesRecyclerView;
 
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
     private Tracker mTracker;
 
     @Override
@@ -79,7 +79,7 @@ public class TrustedDeviceFragment extends ProgressFragment implements HttpRespo
 
         mSwipeRefreshLayout = (CustomSwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mTrustedDevicesRecyclerView = (RecyclerView) view.findViewById(R.id.list_trusted_devices);
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
 
         return view;
     }
@@ -131,8 +131,6 @@ public class TrustedDeviceFragment extends ProgressFragment implements HttpRespo
     private void removeTrustedDevice(long id) {
         if (mRemoveTrustedDeviceTask != null)
             return;
-
-        mProgressDialog.setMessage(getString(R.string.remove_trusted_device_message));
         mProgressDialog.show();
 
         mRemoveTrustedDeviceTask = new HttpRequestDeleteAsyncTask(Constants.COMMAND_REMOVE_TRUSTED_DEVICE,
@@ -188,8 +186,6 @@ public class TrustedDeviceFragment extends ProgressFragment implements HttpRespo
                     if (getActivity() != null) {
                         Toast.makeText(getActivity(), R.string.success_device_removed, Toast.LENGTH_LONG).show();
                     }
-
-                    mProgressDialog.setMessage(getString(R.string.progress_dialog_loading_trusted_devices));
                     mProgressDialog.show();
 
                     getTrustedDeviceList();

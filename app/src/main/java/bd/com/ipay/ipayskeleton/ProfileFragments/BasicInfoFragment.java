@@ -1,6 +1,5 @@
 package bd.com.ipay.ipayskeleton.ProfileFragments;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,6 +22,7 @@ import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestGetAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.Aspect.ValidateAccess;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.BasicInfo.GetParentInfoResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.BasicInfo.GetProfileInfoResponse;
@@ -52,7 +52,7 @@ public class BasicInfoFragment extends ProgressFragment implements HttpResponseL
 
     private List<Occupation> mOccupationList;
 
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
 
     private TextView mNameView;
     private TextView mMobileNumberView;
@@ -130,7 +130,7 @@ public class BasicInfoFragment extends ProgressFragment implements HttpResponseL
         mSignUpTimeView = (TextView) view.findViewById(R.id.textview_signup);
         mMobileNumber = ProfileInfoCacheManager.getMobileNumber();
         mDateOfBirth = ProfileInfoCacheManager.getBirthday();
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
         mContactEditButton = (ImageButton) view.findViewById(R.id.button_edit_contact_information);
         mParentInfoEditButton = (ImageButton) view.findViewById(R.id.button_edit_parent_information);
         mUserInformationHolder = view.findViewById(R.id.user_information_holder);

@@ -1,6 +1,5 @@
 package bd.com.ipay.ipayskeleton.Activities.PaymentActivities;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,6 +13,7 @@ import bd.com.ipay.ipayskeleton.Activities.BaseActivity;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestGetAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.HomeFragments.TransactionHistoryFragments.TransactionDetailsFragment;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.TransactionHistory.SingleTransactionHistoryRequest;
@@ -30,13 +30,14 @@ public class TransactionDetailsActivity extends BaseActivity implements HttpResp
     private int status;
     private String requestID = null;
 
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog = new CustomProgressDialog(this);
+
 
         setContentView(R.layout.activity_transaction_details);
         status = getIntent().getIntExtra(Constants.STATUS, 0);
@@ -74,7 +75,6 @@ public class TransactionDetailsActivity extends BaseActivity implements HttpResp
         if (mTransactionHistoryTask != null) {
             return;
         }
-        mProgressDialog.setMessage(getString(R.string.loading));
         mProgressDialog.show();
 
         SingleTransactionHistoryRequest mTransactionHistoryRequest;
@@ -110,7 +110,6 @@ public class TransactionDetailsActivity extends BaseActivity implements HttpResp
                         Bundle bundle = new Bundle();
                         bundle.putParcelable(Constants.TRANSACTION_DETAILS, transactionHistory);
                         transactionDetailsFragment.setArguments(bundle);
-
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, transactionDetailsFragment).commit();
                     }
 

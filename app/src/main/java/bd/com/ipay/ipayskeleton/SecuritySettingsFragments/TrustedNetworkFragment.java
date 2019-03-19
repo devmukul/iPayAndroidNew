@@ -1,6 +1,5 @@
 package bd.com.ipay.ipayskeleton.SecuritySettingsFragments;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -33,6 +31,7 @@ import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestGetAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.Aspect.ValidateAccess;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomSelectorDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.PasswordInputDialogBuilder;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
@@ -65,7 +64,7 @@ public class TrustedNetworkFragment extends ProgressFragment implements HttpResp
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private TextView mEmptyListTextView;
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
     private Tracker mTracker;
 
     @Override
@@ -75,12 +74,6 @@ public class TrustedNetworkFragment extends ProgressFragment implements HttpResp
         mTracker = Utilities.getTracker(getActivity());
     }
 
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        if (menu.findItem(R.id.action_search_contacts) != null)
-            menu.findItem(R.id.action_search_contacts).setVisible(false);
-    }
 
     @Nullable
     @Override
@@ -93,7 +86,7 @@ public class TrustedNetworkFragment extends ProgressFragment implements HttpResp
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh_layout);
 
         mEmptyListTextView = (TextView) v.findViewById(R.id.empty_list_text);
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
 
         mTrustedPersonListAdapter = new TrustedPersonListAdapter();
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -200,7 +193,6 @@ public class TrustedNetworkFragment extends ProgressFragment implements HttpResp
         if (mRemoveTrustedPersonTask != null)
             return;
 
-        mProgressDialog.setMessage(getString(R.string.remove_trusted_person_message));
         mProgressDialog.show();
 
         DeleteTrustedPersonRequest deleteTrustedPersonRequest = new DeleteTrustedPersonRequest(personID,
@@ -257,8 +249,6 @@ public class TrustedNetworkFragment extends ProgressFragment implements HttpResp
                     if (getActivity() != null) {
                         Toast.makeText(getActivity(), R.string.success_remove, Toast.LENGTH_LONG).show();
                     }
-
-                    mProgressDialog.setMessage(getString(R.string.progress_dialog_loading_trusted_devices));
                     mProgressDialog.show();
 
                     getTrustedPersons();

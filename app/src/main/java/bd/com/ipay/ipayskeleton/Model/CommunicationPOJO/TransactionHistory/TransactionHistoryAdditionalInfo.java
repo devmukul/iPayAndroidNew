@@ -43,7 +43,7 @@ public class TransactionHistoryAdditionalInfo implements Parcelable {
         }
 
         Resources resources = context.getResources();
-        final int iconId =resources.getIdentifier(imageUrl, "drawable",
+        final int iconId = resources.getIdentifier(imageUrl, "drawable",
                 context.getPackageName());
         return iconId != 0 ? iconId : R.drawable.ic_transaction_ipaylogo;
     }

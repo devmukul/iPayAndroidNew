@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/colorWhite"
+        android:layout_marginBottom="@dimen/value16"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="@dimen/value16"
+            android:layout_marginRight="@dimen/value16"
+            android:src="@drawable/ic_ipay_verifiedmember" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/colorGray"
+            android:text="@string/app_name" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_layout"
+        android:layout_marginLeft="@dimen/value16"
+        android:layout_marginRight="@dimen/value16"
+        android:layout_marginBottom="8dp"
+        android:textColor="@color/colorGray"
+        android:textSize="14sp"
+        tools:text="iPay received money " />
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:background="?android:selectableItemBackground">
+
+        <ImageView
+            android:id="@+id/profile_picture"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@drawable/circle"
+            tools:src="@drawable/ic_profile" />
+
+        <ImageView
+            android:id="@+id/other_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin" />
+
+        <LinearLayout
+            android:id="@+id/description_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="@dimen/activity_vertical_margin_card"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin_card"
+            android:layout_toRightOf="@+id/profile_picture"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/time"
+                    style="@style/TransactionHistoryLeftTextViewStyle"
+                    android:fontFamily="@font/open_sans_light"
+                    android:textColor="@color/colorPaymentReviewNoteText"
+                    android:textSize="10sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/activity_description"
+                    style="@style/TransactionHistoryLeftTextViewStyle"
+                    android:fontFamily="@font/open_sans_semibold"
+                    android:textColor="@color/colorPaymentReviewPrimaryText"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:id="@+id/status_description_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/value5"
+                    android:layout_toRightOf="@id/activity_description" />
+
+                <TextView
+                    android:id="@+id/net_amount"
+                    style="@style/TransactionHistoryRightTextViewStyle"
+                    android:fontFamily="@font/open_sans_semibold"
+                    android:textColor="@color/colorAmountText"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/receiver"
+                    style="@style/TransactionHistoryLeftTextViewStyle"
+                    android:layout_toLeftOf="@+id/amount"
+                    android:fontFamily="@font/open_sans_light"
+                    android:textColor="@color/colorPaymentReviewNoteText"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/amount"
+                    style="@style/TransactionHistoryRightTextViewStyle"
+                    android:fontFamily="@font/open_sans"
+                    android:textColor="@color/colorPaymentReviewNoteText"
+                    android:textSize="11sp" />
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/info_layout"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            android:id="@+id/accept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="20dp"
+            android:background="#00000000"
+            android:gravity="center"
+            android:text="Accept"
+            android:textColor="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/reject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:layout_marginRight="40dp"
+            android:background="#00000000"
+            android:gravity="right"
+            android:text="Reject"
+            android:textColor="@color/colorRed" />
+    </RelativeLayout>
+</RelativeLayout>

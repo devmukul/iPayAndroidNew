@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import bd.com.ipay.ipayskeleton.LoginAndSignUpFragments.DeviceTrustFragments.RemoveTrustedDeviceFragment;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.TransactionHistory.TransactionHistory;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Utilities.DeepLinkAction;
@@ -14,11 +15,21 @@ public class DeviceTrustActivity extends BaseActivity {
 
     private DeepLinkAction mDeepLinkAction;
 
+    public TransactionHistory transactionHistory;
+    public boolean isAccepted;
+    public String desiredActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_trust);
         mDeepLinkAction = getIntent().getParcelableExtra(Constants.DEEP_LINK_ACTION);
+
+        if (getIntent().hasExtra(Constants.TRANSACTION_DETAILS)) {
+            transactionHistory = getIntent().getParcelableExtra(Constants.TRANSACTION_DETAILS);
+            isAccepted = getIntent().getBooleanExtra(Constants.ACTION_FROM_NOTIFICATION, false);
+            desiredActivity = getIntent().getStringExtra(Constants.DESIRED_ACTIVITY);
+        }
 
         switchToRemoveTrustedDeviceFragment();
     }

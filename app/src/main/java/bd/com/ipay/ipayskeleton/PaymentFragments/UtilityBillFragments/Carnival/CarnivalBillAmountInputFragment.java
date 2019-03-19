@@ -46,7 +46,7 @@ public class CarnivalBillAmountInputFragment extends IPayAbstractAmountFragment 
 			addShortCutOption(1, getString(R.string.package_rate).toUpperCase(), packageRate);
 
 		setBalanceInfoLayoutVisibility(View.VISIBLE);
-		setTransactionDescription(getString(R.string.paying_bill_message));
+		hideTransactionDescription();
 		setInputType(InputType.TYPE_CLASS_NUMBER);
 		setTransactionImageResource(R.drawable.ic_carnival);
 		setName(carnivalId);

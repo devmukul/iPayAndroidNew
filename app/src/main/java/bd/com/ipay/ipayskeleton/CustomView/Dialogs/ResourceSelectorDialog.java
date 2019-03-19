@@ -77,9 +77,11 @@ public class ResourceSelectorDialog<E extends Resource> extends AlertDialog {
         ids = new ArrayList<>();
         names = new ArrayList<>();
 
-        for (Resource resource : resources) {
-            ids.add(resource.getId());
-            names.add(resource.getName());
+        if(resources != null) {
+            for (Resource resource : resources) {
+                ids.add(resource.getId());
+                names.add(resource.getName());
+            }
         }
         popUpList = (ListView) view.findViewById(R.id.custom_list);
         CustomAdapter adapter = new CustomAdapter(context, names);

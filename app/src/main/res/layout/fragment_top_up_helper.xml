@@ -23,7 +23,7 @@
             android:layout_marginEnd="@dimen/value48"
             android:layout_marginRight="@dimen/value48"
             android:layout_marginBottom="@dimen/value24"
-            android:contentDescription="@string/send_money_helper_text"
+            android:contentDescription="@string/top_up_helper_text"
             android:src="@drawable/topup_onboard_icon" />
 
         <TextView

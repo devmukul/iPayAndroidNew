@@ -9,16 +9,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
-import com.makeramen.roundedimageview.RoundedImageView;
-
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Locale;
 
 import bd.com.ipay.ipayskeleton.R;
-import bd.com.ipay.ipayskeleton.Utilities.CircleTransform;
 
 public class TicketDetailsDialog {
     private final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);

@@ -10,9 +10,7 @@ import android.view.View;
 import java.math.BigDecimal;
 
 import bd.com.ipay.ipayskeleton.Activities.RailwayTicketActionActivity;
-import bd.com.ipay.ipayskeleton.Activities.UtilityBillPayActivities.IPayUtilityBillPayActionActivity;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractAmountFragment;
-import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.LankaBangla.Dps.LankaBanglaDpsBillConfirmationFragment;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.SharedPrefManager;
@@ -58,18 +56,19 @@ public class TicketAmountInputFragment extends IPayAbstractAmountFragment {
 			mFareAmount = getArguments().getDouble(RailwayTicketActionActivity.KEY_TICKET_FARE_AMOUNT, 0);
 			mVatAmount = getArguments().getDouble(RailwayTicketActionActivity.KEY_TICKET_VAT_AMOUNT, 0);
 			mTotalAmount = getArguments().getDouble(RailwayTicketActionActivity.KEY_TICKET_TOTAL_AMOUNT, 0);
-		}
+
+        }
 	}
 
 	@Override
 	protected void setupViewProperties() {
 		setBalanceInfoLayoutVisibility(View.VISIBLE);
-		setTransactionDescription(getString(R.string.paying_money_for));
+		hideTransactionDescription();
 		setInputType(InputType.TYPE_CLASS_NUMBER);
 		setTransactionImageResource(R.drawable.bd_railway);
 		setName(getString(R.string.railway_ticket_name));
-		setUserName(Utilities.formatJourneyInfoText(mSelectedTrain +" - "+mSelectedTrainNo, mSelectedAdult, mSelectedChild));
-		setAmount(String.valueOf( mTotalAmount ));
+		setUserName(Utilities.formatJourneyInfoText(getContext(),mSelectedTrain +" - "+mSelectedTrainNo, mSelectedAdult, mSelectedChild));
+        setAmount(String.valueOf(Math.round(mTotalAmount)));
 		setAmountFieldEnabled(false);
 	}
 

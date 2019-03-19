@@ -1,13 +1,15 @@
 package bd.com.ipay.ipayskeleton.PaymentFragments.TopupFragments;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.Selection;
@@ -17,7 +19,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -34,6 +35,8 @@ import bd.com.ipay.ipayskeleton.Activities.IPayTransactionActionActivity;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestGetAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
+import bd.com.ipay.ipayskeleton.CustomView.CutCopyPasteEditText;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.DatabaseHelper.DBConstants;
 import bd.com.ipay.ipayskeleton.DatabaseHelper.DataHelper;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
@@ -47,12 +50,14 @@ import bd.com.ipay.ipayskeleton.Utilities.InputValidator;
 import bd.com.ipay.ipayskeleton.Utilities.ServiceIdConstants;
 import bd.com.ipay.ipayskeleton.Widgets.IPaySnackbar;
 
+import static android.content.Context.CLIPBOARD_SERVICE;
+
 public class TopUpEnterNumberFragment extends Fragment {
 
 	private static final String MOBILE_NUMBER_PREFIX = "+880-1";
 
 	private final PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
-	private EditText mNumberEditText;
+	private CutCopyPasteEditText mNumberEditText;
 	private TextView mMyNumberTopUpTextView;
 	private ImageView mContactImageView;
 	private RadioGroup mTypeSelector;
@@ -63,12 +68,15 @@ public class TopUpEnterNumberFragment extends Fragment {
 
 	private HttpRequestGetAsyncTask mGetProfileInfoTask;
 
-	private ProgressDialog mProgressDialog;
+	private CustomProgressDialog mProgressDialog;
+
+	private Object clipboardService;
+	private ClipboardManager clipboardManager;
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mProgressDialog = new ProgressDialog(getContext());
+		mProgressDialog = new CustomProgressDialog(getContext());
 
 	}
 
@@ -81,24 +89,28 @@ public class TopUpEnterNumberFragment extends Fragment {
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		mNumberEditText = view.findViewById(R.id.number_edit_text);
+
+        clipboardService = getActivity().getSystemService(CLIPBOARD_SERVICE);
+        clipboardManager = (ClipboardManager)clipboardService;
+
+        mNumberEditText = view.findViewById(R.id.number_edit_text);
 		mMyNumberTopUpTextView = view.findViewById(R.id.my_number_topup_text_view);
 		mContactImageView = view.findViewById(R.id.contact_image_view);
 		mTypeSelector = view.findViewById(R.id.type_selector);
-		mContinueButton = view.findViewById(R.id.continue_button);
+		mContinueButton = view.findViewById(R.id.button_send_money);
 		operatorRadioGroup = view.findViewById(R.id.operator_radio_group);
 
 		mNumberEditText.setText(MOBILE_NUMBER_PREFIX);
-		setUpButtonActions();
+		setUpButtonActions(view);
 	}
 
-	private void setUpButtonActions() {
+	private void setUpButtonActions(final View v) {
 		mMyNumberTopUpTextView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				String mobileNumber = formatLocalContact(ProfileInfoCacheManager.getMobileNumber())
 						.replaceFirst("(\\+8801)", "");
-				mNumberEditText.setText(String.format(Locale.US, "+880-1%s", mobileNumber));
+				mNumberEditText.setText(String.format(Locale.getDefault(), "+880-1%s", mobileNumber));
 				Selection.setSelection(mNumberEditText.getText(), mNumberEditText.getText().length());
 			}
 		});
@@ -179,6 +191,32 @@ public class TopUpEnterNumberFragment extends Fragment {
 				}
 			}
 		});
+
+		mNumberEditText.setOnCutCopyPasteListener(new CutCopyPasteEditText.OnCutCopyPasteListener() {
+            @Override
+            public void onCut() { }
+
+            @Override
+            public void onCopy() { }
+
+            @Override
+            public void onPaste() {
+                mNumberEditText.clearComposingText();
+                ClipData clipData = clipboardManager.getPrimaryClip();
+                int itemCount = clipData.getItemCount();
+                if(itemCount > 0){
+                    ClipData.Item item = clipData.getItemAt(0);
+                    String text = item.getText().toString();
+                    if(InputValidator.isValidMobileNumberBD(text)) {
+                        String mobileNumber = ContactEngine.formatMobileNumberBD(text);
+                        mNumberEditText.setText(mobileNumber);
+                    }else{
+                        Snackbar snackbar = Snackbar.make(v, getString(R.string.error_invalid_mobile_number), Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+                }
+            }
+        });
 	}
 
 	private void showAmountInputFragment(String mobileNumber) {
@@ -257,7 +295,7 @@ public class TopUpEnterNumberFragment extends Fragment {
 				return true;
 			}
 		} catch (NumberParseException e) {
-			e.printStackTrace();
+			showErrorMessage(getString(R.string.please_enter_valid_mobile_number));
 		}
 		return false;
 	}
@@ -300,7 +338,6 @@ public class TopUpEnterNumberFragment extends Fragment {
 				}
 			}
 		}, true);
-		mProgressDialog.setMessage(getString(R.string.fetching_user_info));
 		mProgressDialog.setCancelable(false);
 		mProgressDialog.show();
 		mGetProfileInfoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -312,7 +349,7 @@ public class TopUpEnterNumberFragment extends Fragment {
 			if (data != null) {
 				final String mobileNumber = formatLocalContact(data.getStringExtra(Constants.MOBILE_NUMBER))
 						.replaceFirst("(\\+8801)", "");
-				mNumberEditText.setText(String.format(Locale.US, "+880-1%s", mobileNumber));
+				mNumberEditText.setText(String.format(Locale.getDefault(), "+880-1%s", mobileNumber));
 				Selection.setSelection(mNumberEditText.getText(), mNumberEditText.getText().length());
 			}
 		}

@@ -4,9 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import bd.com.ipay.ipayskeleton.Activities.RailwayTicketActionActivity;
-import bd.com.ipay.ipayskeleton.Activities.UtilityBillPayActivities.IPayUtilityBillPayActionActivity;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractTransactionSuccessFragment;
-import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.LankaBangla.Dps.LankaBanglaDpsAmountInputFragment;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.Utilities;
 
@@ -35,7 +33,7 @@ public class TicketSuccessFragment extends IPayAbstractTransactionSuccessFragmen
 		setTransactionSuccessMessage(getStyledTransactionDescription(R.string.make_payment_success_message_tk, mTotalAmount));
 		setSuccessDescription(getString(R.string.train_ticket_success_description));
 		setName(getString(R.string.railway_ticket_name));
-		setUserName(Utilities.formatJourneyInfoText(mSelectedTrain +" - "+mSelectedTrainNo, mSelectedAdult, mSelectedChild));
+		setUserName(Utilities.formatJourneyInfoText(getContext(), mSelectedTrain +" - "+mSelectedTrainNo, mSelectedAdult, mSelectedChild));
 		setReceiverImage(R.drawable.bd_railway);
 	}
 }

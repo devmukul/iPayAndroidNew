@@ -107,15 +107,6 @@ public class DialogUtils {
 		materialDialog.show();
 	}
 
-	public static void showDialogForCountyNotSupported(final Context context) {
-		MaterialDialog dialog = new MaterialDialog.Builder(context)
-				.cancelable(false)
-				.content(context.getString(R.string.country_not_support_message))
-				.positiveText(R.string.ok)
-				.show();
-		dialog.show();
-	}
-
 	public static void showDialogForBusinessRuleNotAvailable(final Context context) {
 		MaterialDialog dialog = new MaterialDialog.Builder(context)
 				.cancelable(false)

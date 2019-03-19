@@ -3,18 +3,15 @@ package bd.com.ipay.ipayskeleton.Widget.View;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 
-import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -22,7 +19,7 @@ import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CircleTransform;
 
 public class CardChargeDialog {
-	private final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+	private final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
 	private AlertDialog alertDialog;
 	private final TextView titleTextView;
 	private final TextView totalBillTextView;

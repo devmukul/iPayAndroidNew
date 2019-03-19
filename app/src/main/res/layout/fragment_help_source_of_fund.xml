@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@drawable/background_transaction"
+    android:fillViewport="true"
+    android:gravity="center">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/value24"
+            android:layout_marginTop="@dimen/value24"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/value24"
+                android:layout_marginEnd="@dimen/value48"
+                android:layout_marginLeft="@dimen/value48"
+                android:layout_marginRight="@dimen/value48"
+                android:layout_marginStart="@dimen/value48"
+                android:contentDescription="@string/send_money_helper_text"
+                app:srcCompat="@drawable/ic_ipay_user" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/value20"
+                android:id="@+id/description"
+                android:layout_marginLeft="@dimen/value32"
+                android:layout_marginRight="@dimen/value32"
+                android:fontFamily="@font/open_sans"
+                android:lineSpacingExtra="4dp"
+                android:text="@string/source_of_fund_helper_text"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_size_small_medium" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/value48"
+                android:layout_marginRight="@dimen/value48"
+                android:drawableLeft="@drawable/check_for_help"
+                android:drawablePadding="@dimen/value10"
+                android:drawableStart="@drawable/check_for_help"
+                android:fontFamily="@font/open_sans"
+                android:lineSpacingExtra="2dp"
+                android:text="@string/source_of_fund_step_one"
+                android:textColor="@color/colorWhite"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/value48"
+                android:layout_marginRight="@dimen/value48"
+                android:drawableLeft="@drawable/check_for_help"
+                android:drawablePadding="@dimen/value10"
+                android:drawableStart="@drawable/check_for_help"
+                android:fontFamily="@font/open_sans"
+                android:lineSpacingExtra="2dp"
+                android:text="@string/source_of_fund_step_two"
+                android:textColor="@color/colorWhite"
+                android:textSize="13sp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:id="@+id/description_line_3"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/value48"
+                android:layout_marginRight="@dimen/value48"
+                android:drawableLeft="@drawable/check_for_help"
+                android:drawablePadding="@dimen/value10"
+                android:drawableStart="@drawable/check_for_help"
+                android:fontFamily="@font/open_sans"
+                android:lineSpacingExtra="2dp"
+                android:textColor="@color/colorWhite"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </RelativeLayout>
+</android.support.v4.widget.NestedScrollView>

@@ -20,6 +20,7 @@ public class ContactPickerDialogActivity extends FragmentActivity {
     private boolean mShowVerifiedUsersOnly;
     private boolean miPayMembersOnly;
     private boolean mBusinessMembersOnly;
+    private boolean mPersonalMembersOnly;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class ContactPickerDialogActivity extends FragmentActivity {
         mShowVerifiedUsersOnly = getIntent().getBooleanExtra(Constants.VERIFIED_USERS_ONLY, false);
         miPayMembersOnly = getIntent().getBooleanExtra(Constants.IPAY_MEMBERS_ONLY, false);
         mBusinessMembersOnly = getIntent().getBooleanExtra(Constants.BUSINESS_ACCOUNTS_ONLY, false);
+        mPersonalMembersOnly = getIntent().getBooleanExtra(Constants.PERSONAL_ACCOUNT, false);
 
         ContactPickerFragment fragment = new ContactPickerFragment();
 
@@ -37,6 +39,7 @@ public class ContactPickerDialogActivity extends FragmentActivity {
         bundle.putBoolean(Constants.VERIFIED_USERS_ONLY, mShowVerifiedUsersOnly);
         bundle.putBoolean(Constants.IPAY_MEMBERS_ONLY, miPayMembersOnly);
         bundle.putBoolean(Constants.BUSINESS_ACCOUNTS_ONLY, mBusinessMembersOnly);
+        bundle.putBoolean(Constants.PERSONAL_ACCOUNT,mPersonalMembersOnly);
         fragment.setArguments(bundle);
 
         getSupportFragmentManager().beginTransaction()

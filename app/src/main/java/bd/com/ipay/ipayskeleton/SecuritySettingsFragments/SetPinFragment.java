@@ -1,6 +1,5 @@
 package bd.com.ipay.ipayskeleton.SecuritySettingsFragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,6 +18,7 @@ import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPutAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.BaseFragments.BaseFragment;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.OTPVerificationForTwoFactorAuthenticationServicesDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.ChangeCredentials.SetPinRequest;
@@ -38,7 +38,7 @@ public class SetPinFragment extends BaseFragment implements HttpResponseListener
 
     private SetPinRequest mSetPinRequest;
 
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
     private OTPVerificationForTwoFactorAuthenticationServicesDialog mOTPVerificationForTwoFactorAuthenticationServicesDialog;
 
     private EditText mEnterPINEditText;
@@ -59,7 +59,7 @@ public class SetPinFragment extends BaseFragment implements HttpResponseListener
         final InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
 
         mSetPINButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,8 +113,6 @@ public class SetPinFragment extends BaseFragment implements HttpResponseListener
 
             String pin = mEnterPINEditText.getText().toString().trim();
             String password = mEnterPasswordEditText.getText().toString().trim();
-
-            mProgressDialog.setMessage(getString(R.string.saving_pin));
             mProgressDialog.show();
             mSetPinRequest = new SetPinRequest(pin, password);
             Gson gson = new Gson();

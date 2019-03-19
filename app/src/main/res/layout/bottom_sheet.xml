@@ -37,7 +37,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:textSize="12dp"
-                    android:text="SWIPE UP TO SEE MORE"/>
+                    android:text="@string/swipe_up_to_see_more"/>
 
             </LinearLayout>
 

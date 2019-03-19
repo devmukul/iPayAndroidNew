@@ -73,7 +73,8 @@
                         android:fontFamily="@font/open_sans"
                         android:text="@string/add_money_message"
                         android:textColor="#666666"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:visibility="gone"/>
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/add_money_option_recycler_view"

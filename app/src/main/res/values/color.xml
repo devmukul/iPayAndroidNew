@@ -89,6 +89,7 @@
 
     <color name="scanner_line">#00ceff</color>
     <color name="cunnection_type">#88CD7A</color>
-
     <color name="colorBlackAlpha60">#96000000</color>
+
+    <color name="colorSelectorBack">#EDEDED</color>
 </resources>

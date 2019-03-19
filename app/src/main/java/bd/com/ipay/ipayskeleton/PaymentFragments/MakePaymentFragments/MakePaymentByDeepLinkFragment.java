@@ -30,7 +30,7 @@ import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomPinCheckerWithInputDialog;
-import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.AnimatedProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.ProfileImageView;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.BusinessRuleAndServiceCharge.BusinessRule.GetBusinessRuleRequestBuilder;
@@ -70,8 +70,8 @@ public class MakePaymentByDeepLinkFragment extends Fragment implements HttpRespo
     private String orderID;
 
     private final Gson gson = new GsonBuilder().create();
-    private CustomProgressDialog mCustomProgressDialog;
-    private NumberFormat mNumberFormat = NumberFormat.getNumberInstance(Locale.US);
+    private AnimatedProgressDialog mCustomProgressDialog;
+    private NumberFormat mNumberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,7 +81,7 @@ public class MakePaymentByDeepLinkFragment extends Fragment implements HttpRespo
         }
 
         if (getActivity() != null) {
-            mCustomProgressDialog = new CustomProgressDialog(getContext());
+            mCustomProgressDialog = new AnimatedProgressDialog(getContext());
             orderID = getActivity().getIntent().getStringExtra(Constants.ORDER_ID);
         }
     }
@@ -110,9 +110,7 @@ public class MakePaymentByDeepLinkFragment extends Fragment implements HttpRespo
         if (getActivity() != null) {
             if (mGetOrderDetailsTask == null) {
                 if (mCustomProgressDialog != null) {
-                    mCustomProgressDialog.setTitle(getString(R.string.please_wait_no_ellipsis));
                     mCustomProgressDialog.setCancelable(false);
-                    mCustomProgressDialog.setMessage(getString(R.string.loading));
                     mCustomProgressDialog.show();
                 }
                 String mUri = new GetOrderDetailsRequestBuilder(orderID).getGeneratedUri();
@@ -190,7 +188,6 @@ public class MakePaymentByDeepLinkFragment extends Fragment implements HttpRespo
     private void attemptCancelPayment() {
         if (mCancelOrderTask == null) {
             if (mCustomProgressDialog != null) {
-                mCustomProgressDialog.setMessage(getString(R.string.please_wait));
                 mCustomProgressDialog.show();
             }
             mCancelOrderTask = new HttpRequestDeleteAsyncTask(Constants.COMMAND_CANCEL_ORDER,
@@ -212,7 +209,6 @@ public class MakePaymentByDeepLinkFragment extends Fragment implements HttpRespo
     private void attemptPayment(String pin) {
         if (mPaymentTask == null) {
             if (mCustomProgressDialog != null) {
-                mCustomProgressDialog.setLoadingMessage(getString(R.string.progress_dialog_text_payment));
                 mCustomProgressDialog.showDialog();
             }
             PaymentRequestByDeepLink mPaymentRequestByDeepLink = new PaymentRequestByDeepLink(pin);
@@ -282,7 +278,6 @@ public class MakePaymentByDeepLinkFragment extends Fragment implements HttpRespo
                     try {
                         if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
                             if (mCustomProgressDialog != null) {
-                                mCustomProgressDialog.setTitle(R.string.success);
                                 mCustomProgressDialog.showSuccessAnimationAndMessage(getPayByDeepLinkResponse.getMessage());
                             }
                             new Handler().postDelayed(new Runnable() {
@@ -294,7 +289,6 @@ public class MakePaymentByDeepLinkFragment extends Fragment implements HttpRespo
 
                         } else {
                             if (mCustomProgressDialog != null) {
-                                mCustomProgressDialog.setTitle(R.string.failed);
                                 mCustomProgressDialog.showFailureAnimationAndMessage(getPayByDeepLinkResponse.getMessage());
                             }
                             if (!getPayByDeepLinkResponse.getMessage().toLowerCase().contains(Constants.INVALID_CREDENTIAL)) {

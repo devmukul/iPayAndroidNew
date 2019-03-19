@@ -1,17 +1,16 @@
 package bd.com.ipay.ipayskeleton.ProfileFragments;
 
-import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -21,14 +20,17 @@ import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.BaseFragments.BaseFragment;
 import bd.com.ipay.ipayskeleton.CustomView.AddressInputView;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.Address.AddressClass;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.Address.SetUserAddressRequest;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.Address.SetUserAddressResponse;
 import bd.com.ipay.ipayskeleton.R;
+import bd.com.ipay.ipayskeleton.Utilities.CacheManager.BulkSignupUserDetailsCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Utilities.Utilities;
+import bd.com.ipay.ipayskeleton.Widget.View.BulkSignUpHelperDialog;
 
 public class EditAddressFragment extends BaseFragment implements HttpResponseListener {
 
@@ -42,21 +44,14 @@ public class EditAddressFragment extends BaseFragment implements HttpResponseLis
 
     private CheckBox mSameAsPresentAddressCheckbox;
 
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
+    private EditText mAddressLine1Field;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        if (menu.findItem(R.id.action_search_contacts) != null)
-            menu.findItem(R.id.action_search_contacts).setVisible(false);
-    }
-
 
     @Nullable
     @Override
@@ -65,7 +60,7 @@ public class EditAddressFragment extends BaseFragment implements HttpResponseLis
 
         getActivity().setTitle(getString(R.string.edit_address));
 
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
         mAddressInputView = (AddressInputView) v.findViewById(R.id.input_address);
         View mSameAsPresentAddressCheckboxHolder = v.findViewById(R.id.holder_same_as_present_address);
         mSameAsPresentAddressCheckbox = (CheckBox) v.findViewById(R.id.checkbox_same_as_present_address);
@@ -73,6 +68,8 @@ public class EditAddressFragment extends BaseFragment implements HttpResponseLis
 
         mAddress = (AddressClass) getArguments().getSerializable(Constants.ADDRESS);
         mAddressType = getArguments().getString(Constants.ADDRESS_TYPE);
+
+        mAddressLine1Field = (EditText) mAddressInputView.findViewById(R.id.address_line_1);
 
         if (!TextUtils.isEmpty(mAddressType) && mAddressType.equals(Constants.ADDRESS_TYPE_PERMANENT)) {
             mSameAsPresentAddressCheckboxHolder.setVisibility(View.VISIBLE);
@@ -104,6 +101,59 @@ public class EditAddressFragment extends BaseFragment implements HttpResponseLis
             }
         });
 
+        if(!BulkSignupUserDetailsCacheManager.isBasicInfoChecked(true)){
+            final String cachePresentAddress = BulkSignupUserDetailsCacheManager.getPresentAddress(null);
+            final String cacheParmanentAddress = BulkSignupUserDetailsCacheManager.getPermanentAddress(null);
+
+            if (mAddressType.equals(Constants.ADDRESS_TYPE_PRESENT)) {
+                if(!TextUtils.isEmpty(cachePresentAddress)) {
+                    final BulkSignUpHelperDialog bulkSignUpHelperDialog = new BulkSignUpHelperDialog(getContext(),
+                            getString(R.string.bulk_signup_basic_info_helper_msg));
+
+                    bulkSignUpHelperDialog.setPositiveButton(new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            mAddressLine1Field.setText(cachePresentAddress);
+                            bulkSignUpHelperDialog.cancel();
+                        }
+                    });
+
+                    bulkSignUpHelperDialog.setNegativeButton(new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            bulkSignUpHelperDialog.cancel();
+                            bulkSignUpHelperDialog.setCheckedResponse("BasicInfo");
+                        }
+                    });
+
+                    bulkSignUpHelperDialog.show();
+                }
+            } else {
+                if(!TextUtils.isEmpty(cacheParmanentAddress)) {
+                    final BulkSignUpHelperDialog bulkSignUpHelperDialog = new BulkSignUpHelperDialog(getContext(),
+                            getString(R.string.bulk_signup_basic_info_helper_msg));
+
+                    bulkSignUpHelperDialog.setPositiveButton(new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            mAddressLine1Field.setText(cacheParmanentAddress);
+                            bulkSignUpHelperDialog.cancel();
+                        }
+                    });
+
+                    bulkSignUpHelperDialog.setNegativeButton(new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            bulkSignUpHelperDialog.cancel();
+                            bulkSignUpHelperDialog.setCheckedResponse("BasicInfo");
+                        }
+                    });
+
+                    bulkSignUpHelperDialog.show();
+                }
+            }
+        }
+
         return v;
     }
 
@@ -115,7 +165,6 @@ public class EditAddressFragment extends BaseFragment implements HttpResponseLis
 
 
     private void setUserAddress() {
-        mProgressDialog.setMessage(getString(R.string.progress_dialog_saving_address));
         mProgressDialog.show();
 
         SetUserAddressRequest userAddressRequest = new SetUserAddressRequest(mAddressType, mAddress);

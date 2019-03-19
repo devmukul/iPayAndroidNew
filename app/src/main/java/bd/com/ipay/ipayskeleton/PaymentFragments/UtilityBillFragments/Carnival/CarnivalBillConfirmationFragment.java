@@ -53,7 +53,7 @@ public class CarnivalBillConfirmationFragment extends IPayAbstractTransactionCon
 		setTransactionDescription(getStyledTransactionDescription(R.string.pay_bill_confirmation_message, billAmount));
 		setName(carnivalId);
 		setUserName(userName);
-		setTransactionConfirmationButtonTitle(getString(R.string.pay_bill));
+		setTransactionConfirmationButtonTitle(getString(R.string.pay));
 	}
 
 	@Override
@@ -100,8 +100,6 @@ public class CarnivalBillConfirmationFragment extends IPayAbstractTransactionCon
 			carnivalBillPayRequest = new HttpRequestPostAsyncTask(Constants.COMMAND_CARNIVAL_BILL_PAY,
 					uri, json, getActivity(), this, false);
 			carnivalBillPayRequest.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-			customProgressDialog.setTitle(getString(R.string.please_wait_no_ellipsis));
-			customProgressDialog.setLoadingMessage(getString(R.string.payment_processing));
 			customProgressDialog.showDialog();
 		}
 	}

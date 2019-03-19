@@ -1,6 +1,5 @@
 package bd.com.ipay.ipayskeleton.ProfileFragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -40,6 +39,7 @@ import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.Aspect.ValidateAccess;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomSelectorDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.Email.AddNewEmailRequest;
@@ -83,7 +83,7 @@ public class EmailFragment extends ProgressFragment implements HttpResponseListe
     public SwipeRefreshLayout mSwipeRefreshLayout;
 
     private FloatingActionButton mFabAddNewEmail;
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
 
     private TextView mPrimaryEmailView;
     private TextView mPrimaryEmailViewHeader;
@@ -132,7 +132,7 @@ public class EmailFragment extends ProgressFragment implements HttpResponseListe
         mSwipeRefreshLayout = v.findViewById(R.id.swipe_refresh_layout);
         mEmptyListTextView = v.findViewById(R.id.empty_list_text);
 
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
 
         mEmailListAdapter = new EmailListAdapter();
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -253,8 +253,6 @@ public class EmailFragment extends ProgressFragment implements HttpResponseListe
         AddNewEmailRequest addNewEmailRequest = new AddNewEmailRequest(email);
         Gson gson = new Gson();
         String json = gson.toJson(addNewEmailRequest);
-
-        mProgressDialog.setMessage(getString(R.string.progress_dialog_add_email));
         mProgressDialog.show();
 
         mAddNewEmailTask = new HttpRequestPostAsyncTask(Constants.COMMAND_ADD_NEW_EMAIL,
@@ -266,8 +264,6 @@ public class EmailFragment extends ProgressFragment implements HttpResponseListe
         if (mDeleteEmailTask != null) {
             return;
         }
-
-        mProgressDialog.setMessage(getString(R.string.progress_dialog_delete_email));
         mProgressDialog.show();
 
         mDeleteEmailTask = new HttpRequestDeleteAsyncTask(Constants.COMMAND_DELETE_EMAIL,
@@ -281,7 +277,6 @@ public class EmailFragment extends ProgressFragment implements HttpResponseListe
             return;
         }
 
-        mProgressDialog.setMessage(getString(R.string.progress_dialog_make_primary_email));
         mProgressDialog.show();
 
         MakePrimaryRequest makePrimaryRequest = new MakePrimaryRequest();
@@ -516,7 +511,7 @@ public class EmailFragment extends ProgressFragment implements HttpResponseListe
                             mCustomSelectorDialog.setOnResourceSelectedListener(new CustomSelectorDialog.OnResourceSelectedListener() {
                                 @Override
                                 public void onResourceSelected(int selectedIndex, String action) {
-                                    if (Constants.ACTION_TYPE_REMOVE.equals(action)) {
+                                    if (getString(R.string.remove).equals(action)) {
                                         showDeleteEmailConfirmationDialog(email);
                                     } else if (Constants.ACTION_TYPE_MAKE_PRIMARY.equals(action)) {
                                         makeEmailPrimary(email.getEmailId());

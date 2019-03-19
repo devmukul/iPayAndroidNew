@@ -117,7 +117,7 @@ public class ScannerOverlay extends ViewGroup {
         canvas.drawPoint(left, top + dpToPx(rectHeight), line);
         canvas.drawPoint(left + dpToPx(rectWidth), top + dpToPx(rectHeight), line);
 
-        String qr_code_text = "Align QR code with in the frame,to Scan fast without any problem";
+        String qr_code_text = getContext().getString(R.string.qr_code_helper_text);
         String[] str = qr_code_text.split(",");
 
         TextPaint textPaint = new TextPaint();

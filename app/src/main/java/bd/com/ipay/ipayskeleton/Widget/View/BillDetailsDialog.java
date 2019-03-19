@@ -22,7 +22,7 @@ import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CircleTransform;
 
 public class BillDetailsDialog {
-	private final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+	private final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
 	private AlertDialog alertDialog;
 	private final TextView titleTextView;
 	private final TextView totalBillTextView;

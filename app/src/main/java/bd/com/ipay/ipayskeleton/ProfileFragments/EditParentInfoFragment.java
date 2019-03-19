@@ -1,10 +1,11 @@
 package bd.com.ipay.ipayskeleton.ProfileFragments;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,15 +22,18 @@ import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.BaseFragments.BaseFragment;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.BasicInfo.SetParentInfoRequest;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.BasicInfo.SetParentInfoResponse;
 import bd.com.ipay.ipayskeleton.R;
+import bd.com.ipay.ipayskeleton.Utilities.CacheManager.BulkSignupUserDetailsCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Utilities.ContactEngine;
 import bd.com.ipay.ipayskeleton.Utilities.InputValidator;
 import bd.com.ipay.ipayskeleton.Utilities.Utilities;
+import bd.com.ipay.ipayskeleton.Widget.View.BulkSignUpHelperDialog;
 
 public class EditParentInfoFragment extends BaseFragment implements HttpResponseListener {
 
@@ -43,7 +47,7 @@ public class EditParentInfoFragment extends BaseFragment implements HttpResponse
     private EditText mMothersMobileEditText;
     private ImageView mSelectFatherMobileContactButton;
     private ImageView mSelectMotherMobileContactButton;
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
     private String mFathersName = "";
     private String mMothersName = "";
     private String mFathersMobile = "";
@@ -72,7 +76,7 @@ public class EditParentInfoFragment extends BaseFragment implements HttpResponse
 
         mInfoSaveButton = (Button) view.findViewById(R.id.button_save);
 
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
 
 
         setParentInformation();
@@ -102,6 +106,40 @@ public class EditParentInfoFragment extends BaseFragment implements HttpResponse
                 }
             }
         });
+
+        if(!BulkSignupUserDetailsCacheManager.isBasicInfoChecked(true)){
+            final String cacheFathersName = BulkSignupUserDetailsCacheManager.getFatherName(null);
+            final String cacheFathersMobile = BulkSignupUserDetailsCacheManager.getFatherMobile(null);
+            final String cacheMothersName = BulkSignupUserDetailsCacheManager.getMotherName(null);
+            final String cacheMothersMobile = BulkSignupUserDetailsCacheManager.getMotherMobile(null);
+
+            if(!TextUtils.isEmpty(cacheFathersName) || !TextUtils.isEmpty(cacheFathersMobile) || !TextUtils.isEmpty(cacheMothersName) || !TextUtils.isEmpty(cacheMothersMobile)) {
+
+                final BulkSignUpHelperDialog bulkSignUpHelperDialog = new BulkSignUpHelperDialog(getContext(),
+                        getString(R.string.bulk_signup_basic_info_helper_msg));
+
+                bulkSignUpHelperDialog.setPositiveButton(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        mFathersNameEditText.setText(cacheFathersName);
+                        mFathersMobileEditText.setText(cacheFathersMobile);
+                        mMothersNameEditText.setText(cacheMothersName);
+                        mMothersMobileEditText.setText(cacheMothersMobile);
+                        bulkSignUpHelperDialog.cancel();
+                    }
+                });
+
+                bulkSignUpHelperDialog.setNegativeButton(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        bulkSignUpHelperDialog.cancel();
+                        bulkSignUpHelperDialog.setCheckedResponse("BasicInfo");
+                    }
+                });
+
+                bulkSignUpHelperDialog.show();
+            }
+        }
 
         return view;
     }
@@ -191,7 +229,6 @@ public class EditParentInfoFragment extends BaseFragment implements HttpResponse
     }
 
     private void attemptSaveParentInfo() {
-        mProgressDialog.setMessage(getString(R.string.saving_parent_information));
         mProgressDialog.show();
 
         Gson gson = new Gson();

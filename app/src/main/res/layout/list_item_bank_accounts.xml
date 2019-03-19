@@ -75,6 +75,23 @@
                 android:paddingRight="@dimen/value10"
                 android:layout_marginTop="@dimen/value10"/>
 
+            <Button
+                android:id="@+id/bank_account_unconsented_button"
+                android:text="@string/unconsented"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:background="@drawable/oval_shaped_white_button_with_border_default"
+                android:textSize="10.0sp"
+                android:textColor="@color/colorPrimary"
+                android:gravity="center"
+                android:textAllCaps="false"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:paddingLeft="@dimen/value10"
+                android:paddingRight="@dimen/value10"
+                android:layout_marginTop="@dimen/value10"
+                android:visibility="gone"/>
+
             <ImageView
                 android:id="@+id/bank_account_verify_status"
                 android:layout_width="@dimen/value30"

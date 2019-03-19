@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:gravity="center_vertical">
 
-    <com.airbnb.lottie.LottieAnimationView
+    <ProgressBar
         android:id="@+id/view_animation"
-        android:layout_width="@dimen/value50"
-        android:layout_height="@dimen/value50"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        app:lottie_fileName="spinner.json"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin" />
 
     <TextView
         android:id="@+id/progress_dialog_text_view"
@@ -22,6 +21,7 @@
         android:layout_marginLeft="@dimen/value10"
         android:layout_marginRight="@dimen/value15"
         android:layout_gravity="center"
-        android:textSize="@dimen/value15" />
+        android:textSize="@dimen/value15"
+        android:text="@string/please_wait"/>
 
 </LinearLayout>

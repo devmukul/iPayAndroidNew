@@ -1,6 +1,5 @@
 package bd.com.ipay.ipayskeleton.ProfileFragments;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,6 +26,7 @@ import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.Aspect.ValidateAccess;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.ProfileImageView;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.Address.AddressClass;
@@ -54,7 +54,7 @@ public class RecommendationReviewFragment extends ProgressFragment implements Ht
     private HttpRequestPostAsyncTask mRecommendActionTask = null;
     private IntroduceActionResponse mIntroduceActionResponse;
 
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
 
     private long mRequestID;
     private String mSenderName;
@@ -126,7 +126,7 @@ public class RecommendationReviewFragment extends ProgressFragment implements Ht
         mRejectButton = (Button) v.findViewById(R.id.button_reject);
         mSpamButton = (Button) v.findViewById(R.id.button_spam);
 
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
 
         mProfileImageView.setProfilePicture(mPhotoUri, false);
 
@@ -261,7 +261,6 @@ public class RecommendationReviewFragment extends ProgressFragment implements Ht
                 Toast.makeText(getActivity(), R.string.service_not_available, Toast.LENGTH_LONG).show();
             return;
         }
-        mProgressDialog.setMessage(getString(R.string.processing));
         mProgressDialog.show();
         mRecommendActionTask = new HttpRequestPostAsyncTask(Constants.COMMAND_INTRODUCE_ACTION,
                 Constants.BASE_URL_MM + Constants.URL_INTRODUCE_ACTION + requestID + "/" + recommendationStatus, null, getActivity(), false);

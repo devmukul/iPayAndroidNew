@@ -1,6 +1,6 @@
 package bd.com.ipay.ipayskeleton.LoginAndSignUpFragments.DeviceTrustFragments;
 
-import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -25,14 +25,17 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 
 import bd.com.ipay.ipayskeleton.Activities.DeviceTrustActivity;
+import bd.com.ipay.ipayskeleton.Activities.HomeActivity;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestDeleteAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestGetAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.LoginAndSignUp.LogoutRequest;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.LoginAndSignUp.LogoutResponse;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.BasicInfo.BulkSignUp.GetUserDetailsResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.BasicInfo.GetProfileInfoResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.ProfileCompletion.ProfileCompletionStatusResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.TrustedDevice.AddToTrustedDeviceRequest;
@@ -42,6 +45,7 @@ import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.TrustedDevice.RemoveTrus
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.TrustedDevice.TrustedDevice;
 import bd.com.ipay.ipayskeleton.Model.GetCardResponse;
 import bd.com.ipay.ipayskeleton.R;
+import bd.com.ipay.ipayskeleton.Utilities.CacheManager.BulkSignupUserDetailsCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Utilities.DeviceInfoFactory;
@@ -72,13 +76,16 @@ public class RemoveTrustedDeviceFragment extends ProgressFragment implements Htt
     private HttpRequestPostAsyncTask mLogoutTask = null;
     private LogoutResponse mLogOutResponse;
 
+    private HttpRequestGetAsyncTask mGetBulkSignupUserDetailsTask = null;
+    private GetUserDetailsResponse mGetUserDetailsResponse;
+
     private ArrayList<TrustedDevice> mTrustedDeviceList;
     private TrustedDeviceAdapter mTrustedDeviceAdapter;
 
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView mTrustedDevicesRecyclerView;
 
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
     private Button mLogOutButton;
     private Tracker mTracker;
 
@@ -100,7 +107,7 @@ public class RemoveTrustedDeviceFragment extends ProgressFragment implements Htt
         setTitle();
 
         mTrustedDevicesRecyclerView = (RecyclerView) v.findViewById(R.id.list_trusted_devices);
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
         mLogOutButton = (Button) v.findViewById(R.id.button_logout);
 
         mLogOutButton.setOnClickListener(new View.OnClickListener() {
@@ -163,7 +170,6 @@ public class RemoveTrustedDeviceFragment extends ProgressFragment implements Htt
         if (mRemoveTrustedDeviceTask != null)
             return;
 
-        mProgressDialog.setMessage(getString(R.string.remove_trusted_device_message));
         mProgressDialog.show();
 
         mRemoveTrustedDeviceTask = new HttpRequestDeleteAsyncTask(Constants.COMMAND_REMOVE_TRUSTED_DEVICE,
@@ -180,7 +186,6 @@ public class RemoveTrustedDeviceFragment extends ProgressFragment implements Htt
             return;
         }
 
-        mProgressDialog.setMessage(getString(R.string.progress_dialog_adding_trusted_device));
         mProgressDialog.show();
 
         String mDeviceID = DeviceInfoFactory.getDeviceId(getActivity());
@@ -200,7 +205,6 @@ public class RemoveTrustedDeviceFragment extends ProgressFragment implements Htt
         if (mLogoutTask != null) {
             return;
         }
-        mProgressDialog.setMessage(getString(R.string.progress_dialog_signing_out));
         mProgressDialog.show();
         LogoutRequest mLogoutModel = new LogoutRequest(ProfileInfoCacheManager.getMobileNumber());
         Gson gson = new Gson();
@@ -211,6 +215,14 @@ public class RemoveTrustedDeviceFragment extends ProgressFragment implements Htt
         mLogoutTask.mHttpResponseListener = this;
 
         mLogoutTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void navigateToDesiredActivityViaWallet() {
+        Intent intent = new Intent(getActivity(), HomeActivity.class);
+        intent.putExtra(Constants.TRANSACTION_DETAILS, ((DeviceTrustActivity) getActivity()).transactionHistory);
+        intent.putExtra(Constants.ACTION_FROM_NOTIFICATION, ((DeviceTrustActivity) getActivity()).isAccepted);
+        intent.putExtra(Constants.DESIRED_ACTIVITY, ((DeviceTrustActivity) getActivity()).desiredActivity);
+        startActivity(intent);
     }
 
     private void getProfileCompletionStatus() {
@@ -240,7 +252,7 @@ public class RemoveTrustedDeviceFragment extends ProgressFragment implements Htt
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
 
-        if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
+        if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog) && !result.getApiCommand().equals(Constants.COMMAND_GET_BULK_SIGN_UP_USER_DETAILS)) {
             mProgressDialog.dismiss();
             mGetTrustedDeviceTask = null;
             mAddTrustedDeviceTask = null;
@@ -252,168 +264,210 @@ public class RemoveTrustedDeviceFragment extends ProgressFragment implements Htt
         }
 
         Gson gson = new Gson();
-        if (result.getApiCommand().equals(Constants.COMMAND_GET_TRUSTED_DEVICES)) {
 
-            try {
-                mGetTrustedDeviceResponse = gson.fromJson(result.getJsonString(), GetTrustedDeviceResponse.class);
+        switch (result.getApiCommand()) {
+            case Constants.COMMAND_GET_TRUSTED_DEVICES:
+                try {
+                    mGetTrustedDeviceResponse = gson.fromJson(result.getJsonString(), GetTrustedDeviceResponse.class);
 
-                if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
-                    processTrustedDeviceList(result.getJsonString());
-                } else {
-                    if (getActivity() != null)
-                        Toast.makeText(getActivity(), mGetTrustedDeviceResponse.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                if (getActivity() != null) {
-                    Toast.makeText(getActivity(), mGetTrustedDeviceResponse.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }
-
-            mProgressDialog.dismiss();
-            mGetTrustedDeviceTask = null;
-
-        } else if (result.getApiCommand().equals(Constants.COMMAND_REMOVE_TRUSTED_DEVICE)) {
-
-            try {
-                mRemoveTrustedDeviceResponse = gson.fromJson(result.getJsonString(), RemoveTrustedDeviceResponse.class);
-
-                if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
-                    if (getActivity() != null) {
-                        Toast.makeText(getActivity(), R.string.success_device_removed, Toast.LENGTH_LONG).show();
+                    if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
+                        processTrustedDeviceList(result.getJsonString());
+                    } else {
+                        if (getActivity() != null)
+                            Toast.makeText(getActivity(), mGetTrustedDeviceResponse.getMessage(), Toast.LENGTH_LONG).show();
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    if (getActivity() != null) {
+                        Toast.makeText(getActivity(), mGetTrustedDeviceResponse.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }
 
-                    mProgressDialog.setMessage(getString(R.string.progress_dialog_loading_trusted_devices));
-                    mProgressDialog.show();
+                mProgressDialog.dismiss();
+                mGetTrustedDeviceTask = null;
+                break;
 
-                    // Add the device as trusted immediately after removing any device
-                    getTrustedDeviceList();
-                    attemptTrustedDeviceAdd();
-                } else {
+            case Constants.COMMAND_REMOVE_TRUSTED_DEVICE:
+                try {
+                    mRemoveTrustedDeviceResponse = gson.fromJson(result.getJsonString(), RemoveTrustedDeviceResponse.class);
+
+                    if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
+                        if (getActivity() != null) {
+                            Toast.makeText(getActivity(), R.string.success_device_removed, Toast.LENGTH_LONG).show();
+                        }
+                        mProgressDialog.show();
+                        // Add the device as trusted immediately after removing any device
+                        getTrustedDeviceList();
+                        attemptTrustedDeviceAdd();
+                    } else {
+                        mProgressDialog.dismiss();
+                        if (getActivity() != null) {
+                            Toast.makeText(getActivity(), mRemoveTrustedDeviceResponse.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                } catch (Exception e) {
                     mProgressDialog.dismiss();
+                    e.printStackTrace();
                     if (getActivity() != null) {
                         Toast.makeText(getActivity(), mRemoveTrustedDeviceResponse.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }
-            } catch (Exception e) {
-                mProgressDialog.dismiss();
-                e.printStackTrace();
-                if (getActivity() != null) {
-                    Toast.makeText(getActivity(), mRemoveTrustedDeviceResponse.getMessage(), Toast.LENGTH_LONG).show();
+                mRemoveTrustedDeviceTask = null;
+                break;
+
+            case Constants.COMMAND_ADD_TRUSTED_DEVICE:
+                try {
+                    mAddToTrustedDeviceResponse = gson.fromJson(result.getJsonString(), AddToTrustedDeviceResponse.class);
+
+                    if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
+                        String UUID = mAddToTrustedDeviceResponse.getUUID();
+                        ProfileInfoCacheManager.setUUID(UUID);
+                        getProfileInfo();
+                    } else {
+                        getTrustedDeviceList();
+                        Toast.makeText(getActivity(), mAddToTrustedDeviceResponse.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+
+                } catch (Exception e) {
+                    mProgressDialog.dismiss();
+                    e.printStackTrace();
+                    Toast.makeText(getActivity(), R.string.failed_add_trusted_device, Toast.LENGTH_LONG).show();
                 }
-            }
+                mAddTrustedDeviceTask = null;
+                break;
 
+            case Constants.COMMAND_LOG_OUT:
+                try {
+                    mLogOutResponse = gson.fromJson(result.getJsonString(), LogoutResponse.class);
 
-            mRemoveTrustedDeviceTask = null;
+                    if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK)
+                        ((MyApplication) getActivity().getApplication()).launchLoginPage(null);
+                    else
+                        Toast.makeText(getActivity(), mLogOutResponse.getMessage(), Toast.LENGTH_LONG).show();
 
-        } else if (result.getApiCommand().equals(Constants.COMMAND_ADD_TRUSTED_DEVICE)) {
-            try {
-                mAddToTrustedDeviceResponse = gson.fromJson(result.getJsonString(), AddToTrustedDeviceResponse.class);
-
-                if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
-                    String UUID = mAddToTrustedDeviceResponse.getUUID();
-                    ProfileInfoCacheManager.setUUID(UUID);
-                    getProfileInfo();
-                } else {
-                    getTrustedDeviceList();
-                    Toast.makeText(getActivity(), mAddToTrustedDeviceResponse.getMessage(), Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(getActivity(), R.string.could_not_sign_out, Toast.LENGTH_LONG).show();
                 }
 
-            } catch (Exception e) {
                 mProgressDialog.dismiss();
-                e.printStackTrace();
-                Toast.makeText(getActivity(), R.string.failed_add_trusted_device, Toast.LENGTH_LONG).show();
-            }
-            mAddTrustedDeviceTask = null;
+                mLogoutTask = null;
+                break;
 
-        } else if (result.getApiCommand().equals(Constants.COMMAND_LOG_OUT)) {
-            try {
-                mLogOutResponse = gson.fromJson(result.getJsonString(), LogoutResponse.class);
+            case Constants.COMMAND_GET_PROFILE_INFO_REQUEST:
+                try {
+                    mGetProfileInfoResponse = gson.fromJson(result.getJsonString(), GetProfileInfoResponse.class);
+                    if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
+                        ProfileInfoCacheManager.updateProfileInfoCache(mGetProfileInfoResponse);
+                        ProfileInfoCacheManager.saveMainUserProfileInfo(Utilities.getMainUserProfileInfoString(mGetProfileInfoResponse));
+                        getBulkSignUpUserDetails();
 
-                if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK)
-                    ((MyApplication) getActivity().getApplication()).launchLoginPage(null);
-                else
-                    Toast.makeText(getActivity(), mLogOutResponse.getMessage(), Toast.LENGTH_LONG).show();
+                    } else {
+                        mProgressDialog.dismiss();
+                        Toaster.makeText(getActivity(), R.string.profile_info_get_failed, Toast.LENGTH_SHORT);
+                    }
+                } catch (Exception e) {
+                    mProgressDialog.dismiss();
+                    e.printStackTrace();
+                    Toaster.makeText(getActivity(), R.string.profile_info_get_failed, Toast.LENGTH_SHORT);
+                }
 
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(getActivity(), R.string.could_not_sign_out, Toast.LENGTH_LONG).show();
-            }
+                mGetProfileInfoTask = null;
+                break;
 
-            mProgressDialog.dismiss();
-            mLogoutTask = null;
-        } else if (result.getApiCommand().equals(Constants.COMMAND_GET_PROFILE_COMPLETION_STATUS)) {
-            try {
-                mProfileCompletionStatusResponse = gson.fromJson(result.getJsonString(), ProfileCompletionStatusResponse.class);
-                if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
-                    mProfileCompletionStatusResponse.initScoreFromPropertyName();
-                    ProfileInfoCacheManager.switchedFromSignup(false);
-                    ProfileInfoCacheManager.uploadProfilePicture(mProfileCompletionStatusResponse.isPhotoUpdated());
-                    ProfileInfoCacheManager.uploadIdentificationDocument(mProfileCompletionStatusResponse.isPhotoIdUpdated());
-                    ProfileInfoCacheManager.addBasicInfo(mProfileCompletionStatusResponse.isOnboardBasicInfoUpdated());
-                    ProfileInfoCacheManager.addSourceOfFund(mProfileCompletionStatusResponse.isBankAdded());
+            case Constants.COMMAND_GET_BULK_SIGN_UP_USER_DETAILS:
+                try {
+                    if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
+                        mGetUserDetailsResponse = gson.fromJson(result.getJsonString(), GetUserDetailsResponse.class);
+                        BulkSignupUserDetailsCacheManager.updateBulkSignupUserInfoCache(mGetUserDetailsResponse);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                getProfileCompletionStatus();
+                mGetBulkSignupUserDetailsTask = null;
+                break;
 
-                    if (ProfileInfoCacheManager.isSourceOfFundAdded()) {
-                        if (ProfileInfoCacheManager.getAccountType() == Constants.PERSONAL_ACCOUNT_TYPE && !ProfileInfoCacheManager.isAccountVerified() && (!ProfileInfoCacheManager.isProfilePictureUploaded() || !ProfileInfoCacheManager.isIdentificationDocumentUploaded()
-                                || !ProfileInfoCacheManager.isBasicInfoAdded() || !ProfileInfoCacheManager.isSourceOfFundAdded())) {
-                            ((DeviceTrustActivity) getActivity()).switchToProfileCompletionHelperActivity();
+            case Constants.COMMAND_GET_PROFILE_COMPLETION_STATUS:
+                try {
+                    mProfileCompletionStatusResponse = gson.fromJson(result.getJsonString(), ProfileCompletionStatusResponse.class);
+                    if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
+                        mProfileCompletionStatusResponse.initScoreFromPropertyName();
+                        ProfileInfoCacheManager.switchedFromSignup(false);
+                        ProfileInfoCacheManager.uploadProfilePicture(mProfileCompletionStatusResponse.isPhotoUpdated());
+                        ProfileInfoCacheManager.uploadIdentificationDocument(mProfileCompletionStatusResponse.isPhotoIdUpdated());
+                        ProfileInfoCacheManager.addBasicInfo(mProfileCompletionStatusResponse.isOnboardBasicInfoUpdated());
+                        ProfileInfoCacheManager.addSourceOfFund(mProfileCompletionStatusResponse.isBankAdded());
+
+                        if (ProfileInfoCacheManager.isSourceOfFundAdded()) {
+                            if (ProfileInfoCacheManager.getAccountType() == Constants.PERSONAL_ACCOUNT_TYPE && !ProfileInfoCacheManager.isAccountVerified() && (!ProfileInfoCacheManager.isProfilePictureUploaded() || !ProfileInfoCacheManager.isIdentificationDocumentUploaded()
+                                    || !ProfileInfoCacheManager.isBasicInfoAdded() || !ProfileInfoCacheManager.isSourceOfFundAdded())) {
+                                ((DeviceTrustActivity) getActivity()).switchToProfileCompletionHelperActivity();
+                            } else {
+                                if (((DeviceTrustActivity) getActivity()).transactionHistory != null) {
+                                    navigateToDesiredActivityViaWallet();
+                                } else {
+                                    ((DeviceTrustActivity) getActivity()).switchToHomeActivity();
+                                }
+                            }
+                        } else getAddedCards();
+                    } else {
+                        if (getActivity() != null) {
+                            if (((DeviceTrustActivity) getActivity()).transactionHistory != null) {
+                                navigateToDesiredActivityViaWallet();
+                            } else {
+                                ((DeviceTrustActivity) getActivity()).switchToHomeActivity();
+                            }
+                        }
+
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    if (getActivity() != null) {
+                        if (((DeviceTrustActivity) getActivity()).transactionHistory != null) {
+                            navigateToDesiredActivityViaWallet();
                         } else {
                             ((DeviceTrustActivity) getActivity()).switchToHomeActivity();
                         }
-                    } else getAddedCards();
-                } else {
-                    if (getActivity() != null)
-                        ((DeviceTrustActivity) getActivity()).switchToHomeActivity();
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                if (getActivity() != null)
-                    ((DeviceTrustActivity) getActivity()).switchToHomeActivity();
-            }
-            mProgressDialog.dismiss();
-            mGetProfileCompletionStatusTask = null;
-        } else if (result.getApiCommand().equals(Constants.COMMAND_GET_PROFILE_INFO_REQUEST)) {
-            try {
-                mGetProfileInfoResponse = gson.fromJson(result.getJsonString(), GetProfileInfoResponse.class);
-                if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
-                    ProfileInfoCacheManager.updateProfileInfoCache(mGetProfileInfoResponse);
-                    ProfileInfoCacheManager.saveMainUserProfileInfo(Utilities.getMainUserProfileInfoString(mGetProfileInfoResponse));
-                    getProfileCompletionStatus();
-
-                } else {
-                    mProgressDialog.dismiss();
-                    Toaster.makeText(getActivity(), R.string.profile_info_get_failed, Toast.LENGTH_SHORT);
-                }
-            } catch (Exception e) {
-                mProgressDialog.dismiss();
-                e.printStackTrace();
-                Toaster.makeText(getActivity(), R.string.profile_info_get_failed, Toast.LENGTH_SHORT);
-            }
-
-            mGetProfileInfoTask = null;
-        } else if (result.getApiCommand().equals(Constants.COMMAND_ADD_CARD)) {
-            try {
-                mGetCardResponse = gson.fromJson(result.getJsonString(), GetCardResponse.class);
-                if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
-
-                    if (!mGetCardResponse.isAnyCardVerified()) {
-                        ProfileInfoCacheManager.addSourceOfFund(false);
-                    } else ProfileInfoCacheManager.addSourceOfFund(true);
-
-                    if (ProfileInfoCacheManager.getAccountType() == Constants.PERSONAL_ACCOUNT_TYPE && (!ProfileInfoCacheManager.isProfilePictureUploaded() || !ProfileInfoCacheManager.isIdentificationDocumentUploaded()
-                            || !ProfileInfoCacheManager.isBasicInfoAdded() || !ProfileInfoCacheManager.isSourceOfFundAdded())) {
-                        ((DeviceTrustActivity) getActivity()).switchToProfileCompletionHelperActivity();
-                    } else {
-                        ((DeviceTrustActivity) getActivity()).switchToHomeActivity();
                     }
-                } else {
-                    Toaster.makeText(getActivity(), mGetCardResponse.getMessage(), Toast.LENGTH_SHORT);
                 }
-            } catch (Exception e) {
-                Toaster.makeText(getActivity(), R.string.service_not_available, Toast.LENGTH_SHORT);
-            }
-            mGetAllAddedCards = null;
+                mProgressDialog.dismiss();
+                mGetProfileCompletionStatusTask = null;
+                break;
+
+            case Constants.COMMAND_ADD_CARD:
+                try {
+                    mGetCardResponse = gson.fromJson(result.getJsonString(), GetCardResponse.class);
+                    if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
+
+                        if (!mGetCardResponse.isAnyCardVerified()) {
+                            ProfileInfoCacheManager.addSourceOfFund(false);
+                        } else ProfileInfoCacheManager.addSourceOfFund(true);
+
+                        if (ProfileInfoCacheManager.getAccountType() == Constants.PERSONAL_ACCOUNT_TYPE && (!ProfileInfoCacheManager.isProfilePictureUploaded() || !ProfileInfoCacheManager.isIdentificationDocumentUploaded()
+                                || !ProfileInfoCacheManager.isBasicInfoAdded() || !ProfileInfoCacheManager.isSourceOfFundAdded())) {
+                            ((DeviceTrustActivity) getActivity()).switchToProfileCompletionHelperActivity();
+                        } else {
+                            if (((DeviceTrustActivity) getActivity()).transactionHistory != null) {
+                                navigateToDesiredActivityViaWallet();
+                            } else {
+                                ((DeviceTrustActivity) getActivity()).switchToHomeActivity();
+                            }
+                        }
+                    } else {
+                        Toaster.makeText(getActivity(), mGetCardResponse.getMessage(), Toast.LENGTH_SHORT);
+                    }
+                } catch (Exception e) {
+                    Toaster.makeText(getActivity(), R.string.service_not_available, Toast.LENGTH_SHORT);
+                }
+                mGetAllAddedCards = null;
+                break;
+            default:
+                mProgressDialog.dismiss();
+                if (getActivity() != null)
+                    Toast.makeText(getActivity(), R.string.service_not_available, Toast.LENGTH_LONG).show();
+                break;
         }
     }
 
@@ -428,6 +482,15 @@ public class RemoveTrustedDeviceFragment extends ProgressFragment implements Htt
         mTrustedDevicesRecyclerView.setAdapter(mTrustedDeviceAdapter);
 
         setContentShown(true);
+    }
+
+    private void getBulkSignUpUserDetails() {
+        if (mGetBulkSignupUserDetailsTask != null) {
+            return;
+        }
+        mGetBulkSignupUserDetailsTask = new HttpRequestGetAsyncTask(Constants.COMMAND_GET_BULK_SIGN_UP_USER_DETAILS,
+                Constants.BASE_URL_MM + Constants.URL_GET_BULK_SIGN_UP_USER_DETAILS, getActivity(), this, true);
+        mGetBulkSignupUserDetailsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private class TrustedDeviceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

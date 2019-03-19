@@ -16,6 +16,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.CircleTransform;
+import bd.com.ipay.ipayskeleton.Utilities.Constants;
 
 public class ProfileImageView extends FrameLayout {
     private Context context;
@@ -61,9 +62,35 @@ public class ProfileImageView extends FrameLayout {
                 .into(mProfilePictureView);
     }
 
-    public void setProfilePicture(String photoUri, boolean forceLoad) {
+    public void setProfilePicture(String photoURI) {
         try {
-            final DrawableTypeRequest<String> glide = Glide.with(context).load(photoUri);
+            final DrawableTypeRequest<String> glide = Glide.with(context).load(photoURI);
+
+            glide
+                    .diskCacheStrategy(DiskCacheStrategy.ALL);
+
+            glide.signature(new StringSignature(String.valueOf(System.currentTimeMillis())));
+            glide.placeholder(R.drawable.ic_profile)
+                    .error(R.drawable.ic_profile)
+                    .crossFade()
+                    .dontAnimate()
+                    .transform(new CircleTransform(context))
+                    .into(mProfilePictureView);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setProfilePicture(String photoUrl, boolean forceLoad) {
+
+        if (photoUrl != null) {
+            if (!photoUrl.contains("ipay.com")) {
+                photoUrl = Constants.BASE_URL_FTP_SERVER + photoUrl;
+            }
+        }
+
+        try {
+            final DrawableTypeRequest<String> glide = Glide.with(context).load(photoUrl);
 
             glide
                     .diskCacheStrategy(DiskCacheStrategy.ALL);
@@ -73,8 +100,8 @@ public class ProfileImageView extends FrameLayout {
                         .signature(new StringSignature(String.valueOf(System.currentTimeMillis())));
             }
 
-            glide
-                    .placeholder(R.drawable.ic_profile)
+            glide.signature(new StringSignature(String.valueOf(System.currentTimeMillis())));
+            glide.placeholder(R.drawable.ic_profile)
                     .error(R.drawable.ic_profile)
                     .crossFade()
                     .dontAnimate()

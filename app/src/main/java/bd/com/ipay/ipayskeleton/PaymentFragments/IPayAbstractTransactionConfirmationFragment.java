@@ -32,8 +32,9 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import bd.com.ipay.ipayskeleton.Activities.PaymentActivities.UtilityBillPaymentActivity;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
-import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.AnimatedProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.OTPVerificationForTwoFactorAuthenticationServicesDialog;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
@@ -52,9 +53,9 @@ public abstract class IPayAbstractTransactionConfirmationFragment extends Fragme
 	private TextView nameTextView;
 	private TextView userNameTextView;
 	private Button transactionConfirmationButton;
-	protected final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+	protected final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
 	protected OTPVerificationForTwoFactorAuthenticationServicesDialog mOTPVerificationForTwoFactorAuthenticationServicesDialog;
-	protected CustomProgressDialog customProgressDialog;
+	protected AnimatedProgressDialog customProgressDialog;
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,7 +65,7 @@ public abstract class IPayAbstractTransactionConfirmationFragment extends Fragme
 		numberFormat.setMinimumIntegerDigits(2);
 		if (getActivity() != null)
 			mTracker = Utilities.getTracker(getActivity());
-		customProgressDialog = new CustomProgressDialog(getActivity());
+		customProgressDialog = new AnimatedProgressDialog(getActivity());
 		customProgressDialog.setCancelable(false);
 	}
 
@@ -89,7 +90,7 @@ public abstract class IPayAbstractTransactionConfirmationFragment extends Fragme
 		pinEditText = view.findViewById(R.id.pin_edit_text);
 		noteEditText = view.findViewById(R.id.note_edit_text);
 
-		if (getActivity() instanceof AppCompatActivity) {
+		if (getActivity() instanceof AppCompatActivity && !(getActivity() instanceof UtilityBillPaymentActivity)) {
 			((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 			ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 			if (actionBar != null) {
@@ -227,10 +228,11 @@ public abstract class IPayAbstractTransactionConfirmationFragment extends Fragme
 	protected CharSequence getStyledTransactionDescription(@StringRes int transactionStringId, Number amount) {
 		final String amountValue = numberFormat.format(amount);
 		final String spannedString = getString(transactionStringId, amountValue);
-		int position = spannedString.indexOf(String.format("Tk. %s", amountValue));
+		final String formattedAmountString = getString(R.string.balance_holder, amountValue);
+		int position = spannedString.indexOf(formattedAmountString);
 		final Spannable spannableAmount = new SpannableString(getString(transactionStringId, amountValue));
-		spannableAmount.setSpan(new StyleSpan(Typeface.BOLD), position, position + amountValue.length() + 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		spannableAmount.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorLightGreenSendMoney)), position, position + amountValue.length() + 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spannableAmount.setSpan(new StyleSpan(Typeface.BOLD), position, position + formattedAmountString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spannableAmount.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorLightGreenSendMoney)), position, position + formattedAmountString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		return spannableAmount;
 	}
 

@@ -1,6 +1,5 @@
 package bd.com.ipay.ipayskeleton.Utilities;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
@@ -12,6 +11,7 @@ import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestGetAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.AddPinDialogBuilder;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.ChangeCredentials.PinInfoResponse;
 import bd.com.ipay.ipayskeleton.R;
@@ -30,14 +30,14 @@ public class PinChecker implements HttpResponseListener {
     private HttpRequestGetAsyncTask mGetPinInfoTask = null;
     private PinInfoResponse mPinInfoResponse;
 
-    private final ProgressDialog mProgressDialog;
+    private final CustomProgressDialog mProgressDialog;
 
     private boolean cancel;
 
     public PinChecker(Context context, PinCheckerListener pinCheckerListener) {
         mContext = context;
         mPinCheckerListener = pinCheckerListener;
-        mProgressDialog = new ProgressDialog(context);
+        mProgressDialog = new CustomProgressDialog(context);
     }
 
     public void execute() {
@@ -61,7 +61,6 @@ public class PinChecker implements HttpResponseListener {
             return;
         }
 
-        mProgressDialog.setMessage(mContext.getString(R.string.progress_dialog_if_pin_exists));
         mProgressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {

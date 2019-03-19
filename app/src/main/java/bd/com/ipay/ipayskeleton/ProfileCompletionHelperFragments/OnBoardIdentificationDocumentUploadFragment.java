@@ -1,7 +1,7 @@
 package bd.com.ipay.ipayskeleton.ProfileCompletionHelperFragments;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -36,18 +36,21 @@ import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.BaseFragments.BaseFragment;
 import bd.com.ipay.ipayskeleton.BuildConfig;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomUploadPickerDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.Documents.IdentificationDocument;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.Documents.UploadDocumentResponse;
+import bd.com.ipay.ipayskeleton.ProfileFragments.IdentificationDocumentFragments.UploadIdentificationFragment;
 import bd.com.ipay.ipayskeleton.R;
+import bd.com.ipay.ipayskeleton.Utilities.CacheManager.BulkSignupUserDetailsCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
-import bd.com.ipay.ipayskeleton.Utilities.CacheManager.SharedPrefManager;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Utilities.DocumentPicker;
 import bd.com.ipay.ipayskeleton.Utilities.IdentificationDocumentConstants;
 import bd.com.ipay.ipayskeleton.Utilities.InputValidator;
 import bd.com.ipay.ipayskeleton.Utilities.Utilities;
+import bd.com.ipay.ipayskeleton.Widget.View.BulkSignUpHelperDialog;
 import bd.com.ipay.ipayskeleton.camera.CameraActivity;
 
 public class OnBoardIdentificationDocumentUploadFragment extends BaseFragment implements HttpResponseListener {
@@ -80,7 +83,7 @@ public class OnBoardIdentificationDocumentUploadFragment extends BaseFragment im
     private File mDocumentFirstPageImageFile;
     private File mDocumentSecondPageImageFile;
 
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
 
     private ImageView mBackButtonTop;
 
@@ -95,8 +98,7 @@ public class OnBoardIdentificationDocumentUploadFragment extends BaseFragment im
                 mDocumentIdEditTextHint = getString(IdentificationDocumentConstants.getDocumentIDHintText(mSelectedIdentificationDocument.getDocumentType()));
             }
         }
-        mProgressDialog = new ProgressDialog(getContext());
-        mProgressDialog.setMessage(getString(R.string.uploading));
+        mProgressDialog = new CustomProgressDialog(getContext());
 
     }
 
@@ -172,6 +174,28 @@ public class OnBoardIdentificationDocumentUploadFragment extends BaseFragment im
                 getActivity().onBackPressed();
             }
         });
+
+        if(!TextUtils.isEmpty(BulkSignupUserDetailsCacheManager.getNid(null))){
+            final BulkSignUpHelperDialog bulkSignUpHelperDialog = new BulkSignUpHelperDialog(getContext(),
+                    getString(R.string.bulk_signup_nid_helper_msg));
+
+            bulkSignUpHelperDialog.setPositiveButton(new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    mDocumentIdEditText.setText(BulkSignupUserDetailsCacheManager.getNid(null));
+                    bulkSignUpHelperDialog.cancel();
+                }
+            });
+
+            bulkSignUpHelperDialog.setNegativeButton(new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    bulkSignUpHelperDialog.cancel();
+                }
+            });
+
+            bulkSignUpHelperDialog.show();
+        }
 
     }
 
@@ -387,14 +411,15 @@ public class OnBoardIdentificationDocumentUploadFragment extends BaseFragment im
                     break;
 
             }
+
             if (isAdded()) {
                 CustomUploadPickerDialog customUploadPickerDialog = new CustomUploadPickerDialog(getActivity(),
                         getActivity().getString(R.string.select_a_document),
-                        Arrays.asList(getResources().getStringArray(R.array.upload_picker_action_for_document)));
+                        Arrays.asList(getResources().getStringArray(R.array.upload_picker_action)));
                 customUploadPickerDialog.setOnResourceSelectedListener(new CustomUploadPickerDialog.OnResourceSelectedListener() {
                     @Override
                     public void onResourceSelected(int actionId, String action) {
-                        if (Constants.ACTION_TYPE_TAKE_PICTURE_FOR_DOCUMENT.equals(action) || Constants.ACTION_TYPE_SELECT_FROM_GALLERY_FOR_DOCUMENT.equals(action))
+                        if (getString(R.string.take_a_picture_message).equals(action) || getString(R.string.select_from_gallery_message).equals(action))
                             if (Utilities.isNecessaryPermissionExists(getActivity(), DocumentPicker.DOCUMENT_PICK_PERMISSIONS))
                                 selectDocument(actionId, documentSide);
                             else {

@@ -2,7 +2,6 @@ package bd.com.ipay.ipayskeleton.SecuritySettingsFragments;
 
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -25,6 +24,7 @@ import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.Aspect.ValidateAccess;
 import bd.com.ipay.ipayskeleton.BaseFragments.BaseFragment;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.ResourceSelectorDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.TrustedNetwork.AddTrustedPersonRequest;
@@ -50,7 +50,7 @@ public class AddTrustedPersonFragment extends BaseFragment implements HttpRespon
     private ImageView mSelectContactButton;
     private Button mAddButton;
     private ResourceSelectorDialog mResourceSelectorDialog;
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
     private String mName;
     private String mRelationship;
     private String mMobileNumber;
@@ -73,7 +73,7 @@ public class AddTrustedPersonFragment extends BaseFragment implements HttpRespon
         mAddButton = (Button) v.findViewById(R.id.button_add_trusted_person);
         mSelectContactButton = (ImageView) v.findViewById(R.id.select_number_from_contacts);
 
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
 
         mEditTextName.requestFocus();
         final InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -173,7 +173,6 @@ public class AddTrustedPersonFragment extends BaseFragment implements HttpRespon
         if (mAddTrustedPersonTask != null) {
             return;
         }
-        mProgressDialog.setMessage(getString(R.string.progress_dialog_adding_as_trusted_person));
         mProgressDialog.show();
 
         Gson gson = new Gson();

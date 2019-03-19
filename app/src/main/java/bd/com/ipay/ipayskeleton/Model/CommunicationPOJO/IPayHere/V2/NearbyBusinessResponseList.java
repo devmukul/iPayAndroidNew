@@ -3,9 +3,10 @@ package bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.IPayHere.V2;
 
 import android.text.TextUtils;
 
-import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 
 public class NearbyBusinessResponseList implements Serializable
 {

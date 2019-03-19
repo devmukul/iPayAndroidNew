@@ -38,6 +38,14 @@ public class SharedPrefManager {
 		return pref.getString(SharedPrefConstants.USER_BALANCE, "0.0");
 	}
 
+	public static void setAppLanguage(String appLanguage) {
+		pref.edit().putString(SharedPrefConstants.DEVICE_LANGUAGE_KEY, appLanguage).apply();
+	}
+
+	public static String getAppLanguage() {
+		return pref.getString(SharedPrefConstants.DEVICE_LANGUAGE_KEY, "bd");
+	}
+
 	public static CreditBalanceResponse getCreditBalance() {
 		return new Gson().fromJson(pref.getString(SharedPrefConstants.CREDIT_BALANCE, "{}"), CreditBalanceResponse.class);
 	}

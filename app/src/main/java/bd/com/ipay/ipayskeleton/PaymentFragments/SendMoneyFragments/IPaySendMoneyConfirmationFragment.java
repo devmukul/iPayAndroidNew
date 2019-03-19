@@ -17,7 +17,6 @@ import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SendMoney.IPayTransactio
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SendMoney.SendMoneyRequest;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractTransactionConfirmationFragment;
 import bd.com.ipay.ipayskeleton.R;
-import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Utilities.MyApplication;
 import bd.com.ipay.ipayskeleton.Utilities.ToasterAndLogger.Toaster;
@@ -101,8 +100,6 @@ public class IPaySendMoneyConfirmationFragment extends IPayAbstractTransactionCo
 					uri, json, getActivity(), this, false);
 			sendMoneyRequestTask.setPinAsHeader(getPin());
 			sendMoneyRequestTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-			customProgressDialog.setTitle(getString(R.string.please_wait_no_ellipsis));
-			customProgressDialog.setLoadingMessage(getString(R.string.sending_money));
 			customProgressDialog.showDialog();
 		}
 	}

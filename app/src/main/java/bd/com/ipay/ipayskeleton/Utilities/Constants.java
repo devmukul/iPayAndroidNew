@@ -12,11 +12,11 @@ public class Constants {
     public static final String ApplicationPackage = "bd.com.ipay.android";
     public static final String ApplicationTitle = "iPay";
 
-	public static final String OPERATOR_CODE_GP = "GP";
-	public static final String OPERATOR_CODE_ROBI = "Robi";
-	public static final String OPERATOR_CODE_AIRTEL = "Airtel";
-	public static final String OPERATOR_CODE_BANGLALINK = "Banglalink";
-	public static final String OPERATOR_CODE_TELETALK = "Teletalk";
+    public static final String OPERATOR_CODE_GP = "GP";
+    public static final String OPERATOR_CODE_ROBI = "Robi";
+    public static final String OPERATOR_CODE_AIRTEL = "Airtel";
+    public static final String OPERATOR_CODE_BANGLALINK = "Banglalink";
+    public static final String OPERATOR_CODE_TELETALK = "Teletalk";
 
     public static final String ERROR = "ERROR";
     public static final String USER_AGENT = "User-Agent";
@@ -103,6 +103,7 @@ public class Constants {
     public static final String IS_IN_CONTACTS = "is-in-contacts";
     public static final String SWITCHED_FROM_BANK_VERIFICATION = "switched_from_bank_validation";
     public static final String IS_STARTED_FROM_PROFILE_COMPLETION = "is_started_from_profile_completion";
+    public static final String IS_STARTED_FROM_UNCONCENTED_LIST = "is_started_from_unconcented_list";
     public static final String SWITCHED_FROM_TRANSACTION_HISTORY = "switched_from_transaction_history";
     public static final String MOBILE_ANDROID = "mobile-android-";
     public static final String MULTIPART_FORM_DATA_NAME = "file";
@@ -170,7 +171,7 @@ public class Constants {
     public static final String COMMAND_WEST_ZONE_BILL_PAY = "COMMAND_WEST_ZONE_BILL_PAY";
     public static final String COMMAND_GET_WEST_ZONE_CUSTOMER = "COMMAND_GET_WEST_ZONE_CUSTOMER";
     public static final String URL_WEST_ZONE_BILL_PAY = "wzone/billpay";
-    public static final String URL_DPDC_BILL_PAY = "dpdc/billpay";
+    public static final String URL_DPDC_BILL_PAY = "dpdc/bill-pay";
     public static final String URL_DPDC_CUSTOMER_INFO = "dpdc/bill-info";
     public static final String WESTZONE_BILL_PAY = "WESTZONE BILL PAY";
     public static final String LINK_THREE_BILL_PAY = "LINK THREE BILL PAY";
@@ -178,6 +179,8 @@ public class Constants {
     public static final String BRILLIANT_BILL_PAY = "BRILLIANT BILL PAY";
     public static final String FIREBASE_TOKEN = "FIREBASE_TOKEN_V2";
     public static final String URL_DESCO_CUSTOMER_INFO = "desco/bill-info/";
+
+    public static final String URL_WASA_CUSTOMER_INFO = "wasa/bill-info";
     public static final String DESCO_BILL_PAY = "DESCO BILL PAY";
     public static final String DESCO = "DESCO";
     public static final String COMMAND_DPDC_BILL_PAY = "COMMAND_DPDC_BILL_PAY";
@@ -196,26 +199,75 @@ public class Constants {
     public static final String LANKA_BANGLA_BILL_PAY = "LANKA BANGLA BILL PAY";
     public static final String LANKA_BANGLA_DPS_BILL_PAY = "LANKA BANGLA DPS BILL PAY";
     public static final String AMBERIT = "AMBERIT";
-	public static final String COMMAND_GET_AMBERIT_CUSTOMER = "COMMAND_GET_AMBERIT_CUSTOMER";
-	public static final String COMMAND_AMBERIT_BILL_PAY = "COMMAND_AMBERIT_BILL_PAY";
-	public static final String URL_GET_AMBERIT_CUSTOMER = "amberit/customer";
-	public static final String URL_AMBERIT_BILL_PAY = "amberit/billpay/";
-	public static final String FROM_CONTACT = "FROM_CONTACT";
-	public static final String IS_FIRST_SEND_MONEY = "IS_FIRST_SEND_MONEY";
+    public static final String COMMAND_GET_AMBERIT_CUSTOMER = "COMMAND_GET_AMBERIT_CUSTOMER";
+    public static final String COMMAND_AMBERIT_BILL_PAY = "COMMAND_AMBERIT_BILL_PAY";
+    public static final String URL_GET_AMBERIT_CUSTOMER = "amberit/customer";
+    public static final String URL_AMBERIT_BILL_PAY = "amberit/billpay/";
+    public static final String FROM_CONTACT = "FROM_CONTACT";
+    public static final String IS_FIRST_SEND_MONEY = "IS_FIRST_SEND_MONEY";
     public static final String IS_FIRST_MAKE_PAYMENT = "IS_FIRST_MAKE_PAYMENT";
-	public static final String IS_FIRST_REQUEST_MONEY = "IS_FIRST_REQUEST_MONEY";
-	public static final String VISA = "VISA";
-	public static final String MASTERCARD = "MASTERCARD";
-	public static final String URL_GET_LANKA_BANGLA_VISA_CUSTOMER_INFO = "lankabangla/visa/";
+    public static final String IS_FIRST_REQUEST_MONEY = "IS_FIRST_REQUEST_MONEY";
+    public static final String VISA = "VISA";
+    public static final String AMEX = "AMEX";
+    public static final String MASTERCARD = "MASTERCARD";
+    public static final String VISA_CARD = "Visa Card";
+    public static final String AMEX_CARD = "American Express";
+    public static final String MASTER_CARD = "Master Card";
+    public static final String URL_GET_LANKA_BANGLA_VISA_CUSTOMER_INFO = "lankabangla/visa/";
     public static final String OPERATOR_TYPE = "OPERATOR_TYPE";
     public static final String IS_FIRST_TOP_UP = "IS_FIRST_TOP_UP";
+    public static final String COMMAND_GET_SPONSOR_LIST = "COMMAND_GET_SPONSOR_LIST";
+    public static final String URL_GET_BENEFICIARY = "ipay-source/beneficiary";
+    public static final String URL_GET_SPONSOR = "ipay-source/sponsor";
+    public static final String RELATION = "RELATION";
+    public static final String URL_ADD_SPONSOR = "ipay-source/sponsor";
+    public static final String COMMAND_ADD_SPONSOR = "COMMAND_ADD_SPONSOR";
+    public static final String COMMAND_REMOVE_SPONSOR_OR_BENEFICIARY = "COMMAND_REMOVE_SPONSOR_OR_BENEFICIARY";
+    public static final String URL_DELETE_SPONSOR = "ipay-source/";
+    public static final String COMMAND_GET_BENEFICIARY = "COMMAND_GET_BENEFICIARY";
+    public static final int NOTIFICATION_TYPE_SOURCE_OF_FUND_BENEFICIARIES = 10;
+    public static final int NOTIFICATION_TYPE_SOURCE_OF_FUND_SPONSORS = 9;
+    public static final String COMMAND_ACCEPT_OR_REJECT_BENEFICIARY = "COMMAND_ACCEPT_OR_REJECT_BENEFICIARY";
+    public static final String SPONSOR_LIST = "SPONSOR_LIST";
+    public static final long DEFAULT_CREDIT_LIMIT = 5000;
+    public static final String SPONSOR_ACCOUNT_ID = "SPONSOR_ACCOUNT_ID";
+    public static final String SPONSOR_ACCOUNT_ID_AS_HEADER = "sponsorAccountId";
+    public static final String COMMAND_GET_BENEFICIARY_LIST = "COMMAND_GET_BENEFICIARY_LIST";
+    public static final String SPONSOR = "SPONSOR";
+    public static final String BENEFICIARY = "BENEFICIARY";
+    public static final String TYPE = "TYPE";
+    public static final String COMMAND_ADD_BENEFICIARY = "COMMAND_ADD_BENEFICIARY";
+    public static final String SPONSOR_NAME = "SPONSOR_NAME";
+    public static final String SPONSOR_PROFILE_PICTURE = "SPONSOR_PROFILE_PICTURE";
+    public static final String EDIT_AMOUNT = "EDIT_AMOUNT";
+    public static final String TO_DO = "TO_DO";
+    public static final String COMMAND_CHANGE_MONTLY_LIMIT = "COMMAND_CHANGE_MONTLY_LIMIT";
+    public static final String URI_CHANGE_MONTHLY_LIMIT = "ipay-source/";
+    public static final String UPDATE_STATUS = "UPDATE_STATUS";
+    public static final String ADD_SOURCE_OF_FUND = "ADD_SOURCE_OF_FUND";
+    public static final String ADD_SOURCE_OF_FUND_BENEFICIARY = "ADD_SOURCE_OF_FUND_BENEFICIARY";
+    public static final String ADD_SOURCE_OF_FUND_SPONSOR = "ADD_SOURCE_OF_FUND_SPONSOR";
+    public static final String ADD_SPONSOR = "ADD_SPONSOR";
+    public static final String ADD_BENEFICIARY = "ADD_BENEFICIARY";
+    public static final String MAKE_PAYMENT_USING_SOF = "MAKE_PAYMENT_USING_SOF";
+    public static final String COMMAND_SEND_BULK_SIGN_UP_USER_CHECKED_RESPONSE = "COMMAND_SEND_BULK_SIGN_UP_USER_CHECKED_RESPONSE";
+    public static final String URL_GET_LANKA_BANGLA_MASTERCARD_CUSTOMER_INFO = "lankabangla/mastercard/";
+    public static final String LANKABANGLA_DPS_USER = "/lankabangla/dps/";
     public static final String URL_GET_BANK_LIST = "credit-card/banks";
     public static final String CREDIT_CARD = "CREDIT_CARD";
     public static final String CREDIT_CARD_WITH_SPACE = "Credit Card";
     public static final String URL_GET_SAVED_CARDS = "credit-card/my-list";
     public static final String COMMAND_GET_SAVED_CARDS = "COMMAND_GET_SAVED_CARDS";
-    public static String URL_GET_LANKA_BANGLA_MASTERCARD_CUSTOMER_INFO = "lankabangla/mastercard/";
-    public static final String LANKABANGLA_DPS_USER = "/lankabangla/dps/";
+    public static final String ACTION = "ACTION";
+    public static final String ACTION_FROM_NOTIFICATION = "ACTION_FROM_NOTIFICATION";
+    public static final String DESIRED_ACTIVITY = "DESIRED_ACTIVITY";
+    public static final String REVIEW_PAGE = "REVIEW_PAGE";
+    public static final String TRANSACTION = "TRANSACTION";
+    public static final String DEEP_LINK = "DEEP_LINK";
+    public static final String IMAGE_URL = "IMAGE_URL";
+    public static final String BODY = "BODY";
+    public static final String COMMAND_FIREBASE_LOGOUT = "COMMAND_FIREBASE_LOGOUT";
+    public static final String PACKAGE_NAME = "PACKAGE_NAME";
     public static final String COMMAND_GET_LANKABANGLA_DPS_CUSTOMER_INFO = "COMMAND_GET_LANKABANGLA_DPS_CUSTOMER_INFO";
     public static final String URL_LANKABANGLA_DPS_BILL_PAY = "lankabangla/dps/billpay";
     public static final String COMMAND_GET_LANKA_BANGLA_CUSTOMER_INFO = "COMMAND_GET_LANKA_BANGLA_CUSTOMER_INFO";
@@ -224,6 +276,22 @@ public class Constants {
     public static final String URL_LANKABANGLA_VISA_BILL_PAY = "lankabangla/visa/billpay";
     public static final String URL_LANKABANGLA_MASTERCARD_BILL_PAY = "lankabangla/mastercard/billpay";
     public static final String URL_CREDIT_CARD_BILL_PAY = "credit-card/billpay";
+    public static final String BILL_AMOUNT = "BILL_AMOUNT";
+
+    public static final String STAMP_AMOUNT = "STAMP_AMOUNT";
+    public static final String TOTAL_AMOUNT = "TOTAL_AMOUNT";
+    public static final String VAT_AMOUNT = "VAT_AMOUNT";
+    public static final String LPC_AMOUNT = "LPC_AMOUNT";
+    public static final String ZONE_CODE = "ZONE_CODE";
+    public static final String DUE_DATE = "DUE_DATE";
+    public static final String BILL_NUMBER = "BILL_NUMBER";
+    public static final String BILL_MONTH = "BILL_MONTH";
+    public static final String BILL_YEAR = "BILL_YEAR";
+    public static final String WASA = "WASA";
+    public static final String LOCATION_CODE = "LOCATION_CODE";
+    public static final String COMMAND_GET_WASA_CUSTOMER = "COMMAND_GET_WASA_CUSTOMER";
+    public static final String FROM_DASHBOARD = "FROM_DASHBOARD";
+
 
     public static String ROLEID = "ROLEID";
     public static final String OUTLET_ID = "OUTLET_ID";
@@ -243,6 +311,8 @@ public class Constants {
     public static final String BANK_CODE = "bank_code";
     public static final String PHOTO_URI = "photo_uri";
     public static final String VAT = "vat";
+    public static final String BANK_BRANCH_NAME = "bank_branch_name";
+    public static final String BANK_BRANCH_ROUTE_NO = "bank_branch_route_no";
 
     public static final String STATE_LOADING = "LOADING";
     public static final String STATE_SUCCESS = "SUCCESS";
@@ -323,7 +393,7 @@ public class Constants {
     public static final String CARD_TRANSACTION_DATA = "CARD_TRANSACTION_DATA";
     public static final String VALID_IPAY_BD_ADDRESS = "(http://|https://)?(www|dev|test|stage|internal).ipay.com.bd/(.+)";
     public static String INVALID_CREDENTIAL = "invalid credential";
-    public static final String URL_DESCO_BILL_PAY = "/desco/billpay";
+    public static final String URL_DESCO_BILL_PAY = "desco/bill-pay";
     public static final String URL_CARNIVAL = "/carnival/bill-info/";
 
 
@@ -337,6 +407,10 @@ public class Constants {
     public static final String URL_REMOVE_A_BANK = "bank/";
     public static final String URL_VERIFY_WITH_AMOUNT_A_BANK = "bank/";
     public static final String URL_GET_CARD = "user/card";
+
+    public static final String URL_ADD_BENEFICIARY = "ipay-source/beneficiary";
+    public static final String URL_ACCEPT_OR_REJECT_SOURCE_OF_FUND = "ipay-source/";
+
     // Bank Transaction REST
     public static final String URL_ADD_MONEY_FROM_BANK = "banktransaction/cashin/v2";
     public static final String URL_ADD_MONEY_FROM_BANK_INSTANTLY = "credit";
@@ -348,6 +422,7 @@ public class Constants {
 
     // Check book covor upload Rest
     public static final String URL_CHECKBOOK_COVOR_UPLOAD = "bank/document";
+    public static final String URL_CONCENT_UPLOAD = "bank";
 
     // Card Transaction REST
     public static final String URL_ADD_MONEY_CREDIT_OR_DEBIT_CARD = "add-money";
@@ -374,6 +449,7 @@ public class Constants {
     public static final String URL_BUSINESS_RULE = "business-rule";
     public static final String URL_BUSINESS_RULE_V2 = "business-rule/v2";
     public static final String URL_SWITCH_ACCOUNT = "business-manager/businesses/";
+
 
     // Introducer REST
     public static final String URL_ASK_FOR_INTRODUCTION = "/introducer/introduceme/";
@@ -482,6 +558,10 @@ public class Constants {
     // User Rest (Profile Completion)
     public static final String URL_GET_PROFILE_COMPLETION_STATUS = "user/profilecompletion";
 
+    // Bulk Sign up
+    public static final String URL_GET_BULK_SIGN_UP_USER_DETAILS = "/bulk/sign-up/user/details";
+    public static final String URL_SEND_BULK_SIGN_UP_USER_RESPONSE = "/bulk/sign-up/user/details/checked?checkedInfoName=";
+
     // API version check Rest
     public static final String URL_GET_MIN_API_VERSION_REQUIRED = "app/min-supported-versions";
 
@@ -547,6 +627,7 @@ public class Constants {
 
     // FCM notification
     public static final String URL_REFRESH_FIREBASE_TOKEN = "firebase/login/";
+    public static final String URL_FIREBASE_LOGOUT  = "firebase/logout/";
 
     // FCM notification
     public static final String URL_PROMO_ACTIVE = "promo/activate";
@@ -600,6 +681,7 @@ public class Constants {
     public static final String BANK_ACCOUNT_STATUS_PENDING = "PENDING";
     public static final String BANK_ACCOUNT_STATUS_NOT_VERIFIED = "NOT_VERIFIED";
     public static final String BANK_ACCOUNT_STATUS_BLOCKED = "BLOCKED";
+    public static final String BANK_ACCOUNT_STATUS_UNCONSENTED = "UNCONSENTED";
 
     public static final int MOBILE_TYPE_PREPAID = 1;
     public static final int MOBILE_TYPE_POSTPAID = 2;
@@ -649,6 +731,8 @@ public class Constants {
     public static final String COMMAND_SET_PROFILE_PICTURE = "COMMAND_SET_PROFILE_PICTURE";
     public static final String COMMAND_SET_BUSINESS_CONTACT_PROFILE_PICTURE = "COMMAND_SET_BUSINESS_CONTACT_PROFILE_PICTURE";
     public static final String COMMAND_ADD_A_BANK = "COMMAND_ADD_A_BANK";
+
+    public static final String COMMAND_UPDATE_CONCENT = "COMMAND_UPDATE_CONCENT";
     public static final String COMMAND_VERIFICATION_BANK_WITH_AMOUNT = "COMMAND_VERIFICATION_BANK_WITH_AMOUNT";
     public static final String COMMAND_REMOVE_A_BANK = "COMMAND_REMOVE_A_BANK";
     public static final String COMMAND_TOPUP_REQUEST = "COMMAND_TOPUP_REQUEST";
@@ -703,6 +787,7 @@ public class Constants {
     public static final String COMMAND_BANGLALION_BILL_PAY = "COMMAND_BANGLALION_BILL_PAY";
     public static final String COMMAND_GET_BANGLALION_CUSTOMER_INFO = "COMMAND_GET_BANGLALION_CUSTOMER_INFO";
     public static final String COMMAND_GET_LINK_THREE_CUSTOMER_INFO = "COMMAND_GET_LINK_THREE_CUSTOMER_INFO";
+    public static final String COMMAND_GET_BULK_SIGN_UP_USER_DETAILS = "COMMAND_GET_BULK_SIGN_UP_USER_DETAILS";
 
     // Ticket
     public static final String COMMAND_CREATE_TICKET = "COMMAND_CREATE_TICKET";
@@ -800,6 +885,9 @@ public class Constants {
 
     public static final String ADD_BANK = "ADD_BANK";
     public static final String VERIFY_BANK = "VERIFY_BANK";
+    public static final String UPLOAD_DOCUMENT = "UPLOAD_DOCUMENT";
+    public static final String BUNDLE = "BUNDLE";
+
 
     public static final String INTRODUCTION_REQUEST_STATUS_PENDING = "PENDING";
     public static final String INTRODUCTION_REQUEST_STATUS_APPROVED = "APPROVED";
@@ -976,6 +1064,16 @@ public class Constants {
     public static String CREDIT_BALANCE = "Credit balance";
     public static String MINIMUM_PAY = "Minimum pay";
     public static String OTHER = "Other";
+
+    public static final String APP_LANGUAGE_ENGLISH="en";
+    public static final String APP_LANGUAGE_BENGALI="bn";
+    public static long ACTIVE = 1;
+    public static long BLOCKED = 2;
     public static final int MAX_TICKET = 4;
     public static final int MAX_TICKET_PURCHASE_DAY = 9;
+
+    public static final String CARD_TYPE = "CARD_TYPE";
+    public static final String transaction = "transaction";
+    public static final  String other = "other";
+    public static  final String  request_money ="request_money";
 }

@@ -1,6 +1,5 @@
 package bd.com.ipay.ipayskeleton.CustomView.Dialogs;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -28,7 +27,7 @@ public class AddPromoDialogBuilder extends MaterialDialog.Builder implements Htt
     private HttpRequestPostAsyncTask mAddPromoTask = null;
     private Context context;
     private AddPromoResponse mAddPromoResponse;
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
     private EditText mPromoField;
     private final AddPromoListener mAddPromoListener;
 
@@ -52,7 +51,7 @@ public class AddPromoDialogBuilder extends MaterialDialog.Builder implements Htt
         positiveText(R.string.ok);
         negativeText(R.string.cancel);
 
-        mProgressDialog = new ProgressDialog(context);
+        mProgressDialog = new CustomProgressDialog(context);
 
         onPositive(new MaterialDialog.SingleButtonCallback() {
             @Override
@@ -92,8 +91,6 @@ public class AddPromoDialogBuilder extends MaterialDialog.Builder implements Htt
         if (mAddPromoTask != null) {
             return;
         }
-
-        mProgressDialog.setMessage(getContext().getString(R.string.adding_promo));
         mProgressDialog.show();
 
         AddPromoRequest addPromoRequest = new AddPromoRequest(promoCode);

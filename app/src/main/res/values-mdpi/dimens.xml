@@ -4,4 +4,5 @@
     <dimen name="text_size_name">14sp</dimen>
     <dimen name="margin_size_medium_small">2dp</dimen>
     <dimen name="text_size_transaction_value">48sp</dimen>
+    <dimen name="top_margin_source_of_fund">40dp</dimen>
 </resources>

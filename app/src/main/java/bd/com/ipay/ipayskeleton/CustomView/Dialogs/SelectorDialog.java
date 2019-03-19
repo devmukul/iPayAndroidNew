@@ -13,7 +13,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Resource.Resource;
 import bd.com.ipay.ipayskeleton.R;
 
 public class SelectorDialog extends AlertDialog {

@@ -7,7 +7,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
-import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.AnimatedProgressDialog;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.GenericResponseWithMessageOnly;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.ViewModel.ProgressDialogListener;
@@ -15,26 +15,26 @@ import bd.com.ipay.ipayskeleton.ViewModel.ProgressDialogListener;
 public class HttpErrorHandler {
 
     public static boolean isErrorFound(GenericHttpResponse result, Context context, Dialog alertDialog) {
-        if (alertDialog instanceof CustomProgressDialog) {
+        if (alertDialog instanceof AnimatedProgressDialog) {
             if (result == null) {
-                ((CustomProgressDialog) alertDialog).
+                ((AnimatedProgressDialog) alertDialog).
                         showFailureAnimationAndMessage(context.getString(R.string.service_not_available));
                 return true;
             } else if (result.getErrorMessage() != null) {
-                ((CustomProgressDialog) alertDialog).showFailureAnimationAndMessage(result.getErrorMessage());
+                ((AnimatedProgressDialog) alertDialog).showFailureAnimationAndMessage(result.getErrorMessage());
                 return true;
             } else {
                 if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_NOT_FOUND) {
                     try {
                         GenericResponseWithMessageOnly genericResponseWithMessageOnly = new Gson().
                                 fromJson(result.getJsonString(), GenericResponseWithMessageOnly.class);
-                        ((CustomProgressDialog) alertDialog).showFailureAnimationAndMessage(genericResponseWithMessageOnly.getMessage());
+                        ((AnimatedProgressDialog) alertDialog).showFailureAnimationAndMessage(genericResponseWithMessageOnly.getMessage());
                     } catch (Exception e) {
-                        ((CustomProgressDialog) alertDialog).showFailureAnimationAndMessage("Not found");
+                        ((AnimatedProgressDialog) alertDialog).showFailureAnimationAndMessage("Not found");
                     }
                     return true;
                 } else if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_INTERNAL_ERROR) {
-                    ((CustomProgressDialog) alertDialog).showFailureAnimationAndMessage("Internal Server Error");
+                    ((AnimatedProgressDialog) alertDialog).showFailureAnimationAndMessage("Internal Server Error");
                     return true;
                 }
                 return false;
@@ -73,6 +73,30 @@ public class HttpErrorHandler {
                 return false;
             }
         }
+    }
+
+    public static boolean isErrorFoundWithout404(GenericHttpResponse result, Context context, Dialog alertDialog) {
+        if (alertDialog != null) {
+            alertDialog.dismiss();
+        }
+        if (result == null) {
+            return true;
+        } else if (result.getErrorMessage() != null) {
+            if (!result.isSilent()) {
+                Toast.makeText(context, result.getErrorMessage(), Toast.LENGTH_LONG).show();
+            }
+            return true;
+        } else {
+            if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_INTERNAL_ERROR) {
+                if (!result.isSilent()) {
+                    Toast.makeText(context, "Internal Server Error", Toast.LENGTH_LONG).show();
+                }
+                return true;
+            } else if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_NOT_FOUND) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static boolean isErrorFoundForProgressDialogListener(GenericHttpResponse result, Context context, ProgressDialogListener alertDialog) {
@@ -165,4 +189,5 @@ public class HttpErrorHandler {
             return false;
         }
     }
+
 }

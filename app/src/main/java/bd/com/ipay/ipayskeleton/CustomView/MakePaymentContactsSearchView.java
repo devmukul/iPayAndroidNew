@@ -57,9 +57,10 @@ public class MakePaymentContactsSearchView extends RelativeLayout implements Sea
 
     private CustomItemClickListener customItemClickListener;
     private CustomBillPaymentClickListener customBillPaymentClickListener;
+    private static final String NUMERIC_PATTERN_WITH_SPACE = "^[0-9\\s\\+\\-!@#$%^&*(),.?\":{}|<>]*$";
 
 
-    private View mPayByQCView;
+    private  View mPayByQCView;
     private PinChecker pinChecker;
 
     private Context mContext;
@@ -154,14 +155,17 @@ public class MakePaymentContactsSearchView extends RelativeLayout implements Sea
 
         mBusinessContacts.clear();
         //Add Bill Provider
-        mBusinessContacts.add(new CustomBusinessContact(Constants.AMBERIT, "Bill_Pay", mContext.getString(R.string.amberIT), "Bill Pay", ""));
-        mBusinessContacts.add(new CustomBusinessContact(Constants.BLION, "Bill_Pay", mContext.getString(R.string.banglalion), "Bill Pay", ""));
-        mBusinessContacts.add(new CustomBusinessContact(Constants.BRILLIANT, "Bill_Pay", mContext.getString(R.string.brilliant), "Bill Pay", ""));
-        mBusinessContacts.add(new CustomBusinessContact(Constants.CARNIVAL, "Bill_Pay", mContext.getString(R.string.carnival), "Bill Pay", ""));
-        mBusinessContacts.add(new CustomBusinessContact(Constants.CREDIT_CARD, "Bill_Pay", mContext.getString(R.string.credit_card), "Bill Pay", ""));
-        mBusinessContacts.add(new CustomBusinessContact(Constants.LANKABANGLA, "Bill_Pay", mContext.getString(R.string.lanka_bangla_card), "Bill Pay", ""));
-        mBusinessContacts.add(new CustomBusinessContact(Constants.LANKABANGLA, "Bill_Pay", mContext.getString(R.string.lanka_bangla_dps), "Bill Pay", ""));
-        mBusinessContacts.add(new CustomBusinessContact(Constants.LINK3, "Bill_Pay", mContext.getString(R.string.link_three), "Bill Pay", ""));
+        mBusinessContacts.add(new CustomBusinessContact(Constants.AMBERIT, "Bill_Pay", mContext.getString(R.string.amberIT), mContext.getString(R.string.bill_pay), ""));
+        mBusinessContacts.add(new CustomBusinessContact(Constants.BLION, "Bill_Pay", mContext.getString(R.string.banglalion), mContext.getString(R.string.bill_pay), ""));
+        mBusinessContacts.add(new CustomBusinessContact(Constants.BRILLIANT, "Bill_Pay", mContext.getString(R.string.brilliant), mContext.getString(R.string.bill_pay), ""));
+        mBusinessContacts.add(new CustomBusinessContact(Constants.CARNIVAL, "Bill_Pay", mContext.getString(R.string.carnival), mContext.getString(R.string.bill_pay), ""));
+        mBusinessContacts.add(new CustomBusinessContact(Constants.CREDIT_CARD, "Bill_Pay", mContext.getString(R.string.credit_card_title), mContext.getString(R.string.bill_pay), ""));
+        mBusinessContacts.add(new CustomBusinessContact(Constants.DPDC, "Bill_Pay", mContext.getString(R.string.dpdc), mContext.getString(R.string.bill_pay), ""));
+        mBusinessContacts.add(new CustomBusinessContact(Constants.DESCO, "Bill_Pay", mContext.getString(R.string.desco), mContext.getString(R.string.bill_pay), ""));
+        mBusinessContacts.add(new CustomBusinessContact(Constants.LANKABANGLA, "Bill_Pay", mContext.getString(R.string.lanka_bangla_card), mContext.getString(R.string.bill_pay), ""));
+        mBusinessContacts.add(new CustomBusinessContact(Constants.LANKABANGLA, "Bill_Pay", mContext.getString(R.string.lanka_bangla_dps), mContext.getString(R.string.bill_pay), ""));
+        mBusinessContacts.add(new CustomBusinessContact(Constants.LINK3, "Bill_Pay", mContext.getString(R.string.link_three), mContext.getString(R.string.bill_pay), ""));
+        mBusinessContacts.add(new CustomBusinessContact(Constants.RAILWAY_TICKET, "Bill_Pay", mContext.getString(R.string.railway_ticket), mContext.getString(R.string.buy_ticket), ""));
 
 
         if (cursor != null) {
@@ -284,6 +288,9 @@ public class MakePaymentContactsSearchView extends RelativeLayout implements Sea
 
     @Override
     public boolean onQueryTextChange(String query) {
+        if(query.matches(NUMERIC_PATTERN_WITH_SPACE)){
+            query = query.replaceAll("[^0-9.]", "");
+        }
         if(mTransactionHistoryAdapter != null && query!=null && !TextUtils.isEmpty(query)){
             mTransactionHistoryAdapter.getFilter().filter(query);
             return true;
@@ -401,24 +408,37 @@ public class MakePaymentContactsSearchView extends RelativeLayout implements Sea
                     }
                 }
 
-                if (!typeInList.equals("Bill_Pay")) {
-                    profilePictureView.setProfilePicture(Constants.BASE_URL_FTP_SERVER + profilePictureUrl, false);
-                }else{
-                    if(businessName.equalsIgnoreCase(mContext.getString(R.string.amberIT)))
-                        profilePictureView.setProfilePicture(R.drawable.ic_amber_it);
-                    else if(businessName.equalsIgnoreCase(mContext.getString(R.string.banglalion)))
-                        profilePictureView.setProfilePicture(R.drawable.banglalion);
-                    else if(businessName.equalsIgnoreCase(mContext.getString(R.string.brilliant)))
-                        profilePictureView.setProfilePicture(R.drawable.brilliant_logo);
-                    else if(businessName.equalsIgnoreCase(mContext.getString(R.string.carnival)))
-                        profilePictureView.setProfilePicture(R.drawable.ic_carnival);
-                    else if(businessName.equalsIgnoreCase(mContext.getString(R.string.lanka_bangla_card)))
-                        profilePictureView.setProfilePicture(R.drawable.lbf_credit_card);
-                    else if(businessName.equalsIgnoreCase(mContext.getString(R.string.lanka_bangla_dps)))
-                        profilePictureView.setProfilePicture(R.drawable.lbf_credit_card_dps);
-                    else if(businessName.equalsIgnoreCase(mContext.getString(R.string.link_three)))
-                        profilePictureView.setProfilePicture(R.drawable.link_three_logo);
+                if(!TextUtils.isEmpty(profilePictureUrl)){
+                    profilePictureView.setBusinessProfilePicture(Constants.BASE_URL_FTP_SERVER + profilePictureUrl, false);
                 }
+                else {
+                    if (businessName.equalsIgnoreCase(mContext.getString(R.string.amberIT)))
+                        profilePictureView.setProfilePicture(R.drawable.ic_amber_it);
+                    else if (businessName.equalsIgnoreCase(mContext.getString(R.string.banglalion)))
+                        profilePictureView.setProfilePicture(R.drawable.banglalion);
+                    else if (businessName.equalsIgnoreCase(mContext.getString(R.string.brilliant)))
+                        profilePictureView.setProfilePicture(R.drawable.brilliant_logo);
+                    else if (businessName.equalsIgnoreCase(mContext.getString(R.string.carnival)))
+                        profilePictureView.setProfilePicture(R.drawable.ic_carnival);
+                    else if (businessName.equalsIgnoreCase(mContext.getString(R.string.credit_card_title)))
+                        profilePictureView.setProfilePicture(R.drawable.credit_card);
+                    else if (businessName.equalsIgnoreCase(mContext.getString(R.string.desco)))
+                        profilePictureView.setProfilePicture(R.drawable.desco);
+                    else if (businessName.equalsIgnoreCase(mContext.getString(R.string.dpdc)))
+                        profilePictureView.setProfilePicture(R.drawable.dpdc);
+                    else if (businessName.equalsIgnoreCase(mContext.getString(R.string.lanka_bangla_card)))
+                        profilePictureView.setProfilePicture(R.drawable.lbf_credit_card);
+                    else if (businessName.equalsIgnoreCase(mContext.getString(R.string.lanka_bangla_dps)))
+                        profilePictureView.setProfilePicture(R.drawable.lbf_credit_card_dps);
+                    else if (businessName.equalsIgnoreCase(mContext.getString(R.string.link_three)))
+                        profilePictureView.setProfilePicture(R.drawable.link_three_logo);
+                    else if (businessName.equalsIgnoreCase(mContext.getString(R.string.railway_ticket)))
+                        profilePictureView.setProfilePicture(R.drawable.bd_railway);
+                    else {
+                        profilePictureView.setBusinessLogoPlaceHolder();
+                    }
+                }
+
 
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -461,7 +481,7 @@ public class MakePaymentContactsSearchView extends RelativeLayout implements Sea
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new BusinessContactListAdapter.NormalViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_business_contact, parent, false));
+            return new BusinessContactListAdapter.NormalViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_business_search, parent, false));
 
         }
 

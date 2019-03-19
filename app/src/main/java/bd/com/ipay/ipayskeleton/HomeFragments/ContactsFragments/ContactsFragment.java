@@ -2,7 +2,6 @@ package bd.com.ipay.ipayskeleton.HomeFragments.ContactsFragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -43,6 +42,7 @@ import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.Aspect.ValidateAccess;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.ProfileImageView;
 import bd.com.ipay.ipayskeleton.DatabaseHelper.DBConstants;
 import bd.com.ipay.ipayskeleton.DatabaseHelper.DataHelper;
@@ -57,7 +57,6 @@ import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Utilities.ServiceIdConstants;
 import bd.com.ipay.ipayskeleton.Utilities.ToasterAndLogger.Logger;
 import bd.com.ipay.ipayskeleton.Utilities.ToasterAndLogger.Toaster;
-import bd.com.ipay.ipayskeleton.Utilities.TokenManager;
 import bd.com.ipay.ipayskeleton.Utilities.Utilities;
 
 import static bd.com.ipay.ipayskeleton.Utilities.Common.CommonColorList.PROFILE_PICTURE_BACKGROUNDS;
@@ -93,7 +92,7 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
 
     private HttpRequestPostAsyncTask mAskForRecommendationTask = null;
     private HttpRequestPostAsyncTask mIntroduceTask = null;
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
 
     private ContactListAdapter mAdapter;
     private Cursor mCursor;
@@ -113,6 +112,7 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
     private int verificationStatusIndex;
     private int accountTypeIndex;
     private int isMemberIndex;
+    private boolean mPersonalMemebersOnly;
 
     private ContactLoadFinishListener contactLoadFinishListener;
 
@@ -132,7 +132,7 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_contacts, container, false);
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
 
         // If the fragment is a dialog fragment, we are using the searchview at the bottom.
         // Otherwise, we are using the search view from the action bar.
@@ -154,6 +154,7 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
             mShowInvitedOnly = getArguments().getBoolean(Constants.SHOW_INVITED_ONLY, false);
             mShowNonInvitedNonMembersOnly = getArguments().getBoolean(Constants.SHOW_NON_INVITED_NON_MEMBERS_ONLY, false);
             mShowAllMembersToInvite = getArguments().getBoolean(Constants.SHOW_ALL_MEMBERS, false);
+            mPersonalMemebersOnly = getArguments().getBoolean(Constants.PERSONAL_ACCOUNT, false);
         }
 
         getLoaderManager().initLoader(CONTACTS_QUERY_LOADER, null, this).forceLoad();
@@ -212,9 +213,9 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
                 if (ContactsHolderFragment.mGetInviteInfoResponse != null)
                     invitees = ContactsHolderFragment.mGetInviteInfoResponse.getInvitees();
                 Cursor cursor;
-                if (ProfileInfoCacheManager.isAccountSwitched()) {
-                    cursor = dataHelper.searchBusinessContacts(mQuery, miPayMembersOnly, mBusinessMemberOnly, mShowNonInvitedNonMembersOnly,
-                            mShowVerifiedUsersOnly, mShowInvitedOnly, mShowNonInvitedNonMembersOnly, invitees, Long.parseLong(TokenManager.getOnAccountId()));
+                if (mPersonalMemebersOnly) {
+                    cursor = dataHelper.searchPersonalContacts(mQuery, miPayMembersOnly, mPersonalMemebersOnly, mShowNonInvitedNonMembersOnly,
+                            mShowVerifiedUsersOnly, mShowInvitedOnly, mShowNonInvitedNonMembersOnly, invitees);
                 } else {
                     cursor = dataHelper.searchContacts(mQuery, miPayMembersOnly, mBusinessMemberOnly, mShowNonInvitedNonMembersOnly,
                             mShowVerifiedUsersOnly, mShowInvitedOnly, mShowNonInvitedNonMembersOnly, invitees);
@@ -398,6 +399,7 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
                 if (mBottomSheetLayout.isSheetShowing()) {
                     mBottomSheetLayout.dismissSheet();
                 }
+                getActivity().finish();
             }
         });
         Button introduceUserButton = mSheetViewIpayMember.findViewById(R.id.button_introduce);
@@ -432,6 +434,7 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
                 if (mBottomSheetLayout.isSheetShowing()) {
                     mBottomSheetLayout.dismissSheet();
                 }
+                getActivity().finish();
             }
         });
 
@@ -465,6 +468,7 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
                 if (mBottomSheetLayout.isSheetShowing()) {
                     mBottomSheetLayout.dismissSheet();
                 }
+                getActivity().finish();
             }
         });
 
@@ -509,7 +513,6 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
             return;
         }
 
-        mProgressDialog.setMessage(getString(R.string.progress_dialog_send_for_introduction));
         mProgressDialog.show();
         mAskForRecommendationTask = new HttpRequestPostAsyncTask(Constants.COMMAND_ASK_FOR_RECOMMENDATION,
                 Constants.BASE_URL_MM + Constants.URL_ASK_FOR_INTRODUCTION + mobileNumber, null, getActivity(), false);
@@ -664,7 +667,6 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
             mIntroduceTask = new HttpRequestPostAsyncTask(Constants.COMMAND_INTRODUCE_ACTION,
                     Constants.BASE_URL_MM + Constants.URL_INTRODUCE_USER + "/" + mobileNumber, json, getActivity(), this, false);
             mIntroduceTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            mProgressDialog.setMessage(getString(R.string.please_wait));
             mProgressDialog.show();
         }
     }

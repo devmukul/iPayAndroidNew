@@ -60,7 +60,7 @@ public class IdentificationDocumentConstants {
         DOCUMENT_ID_TO_EDIT_TEXT_HINT_MAP = new HashMap<>();
 
         //Common Document
-        DOCUMENT_ID_TO_EDIT_TEXT_HINT_MAP.put(DOCUMENT_TYPE_NATIONAL_ID, R.string.national_id);
+        DOCUMENT_ID_TO_EDIT_TEXT_HINT_MAP.put(DOCUMENT_TYPE_NATIONAL_ID, R.string.national_id_no);
         DOCUMENT_ID_TO_EDIT_TEXT_HINT_MAP.put(DOCUMENT_TYPE_OTHER, R.string.other_id);
         DOCUMENT_ID_TO_EDIT_TEXT_HINT_MAP.put(DOCUMENT_TYPE_DRIVING_LICENSE, R.string.driving_license_id);
         DOCUMENT_ID_TO_EDIT_TEXT_HINT_MAP.put(DOCUMENT_TYPE_PASSPORT, R.string.passport_id);

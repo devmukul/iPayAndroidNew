@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+        
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginBottom="@dimen/value6"
+            android:id="@+id/profile_image"
+            tools:src = "@drawable/user_brand_bg"
+            android:layout_centerHorizontal="true"
+            app:riv_oval="true"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:fontFamily="@font/open_sans_semibold"
+            android:layout_below="@+id/profile_image"
+            android:textColor="#212121"
+            android:lineSpacingExtra="6sp"
+            android:id="@+id/name"
+            android:layout_marginBottom="16dp"
+            android:gravity="center_horizontal"
+            tools:text="Arifur Rahman" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:id="@+id/helper_text"
+            android:layout_below="@+id/name"
+            android:layout_marginRight="@dimen/value32"
+            android:layout_marginLeft="@dimen/value32"
+            android:textColor="#333333"
+            android:gravity="center_horizontal"
+            android:text="@string/source_of_fund_success" />
+        <Button
+            android:id="@+id/go_to_wallet_button"
+            style="@style/ButtonPrimary.IPayTransactionAction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/value32"
+            android:layout_marginLeft="@dimen/value32"
+            android:layout_below="@+id/helper_text"
+            android:layout_marginTop="@dimen/value24"
+            android:text="@string/go_back_to_wallet"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

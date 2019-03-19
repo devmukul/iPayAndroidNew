@@ -8,9 +8,13 @@
             android:icon="@drawable/ic_drawer_profile"
             android:title="@string/account" />
         <item
-            android:id="@+id/nav_bank_account"
-            android:icon="@drawable/ic_bank"
-            android:title="@string/link_bank" />
+            android:id="@+id/nav_contact"
+            android:icon="@drawable/ic_contact"
+            android:title="@string/contacts" />
+        <item
+            android:id="@+id/nav_ipay_source_of_fund"
+            android:icon="@drawable/ic_source_of_fund"
+            android:title="@string/source_of_fund" />
         <item
             android:id="@+id/nav_security_settings"
             android:icon="@drawable/ic_settings"
@@ -28,6 +32,12 @@
             android:id="@+id/nav_help"
             android:icon="@drawable/ic_help"
             android:title="@string/help" />
+
+        <item
+            android:id="@+id/nav_language"
+            android:icon="@drawable/language_settings"
+            android:title="@string/language" />
+
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_drawer_about"

@@ -19,7 +19,8 @@ import bd.com.ipay.ipayskeleton.Utilities.Utilities;
 public class IPayAddMoneyFromBankAmountInputFragment extends IPayAbstractBankTransactionAmountInputFragment {
 	@Override
 	protected void setupViewProperties() {
-		setTransactionDescription(getString(R.string.add_money_from_title));
+        hideTransactionDescription();
+        hideBalance();
 		setName(bankAccountList.getBankName());
 		setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_CLASS_NUMBER);
 		setTransactionImageResource(bankAccountList.getBankIcon(getContext()));

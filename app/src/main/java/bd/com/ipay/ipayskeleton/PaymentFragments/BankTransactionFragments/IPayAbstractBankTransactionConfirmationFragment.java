@@ -12,7 +12,7 @@ import com.google.gson.GsonBuilder;
 
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
-import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.AnimatedProgressDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Bank.BankAccountList;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SendMoney.IPayTransactionResponse;
@@ -27,7 +27,7 @@ public abstract class IPayAbstractBankTransactionConfirmationFragment extends IP
 
 	public static final String TRANSACTION_AMOUNT_KEY = "TRANSACTION_AMOUNT";
 	protected HttpRequestPostAsyncTask httpRequestPostAsyncTask = null;
-	protected CustomProgressDialog mCustomProgressDialog = null;
+	protected AnimatedProgressDialog mCustomProgressDialog = null;
 	protected Number transactionAmount;
 	protected BankAccountList bankAccountList;
 	protected final Gson gson = new GsonBuilder().create();
@@ -39,7 +39,7 @@ public abstract class IPayAbstractBankTransactionConfirmationFragment extends IP
 			transactionAmount = (Number) getArguments().getSerializable(TRANSACTION_AMOUNT_KEY);
 			bankAccountList = getArguments().getParcelable(Constants.SELECTED_BANK_ACCOUNT);
 		}
-		mCustomProgressDialog = new CustomProgressDialog(getContext());
+		mCustomProgressDialog = new AnimatedProgressDialog(getContext());
 	}
 
 	@Override
@@ -71,19 +71,6 @@ public abstract class IPayAbstractBankTransactionConfirmationFragment extends IP
 
 	@Override
 	protected void performContinueAction() {
-		mCustomProgressDialog.setTitle(R.string.please_wait_no_ellipsis);
-
-		switch (getApiCommand()) {
-			case Constants.COMMAND_ADD_MONEY_FROM_BANK:
-				mCustomProgressDialog.setMessage(getString(R.string.progress_dialog_add_money_in_progress));
-				break;
-			case Constants.COMMAND_ADD_MONEY_FROM_BANK_INSTANTLY:
-				mCustomProgressDialog.setMessage(getString(R.string.progress_dialog_add_money_instantly_in_progress));
-				break;
-			case Constants.COMMAND_WITHDRAW_MONEY:
-				mCustomProgressDialog.setMessage(getString(R.string.progress_dialog_withdraw_money_in_progress));
-				break;
-		}
 		mCustomProgressDialog.showDialog();
 		httpRequestPostAsyncTask = new HttpRequestPostAsyncTask(getApiCommand(), getUrl(), getRequestJson(), getActivity(), this, false);
 		httpRequestPostAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -115,7 +102,6 @@ public abstract class IPayAbstractBankTransactionConfirmationFragment extends IP
 							if (mOTPVerificationForTwoFactorAuthenticationServicesDialog != null) {
 								mOTPVerificationForTwoFactorAuthenticationServicesDialog.dismissDialog();
 							}
-							mCustomProgressDialog.setTitle(R.string.success);
 							mCustomProgressDialog.showSuccessAnimationAndMessage(iPayTransactionResponse.getMessage());
 							if (getActivity() != null)
 								Utilities.hideKeyboard(getActivity());

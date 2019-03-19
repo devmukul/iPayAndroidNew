@@ -20,7 +20,7 @@ import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CircleTransform;
 
 public class DpsBillDetailsDialog {
-    private final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+    private final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
     private AlertDialog alertDialog;
     private TextView titleTextView;
     private TextView accountNameTextView;

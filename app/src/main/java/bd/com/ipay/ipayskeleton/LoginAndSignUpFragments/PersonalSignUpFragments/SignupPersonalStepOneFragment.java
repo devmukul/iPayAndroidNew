@@ -1,10 +1,9 @@
 package bd.com.ipay.ipayskeleton.LoginAndSignUpFragments.PersonalSignUpFragments;
 
-import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
@@ -13,23 +12,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.tsongkha.spinnerdatepicker.DatePicker;
+import com.tsongkha.spinnerdatepicker.DatePickerDialog;
 
-import java.text.ParseException;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import bd.com.ipay.ipayskeleton.Activities.SignupOrLoginActivity;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.BaseFragments.BaseFragment;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.LoginAndSignUp.OTPRequestPersonalSignup;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.LoginAndSignUp.OTPResponsePersonalSignup;
@@ -43,395 +46,360 @@ import bd.com.ipay.ipayskeleton.Utilities.InputValidator;
 import bd.com.ipay.ipayskeleton.Utilities.InvalidInputResponse;
 import bd.com.ipay.ipayskeleton.Utilities.Utilities;
 
-public class SignupPersonalStepOneFragment extends BaseFragment implements HttpResponseListener, com.tsongkha.spinnerdatepicker.DatePickerDialog.OnDateSetListener {
-    private HttpRequestPostAsyncTask mRequestOTPTask = null;
-    private OTPResponsePersonalSignup mOtpResponsePersonalSignup;
+public class SignupPersonalStepOneFragment extends BaseFragment implements HttpResponseListener, DatePickerDialog.OnDateSetListener {
+	private HttpRequestPostAsyncTask mRequestOTPTask = null;
+	private OTPResponsePersonalSignup mOtpResponsePersonalSignup;
 
-    private EditText mPasswordView;
-    private EditText mConfirmPasswordView;
-    private EditText mMobileNumberView;
-    private EditText mPromoCodeEditText;
+	private EditText mPasswordView;
+	private EditText mConfirmPasswordView;
+	private EditText mMobileNumberView;
+	private EditText mPromoCodeEditText;
 
-    private EditText mNameView;
-    private Button mNextButton;
-    private CheckBox mMaleCheckBox;
-    private CheckBox mFemaleCheckBox;
-    private EditText mBirthdayEditText;
-    private EditText mGenderEditText;
-    private ImageView mCrossButton;
-    private Button mLoginButton;
-    private TextView mTermsConditions;
-    private TextView mPrivacyPolicy;
-    private CheckBox mAgreementCheckBox;
+	private EditText mNameView;
+	private CheckBox mMaleCheckBox;
+	private CheckBox mFemaleCheckBox;
+	private EditText mBirthdayEditText;
+	private EditText mGenderEditText;
 
-    private ProgressDialog mProgressDialog;
+	private CustomProgressDialog mProgressDialog;
 
-    private String mDeviceID;
+	private String mDeviceID;
 
-    private com.tsongkha.spinnerdatepicker.DatePickerDialog mDatePickerDialog;
-    private String mDOB;
+	private DatePickerDialog mDatePickerDialog;
 
-    private int mYear;
-    private int mMonth;
-    private int mDay;
-    private String mDayName;
+	private String mDOB;
 
-    private DeepLinkAction mDeepLinkAction;
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		if (getActivity() != null)
+			mTracker = Utilities.getTracker(getActivity());
+	}
 
-    private final DatePickerDialog.OnDateSetListener mDateSetListener =
-            new DatePickerDialog.OnDateSetListener() {
-                public void onDateSet(DatePicker view, int year,
-                                      int monthOfYear, int dayOfMonth) {
-                    String[] mMonthArray;
-                    String birthDate, birthMonth, birthYear;
+	@Override
+	public void onResume() {
+		super.onResume();
+		if (mMaleCheckBox.isChecked())
+			mMaleCheckBox.setTextColor((Color.WHITE));
+		if (mFemaleCheckBox.isChecked())
+			mFemaleCheckBox.setTextColor((Color.WHITE));
+		if (mTracker != null) {
+			Utilities.sendScreenTracker(mTracker, getString(R.string.screen_name_personal_signup_step_1));
+		}
+	}
 
-                    mYear = year;
-                    mMonth = monthOfYear + 1;
-                    mDay = dayOfMonth;
-                    mMonthArray = getResources().getStringArray(R.array.month_name);
+	@Override
+	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		// Inflate the layout for this fragment
+		View v = inflater.inflate(R.layout.fragment_signup_personal_step_one, container, false);
 
-                    if (mDay < 10) birthDate = "0" + mDay;
-                    else birthDate = mDay + "";
-                    if (mMonth < 10) birthMonth = "0" + mMonth;
-                    else birthMonth = mMonth + "";
-                    birthYear = mYear + "";
-                    mDOB = birthDate + "/" + birthMonth + "/" + birthYear;
-                    try {
-                        Date date = new SimpleDateFormat("dd/MM/yyyy").parse(mDOB);
-                        mDayName = new SimpleDateFormat("EE").format(date);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
+		if (getActivity() == null)
+			return v;
+		DeepLinkAction mDeepLinkAction = getActivity().getIntent().getParcelableExtra(Constants.DEEP_LINK_ACTION);
+		mNameView = v.findViewById(R.id.user_name);
+		mPasswordView = v.findViewById(R.id.password);
+		mConfirmPasswordView = v.findViewById(R.id.confirm_password);
+		mMobileNumberView = v.findViewById(R.id.mobile_number);
+		final TextView termsAndPrivacyTextView = v.findViewById(R.id.terms_and_privacy_text_view);
 
-                    mBirthdayEditText.setError(null);
-                    mBirthdayEditText.setText(mDayName + " , " + mDay + " " + mMonthArray[mMonth - 1] + " , " + mYear);
-                }
-            };
+		termsAndPrivacyTextView.setMovementMethod(LinkMovementMethod.getInstance());
+		mMobileNumberView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View view, boolean b) {
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mTracker = Utilities.getTracker(getActivity());
-    }
+				if (!b) {
+					if (mMobileNumberView.getText() != null) {
+						if (mMobileNumberView.getText() != null) {
+							String number = mMobileNumberView.getText().toString();
+							if (number.length() == 10 && number.startsWith("1")) {
+								String firstPart = number.substring(2, 6);
+								String secondPart = number.substring(6, 10);
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        getActivity().setTitle(R.string.title_signup_personal_page);
-        if (mMaleCheckBox.isChecked())
-            mMaleCheckBox.setTextColor((Color.WHITE));
-        if (mFemaleCheckBox.isChecked())
-            mFemaleCheckBox.setTextColor((Color.WHITE));
-        Utilities.sendScreenTracker(mTracker, getString(R.string.screen_name_personal_signup_step_1));
-    }
+								mMobileNumberView.setText(String
+										.format(Locale.US, "%s-%s-%s",
+												number.substring(0, 2), firstPart, secondPart));
+							} else if (number.length() == 11 && number.startsWith("0")) {
+								String firstPart = number.substring(3, 7);
+								String secondPart = number.substring(7, 11);
+								mMobileNumberView.setText(String
+										.format(Locale.US, "%s-%s-%s",
+												number.substring(0, 3), firstPart, secondPart));
+							}
+						}
+					}
+				} else {
+					if (mMobileNumberView.getText() != null) {
+						if (mMobileNumberView.getText() != null) {
+							String number = mMobileNumberView.getText().toString();
+							number = number.replaceAll("[^0-9]", "");
+							mMobileNumberView.setText(number);
+						}
+					}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_signup_personal_step_one, container, false);
+				}
+			}
+		});
+		Button mNextButton = v.findViewById(R.id.personal_sign_in_button);
+		mMaleCheckBox = v.findViewById(R.id.checkBoxMale);
+		mFemaleCheckBox = v.findViewById(R.id.checkBoxFemale);
+		mBirthdayEditText = v.findViewById(R.id.birthdayEditText);
+		mPromoCodeEditText = v.findViewById(R.id.promoCodeEditText);
+		mGenderEditText = v.findViewById(R.id.genderEditText);
+		ImageView mCrossButton = v.findViewById(R.id.button_cross);
+		Button mLoginButton = v.findViewById(R.id.button_log_in);
+		mProgressDialog = new CustomProgressDialog(getActivity());
 
-        mDeepLinkAction = getActivity().getIntent().getParcelableExtra(Constants.DEEP_LINK_ACTION);
-        mNameView = v.findViewById(R.id.user_name);
-        mPasswordView = v.findViewById(R.id.password);
-        mConfirmPasswordView = v.findViewById(R.id.confirm_password);
-        mMobileNumberView = v.findViewById(R.id.mobile_number);
-        mMobileNumberView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
+		mNameView.requestFocus();
+		// Enable hyperlinked
+		setGenderCheckBoxTextColor(mMaleCheckBox.isChecked(), mFemaleCheckBox.isChecked());
 
-                if (!b) {
-                    if (mMobileNumberView.getText() != null) {
-                        if (mMobileNumberView.getText().toString() != null) {
-                            String number = mMobileNumberView.getText().toString();
-                            if (number.length() == 10 && number.startsWith("1")) {
-                                String firstPart = number.substring(2, 6);
-                                String secondPart = number.substring(6, 10);
-                                mMobileNumberView.setText(number.substring(0, 2) + "-" + firstPart + "-" + secondPart);
-                            } else if (number.length() == 11 && number.startsWith("0")) {
-                                String firstPart = number.substring(3, 7);
-                                String secondPart = number.substring(7, 11);
-                                mMobileNumberView.setText(number.substring(0, 3) + "-" + firstPart + "-" + secondPart);
-                            }
-                        }
-                    }
-                } else {
-                    if (mMobileNumberView.getText() != null) {
-                        if (mMobileNumberView.getText().toString() != null) {
-                            String number = mMobileNumberView.getText().toString();
-                            number = number.replaceAll("[^0-9]", "");
-                            mMobileNumberView.setText(number);
-                        }
-                    }
+		mDatePickerDialog = Utilities.getDatePickerDialog(getActivity(), null, this, true);
+		mBirthdayEditText.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mDatePickerDialog.show();
+			}
+		});
 
-                }
-            }
-        });
-        mNextButton = v.findViewById(R.id.personal_sign_in_button);
-        mMaleCheckBox = v.findViewById(R.id.checkBoxMale);
-        mFemaleCheckBox = v.findViewById(R.id.checkBoxFemale);
-        mBirthdayEditText = v.findViewById(R.id.birthdayEditText);
-        mPromoCodeEditText = v.findViewById(R.id.promoCodeEditText);
-        mGenderEditText = v.findViewById(R.id.genderEditText);
-        mCrossButton = v.findViewById(R.id.button_cross);
-        mLoginButton = v.findViewById(R.id.button_log_in);
-        mTermsConditions = v.findViewById(R.id.textViewTermsConditions);
-        mPrivacyPolicy = v.findViewById(R.id.textViewPrivacyPolicy);
-        mAgreementCheckBox = v.findViewById(R.id.checkBoxTermsConditions);
+		if (mDeepLinkAction != null && !TextUtils.isEmpty(mDeepLinkAction.getQueryParameter())) {
+			mPromoCodeEditText.setText(mDeepLinkAction.getQueryParameter());
+			mPromoCodeEditText.setEnabled(false);
+		}
 
-        mProgressDialog = new ProgressDialog(getActivity());
+		mMaleCheckBox.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				mGenderEditText.setError(null);
+				mMaleCheckBox.setChecked(true);
+				mFemaleCheckBox.setChecked(false);
 
-        mNameView.requestFocus();
-        // Enable hyperlinked
-        mTermsConditions.setMovementMethod(LinkMovementMethod.getInstance());
-        mPrivacyPolicy.setMovementMethod(LinkMovementMethod.getInstance());
-        setGenderCheckBoxTextColor(mMaleCheckBox.isChecked(), mFemaleCheckBox.isChecked());
-        mDatePickerDialog = Utilities.getDatePickerDialog(getActivity(), null, this);
-        mBirthdayEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDatePickerDialog.show();
-            }
-        });
+				setGenderCheckBoxTextColor(mMaleCheckBox.isChecked(), mFemaleCheckBox.isChecked());
+			}
+		});
 
-        if (mDeepLinkAction != null && !TextUtils.isEmpty(mDeepLinkAction.getQueryParameter())) {
-            mPromoCodeEditText.setText(mDeepLinkAction.getQueryParameter());
-            mPromoCodeEditText.setEnabled(false);
-        }
+		mFemaleCheckBox.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				mGenderEditText.setError(null);
+				mFemaleCheckBox.setChecked(true);
+				mMaleCheckBox.setChecked(false);
 
-        mMaleCheckBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mGenderEditText.setError(null);
-                mMaleCheckBox.setChecked(true);
-                mFemaleCheckBox.setChecked(false);
+				setGenderCheckBoxTextColor(mMaleCheckBox.isChecked(), mFemaleCheckBox.isChecked());
+			}
+		});
+		mDeviceID = DeviceInfoFactory.getDeviceId(getActivity());
 
-                setGenderCheckBoxTextColor(mMaleCheckBox.isChecked(), mFemaleCheckBox.isChecked());
-            }
-        });
+		mNextButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (Utilities.isConnectionAvailable(getActivity())) attemptRequestOTP();
+				else if (getActivity() != null)
+					Toast.makeText(getActivity(), R.string.no_internet_connection, Toast.LENGTH_LONG).show();
+			}
+		});
 
-        mFemaleCheckBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mGenderEditText.setError(null);
-                mFemaleCheckBox.setChecked(true);
-                mMaleCheckBox.setChecked(false);
+		mCrossButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (getActivity() instanceof SignupOrLoginActivity) {
+					((SignupOrLoginActivity) getActivity()).switchToTourActivity();
+				}
+			}
+		});
 
-                setGenderCheckBoxTextColor(mMaleCheckBox.isChecked(), mFemaleCheckBox.isChecked());
-            }
-        });
-        mDeviceID = DeviceInfoFactory.getDeviceId(getActivity());
+		mLoginButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (getActivity() instanceof SignupOrLoginActivity) {
+					((SignupOrLoginActivity) getActivity()).switchToLoginFragment();
+				}
+			}
+		});
 
-        mNextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Utilities.isConnectionAvailable(getActivity())) attemptRequestOTP();
-                else if (getActivity() != null)
-                    Toast.makeText(getActivity(), R.string.no_internet_connection, Toast.LENGTH_LONG).show();
-            }
-        });
+		return v;
+	}
 
-        mCrossButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((SignupOrLoginActivity) getActivity()).switchToTourActivity();
-            }
-        });
+	private void setGenderCheckBoxTextColor(boolean maleCheckBoxChecked, boolean femaleCheckBoxChecked) {
+		if (getContext() == null)
+			return;
+		if (maleCheckBoxChecked)
+			mMaleCheckBox.setTextColor((Color.WHITE));
+		else
+			mMaleCheckBox.setTextColor(getContext().getResources().getColor(R.color.colorPrimary));
 
-        mLoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((SignupOrLoginActivity) getActivity()).switchToLoginFragment();
-            }
-        });
-
-        return v;
-    }
-
-    private void setGenderCheckBoxTextColor(boolean maleCheckBoxChecked, boolean femaleCheckBoxChecked) {
-        if (maleCheckBoxChecked)
-            mMaleCheckBox.setTextColor((Color.WHITE));
-        else
-            mMaleCheckBox.setTextColor(getContext().getResources().getColor(R.color.colorPrimary));
-
-        if (femaleCheckBoxChecked)
-            mFemaleCheckBox.setTextColor((Color.WHITE));
-        else
-            mFemaleCheckBox.setTextColor(getContext().getResources().getColor(R.color.colorPrimary));
-    }
+		if (femaleCheckBoxChecked)
+			mFemaleCheckBox.setTextColor((Color.WHITE));
+		else
+			mFemaleCheckBox.setTextColor(getContext().getResources().getColor(R.color.colorPrimary));
+	}
 
 
-    private void attemptRequestOTP() {
-        // Reset errors.
-        mNameView.setError(null);
-        mMobileNumberView.setError(null);
-        mPasswordView.setError(null);
+	private void attemptRequestOTP() {
+		// Reset errors.
+		mNameView.setError(null);
+		mMobileNumberView.setError(null);
+		mPasswordView.setError(null);
 
-        String name = mNameView.getText().toString().trim();
+		String name = mNameView.getText().toString().trim();
 
-        // Store values at the time of the login attempt.
-        SignupOrLoginActivity.mName = name;
-        SignupOrLoginActivity.mBirthday = mDOB;
+		// Store values at the time of the login attempt.
+		SignupOrLoginActivity.mName = name;
+		SignupOrLoginActivity.mBirthday = mDOB;
 
-        // Store values at the time of the login attempt.
-        SignupOrLoginActivity.mPassword = mPasswordView.getText().toString().trim();
-        SignupOrLoginActivity.mPromoCode = mPromoCodeEditText.getText().toString().trim();
-        SignupOrLoginActivity.mMobileNumber = ContactEngine.formatMobileNumberBD(mMobileNumberView.getText().toString().trim());
-        SignupOrLoginActivity.mAccountType = Constants.PERSONAL_ACCOUNT_TYPE;
-        // Check for a valid password, if the user entered one.
-        String passwordValidationMsg = InputValidator.isPasswordValid(SignupOrLoginActivity.mPassword);
+		// Store values at the time of the login attempt.
+		SignupOrLoginActivity.mPassword = mPasswordView.getText().toString().trim();
+		SignupOrLoginActivity.mPromoCode = mPromoCodeEditText.getText().toString().trim();
+		SignupOrLoginActivity.mMobileNumber = ContactEngine.formatMobileNumberBD(mMobileNumberView.getText().toString().trim());
+		SignupOrLoginActivity.mAccountType = Constants.PERSONAL_ACCOUNT_TYPE;
+		// Check for a valid password, if the user entered one.
+		String passwordValidationMsg = InputValidator.isPasswordValid(SignupOrLoginActivity.mPassword);
 
-        boolean cancel = false;
-        View focusView = null;
+		boolean cancel = false;
+		View focusView = null;
 
-        if (name.length() == 0) {
-            mNameView.setError(getString(R.string.error_invalid_first_name));
-            focusView = mNameView;
-            cancel = true;
+		if (name.length() == 0) {
+			mNameView.setError(getString(R.string.error_invalid_first_name));
+			focusView = mNameView;
+			cancel = true;
 
-        } else if (!InputValidator.isValidNameWithRequiredLength(name)) {
-            mNameView.setError(getString(R.string.error_invalid_name_with_required_length));
-            focusView = mNameView;
-            cancel = true;
+		} else if (!InputValidator.isValidNameWithRequiredLength(name)) {
+			mNameView.setError(getString(R.string.error_invalid_name_with_required_length));
+			focusView = mNameView;
+			cancel = true;
 
-        } else if (!InputValidator.isValidMobileNumberBD(mMobileNumberView.getText().toString())) {
-            mMobileNumberView.setError(getString(R.string.error_invalid_mobile_number));
-            focusView = mMobileNumberView;
-            cancel = true;
+		} else if (!InputValidator.isValidMobileNumberBD(mMobileNumberView.getText().toString())) {
+			mMobileNumberView.setError(getString(R.string.error_invalid_mobile_number));
+			focusView = mMobileNumberView;
+			cancel = true;
 
-        } else if (passwordValidationMsg.length() > 0) {
-            mPasswordView.setError(passwordValidationMsg);
-            focusView = mPasswordView;
-            cancel = true;
+		} else if (passwordValidationMsg.length() > 0) {
+			mPasswordView.setError(passwordValidationMsg);
+			focusView = mPasswordView;
+			cancel = true;
 
-        } else if (!mConfirmPasswordView.getText().toString().trim().equals(SignupOrLoginActivity.mPassword) && mConfirmPasswordView.getVisibility() == View.VISIBLE) {
-            mConfirmPasswordView.setError(getString(R.string.confirm_password_not_matched));
-            focusView = mConfirmPasswordView;
-            cancel = true;
+		} else if (!mConfirmPasswordView.getText().toString().trim().equals(SignupOrLoginActivity.mPassword) && mConfirmPasswordView.getVisibility() == View.VISIBLE) {
+			mConfirmPasswordView.setError(getString(R.string.confirm_password_not_matched));
+			focusView = mConfirmPasswordView;
+			cancel = true;
 
-        } else if (SignupOrLoginActivity.mBirthday == null || SignupOrLoginActivity.mBirthday.length() == 0) {
-            mBirthdayEditText.setError(getString(R.string.error_invalid_birthday));
-            focusView = mBirthdayEditText;
-            cancel = true;
+		} else if (SignupOrLoginActivity.mBirthday == null || SignupOrLoginActivity.mBirthday.length() == 0) {
+			mBirthdayEditText.setError(getString(R.string.error_invalid_birthday));
+			focusView = mBirthdayEditText;
+			cancel = true;
+		}
 
-        } else if (!mAgreementCheckBox.isChecked()) {
-            cancel = true;
-            if (getActivity() != null)
-                Toast.makeText(getActivity(), R.string.please_check_terms_and_conditions, Toast.LENGTH_LONG).show();
-        }
+		if (cancel) {
+			// There was an error; don't attempt login and focus the first
+			// form field with an error.
+			if (focusView != null) focusView.requestFocus();
+		} else {
+			// Show a progress spinner, and kick off a background task to
+			// perform the user login attempt.
+			mProgressDialog.show();
+			OTPRequestPersonalSignup mOtpRequestPersonalSignup = new OTPRequestPersonalSignup(SignupOrLoginActivity.mMobileNumber,
+					Constants.MOBILE_ANDROID + mDeviceID, Constants.PERSONAL_ACCOUNT_TYPE);
+			Gson gson = new Gson();
+			String json = gson.toJson(mOtpRequestPersonalSignup);
+			mRequestOTPTask = new HttpRequestPostAsyncTask(Constants.COMMAND_OTP_VERIFICATION,
+					Constants.BASE_URL_MM + Constants.URL_OTP_REQUEST, json, getActivity(), false);
+			mRequestOTPTask.mHttpResponseListener = this;
+			mRequestOTPTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		}
+	}
 
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            if (focusView != null) focusView.requestFocus();
-        } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            mProgressDialog.setMessage(getString(R.string.progress_dialog_requesting));
-            mProgressDialog.show();
-            OTPRequestPersonalSignup mOtpRequestPersonalSignup = new OTPRequestPersonalSignup(SignupOrLoginActivity.mMobileNumber,
-                    Constants.MOBILE_ANDROID + mDeviceID, Constants.PERSONAL_ACCOUNT_TYPE);
-            Gson gson = new Gson();
-            String json = gson.toJson(mOtpRequestPersonalSignup);
-            mRequestOTPTask = new HttpRequestPostAsyncTask(Constants.COMMAND_OTP_VERIFICATION,
-                    Constants.BASE_URL_MM + Constants.URL_OTP_REQUEST, json, getActivity(), false);
-            mRequestOTPTask.mHttpResponseListener = this;
-            mRequestOTPTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        }
-    }
+	@Override
+	public void httpResponseReceiver(GenericHttpResponse result) {
 
-    @Override
-    public void httpResponseReceiver(GenericHttpResponse result) {
+		if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
+			mProgressDialog.dismiss();
+			mRequestOTPTask = null;
+			return;
+		}
 
-        if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
-            mProgressDialog.dismiss();
-            mRequestOTPTask = null;
-            return;
-        }
+		Gson gson = new Gson();
 
-        Gson gson = new Gson();
+		if (result.getApiCommand().equals(Constants.COMMAND_OTP_VERIFICATION)) {
 
-        if (result.getApiCommand().equals(Constants.COMMAND_OTP_VERIFICATION)) {
+			String message;
+			try {
+				mOtpResponsePersonalSignup = gson.fromJson(result.getJsonString(), OTPResponsePersonalSignup.class);
+				message = mOtpResponsePersonalSignup.getMessage();
+			} catch (Exception e) {
+				e.printStackTrace();
+				message = getString(R.string.server_down);
+			}
 
-            String message;
-            try {
-                mOtpResponsePersonalSignup = gson.fromJson(result.getJsonString(), OTPResponsePersonalSignup.class);
-                message = mOtpResponsePersonalSignup.getMessage();
-            } catch (Exception e) {
-                e.printStackTrace();
-                message = getString(R.string.server_down);
-            }
+			if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
+				if (getActivity() != null)
+					Toast.makeText(getActivity(), R.string.otp_going_to_send, Toast.LENGTH_LONG).show();
 
-            if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
-                if (getActivity() != null)
-                    Toast.makeText(getActivity(), R.string.otp_going_to_send, Toast.LENGTH_LONG).show();
+				SignupOrLoginActivity.otpDuration = mOtpResponsePersonalSignup.getOtpValidFor();
+				((SignupOrLoginActivity) getActivity()).switchToOTPVerificationPersonalFragment();
 
-                SignupOrLoginActivity.otpDuration = mOtpResponsePersonalSignup.getOtpValidFor();
-                ((SignupOrLoginActivity) getActivity()).switchToOTPVerificationPersonalFragment();
+				//Google Analytic event
+				if (mTracker != null) {
+					Utilities.sendSuccessEventTracker(mTracker, "Signup to OTP", ProfileInfoCacheManager.getAccountId());
+				}
 
-                //Google Analytic event
-                Utilities.sendSuccessEventTracker(mTracker, "Signup to OTP", ProfileInfoCacheManager.getAccountId());
+			} else if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_ACCEPTED) {
+				if (getActivity() != null)
+					Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
 
-            } else if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_ACCEPTED) {
-                if (getActivity() != null)
-                    Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+				// Previous OTP has not been expired yet
+				SignupOrLoginActivity.otpDuration = mOtpResponsePersonalSignup.getOtpValidFor();
+				((SignupOrLoginActivity) getActivity()).switchToOTPVerificationPersonalFragment();
 
-                // Previous OTP has not been expired yet
-                SignupOrLoginActivity.otpDuration = mOtpResponsePersonalSignup.getOtpValidFor();
-                ((SignupOrLoginActivity) getActivity()).switchToOTPVerificationPersonalFragment();
+			} else if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_NOT_EXPIRED) {
+				if (getActivity() != null)
+					Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
 
-            } else if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_NOT_EXPIRED) {
-                if (getActivity() != null)
-                    Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+				// Previous OTP has not been expired yet
+				SignupOrLoginActivity.otpDuration = mOtpResponsePersonalSignup.getOtpValidFor();
+				((SignupOrLoginActivity) getActivity()).switchToOTPVerificationPersonalFragment();
 
-                // Previous OTP has not been expired yet
-                SignupOrLoginActivity.otpDuration = mOtpResponsePersonalSignup.getOtpValidFor();
-                ((SignupOrLoginActivity) getActivity()).switchToOTPVerificationPersonalFragment();
+			} else if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_BAD_REQUEST) {
+				InvalidInputResponse invalidInputResponse = gson.fromJson(result.getJsonString(), InvalidInputResponse.class);
+				String[] errorFields = invalidInputResponse.getErrorFieldNames();
+				String errorMessage = invalidInputResponse.getMessage();
+				Toast.makeText(getActivity(),
+						Utilities.getErrorMessageForInvalidInput(errorFields, errorMessage), Toast.LENGTH_LONG).show();
+				if (mTracker != null) {
+					Utilities.sendFailedEventTracker(mTracker, "Signup to OTP", ProfileInfoCacheManager.getAccountId(), Utilities.getErrorMessageForInvalidInput(errorFields, errorMessage));
+				}
+			} else {
+				if (getActivity() != null)
+					Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+				//Google Analytic event
+				if (mTracker != null) {
+					Utilities.sendFailedEventTracker(mTracker, "Signup to OTP", ProfileInfoCacheManager.getAccountId(), "Failed");
+				}
+			}
 
-            } else if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_BAD_REQUEST) {
-                InvalidInputResponse invalidInputResponse = gson.fromJson(result.getJsonString(), InvalidInputResponse.class);
-                String[] errorFields = invalidInputResponse.getErrorFieldNames();
-                String errorMessage = invalidInputResponse.getMessage();
-                Toast.makeText(getActivity(),
-                        Utilities.getErrorMessageForInvalidInput(errorFields, errorMessage), Toast.LENGTH_LONG).show();
-                Utilities.sendFailedEventTracker(mTracker, "Signup to OTP", ProfileInfoCacheManager.getAccountId(), Utilities.getErrorMessageForInvalidInput(errorFields, errorMessage));
+			mProgressDialog.dismiss();
+			mRequestOTPTask = null;
+		}
+	}
 
-            } else {
-                if (getActivity() != null)
-                    Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-                //Google Analytic event
-                Utilities.sendFailedEventTracker(mTracker, "Signup to OTP", ProfileInfoCacheManager.getAccountId(), "Failed");
-            }
+	@Override
+	public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
 
-            mProgressDialog.dismiss();
-            mRequestOTPTask = null;
-        }
-    }
+		final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+		mDOB = String.format(Locale.US, "%s/%s/%s", getFormattedDate(dayOfMonth),
+				getFormattedDate(month+1), Integer.toString(year));
+		final Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+		calendar.set(Calendar.YEAR, year);
+		calendar.set(Calendar.MONTH, month);
+		calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EE, dd MMMM, yyyy", Locale.getDefault());
+		mBirthdayEditText.setError(null);
+		mBirthdayEditText.setText(simpleDateFormat.format(calendar.getTime()));
+	}
 
-    @Override
-    public void onDateSet(com.tsongkha.spinnerdatepicker.DatePicker datePicker, int i, int i1, int i2) {
-        String[] mMonthArray;
-        String birthDate, birthMonth, birthYear;
-
-        mYear = i;
-        mMonth = i1 + 1;
-        mDay = i2;
-        mMonthArray = getResources().getStringArray(R.array.month_name);
-
-        if (mDay < 10) birthDate = "0" + mDay;
-        else birthDate = mDay + "";
-        if (mMonth < 10) birthMonth = "0" + mMonth;
-        else birthMonth = mMonth + "";
-        birthYear = mYear + "";
-        mDOB = birthDate + "/" + birthMonth + "/" + birthYear;
-        try {
-            Date date = new SimpleDateFormat("dd/MM/yyyy").parse(mDOB);
-            mDayName = new SimpleDateFormat("EE").format(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        mBirthdayEditText.setError(null);
-        mBirthdayEditText.setText(mDayName + " , " + mDay + " " + mMonthArray[mMonth - 1] + " , " + mYear);
-    }
+	private String getFormattedDate(int value) {
+		 if(value<10) {
+			 return String.format(Locale.US,"0%d",value);
+		 } else {
+		 	return Integer.toString(value);
+		 }
+	}
 }
-

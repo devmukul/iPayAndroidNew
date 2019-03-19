@@ -1,7 +1,6 @@
 package bd.com.ipay.ipayskeleton.CustomView.Dialogs;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -53,7 +52,7 @@ public class OTPVerificationChangePasswordDialog extends MaterialDialog.Builder 
     private Button mCancelButton;
 
     private Activity context;
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
 
     private String mPassword;
     private String mNewPassword;
@@ -81,7 +80,7 @@ public class OTPVerificationChangePasswordDialog extends MaterialDialog.Builder 
         mResendOTPButton = view.findViewById(R.id.buttonResend);
         mCancelButton = view.findViewById(R.id.buttonCancel);
 
-        mProgressDialog = new ProgressDialog(context);
+        mProgressDialog = new CustomProgressDialog(context);
         mProgressDialog.setCancelable(true);
         setButtonActions();
 
@@ -181,7 +180,6 @@ public class OTPVerificationChangePasswordDialog extends MaterialDialog.Builder 
     private void resendOTP() {
         if (mRequestOTPTask != null) return;
 
-        mProgressDialog.setMessage(context.getString(R.string.sending_otp));
         mProgressDialog.show();
 
         ChangePasswordValidationRequest mChangePasswordRequest = new ChangePasswordValidationRequest(mPassword, mNewPassword);
@@ -196,7 +194,6 @@ public class OTPVerificationChangePasswordDialog extends MaterialDialog.Builder 
     private void attemptChangePasswordWithOTP() {
         if (mChangePasswordWithOTPTask != null) return;
 
-        mProgressDialog.setMessage(context.getString(R.string.change_password_progress));
         mProgressDialog.show();
         view.setVisibility(View.GONE);
         ChangePasswordWithOTPRequest mChangePasswordWithOTPRequest = new ChangePasswordWithOTPRequest(mPassword, mNewPassword, mOTP);

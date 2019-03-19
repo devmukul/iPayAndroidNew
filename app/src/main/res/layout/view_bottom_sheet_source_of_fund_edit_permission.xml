@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/value5"
+        android:layout_marginTop="@dimen/value5"
+        android:layout_marginBottom="60dp"
+        android:layout_marginRight="@dimen/value5"
+        android:background="@drawable/background_view_bottom_sheet_round_cornered"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/value32"
+            android:layout_marginTop="@dimen/value32"
+            android:fontFamily="@font/open_sans_light"
+            android:text="Permission details"
+            android:textColor="#212121"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/permission_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/heading"
+            android:layout_marginLeft="@dimen/value32"
+            android:layout_marginTop="@dimen/value8"
+            android:layout_marginRight="@dimen/value32"
+            android:fontFamily="sans-serif"
+            android:lineSpacingExtra="6sp"
+            android:text="@string/permission_details"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            android:textStyle="normal" />
+
+
+        <EditText
+            android:id="@+id/amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/value32"
+            android:layout_marginTop="@dimen/value36"
+            android:layout_marginRight="@dimen/value32"
+            android:backgroundTint="#19000000"
+            android:fontFamily="@font/open_sans"
+            android:hint="Limit of use (Amount)"
+            android:inputType="number"
+            android:textSize="16sp" />
+
+
+        <EditText
+            android:id="@+id/pin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/value32"
+            android:layout_marginTop="@dimen/value30"
+            android:layout_marginRight="@dimen/value32"
+            android:backgroundTint="#19000000"
+            android:fontFamily="@font/open_sans"
+            android:hint="PIN"
+            android:inputType="numberPassword"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/done"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pin"
+            android:layout_marginLeft="@dimen/value32"
+            android:layout_marginTop="@dimen/value32"
+            android:layout_marginRight="@dimen/value32"
+            android:layout_marginBottom="200dp"
+            android:background="@drawable/oval_shaped_ipay_transaction_action_button_default"
+            android:text="Done"
+            android:textColor="@color/colorWhite" />
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

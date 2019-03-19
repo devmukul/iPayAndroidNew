@@ -155,6 +155,7 @@ public class ManageBanksActivity extends BaseActivity {
         ConsentAgreementForBankFragment consentAgreementForBankFragment = new ConsentAgreementForBankFragment();
         consentAgreementForBankFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, consentAgreementForBankFragment).addToBackStack(null).commit();
+        mFabAddNewBank.setVisibility(View.GONE);
     }
 
     @Override

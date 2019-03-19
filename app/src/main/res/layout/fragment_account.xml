@@ -28,16 +28,16 @@
                         android:layout_width="@dimen/value80"
                         android:layout_height="@dimen/value80"
                         android:layout_gravity="left"
-                        android:layout_marginBottom="@dimen/activity_vertical_margin"
                         android:layout_marginLeft="@dimen/value30"
-                        android:layout_marginTop="@dimen/activity_vertical_margin_double" />
+                        android:layout_marginTop="@dimen/activity_vertical_margin_double"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin" />
 
                     <ImageView
                         android:id="@+id/button_profile_picture_edit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/profile_picture"
                         android:layout_alignRight="@+id/profile_picture"
+                        android:layout_alignBottom="@+id/profile_picture"
                         android:src="@drawable/ic_edit_pic" />
                 </RelativeLayout>
 
@@ -57,8 +57,8 @@
                             android:id="@+id/textview_name"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/value2"
                             android:layout_marginLeft="@dimen/activity_horizontal_margin_semi_double"
+                            android:layout_marginBottom="@dimen/value2"
                             android:layout_weight="1"
                             android:ellipsize="end"
                             android:maxLines="2"
@@ -102,8 +102,8 @@
 
         <LinearLayout
             style="@style/ProfileCardLayoutStyle"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:background="@drawable/background_rounded_white"
             android:orientation="vertical">
 
@@ -112,9 +112,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_basicinfo_profile"
-                android:paddingBottom="@dimen/value4"
                 android:paddingLeft="@dimen/activity_horizontal_margin_card"
                 android:paddingTop="@dimen/value4"
+                android:paddingBottom="@dimen/value4"
                 android:text="@string/basic_info" />
 
             <View style="@style/Divider" />
@@ -124,9 +124,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_signup_add1"
-                android:paddingBottom="@dimen/value4"
                 android:paddingLeft="@dimen/activity_horizontal_margin_card"
                 android:paddingTop="@dimen/value4"
+                android:paddingBottom="@dimen/value4"
                 android:text="@string/address" />
 
             <View
@@ -138,9 +138,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_contact3x"
-                android:paddingBottom="@dimen/value4"
                 android:paddingLeft="@dimen/activity_horizontal_margin_card"
                 android:paddingTop="@dimen/value4"
+                android:paddingBottom="@dimen/value4"
                 android:text="@string/email_address" />
 
             <View style="@style/Divider" />
@@ -149,10 +149,14 @@
                 android:id="@+id/documents"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_doc"
                 android:drawableLeft="@drawable/ic_doc"
-                android:paddingBottom="@dimen/value4"
+                android:paddingStart="@dimen/activity_horizontal_margin_card"
                 android:paddingLeft="@dimen/activity_horizontal_margin_card"
                 android:paddingTop="@dimen/value4"
+                android:paddingEnd="0dip"
+                android:paddingRight="0dip"
+                android:paddingBottom="@dimen/value4"
                 android:text="@string/profile_documents" />
 
             <View style="@style/Divider" />
@@ -161,10 +165,14 @@
                 android:id="@+id/introducer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_introducer_profile"
                 android:drawableLeft="@drawable/ic_introducer_profile"
-                android:paddingBottom="@dimen/value4"
+                android:paddingStart="@dimen/activity_horizontal_margin_card"
                 android:paddingLeft="@dimen/activity_horizontal_margin_card"
                 android:paddingTop="@dimen/value4"
+                android:paddingEnd="0dip"
+                android:paddingRight="0dip"
+                android:paddingBottom="@dimen/value4"
                 android:text="@string/profile_introducers" />
 
             <View style="@style/Divider" />
@@ -173,10 +181,14 @@
                 android:id="@+id/profile_completion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_completeness"
                 android:drawableLeft="@drawable/ic_completeness"
-                android:paddingBottom="@dimen/value4"
+                android:paddingStart="@dimen/activity_horizontal_margin_card"
                 android:paddingLeft="@dimen/activity_horizontal_margin_card"
                 android:paddingTop="@dimen/value4"
+                android:paddingEnd="0dip"
+                android:paddingRight="0dip"
+                android:paddingBottom="@dimen/value4"
                 android:text="@string/profile_completeness" />
 
             <View

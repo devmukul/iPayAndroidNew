@@ -2,7 +2,6 @@ package bd.com.ipay.ipayskeleton.PaymentFragments.WithdrawMoneyFragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
@@ -30,6 +29,7 @@ import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomPinCheckerWithInputDialog;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.AnimatedProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.OTPVerificationForTwoFactorAuthenticationServicesDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
@@ -50,8 +50,8 @@ public class WithdrawMoneyReviewFragment extends ReviewFragment implements HttpR
     private HttpRequestPostAsyncTask mWithdrawMoneyTask = null;
     private WithdrawMoneyRequest mWithdrawMoneyRequest;
 
-    private ProgressDialog mProgressDialog;
-    private CustomProgressDialog mCustomProgressDialog;
+    private CustomProgressDialog mProgressDialog;
+    private AnimatedProgressDialog mCustomProgressDialog;
     private OTPVerificationForTwoFactorAuthenticationServicesDialog mOTPVerificationForTwoFactorAuthenticationServicesDialog;
 
     private double mAmount;
@@ -76,9 +76,9 @@ public class WithdrawMoneyReviewFragment extends ReviewFragment implements HttpR
         mDescription = getActivity().getIntent().getStringExtra(Constants.DESCRIPTION_TAG);
         mSelectedBank = getActivity().getIntent().getParcelableExtra(Constants.SELECTED_BANK_ACCOUNT);
 
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
         mContext = getContext();
-        mCustomProgressDialog = new CustomProgressDialog(mContext);
+        mCustomProgressDialog = new AnimatedProgressDialog(mContext);
         mTracker = Utilities.getTracker(getActivity());
     }
 
@@ -183,8 +183,6 @@ public class WithdrawMoneyReviewFragment extends ReviewFragment implements HttpR
         if (mWithdrawMoneyTask != null) {
             return;
         }
-
-        mCustomProgressDialog.setLoadingMessage(getString(R.string.progress_dialog_withdraw_money_in_progress));
         mCustomProgressDialog.showDialog();
         mWithdrawMoneyRequest = new WithdrawMoneyRequest(mSelectedBank.getBankAccountId(), mAmount, mDescription, pin);
         Gson gson = new Gson();

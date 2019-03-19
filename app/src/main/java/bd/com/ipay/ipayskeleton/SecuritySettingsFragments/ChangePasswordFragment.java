@@ -1,6 +1,5 @@
 package bd.com.ipay.ipayskeleton.SecuritySettingsFragments;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +16,7 @@ import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPutAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.BaseFragments.BaseFragment;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.OTPVerificationChangePasswordDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.ChangeCredentials.ChangePasswordValidationRequest;
@@ -34,7 +34,7 @@ public class ChangePasswordFragment extends BaseFragment implements HttpResponse
     private HttpRequestPutAsyncTask mChangePasswordValidationTask = null;
     private ChangePasswordValidationResponse mChangePasswordValidationResponse;
 
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
 
     private EditText mEnterCurrentPasswordEditText;
     private EditText mEnterNewPasswordEditText;
@@ -62,7 +62,7 @@ public class ChangePasswordFragment extends BaseFragment implements HttpResponse
 
         mChangePasswordButton = (Button) v.findViewById(R.id.save_pass);
 
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
 
         mEnterCurrentPasswordEditText.requestFocus();
 
@@ -127,8 +127,6 @@ public class ChangePasswordFragment extends BaseFragment implements HttpResponse
 
             mNewPassword = mEnterNewPasswordEditText.getText().toString().trim();
             mPassword = mEnterCurrentPasswordEditText.getText().toString().trim();
-
-            mProgressDialog.setMessage(getString(R.string.change_password_progress));
             mProgressDialog.show();
             ChangePasswordValidationRequest mChangePasswordValidationRequest = new ChangePasswordValidationRequest(mPassword, mNewPassword);
             Gson gson = new Gson();

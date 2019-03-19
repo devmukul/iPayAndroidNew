@@ -19,19 +19,21 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 import bd.com.ipay.ipayskeleton.Activities.RailwayTicketActionActivity;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestGetAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
-import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.AnimatedProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.SelectorDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.RailwayTickets.GetTicketInfoRequest;
@@ -53,7 +55,7 @@ public class TrainSelectionFragment extends Fragment implements HttpResponseList
 
     private LinearLayout mProgressLayout;
     private TrainListAdapter trainListAdapter;
-    private CustomProgressDialog mProgressDialog;
+    private AnimatedProgressDialog mProgressDialog;
 
     private HttpRequestPostAsyncTask mGetTrainInfoAsyncTask = null;
     private GetTicketInfoResponse mTicketInfoResponse;
@@ -86,7 +88,7 @@ public class TrainSelectionFragment extends Fragment implements HttpResponseList
             mSelectedGender = getArguments().getString(RailwayTicketActionActivity.KEY_TICKET_GENDER, "");
             mSelectedDate = getArguments().getInt(RailwayTicketActionActivity.KEY_TICKET_DATE, 0);
             mSelectedAdult = getArguments().getInt(RailwayTicketActionActivity.KEY_TICKET_ADULTS, 0);
-            mSelectedChild = getArguments().getInt(RailwayTicketActionActivity.KEY_TICKET_CHILD,0);
+            mSelectedChild = getArguments().getInt(RailwayTicketActionActivity.KEY_TICKET_CHILD, 0);
         }
     }
 
@@ -104,7 +106,7 @@ public class TrainSelectionFragment extends Fragment implements HttpResponseList
         ((RailwayTicketActionActivity) getActivity()).setSupportActionBar(toolbar);
         ((RailwayTicketActionActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getActivity().setTitle(R.string.railway_ticket_title);
-        mProgressDialog = new CustomProgressDialog(getActivity());
+        mProgressDialog = new AnimatedProgressDialog(getActivity());
         mTrainListRecyclerView = view.findViewById(R.id.user_bank_list_recycler_view);
         mProgressLayout = view.findViewById(R.id.progress_layout);
         journeyInfo = view.findViewById(R.id.journey_info_text);
@@ -112,13 +114,13 @@ public class TrainSelectionFragment extends Fragment implements HttpResponseList
 
         List<Date> dates = getDates();
         recyclerView = view.findViewById(R.id.date_view);
-        linearLayoutManager = new LinearLayoutManager(getContext() , LinearLayoutManager.HORIZONTAL, false);
+        linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         linearLayoutManager.scrollToPosition(selectedPos);
         MyRecyclerAdapter adapter = new MyRecyclerAdapter(dates);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
 
-        journeyInfo.setText(Utilities.formatJourneyInfoText(mSelectedStationFrom+" to "+mSelectedStationTo, mSelectedAdult, mSelectedChild));
+        journeyInfo.setText(Utilities.formatJourneyInfoText(getContext(), mSelectedStationFrom + " " + getString(R.string.to_text) + " " + mSelectedStationTo, mSelectedAdult, mSelectedChild));
 
         trainListAdapter = new TrainListAdapter();
         mTrainListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -131,23 +133,22 @@ public class TrainSelectionFragment extends Fragment implements HttpResponseList
             return;
         }
         mGetTrainListAsyncTask = new HttpRequestGetAsyncTask(Constants.COMMAND_GET_TRAIN_LIST,
-                Constants.BASE_URL_CNS + Constants.URL_TRAIN_LIST +"originatingStation="+originatingStation+"&destinationStation="+destinationStation, getContext(), this, true);
+                Constants.BASE_URL_CNS + Constants.URL_TRAIN_LIST + "originatingStation=" + originatingStation + "&destinationStation=" + destinationStation, getContext(), this, true);
         mGetTrainListAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    protected void performContinueAction(String ticketClass, int trainNumber ) {
+    protected void performContinueAction(String ticketClass, int trainNumber) {
         if (!Utilities.isConnectionAvailable(getContext())) {
             Toaster.makeText(getContext(), R.string.no_internet_connection, Toast.LENGTH_SHORT);
         } else if (mGetTrainInfoAsyncTask != null) {
             return;
         }
-        String jsonBody = new Gson().toJson( new GetTicketInfoRequest(0, ticketClass, mSelectedGender, mSelectedDate,
-                mSelectedAdult, mSelectedChild , mSelectedStationFrom, mSelectedStationTo, trainNumber));
+        String jsonBody = new Gson().toJson(new GetTicketInfoRequest(0, ticketClass, mSelectedGender, mSelectedDate,
+                mSelectedAdult, mSelectedChild, mSelectedStationFrom, mSelectedStationTo, trainNumber));
         mGetTrainInfoAsyncTask = new HttpRequestPostAsyncTask(Constants.COMMAND_GET_TICKET_INFO,
                 Constants.BASE_URL_CNS + Constants.URL_TICKET_QUERY, jsonBody, getContext(), this, false);
         mGetTrainInfoAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         mProgressDialog.setTitle(R.string.please_wait_no_ellipsis);
-        mProgressDialog.setMessage(getString(R.string.fetching_user_info));
         mProgressDialog.showDialog();
     }
 
@@ -186,7 +187,7 @@ public class TrainSelectionFragment extends Fragment implements HttpResponseList
                     Toaster.makeText(getContext(), R.string.failed_loading_ticket_info, Toast.LENGTH_LONG);
             }
 
-            if(mProgressDialog.isShowing())
+            if (mProgressDialog.isShowing())
                 mProgressDialog.dismiss();
 
             mGetTrainInfoAsyncTask = null;
@@ -224,9 +225,9 @@ public class TrainSelectionFragment extends Fragment implements HttpResponseList
 
         final TicketDetailsDialog billDetailsDialog = new TicketDetailsDialog(getContext());
         billDetailsDialog.setTitle(getString(R.string.ticket_info));
-        billDetailsDialog.setTrainName(mSelectedTrain+" - "+trainNo);
+        billDetailsDialog.setTrainName(mSelectedTrain + " - " + trainNo);
         billDetailsDialog.setClassName(mSelectedClass);
-        billDetailsDialog.setAdultChild(Utilities.formatJourneyInfoText("", mSelectedAdult, mSelectedChild));
+        billDetailsDialog.setAdultChild(Utilities.formatJourneyInfoText(getContext(), "", mSelectedAdult, mSelectedChild));
         billDetailsDialog.setDate(ticketInfoResponse.getJourneyDate());
         billDetailsDialog.setFareAmount(ticketInfoResponse.getFare());
         billDetailsDialog.setVatAmount(ticketInfoResponse.getVat());
@@ -275,7 +276,7 @@ public class TrainSelectionFragment extends Fragment implements HttpResponseList
 
         @Override
         public void onBindViewHolder(@NonNull final BankViewHolder holder, final int position) {
-            setClassAdapter(holder,position,mTrainList.get(position).getClassList());
+            setClassAdapter(holder, position, mTrainList.get(position).getClassList());
 
             holder.trainTimeTextView.setText(mTrainList.get(position).getDepartureTime());
             holder.trainNameTextView.setText(mTrainList.get(position).getTrainName());
@@ -288,14 +289,14 @@ public class TrainSelectionFragment extends Fragment implements HttpResponseList
                     mSelectedTrain = mTrainList.get(position).getTrainName();
                     mSelectedClass = holder.ticketClassTextView.getText().toString();
                     mSelectedTrainNo = mTrainList.get(position).getTrainNumber();
-                    performContinueAction(mSelectedClass , mSelectedTrainNo);
+                    performContinueAction(mSelectedClass, mSelectedTrainNo);
                 }
             });
 
         }
 
         private void setClassAdapter(final BankViewHolder holder, final int position, List<String> classList) {
-            final SelectorDialog classSelectorDialog = new SelectorDialog (getContext(), getContext().getString(R.string.select_a_thana), classList);
+            final SelectorDialog classSelectorDialog = new SelectorDialog(getContext(), getContext().getString(R.string.select_a_class), classList);
             classSelectorDialog.setOnResourceSelectedListener(new SelectorDialog.OnResourceSelectedListener() {
                 @Override
                 public void onResourceSelected(String name) {
@@ -314,7 +315,7 @@ public class TrainSelectionFragment extends Fragment implements HttpResponseList
 
         @Override
         public int getItemCount() {
-            if(mTrainList == null)
+            if (mTrainList == null)
                 return 0;
             return mTrainList.size();
         }
@@ -341,8 +342,7 @@ public class TrainSelectionFragment extends Fragment implements HttpResponseList
     public class MyRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         List<Date> listItems;
 
-        public MyRecyclerAdapter(List<Date> listItems)
-        {
+        public MyRecyclerAdapter(List<Date> listItems) {
             this.listItems = listItems;
         }
 
@@ -352,29 +352,29 @@ public class TrainSelectionFragment extends Fragment implements HttpResponseList
             return new VHItem(v);
         }
 
-        private Date getItem(int position)
-        {
+        private Date getItem(int position) {
             return listItems.get(position);
         }
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+            NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
             Date currentItem = getItem(position);
-            final VHItem VHitem = (VHItem)holder;
+            final VHItem VHitem = (VHItem) holder;
             final Calendar calendar = Calendar.getInstance();
             calendar.setTime(currentItem);
             SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM");
             SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
             SimpleDateFormat dayFormat = new SimpleDateFormat("EEE");
-            VHitem.dateText.setText(""+calendar.get(Calendar.DAY_OF_MONTH));
-            VHitem.dayText.setText(""+dayFormat.format(currentItem));
-            if(mSelectedDate == calendar.get(Calendar.DAY_OF_MONTH)){
+            VHitem.dateText.setText("" + numberFormat.format(calendar.get(Calendar.DAY_OF_MONTH)));
+            VHitem.dayText.setText("" + dayFormat.format(currentItem));
+            if (mSelectedDate == calendar.get(Calendar.DAY_OF_MONTH)) {
                 selectedPos = position;
-                monthText.setText(monthFormat.format(currentItem)+", "+yearFormat.format(currentItem));
+                monthText.setText(monthFormat.format(currentItem) + ", " + yearFormat.format(currentItem));
                 VHitem.dateText.setBackgroundResource(R.drawable.date_selector_background);
                 recyclerView.smoothScrollToPosition(8);
 
-            }else {
+            } else {
                 VHitem.dateText.setBackgroundResource(R.color.colorTransparent);
             }
 
@@ -393,11 +393,12 @@ public class TrainSelectionFragment extends Fragment implements HttpResponseList
             return listItems.size();
         }
 
-        class VHItem extends RecyclerView.ViewHolder{
+        class VHItem extends RecyclerView.ViewHolder {
 
             View root;
             TextView dateText;
             TextView dayText;
+
             public VHItem(View itemView) {
                 super(itemView);
                 dateText = itemView.findViewById(R.id.date_text);
@@ -413,14 +414,14 @@ public class TrainSelectionFragment extends Fragment implements HttpResponseList
         List<Date> datesInRange = new ArrayList<>();
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(cal.getTime());
-        cal.add(Calendar.DATE, Constants.MAX_TICKET_PURCHASE_DAY+1);
+        cal.add(Calendar.DATE, Constants.MAX_TICKET_PURCHASE_DAY + 1);
         Calendar endCalendar = new GregorianCalendar();
         endCalendar.setTime(cal.getTime());
         int i = 0;
 
         while (calendar.before(endCalendar)) {
             Date result = calendar.getTime();
-            if(calendar.get(Calendar.DAY_OF_MONTH) == mSelectedDate){
+            if (calendar.get(Calendar.DAY_OF_MONTH) == mSelectedDate) {
                 selectedPos = i;
             }
             datesInRange.add(result);

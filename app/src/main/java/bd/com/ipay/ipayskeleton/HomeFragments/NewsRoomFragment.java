@@ -60,7 +60,7 @@ public class NewsRoomFragment extends ProgressFragment implements HttpResponseLi
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_offer, container, false);
         if (getActivity() != null)
-            getActivity().setTitle(R.string.offer);
+            getActivity().setTitle(R.string.news_room);
 
         initializeViews(v);
         setupViewsAndActions();

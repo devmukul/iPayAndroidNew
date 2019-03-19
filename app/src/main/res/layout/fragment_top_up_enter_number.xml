@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/continue_button"
+        android:layout_above="@id/button_send_money"
         android:background="@android:color/white"
         android:gravity="center">
 
@@ -138,7 +138,7 @@
                     android:layout_marginLeft="24dp"
                     android:layout_marginRight="24dp">
 
-                    <EditText
+                    <bd.com.ipay.ipayskeleton.CustomView.CutCopyPasteEditText
                         android:id="@+id/number_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -206,23 +206,30 @@
 
                     <RadioButton
                         android:id="@+id/prepaid"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dip"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:checked="true"
+                        android:paddingStart="@dimen/value8"
                         android:paddingLeft="@dimen/value8"
-                        android:text="Prepaid"
+                        android:paddingEnd="0dp"
+                        android:paddingRight="0dp"
+                        android:text="@string/prepaid"
                         android:textColor="#666666" />
 
                     <RadioButton
                         android:id="@+id/post_paid"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dip"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value20"
                         android:layout_marginLeft="@dimen/value20"
                         android:layout_weight="1"
                         android:checked="false"
+                        android:paddingStart="@dimen/value8"
                         android:paddingLeft="@dimen/value8"
-                        android:text="Postpaid"
+                        android:paddingEnd="0dp"
+                        android:paddingRight="0dp"
+                        android:text="@string/postpaid"
                         android:textColor="#666666" />
                 </RadioGroup>
             </RelativeLayout>
@@ -230,12 +237,12 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/continue_button"
+        android:id="@+id/button_send_money"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="@dimen/value10"
         android:background="#00c0af"
-        android:text="Continue"
+        android:text="@string/continue_button"
         android:textColor="@color/colorWhite" />
 </RelativeLayout>

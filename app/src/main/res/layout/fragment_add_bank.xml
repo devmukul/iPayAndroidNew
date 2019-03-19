@@ -150,7 +150,7 @@
                 <Button
                     android:id="@+id/chequebook_cover_selector_button"
                     style="@style/ButtonStyleUpload"
-                    android:text="@string/choose_file" />
+                    android:text="@string/choose_file"/>
 
             </RelativeLayout>
 

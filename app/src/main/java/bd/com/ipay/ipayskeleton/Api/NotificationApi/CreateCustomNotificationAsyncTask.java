@@ -20,9 +20,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Random;
 
+import bd.com.ipay.ipayskeleton.Activities.HomeActivity;
 import bd.com.ipay.ipayskeleton.Activities.LauncherActivity;
 import bd.com.ipay.ipayskeleton.Activities.SignupOrLoginActivity;
 import bd.com.ipay.ipayskeleton.R;
+import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 
 public class CreateCustomNotificationAsyncTask extends AsyncTask<String, Void, Bitmap> {
 
@@ -89,8 +91,13 @@ public class CreateCustomNotificationAsyncTask extends AsyncTask<String, Void, B
                 intent.putExtra("time", this.time);
             }
         } else {
-            intent = new Intent(mContext, SignupOrLoginActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            if (ProfileInfoCacheManager.getLoggedInStatus(false)) {
+                intent = new Intent(mContext, HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            } else {
+                intent = new Intent(mContext, SignupOrLoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            }
         }
         if (intent != null) {
             PendingIntent pendingIntent = PendingIntent.getActivity(mContext, notificationID, intent,

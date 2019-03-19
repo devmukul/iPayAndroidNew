@@ -131,9 +131,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="@dimen/value30"
                     android:paddingBottom="@dimen/activity_horizontal_margin"
-                    android:paddingTop="@dimen/activity_horizontal_margin">
+                    android:paddingTop="@dimen/activity_horizontal_margin"
+                    android:gravity="center_vertical">
 
                     <Button
                         android:id="@+id/button_spam"

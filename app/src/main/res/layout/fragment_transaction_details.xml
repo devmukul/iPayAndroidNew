@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#e5e5e5">
@@ -24,14 +26,27 @@
                 android:orientation="horizontal"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:gravity="center_vertical">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
                 <bd.com.ipay.ipayskeleton.CustomView.ProfileImageView
                     android:id="@+id/profile_picture"
                     style="@style/ReviewImageStyle" />
 
-                <ImageView
-                    android:id="@+id/other_image"
-                    style="@style/ReviewBankImageStyle" />
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/sponsor_image_view"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignRight="@id/profile_picture"
+                    android:layout_alignBottom="@id/profile_picture"
+                    app:riv_oval="true"
+                    tools:src="@drawable/user_brand_bg" />
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/other_image"
+                style="@style/ReviewBankImageStyle" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -51,27 +66,33 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TextView
-                            android:id="@+id/textview_mobile_number"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true" />
+                    <TextView
+                        android:id="@+id/textview_mobile_number"
+                        android:layout_width="wrap_content"
+                        tools:text="0177109111"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:id="@+id/add_in_contacts"
+                        android:layout_width="@dimen/value20"
+                        android:layout_height="@dimen/value20"
+                        android:layout_toRightOf="@+id/textview_mobile_number"
+                        android:background="@drawable/ic_add"
+                        android:layout_marginLeft="10dp"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:paddingLeft="@dimen/activity_horizontal_margin_card"
+                        android:paddingRight="@dimen/activity_horizontal_margin_card"
+                        android:visibility="gone" />
 
-                        <Button
-                            android:id="@+id/add_in_contacts"
-                            android:layout_width="@dimen/value30"
-                            android:layout_height="@dimen/value30"
-                            android:layout_centerVertical="true"
-                            android:layout_toRightOf="@id/textview_mobile_number"
-                            android:background="@drawable/ic_add"
-                            android:backgroundTint="@color/colorPrimary"
-                            android:paddingLeft="@dimen/activity_horizontal_margin_card"
-                            android:paddingRight="@dimen/activity_horizontal_margin_card"
-                            android:visibility="gone" />
-
-                    </RelativeLayout>
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/sponsor_number"
+                        android:layout_width="wrap_content"
+                        tools:text="01677059861"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textview_mobile_number"
+                        android:visibility="gone" />
+                </RelativeLayout>
             </LinearLayout>
+        </LinearLayout>
 
             <View style="@style/Divider" />
 
@@ -237,7 +258,7 @@
                     <TextView
                         android:id="@+id/textView2"
                         style="@style/TextViewInfoLabelReviewSmall"
-                        android:text="@string/purpose" />
+                        android:text="@string/note" />
 
                     <TextView
                         android:id="@+id/purpose"

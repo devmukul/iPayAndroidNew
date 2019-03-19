@@ -1,17 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?android:selectableItemBackground">
+    android:layout_height="wrap_content">
 
-    <bd.com.ipay.ipayskeleton.CustomView.ProfileImageView
-        android:id="@+id/profile_picture"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin" />
+    <RelativeLayout
+        android:id="@+id/profile_pic_holder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/profile_picture"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            app:riv_oval="true"
+            tools:src="@tools:sample/avatars" />
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/sponsor"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignRight="@id/profile_picture"
+            android:layout_marginTop="@dimen/value35"
+            android:visibility="gone"
+            app:riv_oval="true"
+            tools:src="@drawable/user_brand_bg" />
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/other_image"
@@ -30,7 +50,7 @@
         android:layout_marginTop="@dimen/activity_vertical_margin_card"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginBottom="@dimen/activity_vertical_margin_card"
-        android:layout_toRightOf="@+id/profile_picture"
+        android:layout_toRightOf="@+id/profile_pic_holder"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -53,9 +73,10 @@
             <TextView
                 android:id="@+id/activity_description"
                 style="@style/TransactionHistoryLeftTextViewStyle"
-                android:fontFamily="@font/open_sans_semibold"
+                android:fontFamily="sans-serif-light"
                 android:textColor="@color/colorPaymentReviewPrimaryText"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/status_description_icon"
@@ -69,9 +90,10 @@
             <TextView
                 android:id="@+id/net_amount"
                 style="@style/TransactionHistoryRightTextViewStyle"
-                android:fontFamily="@font/open_sans_semibold"
+                android:fontFamily="sans-serif-light"
                 android:textColor="@color/colorAmountText"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
@@ -91,9 +113,21 @@
             <TextView
                 android:id="@+id/amount"
                 style="@style/TransactionHistoryRightTextViewStyle"
+                android:layout_marginLeft="8dp"
                 android:fontFamily="@font/open_sans"
                 android:textColor="@color/colorPaymentReviewNoteText"
                 android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/sponsor_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/receiver"
+                android:fontFamily="sans-serif"
+                android:textColor="#333333"
+                android:textSize="12sp"
+                android:textStyle="normal"
+                tools:text="Paid by: Arifur Rahman" />
         </RelativeLayout>
 
     </LinearLayout>
@@ -103,6 +137,6 @@
         style="@style/DividerOnly"
         android:layout_below="@id/description_layout"
         android:layout_marginTop="@dimen/activity_horizontal_margin_card"
-        android:layout_toRightOf="@id/profile_picture" />
+        android:layout_toRightOf="@+id/profile_pic_holder" />
 
 </RelativeLayout>

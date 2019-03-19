@@ -89,7 +89,7 @@ public class TransactionUtilities {
 		COMPLETED_TRANSACTION_FILTER_LIST
 				.add(new TransactionServiceFilterOption(
 						ServiceIdConstants.UTILITY_BILL_PAYMENT,
-						context.getString(R.string.utility_bill)));
+						context.getString(R.string.bill_pay)));
 	}
 
 	private static void populatePendingTransactionFilterList(Context context) {

@@ -9,7 +9,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/value40"
         android:orientation="vertical"
         android:weightSum="100">
 
@@ -180,68 +179,6 @@
             android:layout_weight="70"
             android:orientation="vertical">
 
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginStart="@dimen/activity_horizontal_margin_card"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin_card"
-                android:layout_marginTop="@dimen/activity_horizontal_margin_card"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin_card"
-                android:layout_marginRight="@dimen/activity_horizontal_margin_card"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="2dp">
-
-                <LinearLayout
-                    android:id="@+id/transaction_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/title_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/open_sans_semibold"
-                        android:paddingStart="@dimen/activity_horizontal_margin"
-                        android:paddingLeft="@dimen/activity_horizontal_margin"
-                        android:paddingTop="@dimen/value8"
-                        android:paddingEnd="@dimen/value0"
-                        android:paddingRight="@dimen/value0"
-                        android:paddingBottom="@dimen/value8"
-                        android:text="@string/last_transaction"
-                        android:textColor="#666666"
-                        android:textSize="10sp"
-                        tools:ignore="SmallSp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/value1"
-                        android:background="#EEEEEE" />
-
-                    <include layout="@layout/list_item_transaction_history" />
-
-                </LinearLayout>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/profile_completion"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone">
-
-                </android.support.v7.widget.RecyclerView>
-
-                <ProgressBar
-                    android:id="@+id/progress_bar_transaction"
-                    style="?android:attr/progressBarStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
-            </android.support.v7.widget.CardView>
-
-
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -262,7 +199,7 @@
                         android:baselineAligned="false">
 
                         <LinearLayout
-                            android:id="@+id/continue_button"
+                            android:id="@+id/button_send_money"
                             style="@style/HomeImageLinearLayoutStyleHorizontal"
                             android:layout_weight="1"
                             tools:ignore="NestedWeights">
@@ -273,9 +210,36 @@
                                 android:ellipsize="marquee"
                                 android:fontFamily="@font/open_sans_semibold"
                                 android:singleLine="true"
-                                android:text="@string/send_money" />
+                                android:text="@string/send_money"
+                                android:gravity="center"/>
 
                         </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/activity_horizontal_margin_card"
+                            android:background="#edeeef">
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/button_request_money"
+                            style="@style/HomeImageLinearLayoutStyleHorizontal"
+                            android:layout_weight="1"
+                            tools:ignore="NestedWeights">
+
+                            <TextView
+                                style="@style/HomeImageLinearLayoutTextStyleHorizontal"
+                                android:drawableTop="@drawable/background_icon_request_money"
+                                android:ellipsize="marquee"
+                                android:fontFamily="@font/open_sans_semibold"
+                                android:singleLine="true"
+                                android:text="@string/request_money"
+                                android:gravity="center" />
+
+                        </LinearLayout>
+
 
                         <LinearLayout
                             android:layout_width="1dp"
@@ -292,34 +256,98 @@
 
                             <TextView
                                 style="@style/HomeImageLinearLayoutTextStyleHorizontal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:drawableTop="@drawable/background_icon_pay_by_qc_home"
                                 android:ellipsize="marquee"
                                 android:fontFamily="@font/open_sans_semibold"
                                 android:singleLine="true"
-                                android:text="@string/pay_by_QR_code" />
+                                android:text="@string/pay_by_QR_code"
+                                android:gravity="center" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin_card"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin_card"
+                        android:background="#edeeef">
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:baselineAligned="false">
+
+                        <LinearLayout
+                            android:id="@+id/button_desco_bill_payment"
+                            style="@style/HomeImageLinearLayoutStyleHorizontal"
+                            android:layout_weight="1"
+                            tools:ignore="NestedWeights">
+
+                            <TextView
+                                style="@style/HomeImageLinearLayoutTextStyleHorizontal"
+                                android:drawableTop="@drawable/ic_home_desco"
+                                android:ellipsize="marquee"
+                                android:fontFamily="@font/open_sans_semibold"
+                                android:singleLine="true"
+                                android:text="@string/desco"
+                                android:gravity="center"/>
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="#edeeef">
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/button_dpdc_bill_payment"
+                            style="@style/HomeImageLinearLayoutStyleHorizontal"
+                            android:layout_weight="1">
+
+                            <TextView
+                                style="@style/HomeImageLinearLayoutTextStyleHorizontal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableTop="@drawable/ic_home_dpdc"
+                                android:ellipsize="marquee"
+                                android:fontFamily="@font/open_sans_semibold"
+                                android:singleLine="true"
+                                android:text="@string/dpdc"
+                                android:gravity="center"/>
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="1dp"
                             android:layout_height="match_parent"
-                            android:layout_marginTop="@dimen/activity_horizontal_margin_card"
                             android:background="#edeeef">
 
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/button_topup"
+                            android:id="@+id/button_isp_bill_payment"
                             style="@style/HomeImageLinearLayoutStyleHorizontal"
                             android:layout_weight="1">
 
                             <TextView
                                 style="@style/HomeImageLinearLayoutTextStyleHorizontal"
-                                android:drawableTop="@drawable/background_icon_topup_home"
+                                android:drawableTop="@drawable/ic_home_isp"
                                 android:ellipsize="marquee"
                                 android:fontFamily="@font/open_sans_semibold"
                                 android:singleLine="true"
-                                android:text="@string/mobile_topup" />
+                                android:text="@string/isp"
+                                android:gravity="center"/>
 
                         </LinearLayout>
 
@@ -341,20 +369,65 @@
                         android:baselineAligned="false">
 
                         <LinearLayout
-                            android:id="@+id/button_request_money"
+                            android:id="@+id/button_topup"
                             style="@style/HomeImageLinearLayoutStyleHorizontal"
-                            android:layout_weight="1"
-                            tools:ignore="NestedWeights">
+                            android:layout_weight="1">
 
                             <TextView
                                 style="@style/HomeImageLinearLayoutTextStyleHorizontal"
-                                android:drawableTop="@drawable/background_icon_request_money"
+                                android:drawableTop="@drawable/background_icon_topup_home"
                                 android:ellipsize="marquee"
                                 android:fontFamily="@font/open_sans_semibold"
                                 android:singleLine="true"
-                                android:text="@string/request_money" />
+                                android:text="@string/mobile_topup"
+                                android:gravity="center"/>
 
                         </LinearLayout>
+
+
+
+                        <LinearLayout
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="@dimen/activity_horizontal_margin_card"
+                            android:background="#edeeef">
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/button_credit_card"
+                            style="@style/HomeImageLinearLayoutStyleHorizontal"
+                            android:layout_weight="1">
+
+                            <TextView
+                                style="@style/HomeImageLinearLayoutTextStyleHorizontal"
+                                android:drawableTop="@drawable/ic_home_credit_card"
+                                android:ellipsize="marquee"
+                                android:fontFamily="@font/open_sans_semibold"
+                                android:singleLine="true"
+                                android:text="@string/credit_card"
+                                android:gravity="center"/>
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:id="@+id/button_request_paymnet"
+                            style="@style/HomeImageLinearLayoutStyleHorizontal"
+                            android:layout_weight="1"
+                            android:visibility="gone">
+
+                            <TextView
+                                style="@style/HomeImageLinearLayoutTextStyleHorizontal"
+                                android:drawableTop="@drawable/request_payment"
+                                android:ellipsize="marquee"
+                                android:singleLine="true"
+                                android:fontFamily="@font/open_sans_semibold"
+                                android:text="@string/request_payment"
+                                android:gravity="center"/>
+
+                        </LinearLayout>
+
 
                         <LinearLayout
                             android:layout_width="1dp"
@@ -375,48 +448,12 @@
                                 android:ellipsize="marquee"
                                 android:fontFamily="@font/open_sans_semibold"
                                 android:singleLine="true"
-                                android:text="@string/make_payment" />
+                                android:text="@string/make_payment"
+                                android:gravity="center"/>
 
                         </LinearLayout>
 
 
-                        <LinearLayout
-                            android:layout_width="1dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="@dimen/activity_horizontal_margin_card"
-                            android:background="#edeeef">
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/button_request_paymnet"
-                            style="@style/HomeImageLinearLayoutStyleHorizontal"
-                            android:layout_weight="1"
-                            android:visibility="gone">
-
-                            <TextView
-                                style="@style/HomeImageLinearLayoutTextStyleHorizontal"
-                                android:drawableTop="@drawable/request_payment"
-                                android:ellipsize="marquee"
-                                android:singleLine="true"
-                                android:text="@string/request_payment" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/button_invite_to_ipay"
-                            style="@style/HomeImageLinearLayoutStyleHorizontal"
-                            android:layout_weight="1">
-
-                            <TextView
-                                style="@style/HomeImageLinearLayoutTextStyleHorizontal"
-                                android:drawableTop="@drawable/invite_icon"
-                                android:ellipsize="marquee"
-                                android:fontFamily="@font/open_sans_semibold"
-                                android:singleLine="true"
-                                android:text="@string/invite_people_to_ipay" />
-
-                        </LinearLayout>
 
                     </LinearLayout>
                 </LinearLayout>
@@ -426,40 +463,6 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/bottom_sheet"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipToPadding="true"
-        android:orientation="vertical"
-        app:behavior_peekHeight="40dp"
-        app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
-        tools:ignore="MissingPrefix">
-
-        <include
-            android:id="@+id/test_sheet"
-            layout="@layout/bottom_sheet" />
-
-        <android.support.v7.widget.CardView
-            android:name="bd.com.ipay.ipayskeleton.HomeFragments.NewsRoomFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin_card"
-            android:layout_marginTop="-6dp"
-            android:layout_marginRight="@dimen/activity_horizontal_margin_card"
-            app:cardBackgroundColor="@color/colorWhite"
-            app:cardCornerRadius="@dimen/value0"
-            app:cardElevation="@dimen/value5">
-
-            <fragment
-                android:id="@+id/offerFragment"
-                android:name="bd.com.ipay.ipayskeleton.HomeFragments.NewsRoomFragment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </android.support.v7.widget.CardView>
-    </LinearLayout>
-
 
 </android.support.design.widget.CoordinatorLayout>
 

@@ -61,9 +61,14 @@ public class ProfileActivity extends BaseActivity {
         setContentView(R.layout.activity_profile);
         mPreviewIdentificationDocumentFragment = new PreviewIdentificationDocumentFragment();
         String targetFragment = getIntent().getStringExtra(Constants.TARGET_FRAGMENT);
+        Bundle bundle = getIntent().getBundleExtra(Constants.BUNDLE);
 
         if (targetFragment != null) {
-            Bundle args = setBundle(targetFragment);
+            Bundle args;
+            if(bundle != null)
+                args = bundle;
+            else
+                args = setBundle(targetFragment);
             switchToFragment(targetFragment, args, false);
         } else {
             switchToProfileFragment();
@@ -122,6 +127,9 @@ public class ProfileActivity extends BaseActivity {
         Bundle args = new Bundle();
         switch (targetFragment) {
             case VERIFY_BANK_OR_CARD:
+                args.putBoolean(STARTED_FROM_PROFILE_ACTIVITY, true);
+                break;
+            case Constants.UPLOAD_DOCUMENT:
                 args.putBoolean(STARTED_FROM_PROFILE_ACTIVITY, true);
                 break;
             default:
@@ -189,6 +197,9 @@ public class ProfileActivity extends BaseActivity {
                 break;
             case VERIFY_BANK_OR_CARD:
                 fragment = new SourceOfFundDashBoardFragment();
+                break;
+            case Constants.UPLOAD_DOCUMENT:
+                fragment = new UploadIdentificationFragment();
                 break;
             case PROFILE_INFO:
                 fragment = new AccountFragment();

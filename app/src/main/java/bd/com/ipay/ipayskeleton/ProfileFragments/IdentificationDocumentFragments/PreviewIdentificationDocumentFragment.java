@@ -1,6 +1,5 @@
 package bd.com.ipay.ipayskeleton.ProfileFragments.IdentificationDocumentFragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
@@ -27,6 +26,7 @@ import java.util.Locale;
 
 import bd.com.ipay.ipayskeleton.Activities.DrawerActivities.ProfileActivity;
 import bd.com.ipay.ipayskeleton.BaseFragments.BaseFragment;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.DocumentPreviewImageView;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.Documents.DocumentPage;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.Documents.IdentificationDocument;
@@ -39,7 +39,7 @@ public class PreviewIdentificationDocumentFragment extends BaseFragment {
 
     private IdentificationDocument mSelectedIdentificationDocument;
     private DocumentPreviewImageView documentPreviewImageView;
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class PreviewIdentificationDocumentFragment extends BaseFragment {
         if (getArguments() != null) {
             mSelectedIdentificationDocument = getArguments().getParcelable(Constants.SELECTED_IDENTIFICATION_DOCUMENT);
         }
-        mProgressDialog = new ProgressDialog(getContext());
+        mProgressDialog = new CustomProgressDialog(getContext());
 
     }
 
@@ -86,7 +86,7 @@ public class PreviewIdentificationDocumentFragment extends BaseFragment {
         if (mSelectedIdentificationDocument != null) {
             documentTypeNameTextView.setText(mSelectedIdentificationDocument.getDocumentTypeTitle());
             documentIdTextView.setText(mSelectedIdentificationDocument.getDocumentIdNumber());
-            documentTypePreviewTextView.setText(String.format(Locale.US, "%s Preview", mSelectedIdentificationDocument.getDocumentTypeTitle()));
+            documentTypePreviewTextView.setText(String.format(Locale.getDefault(), "%s "+ getString(R.string.preview), getString(R.string.document)));
             if (mSelectedIdentificationDocument.getDocumentVerificationStatus().equals(IdentificationDocumentConstants.DOCUMENT_VERIFICATION_STATUS_VERIFIED) ||
                     ( !mSelectedIdentificationDocument.getDocumentType().equals(IdentificationDocumentConstants.DOCUMENT_TYPE_NATIONAL_ID) && !ProfileInfoCacheManager.isBusinessAccount())) {
                 documentInformationEditImageButton.setVisibility(View.GONE);
@@ -168,7 +168,6 @@ public class PreviewIdentificationDocumentFragment extends BaseFragment {
                                 holder.documentImageView.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        mProgressDialog.setMessage(getString(R.string.loading));
                                         mProgressDialog.setCancelable(false);
                                         mProgressDialog.show();
                                         Glide.with(PreviewIdentificationDocumentFragment.this).load(Constants.BASE_URL_FTP_SERVER + documentPage.getUrl()).listener(new RequestListener<String, GlideDrawable>() {

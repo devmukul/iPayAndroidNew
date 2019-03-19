@@ -1,6 +1,5 @@
 package bd.com.ipay.ipayskeleton.SecuritySettingsFragments;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -29,6 +28,7 @@ import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.Aspect.ValidateAccess;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomSelectorDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Security.AddSecurityQuestionAnswerClass;
@@ -58,7 +58,7 @@ public class SecurityQuestionFragment extends ProgressFragment implements HttpRe
     private HttpRequestPostAsyncTask mSetSecurityAnswerTask = null;
     private SetSecurityAnswerResponse mSetSecurityAnswerResponse;
 
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
 
     private RecyclerView mSecurityQuesRecyclerView;
     private SecurityQuestionAdapter mSecurityQuestionAnswerAdapter;
@@ -98,7 +98,7 @@ public class SecurityQuestionFragment extends ProgressFragment implements HttpRe
         mLayoutManager = new LinearLayoutManager(getActivity());
         mSecurityQuesRecyclerView.setLayoutManager(mLayoutManager);
 
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
 
         mPreviousQuestionClassList = new ArrayList<>();
         getAllSecurityQuestions();
@@ -182,7 +182,6 @@ public class SecurityQuestionFragment extends ProgressFragment implements HttpRe
     }
 
     private void attemptSaveSecurityQuestionAnswers(String password) {
-        mProgressDialog.setMessage(getString(R.string.set_security_answer));
         mProgressDialog.show();
 
         SetSecurityAnswerRequest setSecurityAnswerRequest = new SetSecurityAnswerRequest(mAddSecurityQuestionAnswerClassList, password);

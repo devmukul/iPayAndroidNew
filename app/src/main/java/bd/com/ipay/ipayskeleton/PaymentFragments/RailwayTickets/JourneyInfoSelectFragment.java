@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,13 +21,13 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import bd.com.ipay.ipayskeleton.Activities.PaymentActivities.UtilityBillPaymentActivity;
 import bd.com.ipay.ipayskeleton.Activities.RailwayTicketActionActivity;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestGetAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
@@ -37,10 +36,7 @@ import bd.com.ipay.ipayskeleton.CustomView.Dialogs.SelectorDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.SelectorDialogWithSearch;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.SpinnerEditTextWithProgressBar;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.BusinessRuleAndServiceCharge.BusinessRule.MandatoryBusinessRules;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.RailwayTickets.GetStationResponse;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.RailwayTickets.GetTrainListResponse;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.RailwayTickets.TrainList;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Utilities.ToasterAndLogger.Toaster;
@@ -105,12 +101,12 @@ public class JourneyInfoSelectFragment extends Fragment implements HttpResponseL
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mContinueButton = view.findViewById(R.id.continue_button);
+        mContinueButton = view.findViewById(R.id.button_send_money);
         Toolbar toolbar = view.findViewById(R.id.toolbar);
-        mContinueButton = view.findViewById(R.id.continue_button);
+        mContinueButton = view.findViewById(R.id.button_send_money);
         mHelperText = view.findViewById(R.id.helper_text);
-        String text = "You can purchase max <font color='#00c0af'>4 seats</font> at once and highest <font color='#00c0af'>8 seats</font> per week.";
-        mHelperText.setText(Html.fromHtml(text));
+        //String text = "You can purchase max <font color='#00c0af'>4 seats</font> at once and highest <font color='#00c0af'>8 seats</font> per week.";
+        //mHelperText.setText(Html.fromHtml(text));
         mContinueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,12 +175,21 @@ public class JourneyInfoSelectFragment extends Fragment implements HttpResponseL
                 datePickerDialog.show();
             }
         });
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mStationFromSelection.setText("");
+        mStationToSelection.setText("");
+        mAdultSelection.setText("");
+        mChildSelection.setText("");
+        mGenderSelection.setText("");
+        getStationFromList();
         getAdultLIst();
         setAdultAdapter(mAdultList);
         getGenderLIst();
         setGenderAdapter(mGenderList);
-        getStationFromList();
     }
 
     private void getStationFromList() {
@@ -266,7 +271,8 @@ public class JourneyInfoSelectFragment extends Fragment implements HttpResponseL
                 if (Integer.valueOf(mSelectedAdult) < Constants.MAX_TICKET && Integer.valueOf(mSelectedAdult) >0 ) {
                     mChildList = new ArrayList<>();
                     for (int i = 0; i <= Constants.MAX_TICKET - Integer.valueOf(mSelectedAdult); i++) {
-                        mChildList.add(String.valueOf(i));
+                        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
+                        mChildList.add(String.valueOf(numberFormat.format(i)));
                     }
                     setChildAdapter(mChildList);
 
@@ -320,10 +326,10 @@ public class JourneyInfoSelectFragment extends Fragment implements HttpResponseL
             public void onResourceSelected(String name) {
                 mGenderSelection.setError(null);
                 mGenderSelection.setText(name);
-                if(name.equalsIgnoreCase("male"))
+                if(name.equalsIgnoreCase(getString(R.string.male)))
                 {
                     mSelectedGender = "M";
-                }else if(name.equalsIgnoreCase("female")){
+                }else if(name.equalsIgnoreCase(getString(R.string.female))){
                     mSelectedGender = "F";
                 }else {
                     mSelectedGender = null;
@@ -430,11 +436,15 @@ public class JourneyInfoSelectFragment extends Fragment implements HttpResponseL
             mAdultSelection.setError(getContext().getString(R.string.invalid_no_of_ticket));
             focusedView = mAdultSelection;
             cancel = true;
-        } else if (Integer.valueOf(mAdultSelection.getText().toString())== 1) {
-            if (mGenderSelection.getText().toString().trim().length() == 0) {
-                mGenderSelection.setError(getContext().getString(R.string.invalid_gender));
-                focusedView = mGenderSelection;
-                cancel = true;
+        } else if ((TextUtils.isEmpty(mAdultSelection.getText().toString()) || Integer.valueOf(mAdultSelection.getText().toString())== 1)) {
+
+            if ( (TextUtils.isEmpty(mChildSelection.getText().toString()) || Integer.valueOf(mChildSelection.getText().toString())== 0)) {
+
+                if ((TextUtils.isEmpty(mGenderSelection.getText().toString()) || mGenderSelection.getText().toString().trim().length() == 0)) {
+                    mGenderSelection.setError(getContext().getString(R.string.invalid_gender));
+                    focusedView = mGenderSelection;
+                    cancel = true;
+                }
             }
         }
 
@@ -449,13 +459,14 @@ public class JourneyInfoSelectFragment extends Fragment implements HttpResponseL
     public void getAdultLIst(){
         mAdultList = new ArrayList<>();
         for(int i=1; i<=Constants.MAX_TICKET; i++){
-            mAdultList.add(String.valueOf(i));
+            NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
+            mAdultList.add(String.valueOf(numberFormat.format(i)));
         }
     }
 
     public void getGenderLIst(){
         mGenderList = new ArrayList<>();
-        mGenderList.add("Male");
-        mGenderList.add("Female");
+        mGenderList.add(getString(R.string.male));
+        mGenderList.add(getString(R.string.female));
     }
 }

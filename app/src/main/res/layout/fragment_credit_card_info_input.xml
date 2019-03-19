@@ -68,7 +68,7 @@
                 android:textColor="#333333"
                 android:lineSpacingExtra="6sp"
                 android:gravity="center_horizontal"
-                android:text="To settle your bill payment request, it will take 3-5 business day."
+                android:text="@string/to_settle_your_bill_payment_request_it_will_take_3_5_business_day"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"/>
 
             <LinearLayout
@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans_light"
                     android:gravity="center"
-                    android:hint="Card Number"
+                    android:hint="@string/card_number"
                     android:inputType="number"
                     android:paddingRight="@dimen/value20" />
 
@@ -96,7 +96,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/open_sans_light"
                     android:gravity="center"
-                    android:hint="Card Holder Name"
+                    android:hint="@string/card_holder_name"
                     android:layout_marginTop="@dimen/activity_horizontal_margin_semi_double"/>
 
             </LinearLayout>
@@ -112,7 +112,7 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/continue_button"
+            android:id="@+id/button_send_money"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/value10"

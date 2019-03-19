@@ -1,7 +1,6 @@
 package bd.com.ipay.ipayskeleton.DrawerFragments.HelpAndSupportFragments;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -38,6 +37,7 @@ import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.CustomView.CustomDrawable;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomUploadPickerDialog;
 import bd.com.ipay.ipayskeleton.CustomView.ProfileImageView;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
@@ -73,7 +73,7 @@ public class TicketDetailsFragment extends ProgressFragment implements HttpRespo
     private ImageButton mRemoveAttachFileButton;
     private EditText mUserCommentEditText;
 
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
     private CustomUploadPickerDialog customUploadPickerDialog;
 
     private List<Comment> mComments;
@@ -138,7 +138,7 @@ public class TicketDetailsFragment extends ProgressFragment implements HttpRespo
             }
         });
 
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
 
         mSendCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -298,7 +298,6 @@ public class TicketDetailsFragment extends ProgressFragment implements HttpRespo
         if (mNewCommentTask != null)
             return;
 
-        mProgressDialog.setMessage(getString(R.string.progress_dialog_submitting_comment));
         mProgressDialog.show();
 
         Gson gson = new Gson();

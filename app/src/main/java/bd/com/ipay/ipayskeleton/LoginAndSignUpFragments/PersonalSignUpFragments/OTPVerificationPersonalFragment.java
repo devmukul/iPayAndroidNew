@@ -1,6 +1,5 @@
 package bd.com.ipay.ipayskeleton.LoginAndSignUpFragments.PersonalSignUpFragments;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,18 +20,22 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import bd.com.ipay.ipayskeleton.Activities.SignupOrLoginActivity;
+import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestGetAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.LoginAndSignUp.OTPRequestPersonalSignup;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.LoginAndSignUp.OTPResponsePersonalSignup;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.LoginAndSignUp.SignupRequestPersonal;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.LoginAndSignUp.SignupResponsePersonal;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.BasicInfo.BulkSignUp.GetUserDetailsResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.TrustedDevice.AddToTrustedDeviceRequest;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.TrustedDevice.AddToTrustedDeviceResponse;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ACLManager;
+import bd.com.ipay.ipayskeleton.Utilities.CacheManager.BulkSignupUserDetailsCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Utilities.CustomCountDownTimer;
@@ -52,6 +55,9 @@ public class OTPVerificationPersonalFragment extends Fragment implements HttpRes
     private AddToTrustedDeviceResponse mAddToTrustedDeviceResponse;
     private HttpRequestPostAsyncTask mAddTrustedDeviceTask = null;
 
+    private HttpRequestGetAsyncTask mGetBulkSignupUserDetailsTask = null;
+    private GetUserDetailsResponse mGetUserDetailsResponse;
+
     private Button mActivateButton;
     private Button mResendOTPButton;
     private EditText mOTPEditText;
@@ -60,7 +66,7 @@ public class OTPVerificationPersonalFragment extends Fragment implements HttpRes
     private String mDeviceID;
     private String mDeviceName;
 
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
     private Tracker mTracker;
 
     @Override
@@ -90,8 +96,7 @@ public class OTPVerificationPersonalFragment extends Fragment implements HttpRes
         mDeviceID = DeviceInfoFactory.getDeviceId(getActivity());
         mDeviceName = DeviceInfoFactory.getDeviceName();
 
-        mProgressDialog = new ProgressDialog(getActivity());
-        mProgressDialog.setMessage(getString(R.string.progress_dialog_text_logging_in));
+        mProgressDialog = new CustomProgressDialog(getActivity());
 
         mResendOTPButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,7 +198,7 @@ public class OTPVerificationPersonalFragment extends Fragment implements HttpRes
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
 
-        if (HttpErrorHandler.isErrorFound(result,getContext(),mProgressDialog)) {
+        if (HttpErrorHandler.isErrorFound(result,getContext(),mProgressDialog) && !result.getApiCommand().equals(Constants.COMMAND_GET_BULK_SIGN_UP_USER_DETAILS)) {
             hideProgressDialog();
             mSignUpTask = null;
             mRequestOTPTask = null;
@@ -211,7 +216,7 @@ public class OTPVerificationPersonalFragment extends Fragment implements HttpRes
                     String message = signupResponsePersonal.getMessage();
 
                     if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
-                        attemptAddTrustedDevice();
+                        getBulkSignUpUserDetails();
                         Toaster.makeText(getActivity(), signupResponsePersonal.getMessage(), Toast.LENGTH_LONG);
 
                         // Saving the allowed services id for the user
@@ -258,6 +263,20 @@ public class OTPVerificationPersonalFragment extends Fragment implements HttpRes
                 mSignUpTask = null;
 
                 break;
+
+            case Constants.COMMAND_GET_BULK_SIGN_UP_USER_DETAILS:
+                try {
+                    if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
+                        mGetUserDetailsResponse = gson.fromJson(result.getJsonString(), GetUserDetailsResponse.class);
+                        BulkSignupUserDetailsCacheManager.updateBulkSignupUserInfoCache(mGetUserDetailsResponse);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                attemptAddTrustedDevice();
+                mGetBulkSignupUserDetailsTask = null;
+                break;
+
             case Constants.COMMAND_OTP_VERIFICATION:
                 hideProgressDialog();
 
@@ -355,5 +374,14 @@ public class OTPVerificationPersonalFragment extends Fragment implements HttpRes
                 Constants.BASE_URL_MM + Constants.URL_ADD_TRUSTED_DEVICE, json, getActivity(),false);
         mAddTrustedDeviceTask.mHttpResponseListener = this;
         mAddTrustedDeviceTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    private void getBulkSignUpUserDetails() {
+        if (mGetBulkSignupUserDetailsTask != null) {
+            return;
+        }
+        mGetBulkSignupUserDetailsTask = new HttpRequestGetAsyncTask(Constants.COMMAND_GET_BULK_SIGN_UP_USER_DETAILS,
+                Constants.BASE_URL_MM + Constants.URL_GET_BULK_SIGN_UP_USER_DETAILS, getActivity(), this, true);
+        mGetBulkSignupUserDetailsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 }

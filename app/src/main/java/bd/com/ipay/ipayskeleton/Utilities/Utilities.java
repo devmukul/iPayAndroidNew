@@ -82,11 +82,31 @@ import bd.com.ipay.ipayskeleton.Utilities.ToasterAndLogger.Logger;
 
 public class Utilities {
 
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy, h:mm a", Locale.US);
-    private static final SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a", Locale.US);
-    private static final SimpleDateFormat DATE_FORMAT_WITH_TIME = new SimpleDateFormat("MMM d, yyyy, h:mm a", Locale.US);
-    private static final SimpleDateFormat DATE_FORMAT_WITHOUT_TIME = new SimpleDateFormat("MMM d, yyyy", Locale.US);
-    private static final SimpleDateFormat DATE_FORMAT_FROM_STRING = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+    private static SimpleDateFormat dateFormat;
+    private static SimpleDateFormat timeFormat;
+    private static SimpleDateFormat DATE_FORMAT_WITH_TIME;
+    private static SimpleDateFormat DATE_FORMAT_WITHOUT_TIME;
+    private static SimpleDateFormat DATE_FORMAT_FROM_STRING;
+
+    public static void updateLocale() {
+        dateFormat = new SimpleDateFormat("dd/MM/yyyy, h:mm a", Locale.getDefault());
+        timeFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+        DATE_FORMAT_WITH_TIME = new SimpleDateFormat("MMMM d, yyyy, h:mm a", Locale.getDefault());
+        DATE_FORMAT_WITHOUT_TIME = new SimpleDateFormat("MMMM d, yyyy", Locale.getDefault());
+        DATE_FORMAT_FROM_STRING = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+    }
+
+    public static void showErrorDialog(Context context, String message) {
+        new AlertDialog.Builder(context)
+                .setMessage(message)
+                .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
+    }
 
     private static final String TAG = Utilities.class.getSimpleName();
 
@@ -485,21 +505,21 @@ public class Utilities {
     }
 
     public static String takaWithComma(BigDecimal amount) {
-        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
         numberFormat.setMinimumFractionDigits(2);
         numberFormat.setMaximumFractionDigits(2);
         return numberFormat.format(amount);
     }
 
     public static String formatTaka(BigDecimal amount) {
-        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
         numberFormat.setMinimumFractionDigits(2);
         numberFormat.setMaximumFractionDigits(2);
         return String.format("\u09F3%s", numberFormat.format(amount));
     }
 
     public static String formatTaka(double amount) {
-        return String.format(Locale.US, "\u09F3%.2f", amount);
+        return String.format(Locale.getDefault(), "\u09F3%.2f", amount);
     }
 
     public static String formatTakaFromString(String amount) {
@@ -511,7 +531,7 @@ public class Utilities {
             amount = stringBuilder.toString();
         }
         double amountDouble = Double.parseDouble(amount);
-        return String.format(Locale.US, "%s\u09F3%.2f", sign, amountDouble);
+        return String.format(Locale.getDefault(), "%s\u09F3%.2f", sign, amountDouble);
     }
 
     public static void hideKeyboard(Activity activity) {
@@ -648,13 +668,13 @@ public class Utilities {
         return "";
     }
 
-    public static com.tsongkha.spinnerdatepicker.DatePickerDialog getDatePickerDialog(Context context, Date date, com.tsongkha.spinnerdatepicker.DatePickerDialog.OnDateSetListener onDateSetListener) {
-        final com.tsongkha.spinnerdatepicker.DatePickerDialog datePickerDialog = initDatePickerDialog(context, date, onDateSetListener);
+    public static com.tsongkha.spinnerdatepicker.DatePickerDialog getDatePickerDialog(Context context, Date date, com.tsongkha.spinnerdatepicker.DatePickerDialog.OnDateSetListener onDateSetListener, boolean showDay) {
+        final com.tsongkha.spinnerdatepicker.DatePickerDialog datePickerDialog = initDatePickerDialog(context, date, onDateSetListener, showDay);
 
         return datePickerDialog;
     }
 
-    public static com.tsongkha.spinnerdatepicker.DatePickerDialog initDatePickerDialog(Context context, Date date, com.tsongkha.spinnerdatepicker.DatePickerDialog.OnDateSetListener onDateSetListener) {
+    public static com.tsongkha.spinnerdatepicker.DatePickerDialog initDatePickerDialog(Context context, Date date, com.tsongkha.spinnerdatepicker.DatePickerDialog.OnDateSetListener onDateSetListener, boolean showDay) {
         final Calendar calendar = Calendar.getInstance();
         int year, month, day;
         int minYear = calendar.get(Calendar.YEAR) - Constants.MIN_AGE_LIMIT;
@@ -678,6 +698,7 @@ public class Utilities {
                 .callback(onDateSetListener)
                 .showDaySpinner(true)
                 .defaultDate(year, month, day)
+                .showDaySpinner(showDay)
                 .maxDate(minYear, minMonth, minDay);
         return spinnerDatePickerDialogBuilder.build();
     }
@@ -732,13 +753,6 @@ public class Utilities {
         Intent intent = new Intent();
         activity.setResult(Activity.RESULT_OK, intent);
         activity.finish();
-    }
-
-    public static String getFormattedCountryName(String countryName) {
-        if (countryName.toLowerCase().equals("bd")) {
-            countryName = "Bangladesh";
-        }
-        return countryName;
     }
 
 
@@ -799,13 +813,13 @@ public class Utilities {
             sendEventTracker(tracker,
                     category,
                     "Success",
-                    String.format(Locale.US, "At %s", formatDateWithoutTime(System.currentTimeMillis())),
+                    String.format(Locale.getDefault(), "At %s", formatDateWithoutTime(System.currentTimeMillis())),
                     value);
         } else {
             sendEventTracker(tracker,
                     category,
                     "Success",
-                    String.format(Locale.US, "ACCOUNT_ID:%d at %s", accountId, formatDateWithoutTime(System.currentTimeMillis())),
+                    String.format(Locale.getDefault(), "ACCOUNT_ID:%d at %s", accountId, formatDateWithoutTime(System.currentTimeMillis())),
                     value);
         }
     }
@@ -819,13 +833,13 @@ public class Utilities {
             sendEventTracker(tracker,
                     category,
                     "Blocked",
-                    String.format(Locale.US, "At %s", formatDateWithoutTime(System.currentTimeMillis())),
+                    String.format(Locale.getDefault(), "At %s", formatDateWithoutTime(System.currentTimeMillis())),
                     value);
         } else {
             sendEventTracker(tracker,
                     category,
                     "Blocked",
-                    String.format(Locale.US, "ACCOUNT_ID:%d at %s", accountId, formatDateWithoutTime(System.currentTimeMillis())),
+                    String.format(Locale.getDefault(), "ACCOUNT_ID:%d at %s", accountId, formatDateWithoutTime(System.currentTimeMillis())),
                     value);
         }
 
@@ -840,13 +854,13 @@ public class Utilities {
             sendEventTracker(tracker,
                     category,
                     "Failed",
-                    String.format(Locale.US, "At %s, SERVER_MESSAGE:%s", formatDateWithoutTime(System.currentTimeMillis()), serverErrorMessage),
+                    String.format(Locale.getDefault(), "At %s, SERVER_MESSAGE:%s", formatDateWithoutTime(System.currentTimeMillis()), serverErrorMessage),
                     value);
         } else {
             sendEventTracker(tracker,
                     category,
                     "Failed",
-                    String.format(Locale.US, "ACCOUNT_ID:%d at %s, SERVER_MESSAGE:%s", accountId, formatDateWithoutTime(System.currentTimeMillis()), serverErrorMessage),
+                    String.format(Locale.getDefault(), "ACCOUNT_ID:%d at %s, SERVER_MESSAGE:%s", accountId, formatDateWithoutTime(System.currentTimeMillis()), serverErrorMessage),
                     value);
         }
     }
@@ -854,11 +868,11 @@ public class Utilities {
     public static void sendExceptionTracker(Tracker tracker, int accountId, String exceptionMessage) {
         if (accountId == Constants.INVALID_ACCOUNT_ID) {
             tracker.send(new HitBuilders.ExceptionBuilder().
-                    setDescription(String.format(Locale.US, "EXCEPTION_MESSAGE:%s at %s, DEVICE_NAME:%s", exceptionMessage, formatDateWithoutTime(System.currentTimeMillis()), DeviceInfoFactory.getDeviceName()))
+                    setDescription(String.format(Locale.getDefault(), "EXCEPTION_MESSAGE:%s at %s, DEVICE_NAME:%s", exceptionMessage, formatDateWithoutTime(System.currentTimeMillis()), DeviceInfoFactory.getDeviceName()))
                     .setFatal(true).build());
         } else {
             tracker.send(new HitBuilders.ExceptionBuilder().
-                    setDescription(String.format(Locale.US, "ACCOUNT_ID:%d at %s, EXCEPTION_MESSAGE:%s, DEVICE_NAME:%s", accountId, formatDateWithoutTime(System.currentTimeMillis()), exceptionMessage, DeviceInfoFactory.getDeviceName()))
+                    setDescription(String.format(Locale.getDefault(), "ACCOUNT_ID:%d at %s, EXCEPTION_MESSAGE:%s, DEVICE_NAME:%s", accountId, formatDateWithoutTime(System.currentTimeMillis()), exceptionMessage, DeviceInfoFactory.getDeviceName()))
                     .setFatal(true).build());
         }
     }
@@ -883,20 +897,21 @@ public class Utilities {
 
     public static List<AddMoneyOption> getAddMoneyOptions() {
         final List<AddMoneyOption> addMoneyOptionList = new ArrayList<>();
-        if (ACLManager.hasServicesAccessibility(ServiceIdConstants.ADD_MONEY_BY_BANK_INSTANTLY)) {
-            addMoneyOptionList.add(new AddMoneyOption(ServiceIdConstants.ADD_MONEY_BY_BANK_INSTANTLY,
-                    R.drawable.ic_instant_money_icon,
-                    R.string.instant_add_money, R.string.add_money_instant_option_message));
+
+        if (ACLManager.hasServicesAccessibility(ServiceIdConstants.ADD_MONEY_BY_BANK)) {
+            addMoneyOptionList.add(new AddMoneyOption(ServiceIdConstants.ADD_MONEY_BY_BANK,
+                    R.drawable.ic_bank_icon,
+                    R.string.money_from_bank, R.string.add_money_bank_option_message));
         }
         if (ACLManager.hasServicesAccessibility(ServiceIdConstants.ADD_MONEY_BY_CREDIT_OR_DEBIT_CARD)) {
             addMoneyOptionList.add(new AddMoneyOption(ServiceIdConstants.ADD_MONEY_BY_CREDIT_OR_DEBIT_CARD,
                     R.drawable.ic_debit_credit_card_icon,
                     R.string.debit_credit_card, R.string.add_money_card_option_message));
         }
-        if (ACLManager.hasServicesAccessibility(ServiceIdConstants.ADD_MONEY_BY_BANK)) {
-            addMoneyOptionList.add(new AddMoneyOption(ServiceIdConstants.ADD_MONEY_BY_BANK,
-                    R.drawable.ic_bank_icon,
-                    R.string.money_from_bank, R.string.add_money_bank_option_message));
+        if (ACLManager.hasServicesAccessibility(ServiceIdConstants.ADD_MONEY_BY_BANK_INSTANTLY)) {
+            addMoneyOptionList.add(new AddMoneyOption(ServiceIdConstants.ADD_MONEY_BY_BANK_INSTANTLY,
+                    R.drawable.ic_instant_money_icon,
+                    R.string.instant_add_money, R.string.add_money_instant_option_message));
         }
         return addMoneyOptionList;
     }
@@ -1104,7 +1119,7 @@ public class Utilities {
         }
     }
 
-    private static final SimpleDateFormat promotionDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+    private static final SimpleDateFormat promotionDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
     public static Date parsePromotionDate(String date) {
         try {
@@ -1120,38 +1135,31 @@ public class Utilities {
         String customerIdStr = customerID.trim().toUpperCase();
         customerIdStr = customerIdStr.replaceAll("[^a-zA-Z0-9]", "");
 
-		if(customerIdStr.startsWith("CID") || customerIdStr.startsWith("cid") )
-			return customerIdStr;
-		else
-			return "CID"+customerIdStr;
-	}
+        if (customerIdStr.startsWith("CID") || customerIdStr.startsWith("cid"))
+            return customerIdStr;
+        else
+            return "CID" + customerIdStr;
+    }
 
-	public static String formatJourneyInfoText(String infoText, int adults, int child) {
+    public static String formatJourneyInfoText(Context c, String infoText, int adults, int child) {
 
-		if(adults>1){
-			if(child>1){
-				return  infoText+" for "+adults +" Adults & "+child+" Children";
-			}else if(child == 0){
-				return  infoText+" for "+adults +" Adults";
-			}else{
-				return  infoText+" for "+adults +" Adults & "+child+" Child";
-			}
-		}else if(adults ==1 ){
-			if(child>1){
-				return  infoText+" for "+adults +" Adult & "+child+" Children";
-			}else if(child == 0){
-				return  infoText+" for "+adults +" Adult";
-			}else{
-				return  infoText+" for "+adults +" Adult & "+child+" Child";
-			}
-		}else {
-			if(child>1){
-				return  infoText+" for "+adults +" Adult & "+child+" Children";
-			}else if(child == 0){
-				return  infoText+" for "+adults +" Adult";
-			}else{
-				return  infoText+" for "+adults +" Adult & "+child+" Child";
-			}
-		}
-	}
+        if (adults > 1) {
+            if (child > 1) {
+                return infoText + " " + c.getString(R.string.train_ticket_msg_adults_childs, adults, child);
+            } else if (child == 0) {
+                return infoText + " " + c.getString(R.string.train_ticket_msg_adults, adults);
+            } else {
+                return infoText + " " + c.getString(R.string.train_ticket_msg_adults_child, adults, child);
+            }
+        } else {
+            if (child > 1) {
+
+                return infoText + " " + c.getString(R.string.train_ticket_msg_adult_childs, adults, child);
+            } else if (child == 0) {
+                return infoText + " " + c.getString(R.string.train_ticket_msg_adult, adults);
+            } else {
+                return infoText + " " + c.getString(R.string.train_ticket_msg_adult_child, adults, child);
+            }
+        }
+    }
 }

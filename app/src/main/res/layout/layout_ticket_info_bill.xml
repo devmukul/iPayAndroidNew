@@ -97,7 +97,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/open_sans_light"
                 android:gravity="start|center_vertical"
-                android:text="Fare"
+                android:text="@string/fare"
                 android:textColor="#333333" />
 
             <TextView
@@ -129,7 +129,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/open_sans_light"
                 android:gravity="start|center_vertical"
-                android:text="VAT"
+                android:text="@string/vat_amount"
                 android:textColor="#333333" />
 
             <TextView
@@ -176,7 +176,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/open_sans_light"
                 android:gravity="start|center_vertical"
-                android:text="Net Amount"
+                android:text="@string/net_amount"
                 android:textColor="#333333" />
 
             <TextView
@@ -201,7 +201,7 @@
         android:layout_height="wrap_content"
         android:background="#19acacac"
         android:fontFamily="@font/open_sans"
-        android:text="BUY THIS TICKET"
+        android:text="@string/buy_this_ticket"
         android:textColor="#00c0af"
         android:textStyle="bold"
         android:layout_marginTop="@dimen/value8"/>

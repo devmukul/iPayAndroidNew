@@ -17,10 +17,12 @@ import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.Api.NotificationApi.CreateCustomNotificationAsyncTask;
+import bd.com.ipay.ipayskeleton.Api.NotificationApi.CreateOtherTypeRichNotification;
+import bd.com.ipay.ipayskeleton.Api.NotificationApi.CreateRichNotification;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Notification.FCMNotificationResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.RefreshToken.FCMRefreshTokenRequest;
-import bd.com.ipay.ipayskeleton.Utilities.AppInstance.AppInstanceUtilities;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.TransactionHistory.TransactionHistory;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.SharedPrefConstants;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.SharedPrefManager;
@@ -41,6 +43,8 @@ public class FCMListenerService extends FirebaseMessagingService implements Http
     private SharedPreferences pref;
 
     private String firebaseToken;
+
+    private String requestAction;
 
     @Override
     public void onNewToken(String s) {
@@ -96,21 +100,50 @@ public class FCMListenerService extends FirebaseMessagingService implements Http
         serviceId = FCMNotificationParser.parseServiceID(mFcmNotificationResponse);
 
         // Check if message contains a notification payload.
-        if (!(AppInstanceUtilities.isUserActive(this))
-                || serviceId == Constants.SERVICE_ID_BATCH_NOTIFICATION
-                || serviceId == Constants.SERVICE_ID_DEEP_LINK_NOTIFICATION) {
-            if (data != null) {
-                //Logger.logD("Notification Payload", "Message Notification Body: " + notification.getBody());
+
+        if (data != null) {
+            requestAction = (String) data.get("click_action");
+            String title = (String) data.get("title");
+            String body = (String) data.get("body");
+            String imageUrl = (String) data.get("icon");
+            CreateRichNotification createRichNotification;
+
+            if (requestAction != null) {
+                switch (requestAction) {
+                    case Constants.transaction:
+                        createRichNotification = new CreateRichNotification
+                                (mFcmNotificationResponse.getTransactionHistory(), this,
+                                        Constants.transaction, title);
+                        createRichNotification.setupNotification();
+                        break;
+                    case Constants.request_money:
+                        createRichNotification = new CreateRichNotification
+                                (mFcmNotificationResponse.getTransactionHistory(), this,
+                                        Constants.request_money, title);
+                        createRichNotification.setupNotification();
+                        break;
+                    case Constants.other:
+                        String meta = (String) data.get("meta");
+                        NotificationMetaData nMetaData = new Gson().fromJson(meta, NotificationMetaData.class);
+                        String description = nMetaData.getDescription();
+                        String image = nMetaData.getImageUrl();
+                        String deepLink = (String) data.get("deepLink");
+                        CreateOtherTypeRichNotification createOtherTypeRichNotification =
+                                new CreateOtherTypeRichNotification(this, description, title, image, deepLink);
+                        createOtherTypeRichNotification.setUpRichNotification();
+                        break;
+
+                }
+            } else {
                 try {
-                    createNotification(this, data.values().toArray()[5].toString(),
-                            data.values().toArray()[3].toString(), mFcmNotificationResponse.getIcon());
+                    createNotification(this, title, body, imageUrl);
                 } catch (Exception e) {
+                    e.printStackTrace();
 
                 }
             }
-        } else {
-            FCMNotificationParser.parseInAppNotification(this, mFcmNotificationResponse);
         }
+        FCMNotificationParser.parseInAppNotification(this, mFcmNotificationResponse);
 
     }
 
@@ -118,6 +151,10 @@ public class FCMListenerService extends FirebaseMessagingService implements Http
         Gson gson = new Gson();
         JsonElement jsonElement = gson.toJsonTree(data);
         mFcmNotificationResponse = gson.fromJson(jsonElement, FCMNotificationResponse.class);
+        String transactionDetailsString = mFcmNotificationResponse.getTransactionActivity();
+        TransactionHistory transactionHistory = new Gson().
+                fromJson(transactionDetailsString, TransactionHistory.class);
+        mFcmNotificationResponse.setTransactionHistory(transactionHistory);
     }
 
     private void createNotification(Context context, String title, String message, String imageUrl) {

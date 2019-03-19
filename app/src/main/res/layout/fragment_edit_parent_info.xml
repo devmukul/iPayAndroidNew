@@ -27,7 +27,8 @@
                     android:hint="@string/fathers_name"
                     android:inputType="textCapWords"
                     android:maxLines="1"
-                    android:singleLine="true">
+                    android:singleLine="true"
+                    android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ">
 
                     <requestFocus />
                 </EditText>
@@ -50,7 +51,7 @@
                         style="@style/CustomEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/mobile"
+                        android:hint="@string/father_mobile"
                         android:inputType="phone"
                         android:maxLines="1"
                         android:singleLine="true" />
@@ -80,7 +81,8 @@
                     android:hint="@string/mothers_name"
                     android:inputType="textCapWords"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -99,7 +101,7 @@
                         style="@style/CustomEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/mobile"
+                        android:hint="@string/mother_mobile"
                         android:inputType="phone"
                         android:maxLines="1"
                         android:singleLine="true" />

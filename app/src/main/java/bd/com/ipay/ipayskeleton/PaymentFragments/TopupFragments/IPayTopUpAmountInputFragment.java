@@ -43,7 +43,7 @@ public class IPayTopUpAmountInputFragment extends IPayAbstractAmountFragment {
 
 	@Override
 	protected void setupViewProperties() {
-		setTransactionDescription(getString(R.string.top_up_to));
+		hideTransactionDescription();
 		setName(name);
 		setUserName(mobileNumber);
 		setInputType(InputType.TYPE_CLASS_NUMBER);

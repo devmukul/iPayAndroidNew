@@ -37,8 +37,7 @@ public class Visibility implements Parcelable
             return (new Visibility[size]);
         }
 
-    }
-    ;
+    };
 
     protected Visibility(Parcel in) {
         this.label = in.readString();

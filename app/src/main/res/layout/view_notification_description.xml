@@ -25,7 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/profile_picture"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginRight="@dimen/activity_vertical_margin">
 
             <RelativeLayout
                 android:layout_width="match_parent"

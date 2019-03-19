@@ -1,6 +1,5 @@
 package bd.com.ipay.ipayskeleton.CustomView.Dialogs;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -43,7 +42,7 @@ public class InviteDialog extends MaterialDialog.Builder implements HttpResponse
     private String mRelationship;
 
     private final Context context;
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
 
     private HttpRequestPostAsyncTask mAddContactAsyncTask;
     private HttpRequestPostAsyncTask mSendInviteTask = null;
@@ -57,7 +56,7 @@ public class InviteDialog extends MaterialDialog.Builder implements HttpResponse
         super(context);
         this.context = context;
         this.mMobileNumber = mMobileNumber;
-        mProgressDialog = new ProgressDialog(context);
+        mProgressDialog = new CustomProgressDialog(context);
         showAddContactDialog();
     }
 
@@ -160,7 +159,6 @@ public class InviteDialog extends MaterialDialog.Builder implements HttpResponse
         if (mAddContactAsyncTask != null) {
             return;
         }
-        mProgressDialog.setMessage(context.getResources().getString(R.string.processing));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
@@ -179,10 +177,7 @@ public class InviteDialog extends MaterialDialog.Builder implements HttpResponse
             mProgressDialog.dismiss();
             Toast.makeText(context, R.string.invitation_limit_exceeded, Toast.LENGTH_LONG).show();
         } else {
-            mProgressDialog.setMessage(context.getResources().getString(R.string.progress_dialog_sending_invite));
-
             boolean wantToIntroduce = mIntroduceCheckbox.isChecked();
-
             InviteContactNode inviteContactNode = new InviteContactNode(phoneNumber, wantToIntroduce);
             Gson gson = new Gson();
             String json = gson.toJson(inviteContactNode, InviteContactNode.class);

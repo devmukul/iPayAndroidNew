@@ -1,6 +1,5 @@
 package bd.com.ipay.ipayskeleton.DrawerFragments;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,6 +19,7 @@ import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.Aspect.ValidateAccess;
 import bd.com.ipay.ipayskeleton.BaseFragments.BaseFragment;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.IconifiedTextViewWithButton;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.LoginAndSignUp.LogoutRequest;
@@ -47,7 +47,7 @@ public class SecuritySettingsFragment extends BaseFragment implements HttpRespon
     private IconifiedTextViewWithButton mTwoFAHeader;
     private View mFingerprintOptionHolder;
 
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,7 +65,7 @@ public class SecuritySettingsFragment extends BaseFragment implements HttpRespon
         mTwoFAHeader = (IconifiedTextViewWithButton) view.findViewById(R.id.implement_2fa);
         mFingerprintOptionHolder = view.findViewById(R.id.fingerprint_layout);
 
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
 
         setVisibilityOfFingerPrintOption();
         setButtonActions();
@@ -189,7 +189,6 @@ public class SecuritySettingsFragment extends BaseFragment implements HttpRespon
             return;
         }
 
-        mProgressDialog.setMessage(getString(R.string.progress_dialog_signing_out));
         mProgressDialog.show();
 
         LogoutRequest mLogoutModel = new LogoutRequest(ProfileInfoCacheManager.getMobileNumber());
@@ -217,7 +216,6 @@ public class SecuritySettingsFragment extends BaseFragment implements HttpRespon
                     Constants.BASE_URL_MM + Constants.URL_LOG_OUT, json, getActivity(), false);
             mLogoutTask.mHttpResponseListener = this;
             mLogoutTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            mProgressDialog.setMessage(getString(R.string.progress_dialog_signing_out));
             mProgressDialog.show();
         } catch (Exception e) {
 

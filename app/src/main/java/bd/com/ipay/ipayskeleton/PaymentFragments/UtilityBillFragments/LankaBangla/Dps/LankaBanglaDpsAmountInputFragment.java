@@ -45,7 +45,7 @@ public class LankaBanglaDpsAmountInputFragment extends IPayAbstractAmountFragmen
 	@Override
 	protected void setupViewProperties() {
 		setBalanceInfoLayoutVisibility(View.VISIBLE);
-		setTransactionDescription(getString(R.string.paying_bill_message));
+		hideTransactionDescription();
 		setInputType(InputType.TYPE_CLASS_NUMBER);
 		setTransactionImageResource(R.drawable.ic_lankabd2);
 		setName(accountNumber);

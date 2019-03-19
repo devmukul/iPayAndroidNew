@@ -1,11 +1,8 @@
 package bd.com.ipay.ipayskeleton.HomeFragments;
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
@@ -37,7 +34,6 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
-import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
@@ -53,6 +49,7 @@ import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestGetAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.CustomView.CustomSwipeRefreshLayout;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.ProfileImageView;
 import bd.com.ipay.ipayskeleton.Fragments.IPaySupportPlaceAutocompleteFragment;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
@@ -90,7 +87,7 @@ public class IpayHereFragment extends ProgressFragment implements PlaceSelection
 
     private RecyclerView mTransactionHistoryRecyclerView;
     private LinearLayoutManager mLayoutManager;
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
     private CustomSwipeRefreshLayout mSwipeRefreshLayout;
     private TextView mEmptyListTextView;
 
@@ -273,8 +270,7 @@ public class IpayHereFragment extends ProgressFragment implements PlaceSelection
         autocompleteFragment.setOnPlaceSelectedListener(this);
         autocompleteFragment.setFilter(autocompleteFilter);
 
-        mProgressDialog = new ProgressDialog(getContext());
-        mProgressDialog.setMessage(getString(R.string.please_wait));
+        mProgressDialog = new CustomProgressDialog(getContext());
         mProgressDialog.setCancelable(false);
 
         mTransactionHistoryRecyclerView = v.findViewById(R.id.address_recycler_view);
@@ -499,17 +495,17 @@ public class IpayHereFragment extends ProgressFragment implements PlaceSelection
             String distanceString;
             if (distance < 1000) {
                 if (distance < 1) {
-                    distanceString = String.format(Locale.US, "%dm", 1);
+                    distanceString = String.format(Locale.getDefault(), "%dm", 1);
                 }
                 else {
-                    distanceString = String.format(Locale.US, "%dm", Math.round(distance));
+                    distanceString = String.format(Locale.getDefault(), "%dm", Math.round(distance));
                 }
             }
             else if (distance > 10000) {
-                distanceString = String.format(Locale.US, "%dkm", Math.round(distance / 1000));
+                distanceString = String.format(Locale.getDefault(), "%dkm", Math.round(distance / 1000));
             }
             else {
-                distanceString = String.format(Locale.US, "%.2fkm", distance / 1000);
+                distanceString = String.format(Locale.getDefault(), "%.2fkm", distance / 1000);
             }
 
             return distanceString;

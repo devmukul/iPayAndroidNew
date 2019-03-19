@@ -1,9 +1,10 @@
 package bd.com.ipay.ipayskeleton.ProfileCompletionHelperFragments;
 
-import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.BaseFragments.BaseFragment;
 import bd.com.ipay.ipayskeleton.CustomView.AddressInputOnboardView;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.ResourceSelectorDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.Address.AddressClass;
@@ -36,9 +38,11 @@ import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Resource.GetOccupationRe
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Resource.Occupation;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Resource.OccupationRequestBuilder;
 import bd.com.ipay.ipayskeleton.R;
+import bd.com.ipay.ipayskeleton.Utilities.CacheManager.BulkSignupUserDetailsCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Utilities.ToasterAndLogger.Toaster;
+import bd.com.ipay.ipayskeleton.Widget.View.BulkSignUpHelperDialog;
 
 public class OnBoardAddBasicInfoFragment extends BaseFragment implements HttpResponseListener {
 
@@ -54,7 +58,7 @@ public class OnBoardAddBasicInfoFragment extends BaseFragment implements HttpRes
     private ResourceSelectorDialog<Occupation> mOccupationTypeResourceSelectorDialog;
     private AddressClass mPresentAddress;
     private AddressInputOnboardView mAddressInputView;
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
 
     private EditText mOccupationEditText;
     private EditText mOrganizationNameEditText;
@@ -65,6 +69,7 @@ public class OnBoardAddBasicInfoFragment extends BaseFragment implements HttpRes
 
     private Button mSkipButton;
     private ImageView mBackButtonTop;
+    private EditText mAddressLine1Field;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,7 +80,7 @@ public class OnBoardAddBasicInfoFragment extends BaseFragment implements HttpRes
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_onboard_add_basic_info, container, false);
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
         mAddressInputView = (AddressInputOnboardView) v.findViewById(R.id.input_address);
         Button mSaveButton = (Button) v.findViewById(R.id.button_upload_profile_pic);
 
@@ -84,6 +89,7 @@ public class OnBoardAddBasicInfoFragment extends BaseFragment implements HttpRes
         mOccupationEditText = (EditText) v.findViewById(R.id.occupationEditText);
         mOrganizationNameEditText = (EditText) v.findViewById(R.id.organizationNameEditText);
         mBackButtonTop = (ImageView) v.findViewById(R.id.back);
+        mAddressLine1Field = (EditText) mAddressInputView.findViewById(R.id.address_line_1);
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         mAddressInputView.clearFocus();
@@ -126,6 +132,37 @@ public class OnBoardAddBasicInfoFragment extends BaseFragment implements HttpRes
         getProfileInfo();
         getOccupationList();
 
+        boolean isChecked = BulkSignupUserDetailsCacheManager.isBasicInfoChecked(true);
+
+        if(!isChecked){
+            final String cachePresentAddress = BulkSignupUserDetailsCacheManager.getPresentAddress(null);
+            final String cacheOrganizationName = BulkSignupUserDetailsCacheManager.getOrganizationName(null);
+
+            if(!TextUtils.isEmpty(cachePresentAddress) || !TextUtils.isEmpty(cacheOrganizationName)) {
+                final BulkSignUpHelperDialog bulkSignUpHelperDialog = new BulkSignUpHelperDialog(getContext(),
+                        getString(R.string.bulk_signup_basic_info_helper_msg));
+
+                bulkSignUpHelperDialog.setPositiveButton(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        mAddressLine1Field.setText(cachePresentAddress);
+                        mOrganizationNameEditText.setText(cacheOrganizationName);
+                        bulkSignUpHelperDialog.cancel();
+                    }
+                });
+
+                bulkSignUpHelperDialog.setNegativeButton(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        bulkSignUpHelperDialog.cancel();
+                        bulkSignUpHelperDialog.setCheckedResponse("BasicInfo");
+                    }
+                });
+
+                bulkSignUpHelperDialog.show();
+            }
+        }
+
         return v;
     }
 
@@ -136,8 +173,6 @@ public class OnBoardAddBasicInfoFragment extends BaseFragment implements HttpRes
 
 
     private void setUserAddress() {
-        mProgressDialog.setMessage(getString(R.string.saving_profile_information));
-
         SetUserAddressRequest userAddressRequest = new SetUserAddressRequest(Constants.ADDRESS_TYPE_PRESENT, mPresentAddress);
 
         Gson gson = new Gson();
@@ -151,8 +186,6 @@ public class OnBoardAddBasicInfoFragment extends BaseFragment implements HttpRes
         if (mGetProfileInfoTask != null) {
             return;
         }
-
-        mProgressDialog.setMessage(getString(R.string.loading));
         mProgressDialog.show();
         mGetProfileInfoTask = new HttpRequestGetAsyncTask(Constants.COMMAND_GET_PROFILE_INFO_REQUEST,
                 Constants.BASE_URL_MM + Constants.URL_GET_PROFILE_INFO_REQUEST, getActivity(), this, false);
@@ -161,7 +194,6 @@ public class OnBoardAddBasicInfoFragment extends BaseFragment implements HttpRes
 
     private void attemptSaveBasicInfo() {
         Gson gson = new Gson();
-        mProgressDialog.setMessage(getString(R.string.saving_profile_information));
         mProgressDialog.show();
 
         SetProfileInfoRequest setProfileInfoRequest = new SetProfileInfoRequest(ProfileInfoCacheManager.getUserName(), mGender, ProfileInfoCacheManager.getBirthday(),

@@ -1,6 +1,5 @@
 package bd.com.ipay.ipayskeleton.BusinessFragments.Owner;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,6 +23,7 @@ import bd.com.ipay.ipayskeleton.Activities.DrawerActivities.ProfileActivity;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.ResourceSelectorDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Business.Owner.SetBusinessInformationRequest;
@@ -55,7 +55,7 @@ public class EditBusinessInformationFragment extends Fragment implements HttpRes
     private HttpRequestPostAsyncTask mSetBusinessInformationRequestAsyncTask;
     private SetBusinessInformationResponse mSetBusinessInformationResponse;
 
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
     private Tracker mTracker;
 
     @Override
@@ -117,7 +117,7 @@ public class EditBusinessInformationFragment extends Fragment implements HttpRes
             }
         }
 
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
 
         mInfoSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,7 +148,6 @@ public class EditBusinessInformationFragment extends Fragment implements HttpRes
         if (mSetBusinessInformationRequestAsyncTask != null)
             return;
 
-        mProgressDialog.setMessage(getString(R.string.saving_business_information));
         mProgressDialog.dismiss();
 
         Gson gson = new Gson();

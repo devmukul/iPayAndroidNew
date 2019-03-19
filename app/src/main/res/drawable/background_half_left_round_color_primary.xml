@@ -5,7 +5,11 @@
             <solid android:color="@color/colorPrimary" />
             <!-- A numeric value is specified in "radius" for demonstrative purposes only,
                   it should be @dimen/val_name -->
-            <corners android:radius="3dp" />
+            <corners
+                android:bottomRightRadius="0dp"
+                android:bottomLeftRadius="3dp"
+                android:topLeftRadius="3dp"
+                android:topRightRadius="0dp"/>
         </shape>
     </item>
     <!-- To keep the left corner ROUNDED set  offsets : -->

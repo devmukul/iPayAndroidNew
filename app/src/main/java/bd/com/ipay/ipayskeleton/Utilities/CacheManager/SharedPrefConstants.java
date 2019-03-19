@@ -10,6 +10,7 @@ public class SharedPrefConstants {
     public static final String REMEMBER_ME = "remember_me";
 
     public static final String USER_BALANCE = "USER_BALANCE";
+    public static final String DEVICE_LANGUAGE_KEY = "DEVICE_LANGUAGE";
     public static final String CREDIT_BALANCE = "CREDIT_BALANCE";
     public static final String IS_PIN_ADDED = "is-pin-added";
 
@@ -37,10 +38,34 @@ public class SharedPrefConstants {
     public static final String IS_ACCOUNT_SWITCHED = "IS_ACCOUNT_SWITCHED";
     public static final String PROFILE_INFO = "PROFILE_INFO";
     public static final String PROFILE_INFO_BUSINESS = "PROFILE_INFO_BUSINESS";
-    public static String Id = "Id";
-    public static String SOURCE_OF_FUND_ADDED = "SOURCE_OF_FUND_ADDED";
+    public static final String Id = "Id";
+    public static final String SOURCE_OF_FUND_ADDED = "SOURCE_OF_FUND_ADDED";
     public static final String INVITATION_CODE = "INVITATION_CODE";
 
-
     public static final String KEY_TRENDING_JSON = "trending_json";
+
+    //Bulk Signup
+    public static final String BULK_SIGNUP_IS_BANK_INFO_CHECKED = "BULK_SIGNUP_IS_BANK_INFO_CHECKED";
+    public static final String BULK_SIGNUP_BANK_ACOUNT_NAME = "BULK_SIGNUP_BANK_ACOUNT_NAME";
+    public static final String BULK_SIGNUP_BANK_ACOUNT_NUMBER = "BULK_SIGNUP_BANK_ACOUNT_NUMBER";
+    public static final String BULK_SIGNUP_BANK_NAME = "BULK_SIGNUP_BANK_NAME";
+    public static final String BULK_SIGNUP_IS_BASIC_INFO_CHECKED = "BULK_SIGNUP_IS_BASIC_INFO_CHECKED";
+    public static final String BULK_SIGNUP_BANK_BRANCH_NAME = "BULK_SIGNUP_BANK_BRANCH_NAME";
+    public static final String BULK_SIGNUP_DISTRICT = "BULK_SIGNUP_DISTRICT";
+    public static final String BULK_SIGNUP_DOB = "BULK_SIGNUP_DOB";
+    public static final String BULK_SIGNUP_EMAIL = "BULK_SIGNUP_EMAIL";
+    public static final String BULK_SIGNUP_FATHERS_MOBILE_NO = "BULK_SIGNUP_FATHERS_MOBILE_NO";
+    public static final String BULK_SIGNUP_FATHERS_NAME = "BULK_SIGNUP_FATHERS_NAME";
+    public static final String BULK_SIGNUP_BULK_USER_GENDER = "BULK_SIGNUP_BULK_USER_GENDER";
+    public static final String BULK_SIGNUP_MOBILE_NUMBER = "BULK_SIGNUP_MOBILE_NUMBER";
+    public static final String BULK_SIGNUP_MOTHERS_MOBILE_NO = "BULK_SIGNUP_MOTHERS_MOBILE_NO";
+    public static final String BULK_SIGNUP_MOTHERS_NAME = "BULK_SIGNUP_MOTHERS_NAME";
+    public static final String BULK_SIGNUP_NID = "BULK_SIGNUP_NID";
+    public static final String BULK_SIGNUP_OCCUPATION = "BULK_SIGNUP_OCCUPATION";
+    public static final String BULK_SIGNUP_ORGANIZATION_NAME = "BULK_SIGNUP_ORGANIZATION_NAME";
+    public static final String BULK_SIGNUP_PASSPORT = "BULK_SIGNUP_PASSPORT";
+    public static final String BULK_SIGNUP_PERMANENT_ADDRESS = "BULK_SIGNUP_PERMANENT_ADDRESS";
+    public static final String BULK_SIGNUP_PRESENT_ADDRESS = "BULK_SIGNUP_PRESENT_ADDRESS";
+    public static final String BULK_SIGNUP_STATUS = "BULK_SIGNUP_STATUS";
+    public static final String BULK_SIGNUP_THANA = "BULK_SIGNUP_THANA";
 }

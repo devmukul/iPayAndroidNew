@@ -1,7 +1,6 @@
 package bd.com.ipay.ipayskeleton.LoginAndSignUpFragments.LoginFragments;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -27,10 +26,12 @@ import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.Api.NotificationApi.RegisterFCMTokenToServerAsyncTask;
 import bd.com.ipay.ipayskeleton.BaseFragments.BaseFragment;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.ProfileImageView;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.LoginAndSignUp.LoginRequest;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.LoginAndSignUp.LoginResponse;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.BasicInfo.BulkSignUp.GetUserDetailsResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.BasicInfo.GetProfileInfoResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.ProfileCompletion.ProfileCompletionStatusResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.TrustedDevice.AddToTrustedDeviceRequest;
@@ -38,6 +39,7 @@ import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.TrustedDevice.AddToTrust
 import bd.com.ipay.ipayskeleton.Model.GetCardResponse;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ACLManager;
+import bd.com.ipay.ipayskeleton.Utilities.CacheManager.BulkSignupUserDetailsCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.SharedPrefManager;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
@@ -70,7 +72,7 @@ public class LoginFragment extends BaseFragment implements HttpResponseListener 
     private ImageView mInfoView;
     private CheckBox mRememberMeCheckbox;
 
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
     private boolean tryLogInWithTouchID = false;
     private FingerprintAuthenticationDialog mFingerprintAuthenticationDialog;
 
@@ -86,12 +88,15 @@ public class LoginFragment extends BaseFragment implements HttpResponseListener 
     private HttpRequestGetAsyncTask mGetAllAddedCards = null;
     private GetCardResponse mGetCardResponse;
 
+    private HttpRequestGetAsyncTask mGetBulkSignupUserDetailsTask = null;
+    private GetUserDetailsResponse mGetUserDetailsResponse;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_login, container, false);
 
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
         mProgressDialog.setCancelable(false);
         mProgressDialog.setCanceledOnTouchOutside(false);
         mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -319,7 +324,6 @@ public class LoginFragment extends BaseFragment implements HttpResponseListener 
             SignupOrLoginActivity.mMobileNumberBusiness = mUserNameLogin;
             SignupOrLoginActivity.mPasswordBusiness = mPasswordLogin;
 
-            mProgressDialog.setMessage(getString(R.string.progress_dialog_text_logging_in));
             mProgressDialog.show();
 
             String UUID = null;
@@ -338,19 +342,10 @@ public class LoginFragment extends BaseFragment implements HttpResponseListener 
         }
     }
 
-    private void getAddedCards() {
-        if (mGetAllAddedCards != null) return;
-        else {
-            mGetAllAddedCards = new HttpRequestGetAsyncTask(Constants.COMMAND_ADD_CARD,
-                    Constants.BASE_URL_MM + Constants.URL_GET_CARD, getActivity(), this, false);
-            mGetAllAddedCards.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        }
-    }
-
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
 
-        if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
+        if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog) && !result.getApiCommand().equals(Constants.COMMAND_GET_BULK_SIGN_UP_USER_DETAILS)) {
             hideProgressDialog();
             mLoginTask = null;
             mGetAllAddedCards = null;
@@ -364,15 +359,10 @@ public class LoginFragment extends BaseFragment implements HttpResponseListener 
             case Constants.COMMAND_LOG_IN:
                 try {
                     mLoginResponseModel = gson.fromJson(result.getJsonString(), LoginResponse.class);
-
                     switch (result.getStatus()) {
                         case Constants.HTTP_RESPONSE_STATUS_OK:
                             ProfileInfoCacheManager.setLoggedInStatus(true);
-                            String pushRegistrationID = ProfileInfoCacheManager.getPushNotificationToken(null);
-                            if (pushRegistrationID != null) {
-                                new RegisterFCMTokenToServerAsyncTask(getContext());
-                            }
-
+                            new RegisterFCMTokenToServerAsyncTask(getContext());
                             ProfileInfoCacheManager.setMobileNumber(mUserNameLogin);
                             ProfileInfoCacheManager.setAccountType(mLoginResponseModel.getAccountType());
 
@@ -426,7 +416,6 @@ public class LoginFragment extends BaseFragment implements HttpResponseListener 
                             Utilities.sendSuccessEventTracker(mTracker, "Login to OTP", ProfileInfoCacheManager.getAccountId());
                             break;
                         case Constants.HTTP_RESPONSE_STATUS_UNAUTHORIZED:
-                            hideProgressDialog();
 
                             /*
                              * Two situation might arise here. Wrong user name or password throws 401
@@ -483,7 +472,6 @@ public class LoginFragment extends BaseFragment implements HttpResponseListener 
                 mLoginTask = null;
                 break;
             case Constants.COMMAND_ADD_TRUSTED_DEVICE:
-                hideProgressDialog();
 
                 try {
                     mAddToTrustedDeviceResponse = gson.fromJson(result.getJsonString(), AddToTrustedDeviceResponse.class);
@@ -492,12 +480,17 @@ public class LoginFragment extends BaseFragment implements HttpResponseListener 
                         String UUID = mAddToTrustedDeviceResponse.getUUID();
                         ProfileInfoCacheManager.setUUID(UUID);
                         getProfileInfo();
-                    } else if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_NOT_ACCEPTABLE)
+                    } else if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_NOT_ACCEPTABLE) {
+                        hideProgressDialog();
                         ((SignupOrLoginActivity) getActivity()).switchToDeviceTrustActivity();
-                    else
+                    }
+                    else {
+                        hideProgressDialog();
                         Toast.makeText(getActivity(), mAddToTrustedDeviceResponse.getMessage(), Toast.LENGTH_LONG).show();
+                    }
 
                 } catch (Exception e) {
+                    hideProgressDialog();
                     e.printStackTrace();
                     Utilities.sendExceptionTracker(mTracker, ProfileInfoCacheManager.getAccountId(), getString(R.string.failed_add_trusted_device));
                     Toast.makeText(getActivity(), R.string.failed_add_trusted_device, Toast.LENGTH_LONG).show();
@@ -505,6 +498,41 @@ public class LoginFragment extends BaseFragment implements HttpResponseListener 
 
                 mAddTrustedDeviceTask = null;
                 break;
+
+            case Constants.COMMAND_GET_PROFILE_INFO_REQUEST:
+
+                try {
+                    mGetProfileInfoResponse = gson.fromJson(result.getJsonString(), GetProfileInfoResponse.class);
+                    if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
+                        ProfileInfoCacheManager.updateProfileInfoCache(mGetProfileInfoResponse);
+                        ProfileInfoCacheManager.saveMainUserProfileInfo(Utilities.getMainUserProfileInfoString(mGetProfileInfoResponse));
+                        getBulkSignUpUserDetails();
+
+                    } else {
+                        Toaster.makeText(getActivity(), R.string.profile_info_get_failed, Toast.LENGTH_SHORT);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toaster.makeText(getActivity(), R.string.profile_info_get_failed, Toast.LENGTH_SHORT);
+                }
+
+                mGetProfileInfoTask = null;
+
+                break;
+
+            case Constants.COMMAND_GET_BULK_SIGN_UP_USER_DETAILS:
+                try {
+                    if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
+                        mGetUserDetailsResponse = gson.fromJson(result.getJsonString(), GetUserDetailsResponse.class);
+                        BulkSignupUserDetailsCacheManager.updateBulkSignupUserInfoCache(mGetUserDetailsResponse);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                getProfileCompletionStatus();
+                mGetBulkSignupUserDetailsTask = null;
+                break;
+
 
             case Constants.COMMAND_GET_PROFILE_COMPLETION_STATUS:
                 hideProgressDialog();
@@ -519,14 +547,13 @@ public class LoginFragment extends BaseFragment implements HttpResponseListener 
                         ProfileInfoCacheManager.addBasicInfo(mProfileCompletionStatusResponse.isOnboardBasicInfoUpdated());
                         ProfileInfoCacheManager.addSourceOfFund(mProfileCompletionStatusResponse.isBankAdded());
 
-                        if (ProfileInfoCacheManager.isSourceOfFundAdded()) {
-                            if (ProfileInfoCacheManager.getAccountType() == Constants.PERSONAL_ACCOUNT_TYPE && !ProfileInfoCacheManager.isAccountVerified() && (!ProfileInfoCacheManager.isProfilePictureUploaded() || !ProfileInfoCacheManager.isIdentificationDocumentUploaded()
-                                    || !ProfileInfoCacheManager.isBasicInfoAdded() || !ProfileInfoCacheManager.isSourceOfFundAdded())) {
-                                ((SignupOrLoginActivity) getActivity()).switchToProfileCompletionHelperActivity();
-                            } else {
-                                ((SignupOrLoginActivity) getActivity()).switchToHomeActivity();
-                            }
-                        } else getAddedCards();
+                        if (ProfileInfoCacheManager.getAccountType() == Constants.PERSONAL_ACCOUNT_TYPE && !ProfileInfoCacheManager.isAccountVerified() &&
+                                (!ProfileInfoCacheManager.isProfilePictureUploaded() || !ProfileInfoCacheManager.isIdentificationDocumentUploaded()
+                                || !ProfileInfoCacheManager.isBasicInfoAdded() || !ProfileInfoCacheManager.isSourceOfFundAdded())) {
+                            ((SignupOrLoginActivity) getActivity()).switchToProfileCompletionHelperActivity();
+                        } else {
+                            ((SignupOrLoginActivity) getActivity()).switchToHomeActivity();
+                        }
                     } else {
                         if (getActivity() != null)
                             ((SignupOrLoginActivity) getActivity()).switchToHomeActivity();
@@ -537,56 +564,9 @@ public class LoginFragment extends BaseFragment implements HttpResponseListener 
                     if (getActivity() != null)
                         ((SignupOrLoginActivity) getActivity()).switchToHomeActivity();
                 }
-                mProgressDialog.dismiss();
                 mGetProfileCompletionStatusTask = null;
                 break;
 
-
-            case Constants.COMMAND_GET_PROFILE_INFO_REQUEST:
-
-                try {
-
-                    mGetProfileInfoResponse = gson.fromJson(result.getJsonString(), GetProfileInfoResponse.class);
-                    if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
-                        ProfileInfoCacheManager.updateProfileInfoCache(mGetProfileInfoResponse);
-                        ProfileInfoCacheManager.saveMainUserProfileInfo(Utilities.getMainUserProfileInfoString(mGetProfileInfoResponse));
-                        getProfileCompletionStatus();
-
-                    } else {
-                        Toaster.makeText(getActivity(), R.string.profile_info_get_failed, Toast.LENGTH_SHORT);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Toaster.makeText(getActivity(), R.string.profile_info_get_failed, Toast.LENGTH_SHORT);
-                }
-
-                mGetProfileInfoTask = null;
-
-                break;
-
-            case Constants.COMMAND_ADD_CARD:
-                try {
-                    mGetCardResponse = gson.fromJson(result.getJsonString(), GetCardResponse.class);
-                    if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
-
-                        if (!mGetCardResponse.isAnyCardVerified()) {
-                            ProfileInfoCacheManager.addSourceOfFund(false);
-                        } else ProfileInfoCacheManager.addSourceOfFund(true);
-
-                        if (ProfileInfoCacheManager.getAccountType() == Constants.PERSONAL_ACCOUNT_TYPE && !ProfileInfoCacheManager.isAccountVerified() && (!ProfileInfoCacheManager.isProfilePictureUploaded() || !ProfileInfoCacheManager.isIdentificationDocumentUploaded()
-                                || !ProfileInfoCacheManager.isBasicInfoAdded() || !ProfileInfoCacheManager.isSourceOfFundAdded())) {
-                            ((SignupOrLoginActivity) getActivity()).switchToProfileCompletionHelperActivity();
-                        } else {
-                            ((SignupOrLoginActivity) getActivity()).switchToHomeActivity();
-                        }
-                    } else {
-                        Toaster.makeText(getActivity(), mGetCardResponse.getMessage(), Toast.LENGTH_SHORT);
-                    }
-                } catch (Exception e) {
-                    Toaster.makeText(getActivity(), R.string.service_not_available, Toast.LENGTH_SHORT);
-                }
-                mGetAllAddedCards = null;
-                break;
 
             default:
                 hideProgressDialog();
@@ -637,6 +617,15 @@ public class LoginFragment extends BaseFragment implements HttpResponseListener 
                 Constants.BASE_URL_MM + Constants.URL_GET_PROFILE_INFO_REQUEST, getActivity(), true);
         mGetProfileInfoTask.mHttpResponseListener = this;
         mGetProfileInfoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    private void getBulkSignUpUserDetails() {
+        if (mGetBulkSignupUserDetailsTask != null) {
+            return;
+        }
+        mGetBulkSignupUserDetailsTask = new HttpRequestGetAsyncTask(Constants.COMMAND_GET_BULK_SIGN_UP_USER_DETAILS,
+                Constants.BASE_URL_MM + Constants.URL_GET_BULK_SIGN_UP_USER_DETAILS, getActivity(), this, true);
+        mGetBulkSignupUserDetailsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 }

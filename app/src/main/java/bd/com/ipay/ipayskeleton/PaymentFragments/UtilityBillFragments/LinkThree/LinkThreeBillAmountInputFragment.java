@@ -40,7 +40,7 @@ public class LinkThreeBillAmountInputFragment extends IPayAbstractAmountFragment
 	@Override
 	protected void setupViewProperties() {
 		setBalanceInfoLayoutVisibility(View.VISIBLE);
-		setTransactionDescription(getString(R.string.paying_bill_message));
+		hideTransactionDescription();
 		setInputType(InputType.TYPE_CLASS_NUMBER);
 		setTransactionImageResource(R.drawable.link_three_logo);
 		setName(subscriberId);

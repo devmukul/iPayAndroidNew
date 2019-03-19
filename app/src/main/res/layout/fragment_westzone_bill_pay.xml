@@ -7,7 +7,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/continue_button"
+        android:layout_above="@+id/button_send_money"
         android:padding="@dimen/activity_horizontal_margin">
 
         <LinearLayout
@@ -67,6 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/bill_month_prev"
+                    android:visibility="gone"
                     android:gravity="center_horizontal"
                     android:text="(Bill month "/>
             </LinearLayout>
@@ -302,7 +303,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/continue_button"
+        android:id="@+id/button_send_money"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

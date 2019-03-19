@@ -1,37 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <include layout="@layout/layout_progress_container" />
-
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/content_container"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <bd.com.ipay.ipayskeleton.CustomView.CustomSwipeRefreshLayout
-            android:id="@+id/swipe_refresh_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <include layout="@layout/layout_progress_container" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/list_notification"
+        <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/content_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <bd.com.ipay.ipayskeleton.CustomView.CustomSwipeRefreshLayout
+                android:id="@+id/swipe_refresh_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </bd.com.ipay.ipayskeleton.CustomView.CustomSwipeRefreshLayout>
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/empty_list_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="@string/empty_list"
-            android:visibility="gone" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/list_notification"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </bd.com.ipay.ipayskeleton.CustomView.CustomSwipeRefreshLayout>
 
-    </RelativeLayout>
-</LinearLayout>
+            <TextView
+                android:id="@+id/empty_list_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="@string/empty_list"
+                android:visibility="gone" />
+
+
+            <android.support.design.widget.CoordinatorLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/test_bottom_sheet_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="vertical"
+                    app:behavior_hideable="true"
+                    app:behavior_peekHeight="0dp"
+                    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+                    <FrameLayout
+                        android:id="@+id/test_fragment_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/colorWhite"
+                        android:clickable="true"
+                        android:focusable="true"></FrameLayout>
+                </RelativeLayout>
+            </android.support.design.widget.CoordinatorLayout>
+
+        </android.support.design.widget.CoordinatorLayout>
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

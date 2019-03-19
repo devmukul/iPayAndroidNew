@@ -1,0 +1,1370 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">আইপে</string>
+    <string name="iPay_system">আইপে সিস্টেমস লিমিটেড</string>
+    <string name="all_rights_reserved">সর্বস্বত্ব সংরক্ষিত।</string>
+    <string name="bangladesh">বাংলাদেশ</string>
+    <string name="web">ওয়েব</string>
+    <string name="android">এন্ড্রয়েড</string>
+    <string name="ios">আইওএস</string>
+    <string name="browser">ব্রাউজার</string>
+    <string name="invalid_otp_with_characters">এখানে তে শুধুমাত্র ডিজিট থাকতে হবে</string>
+    <string name="navigation_drawer_open">ন্যাভিগেশন ড্রয়ার খুলুন</string>
+    <string name="navigation_drawer_close">ন্যাভিগেশন ড্রয়ার বন্ধ করুন</string>
+    <string name="prompt_password">পাসওয়ার্ড</string>
+    <string name="zone_code">জোন কোড</string>
+    <string name="bill_amount">বিল</string>
+    <string name="lpc">এলপিসি</string>
+    <string name="stamp_amount">স্ট্যাম্প</string>
+    <string name="father_mobile">পিতার মোবাইল নাম্বার</string>
+    <string name="mother_mobile">মাতার মোবাইল নাম্বার</string>
+    <string name="prompt_password_new">আপনার পাসওয়ার্ড লিখুন</string>
+    <string name="prompt_doing_business_as">যে নামে ব্যবসা করছেন</string>
+    <string name="prompt_company_name">কোম্পানির নাম (ঐচ্ছিক)</string>
+    <string name="prompt_business_addr_line2">দ্বিতীয় লাইন (ঐচ্ছিক)</string>
+    <string name="action_sign_in_short">প্রবেশ করুন</string>
+    <string name="type_of_business">ব্যবসার ধরন</string>
+    <string name="name">নাম</string>
+    <string name="enter_new_pin">পিন (৪ ডিজিট)</string>
+    <string name="confirm_your_pin">পিন নিশ্চিত করুন</string>
+    <string name="new_pass">নতুন পাসওয়ার্ড</string>
+    <string name="confirm_new_pass">নতুন পাসওয়ার্ড নিশ্চিত করুন</string>
+    <string name="confirm_password">পাসওয়ার্ড নিশ্চিত করুন</string>
+    <string name="email">ইমেইল</string>
+    <string name="email_address">ইমেইল ঠিকানা</string>
+    <string name="primary_email_address">প্রাথমিক ইমেইল ঠিকানা</string>
+    <string name="other_email_address">অন্যান্য ইমেইল ঠিকানা</string>
+    <string name="full_name">পূর্ণ নাম(আপনার এনআইডি অনুসারে)</string>
+    <string name="full_name_from_nid">পূর্ণ নাম(আপনার এনআইডি অনুসারে)</string>
+    <string name="address">ঠিকানা</string>
+    <string name="address_line_1">প্রথম লাইন</string>
+    <string name="invalid_address_line_1">প্রথম লাইন দিন</string>
+    <string name="select_from_date_first">প্রথম তারিখ থেকে নির্বাচন করুন</string>
+    <string name="select_a_valid_date">একটি সঠিক তারিখ নির্বাচন করুন</string>
+    <string name="browsers_and_apps">ব্রাউজার এবং অ্যাপ</string>
+    <string name="same_as_present_address">বর্তমান ঠিকানার মত</string>
+    <string name="introduced_on">"পরিচয় প্রদানের তারিখঃ "</string>
+    <string name="invalid_business_name">ব্যবসার নাম লিখুন</string>
+    <string name="invalid_business_type">ব্যবসার ধরন দিন</string>
+    <string name="not_set">সেট নয়</string>
+    <string name="thana">থানা</string>
+    <string name="invalid_thana">একটি থানা নির্বাচন করুন</string>
+    <string name="district">জেলা</string>
+    <string name="invalid_district">একটি জেলা নির্বাচন করুন</string>
+    <string name="postcode">পোষ্ট কোড</string>
+    <string name="invalid_postcode">পোস্টকোডটি সঠিক নয়।</string>
+    <string name="invalid_passport_ID_insufficient_length">পাসপোর্ট আইডি ৯ অক্ষর হওয়া উচিত</string>
+    <string name="invalid_passport_ID">পাসপোর্ট আইডি সঠিক নয়।</string>
+    <string name="invalid_driving_license_ID">ড্রাইভিং লাইসেন্স সঠিক নয়।</string>
+    <string name="invalid_tin">টিআইএন সঠিক নয়।</string>
+    <string name="invalid_birth_certificate">জন্মসনদ আইডি সঠিক নয়।</string>
+    <string name="invalid_nid_min_length">এনআইডি কমপক্ষে ১০ ডিজিট হওয়া উচিত</string>
+    <string name="invalid_nid_max_length">এনআইডি সর্বাধিক ১৭ ডিজিট হওয়া উচিত</string>
+    <string name="invalid_business_tin_wrong_length">ব্যবসায় টিআইএন ১২ ডিজিট হওয়া উচিত</string>
+    <string name="invalid_vat_reg_cert_ID_wrong_length">ভ্যাট রেজিস্ট্রেশন সার্টিফিকেট আইডি ১১ ডিজিট হওয়া উচিত</string>
+    <string name="occupation">পেশা</string>
+    <string name="organization_name">প্রতিষ্ঠানের নাম</string>
+    <string name="mobile_number">মোবাইল নাম্বার</string>
+    <string name="name_mobile_number">নাম বা মোবাইল নাম্বার</string>
+    <string name="phone_number">ফোন নাম্বার</string>
+    <string name="contact_us">আমাদের সাথে যোগাযোগ করুন</string>
+    <string name="terms_of_service">ব্যবহারের নীতিমালা</string>
+    <string name="privacy_policy">গোপনীয়তা নীতি</string>
+    <string name="contacts_info">যেকোনো ধরণের মতামত কিংবা অভিযোগ জানাতে আমাদের সাথে যোগাযোগ করুন।</string>
+    <string name="contact_already_exists">কন্ট্যাক্ট ইতিমধ্যে আছে</string>
+    <string name="business_mobile_number">ব্যবসায়িক মোবাইল নাম্বার</string>
+    <string name="confirm_password_not_matched">পাসওয়ার্ড মেলেনি</string>
+    <string name="change_password_success">পাসওয়ার্ড পরিবর্তন সফল হয়েছে</string>
+    <string name="change_password_success_message">আপনার পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে। এখন আপনার সব ডিভাইস থেকে লগ আউট করা হবে। পুনরায় আবার লগইন করুন।</string>
+    <string name="confirm_pin_not_matched">পিন মেলে নি</string>
+    <string name="empty_bank_account_list">আইপেতে কোন ব্যাংক একাউন্ট যোগ করা নেই। আপনার আইপে একাউন্টে টাকা আনার জন্য একটি ব্যাংক একাউন্ট যুক্ত করুন।</string>
+    <string name="no_bank_account_list">আইপেতে কোন ব্যাংক একাউন্ট যোগ করা নেই। + বাটনটি প্রেস করে একটি ব্যাংক যোগ করুন।</string>
+    <string name="empty_transaction_history">দেখানোর কিছু নেই।</string>
+    <string name="empty_ipay_here">আপনার আশেপাশে কোন আইপে মার্চেন্ট পাওয়া যায় নি</string>
+    <string name="empty_list">এই অংশটি খালি রয়েছে।</string>
+    <string name="not_empty_list_for_password_recovery">আপনি যদি পাসওয়ার্ড ভুলে গিয়ে থাকেন এবং পুনরুদ্ধার করতে চান তাহলে আমরা তাকে একটি এসএমএস পাঠাব\nতখন আপনাকে এসএমএস থেকে ঐ কোডটি দিতে হবে।</string>
+    <string name="empty_list_for_password_recovery">ট্রাস্টেড পার্সন সিলেক্ট করতে + বাটন চাপুন\n\nআপনি যদি পাসওয়ার্ড ভুলে যান এবং তা পুনরুদ্ধার করতে চান তবে স্বয়ংক্রিয়ভাবে ট্রাস্টেড পার্সনের কাছে আমরা একটি কোড পাঠাব এবং ঐ কোডটি আপনাকে দিতে হবে।</string>
+    <string name="remove_trusted_device_message">আপনার ট্রাস্টেড ডিভাইস তালিকা থেকে ডিভাইস মুছে ফেলা হচ্ছে</string>
+    <string name="remove_trusted_person_message">আপনার ট্রাস্টেড নেটওয়ার্ক থেকে মুছে ফেলা হচ্ছে</string>
+    <string name="error_invalid_mobile_number">একটি সঠিক মোবাইল নাম্বার লিখুন দয়া করে</string>
+    <string name="error_invalid_pin">পিন ৪ ডিজিট হতে হবে</string>
+    <string name="error_invalid_otp">আপনার মোবাইল পাঠানো কোডটি প্রবেশ করুন</string>
+    <string name="error_invalid_otp_with_required_length">কোডটি অবশ্যই ৬ ডিজিট হতে হবে</string>
+    <string name="error_invalid_first_name">নাম দিন</string>
+    <string name="error_invalid_name">নাম দিন</string>
+    <string name="business_name_required">ব্যবসার নাম প্রয়োজন</string>
+    <string name="error_invalid_name_with_required_length">সর্বনিম্ন ৫ অক্ষরের সঠিক নাম লিখুন</string>
+    <string name="error_invalid_birthday">জন্মদিন প্রবেশ করুন</string>
+    <string name="error_invalid_promo_code">প্রোমো কোড সঠিক নয়</string>
+    <string name="error_loading_data">
+তথ্য লোড করা সম্ভব হয় নি। অনুগ্রহপূর্বক আবার চেষ্টা করুন।
+</string>
+    <string name="forgot_password">পাসওয়ার্ড ভুলে গেছেন?</string>
+    <string name="join_us">যোগ দিন</string>
+    <string name="enter_the_amount_we_sent">
+আমরা এখানে আপনার ব্যাংক একাউন্টে প্রেরিত পরিমাণটি প্রবেশ করান।
+</string>
+    <string name="bank_verification_help">
+ব্যাংক হিসাব ভেরিফাই করার পদ্ধতি\nপ্রথম ধাপ- আইপে আপনার ব্যাংক হিসাবে অল্প কিছু টাকা পাঠাবে। এটির জন্য ৩-৫ কর্মদিবস লাগতে পারে।\nদ্বিতীয় ধাপ- আপনাকে আপনার ব্যাংক থেকে এই টাকার পরিমানটি জেনে নিতে হবে।\nতৃতীয় ধাপ- এরপর উপরের ব্যাংকের তালিকা থেকে সঠিক ব্যাংকটি নির্ধারণ করতে হবে\nচতুর্থ ধাপ- এরপর আপনি আইপে থেকে প্রদত্ত টাকার পরিমানটি প্রবেশ করাবেন এবং ঠিক আছে বাটন ট্যাপ করবেন\nআপনি পাঁচবার ভুল নাম্বার প্রবেশ করালে আপনার ব্যাংক হিসাবটি আইপেতে স্থায়ীভাবে নিষিদ্ধ হবে।
+</string>
+    <string name="are_you_sure">আপনি কি নিশ্চিত?</string>
+    <string name="are_you_sure_to_invite">
+আপনি কি এই ব্যক্তিকে আইপেতে আমন্ত্রণ জানাতে চান? আইপেতে আমন্ত্রণ জানিয়ে আপনি স্বীকার করেন যে আপনি ব্যক্তিগতভাবে এই ব্যক্তিকে জানেন।
+</string>
+    <string name="accept">গ্রহণ করুন</string>
+    <string name="this_person">এই লোকটি</string>
+    <string name="are_you_sure_to_remove_bank_account">আপনি কি আপনার ব্যাংক তালিকা থেকে এই একাউন্টটি মুছে ফেলতে চান?</string>
+    <string name="blocked_bank_message">দুঃখিত, আপনি এই ব্যাঙ্ক একাউন্টটি ব্লক করা হয়েছে।</string>
+    <string name="cancel_money_request_confirm">আপনি কি অর্থের জন্য আপনার অনুরোধ বাতিল করতে চান?</string>
+    <string name="request_payment">পেমেন্ট অনুরোধ</string>
+    <string name="no_contacts">কোনো কন্ট্যাক্ট পাওয়া যায়নি</string>
+    <string name="no_outlets">কোন আউটলেট খুঁজে পাওয়া যায়নি</string>
+    <string name="no_verified_contacts">আপনার একাউন্টে কোন পরিচয়দানকারী নেই</string>
+    <string name="contacts">কন্ট্যাক্টস</string>
+    <string name="country">দেশ</string>
+    <string name="set_pin">পিন সেট করুন</string>
+    <string name="change_password">পাসওয়ার্ড পরিবর্তন করুন</string>
+    <string name="gender">লিঙ্গ</string>
+    <string name="reject">প্রত্যাখ্যান করুন</string>
+    <string name="remove">মুছে ফেলুন</string>
+    <string name="make_primary">প্রাথমিকরন করুন</string>
+    <string name="mark_as_spam">স্প্যাম</string>
+    <string name="to_date">তারিখ পর্যন্ত</string>
+    <string name="from_date">তারিখ হইতে</string>
+    <string name="service_not_available">সেবা প্রদান করা যাচ্ছে না</string>
+    <string name="contact_support_message">সার্ভিসটি এই মুহূর্তে বন্ধ আছে। আরও তথ্যের জন্য সাপোর্টে যোগাযোগ করুন।
+</string>
+    <string name="service_unavailable_support_message">
+        সার্ভিসটি এই মুহূর্তে বন্ধ আছে।  দয়া করে একটু পরে আবার চেষ্টা করুন।
+</string>
+    <string name="instant_money_not_entitled">তাৎক্ষণিকভাবে টাকার জন্য আপনার অনুমতি নেই।</string>
+    <string name="verification_required_message">
+ভেরিফেকেশন প্রক্রিয়া সম্পূর্ণ করুন এবং আবার চেষ্টা করুন।
+</string>
+    <string name="please_wait_loading">অনুগ্রহপূর্বক অপেক্ষা করুন। লোড হচ্ছে…</string>
+    <string name="please_wait">অনুগ্রহপূর্বক অপেক্ষা করুন…</string>
+    <string name="please_wait_no_ellipsis">অনুগ্রহপূর্বক অপেক্ষা করুন</string>
+    <string name="loading">লোড হচ্ছে…</string>
+    <string name="load_more">আরও লোড করুন…</string>
+    <string name="student_id">শিক্ষার্থী আইডি</string>
+    <string name="no_more_results">দেখানোর জন্য আর কোন ফলাফল নেই</string>
+    <string name="profile_info_fetch_failed">প্রোফাইল তথ্য আনা সম্ভব হয়নি।</string>
+    <string name="confirm_query">আপনি কি নিশ্চিত?</string>
+    <string name="introduction_request_review_dialog_content">
+আপনি যখন তার পরিচয় দেন তখন আপনি \'এই ব্যক্তিটির\' সত্যতা এবং বিশ্বাসযোগ্যতা নিশ্চিত করছেন। আপনি কি এই ব্যক্তিকে পরিচয় দিতে চান?
+</string>
+    <string name="introduction_request_reject_dialog_content">আপনি অনুরোধ প্রত্যাখ্যান করতে চান?</string>
+    <string name="introduction_request_spam_dialog_content">এটি একটি স্প্যাম অনুরোধ</string>
+    <string name="profile_info_save_failed">সেভ করা সম্ভব হয় নি।</string>
+    <string name="profile_picture_set_failed">প্রোফাইল ফটো সেভ করা সম্ভব হয় নি।</string>
+    <string name="parent_info_save_failed">পিতা মাতার তথ্য সেভ করা সম্ভব হয় নি।</string>
+    <string name="profile_info_get_failed">প্রোফাইল তথ্য আনা সম্ভব হয়নি।</string>
+    <string name="all_contacts">সব</string>
+    <string name="save">সম্পন্ন করুন</string>
+    <string name="update">আপডেট করুন</string>
+    <string name="update_ipay">অনুগ্রহপুর্বক আইপে অ্যাপটি আপডেট করুন</string>
+    <string name="update_your_application">গুগল প্লে স্টোর থেকে আপনার অ্যাপটি আপডেট করুন।</string>
+    <string name="add_to_contacts">কন্ট্যাক্ট যোগ করুন</string>
+    <string name="ipay_contacts">আইপে কন্ট্যাক্ট</string>
+    <string name="security_questions">নিরাপত্তা প্রশ্ন</string>
+    <string name="update_security_questions">নিরাপত্তা প্রশ্ন সেট করুন</string>
+    <string name="activity_log">কার্যতালিকা</string>
+    <string name="payments">পেমেন্টস</string>
+    <string name="please_enter_an_account_name">
+আপনার একাউন্টের নাম প্রদান করুন এবং আবার চেষ্টা করুন
+</string>
+    <string name="please_select_a_bank">একটি ব্যাংক নির্বাচন করুন</string>
+    <string name="please_select_a_district">একটি জেলা নির্বাচন করুন</string>
+    <string name="please_select_a_branch">একটি শাখা নির্বাচন করুন</string>
+    <string name="please_enter_an_account_number">
+আপনার একাউন্ট নাম্বার প্রদান করুন এবং আবার চেষ্টা করুন
+</string>
+    <string name="please_enter_an_account_number_of_minimum_digit">একাউন্ট নাম্বার কমপক্ষে ১০ ডিজিট হওয়া আবশ্যক</string>
+    <string name="business_information">ব্যাবসার তথ্য</string>
+    <string name="account_holder_information">একাউন্ট হোলডারের তথ্য</string>
+    <string name="yes">হ্যাঁ</string>
+    <string name="no">না</string>
+    <string name="could_not_load_image">ছবিটি লোড করা যায়নি</string>
+    <string name="could_not_sign_out">সঠিকভাবে সাইন আউট করা যায়নি</string>
+    <string name="could_not_reject_money_request">
+অনুরোধ প্রত্যাখ্যান করা যায়নি। অনুগ্রহ করে একটু পরে আবার চেষ্টা করুন।
+</string>
+    <string name="could_not_cancel_money_request">
+অনুরোধ বাতিল করা যায়নি। অনুগ্রহ করে একটু পরে আবার চেষ্টা করুন।
+</string>
+    <string name="could_not_accept_money_request">
+অনুরোধ গ্রহণ করা যায়নি। অনুগ্রহ করে একটু পরে আবার চেষ্টা করুন।
+</string>
+    <string name="could_not_fetch_the_number">মোবাইল নাম্বারটি আনা সম্ভব হয়নি।</string>
+    <string name="progress_dialog_text_logging_in">সাইন ইন…</string>
+    <string name="progress_dialog_send_for_introduction">পরিচয় প্রদান করার অনুরোধটি পাঠানো হচ্ছে…</string>
+    <string name="progress_dialog_send_for_recommendation">সুপারিশ এর অনুরোধটি পাঠানো হচ্ছে…</string>
+    <string name="please_link_a_bank_for_cash_in">
+আপনার ব্যাংক একাউন্ট থেকে টাকা আনার জন্য আইপে এর সাথে আপনার ব্যাঙ্ক একাউন্ট লিঙ্ক করুন। আপনার সংযুক্ত ব্যাংক একাউন্ট যাচাই হয়ে গেলে আপনি এটি ব্যবহার করতে পারেন!
+</string>
+    <string name="progress_dialog_add_money_in_progress">টাকা আনার জন্য অনুরোধটি করা হচ্ছে…</string>
+    <string name="progress_dialog_add_money_instantly_in_progress">তাৎক্ষণিক টাকা জমার জন্য অনুরোধটি করা হচ্ছে…</string>
+    <string name="progress_dialog_withdraw_money_in_progress">টাকা পাঠানোর অনুরোধটি করা হচ্ছে…</string>
+    <string name="sending_money">
+টাকা পাঠানোর অনুরোধটি প্রক্রিয়াধীন রয়েছে। অনুগ্রহপূর্বক অপেক্ষা করুন…
+</string>
+    <string name="progress_dialog_text_payment">
+পেমেন্ট অনুরোধটি প্রক্রিয়াধীন রয়েছে। অনুগ্রহপূর্বক অপেক্ষা করুন…
+</string>
+    <string name="progress_dialog_text_sending_sms">আপনার মোবাইল থেকে এসএমএস পাঠানো হচ্ছে…</string>
+    <string name="progress_dialog_processing">টপ-আপ প্রসেসিং…</string>
+    <string name="progress_dialog_fetching_bank_info">ব্যাংকের তথ্য আনা হচ্ছে…</string>
+    <string name="progress_dialog_canceling">অনুরোধটি বাতিল করা হচ্ছে…</string>
+    <string name="progress_dialog_fetching_bank_list">ব্যাংক তালিকা আনা হচ্ছে…</string>
+    <string name="progress_dialog_sending_invite">আমন্ত্রণ পাঠানো হচ্ছে…</string>
+    <string name="progress_dialog_fetching_business_types">ব্যবসা ধরন লোড করা হচ্ছে…</string>
+    <string name="progress_dialog_fetching_details">তথ্য আনার অনুরোধটি করা হচ্ছে…</string>
+    <string name="progress_dialog_sending_payment_request">পেমেন্ট এর অনুরোধটি পাঠানো হচ্ছে…</string>
+    <string name="progress_dialog_rejecting">প্রত্যাহারের অনুরোধটি করা হচ্ছে…</string>
+    <string name="progress_dialog_accepted">গ্রহণের অনুরোধটি করা হচ্ছে…</string>
+    <string name="progress_dialog_signing_out">সাইন আউট করা হচ্ছে…</string>
+    <string name="progress_dialog_adding_trusted_device">ট্রাস্টেড হিসাবে এই ডিভাইস যোগ করা হচ্ছে…</string>
+    <string name="progress_dialog_fetching_customer_info">গ্রাহক তথ্য আনা হচ্ছে…</string>
+    <string name="progress_dialog_bill_payment_in_progress">
+বিল পেমেন্ট প্রক্রিয়াধীন রয়েছে। অনুগ্রহ করে অপেক্ষা করুন।
+</string>
+    <string name="progress_dialog_sending_fragment">প্রতিক্রিয়া পাঠানো হচ্ছে. অপেক্ষা করুন…</string>
+    <string name="signup_successful">সাইন আপ সফল হয়েছে। আইপেতে আপনাকে স্বাগতম।</string>
+    <string name="login_failed">
+লগইন সম্ভব হয়নি. আপনার মোবাইল নাম্বার এবং পাসওয়ার্ড চেক করুন।
+</string>
+    <string name="logout_from_this_device">এই ডিভাইস থেকে লগআউট করুন</string>
+    <string name="enter_otp">কোডটি লিখুন</string>
+    <string name="promo_code">প্রোমো কোড</string>
+    <string name="enter_promo_code_optional">প্রোমো কোড (ঐচ্ছিক)</string>
+    <string name="recharge_failed">মোবাইল রিচার্জ ব্যর্থ হয়েছে।</string>
+    <string name="save_failed">সেভ করা সম্ভব হয় নি </string>
+    <string name="sending_otp">আপনার মোবাইলে কোড পাঠানো হচ্ছে…</string>
+    <string name="change_pass_failed">পাসওয়ার্ড পরিবর্তন করা সম্ভব হয় নি</string>
+    <string name="otp_going_to_send">
+এসএমএসের মাধ্যমে আপনাকে একটি কোড পাঠানো হয়েছে, অনুগ্রহ করে কোডটি দিন এবং যাচাই করুন চাপুন।
+</string>
+    <string name="otp_going_to_send_sign_up">
+আমরা আপনাকে এসএমএসের মাধ্যমে একটি কোড পাঠিয়েছি, দয়া করে এটি নীচে লিখুন এবং পরবর্তী চাপুন।
+</string>
+    <string name="done">সম্পন্ন করুন</string>
+    <string name="verify">যাচাই করুন</string>
+    <string name="verify_email">ইমেইল ভেরিফাই করুন</string>
+    <string name="resend_otp_description">
+আপনি যদি এখনও এসএমএস না পেয়ে থাকেন, তবে সময় শেষ হওয়ার পরে \"পুনরায় পাঠান\" চাপুন।
+</string>
+    <string name="verify_otp_for_trust_description">
+আপনি এটি দেখছেন কারণ আপনি এই ডিভাইস থেকে প্রথমবার লগ ইন করছেন অথবা আপনি সর্বোচ্চ সংখ্যক ট্রাস্টেড ডিভাইস যোগ করে ফেলেছেন।
+</string>
+    <string name="resend">পুনরায় পাঠান</string>
+    <string name="send_money">সেন্ড মানি</string>
+    <string name="continue_button_text">পরবর্তী</string>
+    <string name="continue_send_money">পরবর্তী</string>
+    <string name="revert">প্রত্যাবর্তন করা</string>
+    <string name="continue_request_money">পরবর্তী</string>
+    <string name="continue_add_money">পরবর্তী</string>
+    <string name="password_recovery">পাসওয়ার্ড পুনরুদ্ধার</string>
+    <string name="transaction_details">লেনদেন বর্ণনা</string>
+    <string name="adding_bank">ব্যাংকটি যুক্ত করা হচ্ছে…</string>
+    <string name="uploading_cheque">চেকটি যুক্ত করা হচ্ছে…</string>
+    <string name="removing_bank">ব্যাংকটি মুছে ফেলা হচ্ছে…</string>
+    <string name="sending_for_verification_with_amount">ব্যাংকটির ভেরফিকেশন প্রক্রিয়াধীন রয়েছে…</string>
+    <string name="adding_introducer">ব্যক্তিটিকে পরিচয়দানকারী হিসেবে যুক্ত করা হচ্ছে…</string>
+    <string name="removing_introducer">বাতিল করা হচ্ছে…</string>
+    <string name="add">যোগ করুন</string>
+    <string name="add_email">ইমেইল যুক্ত করুন</string>
+    <string name="confirm">নিশ্চিত</string>
+    <string name="cancel">বাতিল</string>
+    <string name="request_money">রিকোয়েস্ট মানি</string>
+    <string name="top_up">টপ-আপ</string>
+    <string name="ipay_here">আইপে এখানে</string>
+    <string name="requesting_money">রিকোয়েস্ট মানি প্রক্রিয়াধীন…</string>
+    <string name="payment_processing">পেমেন্টটি প্রক্রিয়াধীন…</string>
+    <string name="progress_dialog_requesting">অনুরোধটি প্রক্রিয়াধীন…</string>
+    <string name="add_money">টাকা আনুন</string>
+    <string name="note_optional">নোট (ঐচ্ছিক)</string>
+    <string name="note">নোট</string>
+    <string name="withdraw_money">ব্যাংকে পাঠান</string>
+    <string name="my_qr_code">আমার কিউ আর কোড</string>
+    <string name="qr_code">কিউ আর কোড</string>
+    <string name="enter_mobile_number">মোবাইল নাম্বারটি লিখুন (+8801xxxxxxxx)</string>
+    <string name="bank_account">ব্যাংক একাউন্ট</string>
+    <string name="bank">ব্যাংক</string>
+    <string name="no_contact_selected">কোন কন্ট্যাক্ট নির্বাচন করেননি</string>
+    <string name="account">একাউন্ট</string>
+    <string name="account_name">একাউন্টের নাম</string>
+    <string name="select_account_name">একাউন্টের নাম নির্বাচন করুন</string>
+    <string name="uploading_profile_picture">প্রোফাইল ফটো আপলোড হচ্ছে</string>
+    <string name="uploading">আপলোড হচ্ছে</string>
+    <string name="failed_remove_bank">
+ব্যাংকটি আইপে একাউন্ট হতে মুছে ফেলা সম্ভব হয়নি। পুনরায় চেষ্টা করুন।
+</string>
+    <string name="failed_to_fetch_branch">ব্যাংকটির শাখা আনা সম্ভব হয়নি</string>
+    <string name="failed_to_bank_verification">
+আপনার ব্যাংক একাউন্ট ভেরিফাই করা সম্ভব হয়নি। অনুগ্রহ করে একটু পরে আবার চেষ্টা করুন.
+</string>
+    <string name="failed_empty_pin">পিন খালি রাখা যাবে না</string>
+    <string name="account_number">একাউন্ট নাম্বার</string>
+    <string name="scan_valid_ipay_qr_code">দয়া করে সঠিক আইপে একাউন্ট স্ক্যান করুন</string>
+    <string name="scan_valid_qr_code">দয়া করে সঠিক মোবাইল নাম্বার স্ক্যান করুন</string>
+    <string name="please_check_terms_and_conditions">শর্তাবলী চেক করুন</string>
+    <string name="oath_sign_up">
+পরবর্তী নির্বাচন করে আমি আইপে এর সকল
+<a href="https://www.ipay.com.bd/terms-condition/">শর্তাবলী</a>
+এবং
+<a href="https://www.ipay.com.bd/privacy-policy/">গোপনীয়তা নীতি </a>
+মেনে নিচ্ছি
+</string>
+    <string name="already_have_an_account">ইতিমধ্যে একটি একাউন্ট আছে?</string>
+    <string name="check_if_addresses_are_same">
+একাউন্ট হোল্ডারের ঠিকানা ও ব্যাবসায়িক ঠিকানা একই কিনা তা পরীক্ষা করুন।
+</string>
+    <string name="ipay_balance">আইপে ব্যালেন্স</string>
+    <string name="balance">ব্যালেন্স</string>
+    <string name="male">পুরুষ</string>
+    <string name="female">মহিলা</string>
+    <string name="submit">সাবমিট</string>
+    <string name="otp_request_failed">কোড পাঠানো যায়নি। অনুগ্রহপূর্বক আবার চেষ্টা করুন</string>
+    <string name="update_now">এখনই আপডেট করুন</string>
+    <string name="transaction_id">লেনদেন আইডি </string>
+    <string name="enter_amount">টাকার পরিমাণ</string>
+    <string name="reference_number_optional">রেফারেন্স নাম্বার (ঐচ্ছিক)</string>
+    <string name="description">বর্ণনা</string>
+    <string name="please_add_description">বর্ণনা দিন</string>
+    <string name="attention">দৃষ্টি আকর্ষণ করছি</string>
+    <string name="please_enter_valid_mobile_number">অনুগ্রহ করে সঠিক মোবাইল নাম্বারটি লিখুন।</string>
+    <string name="please_enter_valid_date_of_birth">অনুগ্রহ করে একটি সঠিক জন্ম তারিখ দিন।</string>
+    <string name="please_enter_occupation">অনুগ্রহ করে আপনার পেশা লিখুন।</string>
+    <string name="please_enter_amount">অনুগ্রহ করে টাকার পরিমাণ দিন।</string>
+    <string name="please_write_note">অনুগ্রহ করে একটি নোট দিন।</string>
+    <string name="please_enter_minimum_amount">অনুগ্রহ করে সর্বনিম্ন %1$s টাকার পরিমাণ লিখুন।</string>
+    <string name="insufficient_balance">আপনার পর্যাপ্ত ব্যাল্যান্স নেই।</string>
+    <string name="balance_not_available">ব্যালেন্স আনা সম্ভব হয়নি।</string>
+    <string name="please_enter_not_more_than_max_amount">অনুগ্রহ করে সর্বোচ্চ পরিমাণ %1$s লিখুন</string>
+    <string name="please_select_relation">অনুগ্রহ করে একটি সম্পর্ক নির্বাচন করুন</string>
+    <string name="sign_up_with_ipay">আইপে দিয়ে সাইনআপ করুন</string>
+    <string name="birthday_dd_mm_yy">জন্ম তারিখ</string>
+    <string name="no_internet_connection">
+ইন্টারনেট সংযোগটি বিচ্ছিন রয়েছে। অনুগ্রহ করে সংযোগটি আছে কিনা পরীক্ষা করুন।
+</string>
+    <string name="balance_update_failed">
+ব্যালেন্স আপডেট করা সম্ভব হয়নি। অনুগ্রহ করে একটি পর আবার চেষ্টা করুন।
+</string>
+    <string name="fetch_info_failed">তথ্যটি আনা সম্ভব হয়নি।</string>
+    <string name="fetch_notification_failed">নোটিফিকেশনগুলো আনা সম্ভব হয়নি।</string>
+    <string name="user_activity_get_failed">ব্যবহারকারীর কার্যবিবরনী আনা সম্ভব হয়নি।</string>
+    <string name="security_question_get_failed">নিরাপত্তা প্রশ্নগুলি আনা সম্ভব হয়নি।</string>
+    <string name="security_answer_set_failed">নিরাপত্তা প্রশ্নগুলি সেভ করা সম্ভব হয়নি।</string>
+    <string name="transaction_history_get_failed">লেনদেন এর বিস্তারিত আনা সম্ভব হয়নি।</string>
+    <string name="promotions_get_failed">প্রোমোশন এর তথ্যাদি আনা সম্ভব হয়নি।</string>
+    <string name="pending_get_failed">প্রক্রিয়াধীন অনুরোধগুলো আনা সম্ভব হয়নি।</string>
+    <string name="saving_pin">পিন সেভ করা হচ্ছে…</string>
+    <string name="adding_promo">প্রোমো কোডটি যাচাই করা হচ্ছে…</string>
+    <string name="trusted_device_limit_exceed_text">
+আপনি সর্বোচ্চ সংখ্যক ট্রাস্টেড ডিভাইস যোগ করে ফেলেছেন। সামনে যাওয়ার জন্য নিচের তালিকা থেকে ন্যূনতম একটি ডিভাইস মুছে ফেলুন।
+</string>
+    <string name="failed_add_trusted_device">ট্রাস্টেড ডিভাইস হিসেবে যুক্ত করা সম্ভব হয়নি।</string>
+    <string name="change_password_progress">পাসওয়ার্ডটি পরিবর্তন করা হচ্ছে…</string>
+    <string name="enter_current_pass">বর্তমান পাসওয়ার্ডটি লিখুন</string>
+    <string name="current_pass">বর্তমান পাসওয়ার্ড</string>
+    <string name="enter_question">প্রশ্ন নির্বাচন করুন</string>
+    <string name="enter_answer">উত্তরটি লিখুন</string>
+    <string name="trusted_person">ট্রাস্টেড পার্সন</string>
+    <string name="server_down">
+এখন আপনার অনুরোধ প্রক্রিয়া করতে পারা সম্ভব হচ্ছে না। অনুগ্রহ করে একটু পরে আবার চেষ্টা করুন
+</string>
+    <string name="wallet">ওয়ালেট</string>
+    <string name="continue_sign_up">পরবর্তী</string>
+    <string name="bank_list">ব্যাংক একাউন্টসমূহ</string>
+    <string name="add_bank_agreement_title">ব্যাংক লিঙ্ক করার জন্য আপনার ঘোষণা</string>
+    <string name="add_bank_agreement">
+আমি এই মর্মে ঘোষণা দিচ্ছি যে, আমি নিম্নে বর্নিত ব্যাংক একাউন্ট হতে ডেবিট কিংবা ক্রেডিট নির্দেশাবলী, আইপে সিস্টেমস লিমিটেড এর নিষ্পত্তি ব্যাংক হতে পাঠানোর অনুমতি দিচ্ছি।
+</string>
+    <string name="add_bank_agreement_additional_message">
+আমরা ভেরিফিকেশন প্রক্রিয়ার অংশ হিসাবে আপনার ব্যাংক একাউন্টে অল্প কিছু টাকা পাঠাবো। ব্যাংক লিঙ্ক করার জন্য আপনাকে সেই টাকার পরিমাণ প্রদান করতে হবে। ব্যাংক ভেরিফিকেশন প্রক্রিয়াটি সম্পন্ন হতে ৩ কর্মদিবস সময় লাগতে পারে।
+</string>
+    <string name="bank_branch">শাখা</string>
+    <string name="i_agree">আমি সম্মত</string>
+    <string name="disagree">অসম্মত</string>
+    <string name="logout">লগ আউট</string>
+    <string name="make_payment">পেমেন্ট করুন</string>
+    <string name="pay_by_QR_code">কিউ আর কোড</string>
+    <string name="transaction">লেনদেন</string>
+    <string name="transactions">@string/transaction</string>
+    <string name="transaction_history">লেনদেনের ইতিহাস</string>
+    <string name="about">আমাদের সম্পর্কে</string>
+    <string name="notification">নোটিফিকেশনস</string>
+    <string name="security">নিরাপত্তা</string>
+    <string name="select_a_district">জেলা নির্বাচন করুন</string>
+    <string name="select_a_thana">থানা নির্বাচন করুন</string>
+    <string name="select_an_occupation">পেশা নির্বাচন করুন</string>
+    <string name="select_an_operator">অনুগ্রহ করে অপারেটর নির্বাচন করুন</string>
+    <string name="opening_balance">ওপেনিং ব্যালেন্স</string>
+    <string name="are_you_sure_to_exit">আপনি কি এপ্লিকেশনটি বন্ধ করতে ইচ্ছুক?</string>
+    <string name="sorry">দুঃখিত</string>
+    <string name="support_not_available">
+আইপে সার্ভিস এখন সাময়িকভাবে বিঘ্নিত হচ্ছে, দয়া করে একটু পরে আবার চেষ্টা করুন।
+</string>
+    <string name="purpose">উদ্দেশ্য</string>
+    <string name="filter_profile_change">প্রোফিলের পরিবর্তনগুলি</string>
+    <string name="filter_system_event">সিস্টেম ইভেন্টস</string>
+    <string name="filter">ফিল্টার</string>
+    <string name="Introducer">পরিচয়দানকারী</string>
+    <string name="introduce_this_person">ব্যক্তিকে পরিচয় প্রদান করুন</string>
+    <string name="request_to_introduce">পরিচয় প্রদান এর জন্য অনুরধ করুন</string>
+    <string name="request_to_introduce_detail">
+এই ব্যক্তি আপনাকে পরিচয় প্রদানকারী হিসেবে নির্বাচন করেছেন। আপনি এই অনুরোধ গ্রহণ বা প্রত্যাখ্যান করতে পারেন।
+</string>
+    <string name="pending">প্রক্রিয়াধীন</string>
+    <string name="complete">সম্পন্ন</string>
+    <string name="completed">সম্পন্ন হয়েছে</string>
+    <string name="filter_by_date">তারিখ অনুসারে ফিল্টার</string>
+    <string name="filter_by_service">সেবা অনুসারে ফিল্টার</string>
+    <string name="filter_by_event">ঘটনা অনুসারে ফিল্টার</string>
+    <string name="filter_verification">যাচাই ইভেন্ট</string>
+    <string name="filter_security_changes">নিরাপত্তার পরিবর্তনগুলো</string>
+    <string name="remove_filter">ফিল্টার মুছুন</string>
+    <string name="select_a_bank">ব্যাংক নির্বাচন করুন</string>
+    <string name="remove_bank_title">একাউন্ট মুছে ফেলুন?</string>
+    <string name="blocked_bank_title">ব্লকড!</string>
+    <string name="bank_name">ব্যাংকের নাম</string>
+    <string name="saving_profile_information">প্রোফাইলের তথ্যগুলি সংরক্ষিত হচ্ছে…</string>
+    <string name="saving_parent_information">পিতা বা মাতার তথ্যগুলি সংরক্ষিত হচ্ছে…</string>
+    <string name="title_login_page">লগইন</string>
+    <string name="login_info">
+প্রতি ডিভাইসে মাত্র একটি আইপে একাউন্ট ব্যবহার করা যাবে। অন্য একাউন্ট ব্যবহার করতে চাইলে অ্যাপসটি পুনরায় ইনস্টল করুন।
+</string>
+    <string name="title_signup_personal_page">পার্সোনাল একাউন্ট</string>
+    <string name="title_signup_business_page">বিজনেস একাউন্ট</string>
+    <string name="title_otp_verification_for_personal">কোড লিখুন</string>
+    <string name="title_otp_verification_for_add_trusted_device">কোড লিখুন</string>
+    <string name="title_otp_verification_for_business">কোড লিখুন</string>
+    <string name="title_otp_verification_for_change_password">কোড লিখুন</string>
+    <string name="title_select_account_type_page">স্বাগতম</string>
+    <string name="version">ভার্সন</string>
+    <string name="select_a_question">একটি প্রশ্ন নির্বাচন করুন</string>
+    <string name="question">প্রশ্ন</string>
+    <string name="answer">উত্তর</string>
+    <string name="set_security_answer">উত্তরগুলো সংরক্ষিত হচ্ছে…</string>
+    <string name="amount_holder">%1$s%2$s ৳</string>
+    <!--  Finger Print Auth  -->
+    <string name="use_fingerprint_for_login">লগইন এর জন্য ফিঙ্গারপ্রিন্ট ব্যাবহার করুন</string>
+    <string name="fingerprint_authentication">ফিঙ্গারপ্রিন্ট অথেনটিকেশন</string>
+    <string name="use_password">পাসওয়ার্ড ব্যবহার করুন</string>
+    <string name="save_password_by_fingerprint">
+অনুগ্রহ করে আপনার পাসওয়ার্ড সংরক্ষণ করার জন্য আপনার বৈধ ফিঙ্গারপ্রিন্ট ব্যবহার করুন।
+</string>
+    <string name="touch_sensor">টাচ সেন্সর</string>
+    <string name="fingerprint_recognized">ফিঙ্গারপ্রিন্ট এর অথেনটিকেশন সফল হয়েছে</string>
+    <string name="fingerprint_not_recognized">ফিঙ্গারপ্রিন্টটি সঠিক নয়। আবার চেষ্টা করুন</string>
+    <string name="use_fingerprint_to_authenticate_title">ফিঙ্গারপ্রিন্ট দিয়ে লগইন করুন</string>
+    <string name="activate_fingerprint">ফিঙ্গারপ্রিন্ট অথেনটিকেশন সচল করুন</string>
+    <string name="deactivate_fingerprint">ফিঙ্গারপ্রিন্ট অথেনটিকেশন বাতিল করুন</string>
+    <string name="fingerprint_authentication_deactivated">
+ফিঙ্গারপ্রিন্ট অথেনটিকেশন ব্যবস্থাটি বাতিল করা হয়েছে
+</string>
+    <string name="fingerprint_settings_description">
+দ্রুত লগইন করার জন্য আপনি আপনার ফিঙ্গারপ্রিন্ট ব্যবহার করতে পারেন। আপনার পাসওয়ার্ডটি নিরাপদে সংরক্ষণ করা হবে।
+</string>
+    <string name="login_failed_with_touch_id">
+মনে হচ্ছে আপনি এই ডিভাইস থেকে শেষ বার লগ ইন করার পরে আপনার পাসওয়ার্ডটি পরিবর্তন করেছেন।অনুগ্রহ করে আপনার নতুন পাসওয়ার্ডটি লিখুন।
+</string>
+    <string name="settings_changed_for_touch_id">
+মনে হচ্ছে এই ডিভাইসের ফিঙ্গারপ্রিন্ট সেটিংস পরিবর্তিত হয়েছে।অনুগ্রহ করে আপনার পাসওয়ার্ড দিয়ে লগইন করুন এবং নিজের ফিঙ্গারপ্রিন্ট অথেনটিকেশন পুনরায় সক্রিয় করুন।
+</string>
+    <string name="remove_fingerprint_authentication_alert_message">
+আপনি কি আপনার ফিঙ্গারপ্রিন্ট অথেনটিকেশনটি বাতিল করতে ইচ্ছুক?
+</string>
+    <!--  PUSH  -->
+    <string name="failed_available_bank_list_loading">
+ব্যাংক তালিকা লোড করা সম্ভব হয়নি। অনুগ্রহ করে একটু পরে আবার চেষ্টা করুন।
+</string>
+    <string name="invite_to_ipay">আইপে তে আমন্ত্রণ জানান</string>
+    <string name="and">এবং</string>
+    <string name="mandatory_field">*সব তথ্য আবশ্যক</string>
+    <string name="mandatory_field_except_promo">*প্রোমো কোড ছাড়া সকল ফ্লিন্ড বাধ্যতামূলক</string>
+    <string name="invite_now">এখনই আমন্ত্রণ জানান</string>
+    <string name="ask_for_introduction">পরিচয় প্রদান করার জন্য জন্য অনুরোধ করুন</string>
+    <string name="failed_sending_invitation">
+আমন্ত্রণ প্রেরণ করা সম্ভব হয়নি। অনুগ্রহপূর্বক আবার চেষ্টা করুন
+</string>
+    <string name="failed_asking_introduction">পরিচিতির অনুরোধটি করা সম্ভব হয়নি।</string>
+    <string name="invitation_limit_exceeded">সর্বাধিক আমন্ত্রণ সীমা অতিক্রম করেছে</string>
+    <string name="failed_request">আমন্ত্রণ জানানো ব্যর্থ হয়েছে</string>
+    <string name="invitation_sent">আমন্ত্রণ জানানো সফল হয়েছে</string>
+    <string name="introduction_request_sent">পরিচিতির অনুরোধটি সফল হয়েছে</string>
+    <string name="please_log_in_again">অনুগ্রহ করে পুনরায় লগইন করুন</string>
+    <string name="filter_send_money">টাকা পাঠানো/গ্রহণ</string>
+    <string name="filter_request_money">টাকার অনুরোধ</string>
+    <string name="filter_add_money_from_bank">টাকা আনুন (ব্যাংক)</string>
+    <string name="filter_add_money_from_credit_or_debit_card">টাকা আনুন(ক্রেডিট/ডেবিট কার্ড)</string>
+    <string name="filter_withdraw_money">টাকা উত্তোলন</string>
+    <string name="filter_top_up">টপ-আপ</string>
+    <string name="filter_payment">পেমেন্ট</string>
+    <string name="filter_request_payment">পেমেন্টের অনুরোধ</string>
+    <string name="filter_opening_balance">প্রারম্ভিক ব্যালেন্স</string>
+    <string name="filter_education">শিক্ষা</string>
+    <string name="filter_offer">আইপে হতে অফার</string>
+    <string name="offer">অফার</string>
+    <string name="basic_info">প্রয়োজনীয় তথ্য</string>
+    <string name="profile_documents">পরিচয়পত্র</string>
+    <string name="profile_introducers">পরিচয় প্রদানকারী</string>
+    <string name="national_id">জাতীয় পরিচয়পত্র</string>
+    <string name="passport">পাসপোর্ট</string>
+    <string name="passport_id">পাসপোর্ট আইডি</string>
+    <string name="driving_license">ড্রাইভিং লাইসেন্স</string>
+    <string name="driving_license_id">ড্রাইভিং লাইসেন্স আইডি</string>
+    <string name="birth_certificate_id">জন্ম সনদ আইডি</string>
+    <string name="personal_tin_id">ব্যক্তিগত টিআইএন আইডি</string>
+    <string name="business_tin_id">ব্যবসায়িক টিআইএন আইডি</string>
+    <string name="trade_license">ট্রেড লাইসেন্স</string>
+    <string name="trade_license_id">ট্রেড লাইসেন্স আইডি</string>
+    <string name="vat_registration_certificate">ভ্যাট রেজিস্ট্রেশন সার্টিফিকেট</string>
+    <string name="vat_registration_certificate_id">ভ্যাট রেজিস্ট্রেশন সার্টিফিকেট আইডি</string>
+    <string name="upload">আপলোড</string>
+    <string name="business_tin">ব্যবসায়িক টিআইএন</string>
+    <string name="not_applicable">N/A</string>
+    <string name="verified">ভেরিফাইড</string>
+    <string name="unverified">ভেরিফাইড নয়</string>
+    <string name="invited">আইপেতে আমন্ত্রিত</string>
+    <string name="trust_this_device">এই ডিভাইসটি ট্রাস্টেড?</string>
+    <string name="logout_from_all_device">সকল ডিভাইস হতে লগআউট করুন</string>
+    <string name="logout_from_all_device_warning">আপনি কি সকল ডিভাইস হতে লগআউট হতে চান?</string>
+    <string name="logout_for_fingerprint_activation">
+ফিঙ্গারপ্রিন্ট অথেনটিকেশন একটিভ করতে লগাউট করে পুনরায় লগইন করুন
+</string>
+    <string name="progress_dialog_loading_trusted_devices">ট্রাস্টেড ডিভাইস এর তালিকাটি আনা হচ্ছে</string>
+    <string name="success_device_removed">ডিভাইসটি সফল ভাবে মুছে ফেলা হয়েছে</string>
+    <string name="success_remove">সফলভাবে মুছে ফেলা হয়েছে</string>
+    <string name="confirmation_remove_trusted_device">
+আপনি কি নিশ্চিত যে আপনি এই ডিভাইসটিকে ট্রাস্টেড ডিভাইস তালিকা থেকে সরাতে চান?
+</string>
+    <string name="profile_pic_help_text">আপনার ফটোটি অবশ্যই স্পষ্ট হতে হবে।</string>
+    <string name="confirmation_remove_trusted_person">
+আপনি কি আপনার ট্রাস্টেড নেটওয়ার্কের থেকে এই ব্যক্তিটিকে মুছে ফেলতে চান?
+</string>
+    <string name="select_an_image">একটি ছবি নির্বাচন করুন</string>
+    <string name="select_a_document">যে কোনো একটি নির্বাচন করুন</string>
+    <string name="top">উপরে</string>
+    <string name="request_payment_description_info">পেমেন্ট অনুরোধ করার জন্য প্রাপকের বিবরণ লিখুন</string>
+    <string name="invite_this_person_to_ipay" tools:keep="@string/invite_this_person_to_ipay">ব্যক্তিটিকে আইপেতে অমন্ত্রণ জানান</string>
+    <string name="confirm_ipay_invitation">ব্যক্তিটিকে আইপেতে অমন্ত্রণ জানাবেন?</string>
+    <string name="mobile_topup">মোবাইল টপ-আপ</string>
+    <string name="total_amount">সর্বমোট</string>
+    <string name="total_amount_in_tk">সর্বমোট পরিমাণ (৳)</string>
+    <string name="amount">পরিমাণ</string>
+    <string name="payment_amount">পরিমাণ</string>
+    <string name="payment_total_amount">সর্বমোট পরিমাণ</string>
+    <string name="service_charge">ফি</string>
+    <string name="your_number">আপনার নাম্বার</string>
+    <string name="enter_pin">পিন দিন</string>
+    <string name="ok">ঠিক আছে</string>
+    <string name="got_it">বুঝেছি</string>
+    <string name="try_again">পুনরায় চেষ্টা করুন</string>
+    <string name="amount_in_tk">পরিমাণ (৳)</string>
+    <string name="date_of_birth">জন্ম তারিখ</string>
+    <string name="fathers_name">পিতার নাম</string>
+    <string name="mothers_name">মাতার নাম</string>
+    <string name="other">অন্যান্য</string>
+    <string name="other_id">ডকুমেন্ট আইডি</string>
+    <string name="document_name">ডকুমেন্ট নাম</string>
+    <string name="mobile">মোবাইল নাম্বার</string>
+    <string name="this_device">এই ডিভাইস</string>
+    <string name="present_address">বর্তমান ঠিকানা</string>
+    <string name="permanent_address">স্থায়ী ঠিকানা</string>
+    <string name="business_address">ব্যবসায়িক ঠিকানা</string>
+    <string name="address_line_2">ঠিকানা লাইন ২ (ঐচ্ছিক)</string>
+    <string name="business_address_line_1">ব্যবসার ঠিকানা লাইন ১</string>
+    <string name="business_address_line_2">ব্যবসার ঠিকানা লাইন ২ (ঐচ্ছিক)</string>
+    <string name="progress_dialog_saving_address">ঠিকানাটি সংরক্ষণ করা হচ্ছে…</string>
+    <string name="progress_dialog_add_email">ইমেইল ঠিকানাটি যুক্ত করা হচ্ছে…</string>
+    <string name="progress_dialog_delete_email">ইমেইল ঠিকানাটি মুছে ফেলা হচ্ছে..</string>
+    <string name="relationship">সম্পর্ক</string>
+    <string name="personal_account">পার্সোনাল একাউন্ট</string>
+    <string name="business_account">বিজনেস একাউন্ট</string>
+    <string name="document_id">ডকুমেন্ট আইডি</string>
+    <string name="search">অনুসন্ধান করুন</string>
+    <string name="add_bank">ব্যাংক যুক্ত করুন</string>
+    <string name="verify_bank">ব্যাংক যাচাই করুন</string>
+    <string name="invite">আইপেতে আমন্ত্রণ জানান</string>
+    <string name="ask_introduction">পরিচিতির জিজ্ঞাসা করুন</string>
+    <string name="asked_introduction">জিজ্ঞাসাকৃত পরিচিতির</string>
+    <string name="net_amount">নেট পরিমাণ (৳)</string>
+    <string name="recipient_net_amount">প্রাপক পাবে</string>
+    <string name="status">অবস্থা</string>
+    <string name="time">সময়</string>
+    <string name="help">হেল্প/যোগাযোগ</string>
+    <string name="search_transaction">অনুসন্ধান</string>
+    <string name="option_add_money_from_bank">ব্যাংক</string>
+    <string name="option_add_money_from_credit_or_debit_card">ক্রেডিট/ডেবিট কার্ড</string>
+    <string name="view">দেখান</string>
+    <string name="edit">সম্পাদন</string>
+    <string name="view_uploaded_document_message">আপলোডকৃত নথি দেখুন</string>
+    <string name="grameenphone">গ্রামীণফোন</string>
+    <string name="robi">রবি</string>
+    <string name="airtel">এয়ারটেল</string>
+    <string name="banglalink">বাংলালিংক</string>
+    <string name="teletalk">টেলিটক</string>
+    <string name="pre_paid">প্রিপেইড</string>
+    <string name="post_paid">পোস্টপেইড</string>
+    <string name="card_payment_web_view_title">টাকা যোগ</string>
+    <string name="link_bank">ব্যাংক যুক্ত করুন</string>
+    <string name="failed_loading_emails">ইমেইল লোড করতে ব্যর্থ</string>
+    <string name="enter_valid_email">অনুগ্রহ করে একটি সঠিক ইমেইল লিখুন</string>
+    <string name="failed_add_email">ইমেইল যোগ করা সম্ভব হয়নি</string>
+    <string name="failed_delete_email">ইমেইলটি মুছে ফেলা সম্ভব হয়নি</string>
+    <string name="progress_dialog_make_primary_email">ইমেইলটিকে প্রাথমিক হিসেবে নির্বাচন করা হচ্ছে…</string>
+    <string name="failed_make_primary">ইমেইলটিকে প্রাথমিক ইমেইল করা সম্ভব হয়নি</string>
+    <string name="confirmation_remove_email_address">আপনি কি ইমেইল ঠিকানাটিকে মুছে ফেলতে চান?</string>
+    <string name="confirmation_add_to_contacts">আপনার কন্টাক্টে নাম্বারটি যোগ করতে চান?</string>
+    <string name="bank_consent_agreement">ব্যাংক সম্মতি চুক্তি</string>
+    <string name="progress_dialog_if_pin_exists">প্রস্তুত করা হচ্ছে। অনুগ্রহপূর্বক অপেক্ষা করুন…</string>
+    <string name="failed_loading_pin">পিন লোড করা সম্ভব হয়নি</string>
+    <string name="add_a_trusted_person">ট্রাস্টেড পার্সন যোগ করুন</string>
+    <string name="failed_loading_trusted_person_list">ট্রাস্টেড ব্যক্তি তালিকা লোড করা সম্ভব হয়নি</string>
+    <string name="progress_dialog_adding_as_trusted_person">ট্রাস্টেড ব্যক্তি হিসেবে যুক্ত করা হচ্ছে</string>
+    <string name="failed_adding_trusted_person">ট্রাস্টেড ব্যক্তি হিসেবে যুক্ত করা সম্ভব হয়নি</string>
+    <string name="trusted_member">ট্রাস্টেড সদস্য</string>
+    <string name="failed_loading_thana_list">থানার তালিকা আনা সম্ভব হয়নি</string>
+    <string name="failed_loading_district_list">জেলার তালিকা আনা সম্ভব হয়নি</string>
+    <string name="dialog_prompt_add_pin">পিন নম্বর সেট করুন</string>
+    <string name="dialog_prompt_add_promo">অনুগ্রহ করে প্রোমো কোডটি দিন</string>
+    <string name="enter_a_new_pin">নতুন পিন দিন</string>
+    <string name="get_verified_to_invite">
+ভেরিফাইড হবার পরে আপনি তাকে আইপেতে আমন্ত্রণ জানাতে পারেন
+</string>
+    <string name="not_submitted">জমা করা হয়নি</string>
+    <string name="you_need_to_upload_identification_documents_to_get_verified">
+আপনার তথ্য যাচাই এর জন্য জাতীয় পরিচয়পত্র আপলোড করুন
+</string>
+    <string name="no_face_detected">
+দুঃখিত, আপনার আইপে একাউন্টের জন্য ছবিটি উপযুক্ত নয়। ফটোতে আপনার চেহারা পরিষ্কারভাবে থাকা উচিত।
+</string>
+    <string name="not_an_image">
+দুঃখিত, নির্বাচিত ফাইল একটি ছবি নয়। আবার ফটো নির্বাচন করুন।
+</string>
+    <string name="default_profile_pic_inappropriate_message">
+দুঃখিত, প্রোফাইল ফটো আপলোড করতে পারবেন না। আবার ফটো নির্বাচন করুন।
+</string>
+    <string name="multiple_face_detected">
+দুঃখিত, নির্বাচিত ফটোটি আপনার আইপে একাউন্টের জন্য উপযুক্ত নয়। শুধুমাত্র আপনার ফটো নির্বাচন করুন।
+</string>
+    <string name="please_select_a_file_to_upload">
+অনুগ্রহ করে আপলোড করার জন্য একটি ফাইল নির্বাচন করুন।
+</string>
+    <string name="failed_fetching_money_requests">টাকার অনুরোধের বর্ণনা আনা সম্ভব হয়নি</string>
+    <string name="failed_fetching_profile_completion_status">প্রোফাইল সম্পূর্ণতার অবস্থা আনতে পারা সম্ভব হয়নি</string>
+    <string name="can_not_change_picture">
+ভেরিফাইড একাউন্টের প্রোফাইল ফটো পরিবর্তন করতে পারবেন না
+</string>
+    <string name="profile_completeness">প্রোফাইল আপডেট</string>
+    <string name="profile_completion_text">আপনার প্রোফাইল ০% সম্পূর্ণ।</string>
+    <string name="business_contact">ব্যবসায়িক কন্ট্যাক্ট</string>
+    <string name="edit_basic_info">প্রয়োজনীয় তথ্য সম্পাদনা করুন</string>
+    <string name="edit_contact_info">কন্ট্যাক্ট তথ্য সম্পাদনা করুন</string>
+    <string name="edit_parent_info">পিতা মাতার তথ্য সম্পাদনা করুন</string>
+    <string name="edit_address">ঠিকানা সম্পাদনা করুন</string>
+    <string name="introduced_list_header">আমি যার পরিচয় প্রদান করেছি</string>
+    <string name="introducer_list_header">আমার পরিচয় প্রদানকারী</string>
+    <string name="select_a_contact">একটি কন্ট্যাক্ট নির্বাচন করুন</string>
+    <string name="add_contact_successful">
+কন্ট্যাক্ট তথ্য সফলভাবে যোগ করা হয়েছে। কন্ট্যাক্টের তালিকা রিফ্রেশ করা হচ্ছে…
+</string>
+    <string name="delete_contact_successful">
+কন্ট্যাক্ট তথ্য সফলভাবে মুছে ফেলা হয়েছে। কন্ট্যাক্টের তালিকা রিফ্রেশ করা হচ্ছে…
+</string>
+    <string name="update_contact_successful">কন্ট্যাক্ট তথ্য সফলভাবে আপডেট করা হয়েছে।</string>
+    <string name="failed_add_contact">কন্ট্যাক্ট তথ্য যোগ করা সম্ভব হয়নি।</string>
+    <string name="failed_invite_contact">আমন্ত্রণ করা সম্ভব হয়নি</string>
+    <string name="failed_update_contact">তথ্য আপডেট করা সম্ভব হয়নি</string>
+    <string name="confirm_request_rejection">
+আপনি এই অনুরোধ প্রত্যাখ্যান করতে চান আপনি কি নিশ্চিত?
+</string>
+    <string name="business_contacts_sync_failed">ব্যবসা কন্ট্যাক্ট আনতে পারা সম্ভব হয়নি</string>
+    <string name="member_since">সদস্য হয়েছেন</string>
+    <string name="select_district">জেলা</string>
+    <string name="add_bank_prompt">
+আপনি এই আইপে একাউন্টের সাথে কোনও ব্যাংক একাউন্ট যুক্ত করেন নি। আপনার আইপে ওয়ালেট থেকে টাকা উত্তোলনের জন্য আপনাকে এই আইপে একাউন্টের সাথে একটি ব্যাংক যুক্ত করতে হবে।
+</string>
+    <string name="verify_bank_prompt">
+আপনার ব্যাংক একাউন্ট এখনো ভেরিফাইড হয়নি। আপনার আইপে ওয়ালেট থেকে টাকা উঠাতে আপনাকে আপনার ব্যাংক একাউন্ট ভেরিফাই করতে হবে।
+</string>
+    <string name="bank_successfully_placed_for_verification">
+ব্যাংকটিকে সফলভাবে যাচাইয়ের জন্য স্থাপন করা করা হয়েছে।
+</string>
+    <string name="exit">প্রস্থান</string>
+    <string name="error_camera_permission_denied">ক্যামেরা অনুমতি প্রদান করা হয়নি</string>
+    <string name="log_in">লগ ইন</string>
+    <string name="sign_up">সাইন আপ</string>
+    <string name="personal_info">ব্যক্তিগত তথ্য</string>
+    <string name="parent_info">পিতা মাতার তথ্য</string>
+    <string name="business_type">ব্যবসার ধরণ</string>
+    <string name="please_wait_until_information_loading">অনুগ্রহ করে সকল তথ্য আনা পর্যন্ত অপেক্ষা করুন</string>
+    <string name="saving_business_information">ব্যবসায়িক তথ্য সংরক্ষণ করা হচ্ছে…</string>
+    <string name="business_information_saving_failed">ব্যবসায়িক তথ্য সংরক্ষণ করা সম্ভব হয়নি</string>
+    <string name="user_has_no_ipay_account">দুঃখিত, আইপে একাউন্টটি পাওয়া যায়নি</string>
+    <string name="processing">প্রসেসিং</string>
+    <string name="manage_bank_accounts">ব্যাংক একাউন্ট পরিচালনা করুন</string>
+    <string name="edit_business_information">ব্যবসায়িক তথ্য সম্পাদনা করুন</string>
+    <string name="profile_completion_detail_text">
+ভেরিফেকেশনের উদ্দেশ্যে আপনাকে নিম্নলিখিত তথ্যগুলি সম্পূর্ণ করতে হবে - আপনার প্রোফাইল ছবি, ফটো আইডেন্টিফিকেশন, বেসিক ইনফরমেশন এবং ফান্ড উৎস্য
+</string>
+    <string name="withdraw_money_to_bank_info">এটি সম্পন্ন হতে ৩ থেকে ৫ করমদিবস লাগতে পারেI</string>
+    <string name="prompt_grant_permission">অনুগ্রহ করে প্রয়োজনীয় অনুমতি প্রদান করুন</string>
+    <string name="verified_user_can_send_invitation">
+শুধুমাত্র ভেরিফাইড ব্যবহারকারী আমন্ত্রণ পাঠাতে পারেন
+</string>
+    <string name="failed_loading_business_type">লোড করা সম্ভব হয়নি</string>
+    <string name="failed_loading_business_information">ব্যবসায়িক তথ্য আনা সম্ভব হয়নি</string>
+    <string name="add_a_contact">কন্ট্যাক্ট যুক্ত করুন</string>
+    <string name="invite_a_contact">আমন্ত্রণ জানান</string>
+    <string name="progress_dialog_adding_contact">কন্ট্যাক্ট তথ্য যুক্ত করা হচ্ছে…</string>
+    <string name="dialog_requesting_top_up">টপ-আপ এর জন্য প্রস্তুতি নেওয়া হচ্ছে…</string>
+    <string name="you_cannot_send_money_to_your_number">
+আপনি নিজের একাউন্টে হতে নিজেকে টাকা পাঠাতে পারবেন না
+</string>
+    <string name="you_cannot_request_money_from_your_number">
+আপনি নিজের একাউন্টে হতে নিজেকে টাকা পাঠানোর অনুরোধ করতে পারবেন না
+</string>
+    <string name="create_ticket">টিকেট তৈরি করুন</string>
+    <string name="subject">বিষয়</string>
+    <string name="category">বিভাগ</string>
+    <string name="ticket_created">টিকেটটি তৈরি করা হয়েছে</string>
+    <string name="creating_ticket">টিকেটটি তৈরি করা হচ্ছে…</string>
+    <string name="select_category">একটি বিভাগ নির্বাচন করুন</string>
+    <string name="no_email_added">একাউন্টটিতে কোনো ইমেইল ঠিকানা সংযুক্ত নেই</string>
+    <string name="bank_list_empty_text">
+আপনার কোন সক্রিয় ব্যাংক একাউন্ট নেই। যোগ করতে + বাটনটি চাপুন।
+</string>
+    <string name="dialog_add_new_email">
+এই প্রক্রিয়া সম্পন্ন করতে চাইলে আপনার ইমেইল ঠিকানা সংযুক্ত করতে হবে। এখন একটি ইমেইল ঠিকানা যোগ করুন?
+</string>
+    <string name="ticket_created_dialog_text">
+আপনার সমস্যার জন্য একটি টিকেট তৈরি করার অনুরোধ সফলভাবে করা হয়েছে। আপনার টিকিট তালিকায় দেখাতে একটু সময় লাগতে পারে।
+</string>
+    <string name="dialog_verify_email">
+আপনাকে সহায়তা সিস্টেমটি ব্যবহার করতে আপনার প্রাথমিক ইমেইল সেট আপ করতে হবে। এখনই আপনার ইমেইল যাচাই করুন?
+</string>
+    <string name="no_primary_email">কোনো প্রাথমিক ইমেইল নেই</string>
+    <string name="no_tickets_available">
+আপনি কোন টিকিট তৈরি করেননি। একটি তৈরি করতে \'+\' বাটনটি চাপুন।
+</string>
+    <string name="message">ম্যাসেজ</string>
+    <string name="failed_empty_subject">Subject cannot be empty</string>
+    <string name="failed_empty_message">Message cannot be empty</string>
+    <string name="failed_loading_ticket_details">Failed to load ticket details</string>
+    <string name="progress_dialog_submitting_comment">Submitting comment…</string>
+    <string name="comment_successfully_added">Comment successfully added</string>
+    <string name="failed_adding_comment">Failed to add comment</string>
+    <string name="comment_cannot_be_empty">Please enter your message.</string>
+    <string name="not_available">Not available</string>
+    <string name="accepted">Accepted</string>
+    <string name="accept_invitation_request">Do you want to accept the invitation request?</string>
+    <string name="reject_invitation_request">Do you want to reject the invitation request?</string>
+    <string name="cancelled">বাতিল করা হয়েছে</string>
+    <string name="rejected">প্রত্যাখ্যান করা হয়েছে</string>
+    <string name="draft">খসড়া</string>
+    <string name="attachment">সংযুক্তি</string>
+    <string name="attachments">সংযুক্তিগুলো</string>
+    <string name="album">এলবাম</string>
+    <string name="tap_to_select_images">ছবি নির্বাচন করতে ট্যাপ করুন</string>
+    <string name="camera">ক্যামেরা</string>
+    <string name="pdf">পিডিএফ</string>
+    <string name="max_limit_exceed">সংযুক্তির সর্বোচ্চ সীমা অতিক্রম করেছে।</string>
+    <string name="remove_contact_title">কন্ট্যাক্ট মুছে ফেলুন</string>
+    <string name="remove_contact_message">আইপে থেকে মুছে ফেলতে চান?</string>
+    <string name="see_parent_info_service_not_allowed_message">
+পিতা মাতার তথ্য দেখানো সম্ভব হয়নি। আরও তথ্যের জন্য সাপোর্ট এ কন্ট্যাক্ট করুন।
+</string>
+    <string name="see_basic_info_service_not_allowed_message">
+ব্যবহারকারীর তথ্য দেখানো সম্ভব হয়নি। আরও তথ্যের জন্য সাপোর্ট এ কন্ট্যাক্ট করুন।
+</string>
+    <string name="see_business_address_service_not_allowed_message">
+ব্যবসায়িক ঠিকানা দেখানো সম্ভব হয়নি। আরও তথ্যের জন্য সাপোর্ট এ কন্ট্যাক্ট করুন।
+</string>
+    <string name="see_business_info_service_not_allowed_message">
+ব্যবসায়িক তথ্য দেখানো সম্ভব হয়নি। আরও তথ্যের জন্য সাপোর্ট এ কন্ট্যাক্ট করুন।
+</string>
+    <string name="live_chat_not_available">
+লাইভ চ্যাট বর্তমানে অনুপলব্ধ। অনুগ্রহ করে একটু পরে আবার চেষ্টা করুন
+</string>
+    <string name="share">কিউআর কোড শেয়ার করুন</string>
+    <string name="business_account_not_verified">
+এই ব্যবসা একাউন্ট ভেরিফাইড নয়। পেমেন্ট করতে, ব্যবসা একাউন্ট ভেরিফাইড হওয়া আবশ্যক।
+</string>
+    <string name="qr_code_unavailable">
+আপনার QR কোড জেনারেট করা সম্ভব হচ্ছে না। অনুগ্রহ করে একটু পরে আবার চেষ্টা করুন.
+</string>
+    <string name="file_save_failed">ফাইল সংরক্ষণ করতে সম্ভব হচ্ছে না।</string>
+    <string name="add_contact_dialog_not_available">
+একটি পরিচিতিটি যোগ করা সম্ভব হচ্ছে না। অনুগ্রহ করে একটু পরে আবার চেষ্টা করুন।
+</string>
+    <string name="get_started">আইপে ব্যবহার করতে সাইন আপ করুন!</string>
+    <string name="welcome_to_ipay">আইপেতে আপনাকে স্বাগতম</string>
+    <string name="on_board_tour_description">
+আপনার দৈনন্দিন লেনদেনের জন্য একটি নিরাপদ পেমেন্ট প্ল্যাটফর্ম হিসেবে আইপেকে ব্যবহার করুন।
+</string>
+    <string name="instant_money">তাৎক্ষণিক টাকা</string>
+    <string name="iPay_money_is_fast">
+আইপে দিয়ে আপনি তাৎক্ষনিকভাবে টাকা পাঠাতে এবং গ্রহণ করতে পারেন।
+</string>
+    <string name="out_of_money">আপনার টাকা প্রয়োজন হলে প্রিয়জনকে অনুরোধ করুন।</string>
+    <string name="we_love_to_see_you_happy">আপনার সকল প্রকার কেনাকাটায় ব্যবহার করুন আইপে।</string>
+    <string name="ready_to_get_started">আপনি কী ধরণের একাউন্ট করতে চান?</string>
+    <string name="getting_started_description">
+আপনার যাবতীয় আর্থিক লেনদেনের জন্য পার্সোনাল একাউন্ট অথবা ব্যবসায়িক প্রতিষ্ঠানের লেনদেন/পেমেন্ট গ্রহণের জন্য বিজনেস একাউন্ট নির্বাচন করুন।
+</string>
+    <string name="scan_this_qr_code_prompt">পেমেন্ট করতে কিউ আর কোড স্ক্যান করুন</string>
+    <string name="scan_this_qr_code_prompt_continue">আইপে অ্যাপ্লিকেশন ব্যবহার করে</string>
+    <string name="qr_code_helper_text_upper">স্ক্যান করুন</string>
+    <string name="qr_code_helper_text_lower">পেমেন্ট করুন</string>
+    <string name="select_from_gallery_message">গ্যালারি হতে আপলোড করুন</string>
+    <string name="take_a_picture_message">ছবি তুলুন</string>
+    <string name="take_a_picture_message_for_document">ডকুমেন্ট থেকে ছবি নির্বাচন করুন</string>
+    <string name="select_a_pdf_message">একটি পিডিএফ নির্বাচন করুন</string>
+    <string name="no_browser_found_error_message">
+কোন ডিফল্ট ব্রাউজার খুলতে পাওয়া যায় নি। আপনার ব্রাউজার ইনস্টল বা সক্রিয় করুন।
+</string>
+    <string name="no_browser_map_app_found_error_message">
+খোলা পাওয়া কোন ডিফল্ট ব্রাউজার বা গুগল ম্যাপ অ্যাপ্লিকেশন। গুগল ম্যাপস/ব্রাউজার ইনস্টল করুন অথবা আপনার ব্রাউজার সক্রিয় করুন।
+</string>
+    <string name="please_enter_a_document_name">ডকুমেন্ট এর নাম লিখুন</string>
+    <string name="completed_transaction_list">সম্পন্ন লেনদেনসমূহ</string>
+    <string name="pending_transaction_list">প্রক্রিয়াধীন লেনদেনসমূহ</string>
+    <string name="bank_icon">ব্যাংক আইকন</string>
+    <string name="card_transaction_cancel_warning">আপনি কি নিশ্চিত?</string>
+    <string name="add_money_from_credit_or_debit_card_cancel_message">
+আপনি ডেবিট/ক্রেডিট কার্ড থেকে টাকা যোগ করার অনুরোধ বাতিল করেছেন। আবার টাকা যোগ করার অনুরোধ করুন।
+</string>
+    <string name="add_money_from_credit_or_debit_card_failed_message">
+আপনার যোগ আনার অনুরোধ সম্ভব হয় নি। অনুগ্রহ করে নিশ্চিত করুন যে আপনি সঠিক তথ্য সরবরাহ করেছেন এবং আপনার কার্ডে পর্যাপ্ত ব্যালান্স আছে, তারপরে আবার চেষ্টা করুন। সঠিক তথ্য প্রদানের পরেও যদি আপনি এখনও সমস্যার সম্মুখীন হন তবে দয়া করে support@ipay.com.bd এ আমাদের জানান।
+</string>
+    <string name="verification_icon">যাচাই আইকন</string>
+    <string name="document_front_side">সামনের অংশ</string>
+    <string name="chequebook_cover_page">চেকবুক কভার পাতা</string>
+    <string name="upload_front_page">সামনের অংশ</string>
+    <string name="upload_back_page">পিছনের অংশ</string>
+    <string name="upload_chequebook_front_page">
+[ঐচ্ছিক] আপনি আপনার একাউন্টের চেকবইয়ের একটি পাতা আপলোড করতে পারেন। এটি ভেরিফিকেশনের সময় চেক করা হবে যা আপনার ভেরিফিকেশন প্রক্রিয়াকে দ্রুততর করবে।
+</string>
+    <string name="choose_file">ফাইল নির্বাচন করুন</string>
+    <string name="maximum_file_size_message">
+প্রতিটি ডকুমেন্ট সর্বোচ্চ ৩ MB হতে পারে। শুধুমাত্র JPG অথবা PNG ফরম্যাট গ্রহণযোগ্য।
+</string>
+    <string name="upload_document">আপলোড</string>
+    <string name="upload_photo">ফটো নিশ্চিত করুন</string>
+    <string name="not_found">খুঁজে পাওয়া যায়নি</string>
+    <string name="add_basic_info">আপডেট করুন</string>
+    <string name="skip_now">স্কিপ করুন</string>
+    <string name="balance_holder">৳ %1$s</string>
+    <string name="onboard_upload_document_title">ডকুমেন্ট আপলোড করুন</string>
+    <string name="onboard_nice_profile_photo">ফটোটি ভালো হয়েছে</string>
+    <string name="onboard_photo_upload_title">প্রোফাইল ফটো আপলোড করুন</string>
+    <string name="onboard_profile_info_update_title">প্রয়োজনীয় তথ্য</string>
+    <string name="onboard_get_introduced_upload_title">পরিচয় প্রদান করার জন্য জিজ্ঞাসা করুন</string>
+    <string name="onboard_profile_info_update_page_title">প্রয়োজনীয় তথ্য আপডেট করুন</string>
+    <string name="onboard_upload_photo_text">আপনার ফটোটি অবশ্যই স্পষ্ট হতে হবে।</string>
+    <string name="onboard_upload_photo_id_text">
+অনুগ্রহ করে জাতীয় পরিচয়পত্রের স্পষ্ট ছবি তুলুন এবং আপলোড করুন।
+</string>
+    <string name="onboard_upload_prifile_info_text">
+দ্রুত ভেরিফিকেশনের জন্য আপনার ঠিকানা এবং অন্যান্য তথ্য দিন।
+</string>
+    <string name="onboard_ask_for_introduction_text">
+আপনার কন্ট্যাক্ট তালিকা থেকে একটি আইপে ব্যবহারকারী খুঁজুন এবং আপনাকে পরিচয় প্রদান করার জন্য অনুরোধ করুন।
+</string>
+    <string name="upload_profile_photo_again">
+আপনি আবার একটি প্রোফাইল ছবি আপলোড করতে চান? আপনি ইতিমধ্যে একবার আপলোড করেছেন
+</string>
+    <string name="change_two_fa_settings">দ্বি-স্তর নিরাপত্তা সেটিংস পরিবর্তন করা হচ্ছে</string>
+    <string name="accepting_send_money_request">টাকা পাঠানোর অনুরোধ গ্রহণ করা হচ্ছে</string>
+    <string name="two_fa_settings">দ্বি-স্তর নিরাপত্তা</string>
+    <string name="please_enter_a_document_id">আপনার ডকুমেন্ট এর আইডি লিখুন</string>
+    <string name="please_select_max_file_size_message">
+সর্বাধিক আকার ৩ মেগাবাইট এর একটি ফাইল নির্বাচন করুন
+</string>
+    <string name="settings_not_changed">সেটিংসে কোন পরিবর্তন নেই।</string>
+    <string name="do_you_want_to_continue">আপনি কি এখনও চালিয়ে যেতে চান?</string>
+    <string name="continue_message">চালিয়ে যান</string>
+    <string name="add_money_from_credit_or_debit_card_cancel_title">টাকা আনা বাতিল করা হয়েছে</string>
+    <string name="add_money_from_credit_or_debit_card_failed_title">টাকা আনা সম্ভব হয়নি</string>
+    <string name="tk">৳</string>
+    <string name="success">সফল হয়েছে</string>
+    <string name="failed">ব্যর্থ হয়েছে</string>
+    <string name="you_can_do_following_things">আপনি নিম্নলিখিত জিনিস করতে পারেন</string>
+    <string name="switching">পরিবর্তন করা হচ্ছে</string>
+    <string name="account_switched">একাউন্ট পরিবর্তন করা হয়েছে</string>
+    <string name="source_of_fund">টাকার উৎস</string>
+    <string name="onboard_source_of_fund_text">
+আইপে একাউন্টের টাকার উৎস হিসেবে আপনার ব্যাংক একাউন্ট যোগ করুন।
+</string>
+    <string name="add_money_by_card">ডেবিট/ক্রেডিট কার্ড হতে টাকা যোগ</string>
+    <string name="added_cards">কার্ডসমূহ</string>
+    <string name="card">ক্রেডিট অথবা ডেবিট কার্ড</string>
+    <string name="settings">সেটিংস</string>
+    <string name="make_payment_location_permission_required_rationale_message">
+পেমেন্ট করতে এবং আকর্শনীয় অফারগুলি পেতে আপনার অবস্থানে আইপে অ্যাক্সেসের অনুমতি দিন।
+</string>
+    <string name="make_payment_location_permission_required_message">
+পেমেন্ট করতে এবং আকর্শনীয় অফারগুলি পেতে আইপেকে আপনার অবস্থান জানার অনুমতি দিন।
+</string>
+    <string name="make_payment_location_settings_on_message">
+পেমেন্ট করতে পেতে আইপেকে আপনার অবস্থান জানার অনুমতি দিন।
+</string>
+    <string name="not_now">এখন নয়</string>
+    <string name="gps_disabled">জিপিএস চালু নেই</string>
+    <string name="continue_make_payment">চালিয়ে যান</string>
+    <string name="location_mode">অবস্থান মোড</string>
+    <string name="make_payment_location_mode_on_message">
+একটি পেমেন্ট করতে, উচ্চ নির্ভুলতা থেকে অবস্থান মোড পরিবর্তন করুন।
+</string>
+    <string name="you_do_not_have_any_introducer">আপনি এখনও কাউকে পরিচিত করেন নি</string>
+    <string name="permission_camera_rationale">সনাক্তকরণের জন্য ক্যামেরা অ্যাক্সেস প্রয়োজন</string>
+    <string name="no_camera_permission">ক্যামেরা ব্যবহারের অনুমতি নেই।</string>
+    <string name="low_storage_error">
+কম ডিভাইস স্টোরেজ কারণে ফেস ডিটেক্টর ব্যবহার করা যাবে না
+</string>
+    <string name="cheque_uploaded">সফলভাবে চেক আপলোড করা হয়েছে</string>
+    <string name="do_you_want_to_cancel_payment">আপনি কি পেমেন্ট বাতিল করতে চান?</string>
+    <string name="payment_failed">পেমেন্টটি করা সম্ভব হয়নি</string>
+    <string name="cant_fetch_details">অর্ডার বিবরণ আনা সম্ভব হয়নি</string>
+    <string name="connection_time_out">টাইম আউট হয়েছে</string>
+    <string name="network_unreachable">নেটওয়ার্ক পাওয়া যাচ্ছে না</string>
+    <string name="OK">ঠিক আছে</string>
+    <string name="invalid_image_type">ইমেজ টাইপ সঠিক নয়। শুধুমাত্র JPG বা PNG প্রয়োজন</string>
+    <string name="introduce_user">আইপেতে পরিচয় করান</string>
+    <string name="are_you_sure_to_introduce">আপনি কি এই ব্যক্তিকে পরিচয় প্রদান করতে চান?</string>
+    <string name="invite_people_to_ipay">বন্ধুদের আমন্ত্রণ</string>
+    <string name="invite_people_text">
+আপনার বন্ধুকে আইপে নেটওয়ার্কে আমন্ত্রণ জানান। আপনার আমন্ত্রণ কোড
+</string>
+    <string name="add_money_bank_success_description">৩-৫ কর্মদিবস লাগতে পারে।</string>
+    <string name="withdraw_money_success_description">১-২ কর্মদিবস লাগতে পারে।</string>
+    <string name="add_money_card_success_description">
+আপনি সফলভাবে আপনার আইপে ওয়ালেটে টাকা যোগ করেছেন। বিস্তারিত জানতে দেখুন আপনার \'লেনদেন\'।
+</string>
+    <string name="add_instant_money_success_description">
+আপনি সফলভাবে আপনার একাউন্টে টাকা এনেছেন। ব্যে পরিমাণ টাকা এনেছেন তা আপনার ব্যাংক হতে ৩ থেকে ৫ কার্য দিবসের মধ্যে সামঞ্জস্য করে নেওয়া হবে।
+</string>
+    <string name="send_money_success_description">
+আপনি যে টাকা পাঠিয়েছেন সেটি আমরা প্রাপককে জানিয়ে দিব। বিস্তারিত জানতে \'লেনদেন\' দেখুন।
+</string>
+    <string name="make_payment_success_description">
+%1$s-কে সফলভাবে পেমেন্ট করা হয়েছে। বিস্তারিত জানতে \"লেনদেন\" দেখুন।
+</string>
+    <string name="pay_bill_success_description">
+আপনি সফলভাবে পেমেন্ট করেছেন। বিস্তারিত জানতে দেখুন আপনার \'লেনদেন\'।
+</string>
+    <string name="request_money_success_description">
+আপনি যে টাকা অনুরোধ করেছেন সেটি আমরা প্রাপককে জানাবো। আপনার অনুরোধ গ্রহণ/বাতিল করা হলে আপনাকে জানানো হবে।
+</string>
+    <string name="request_money_helper_text">
+প্রয়োজনে অন্য আইপে সদস্যের কাছে মানি রিকোয়েস্ট করুন। মানি রিকোয়েস্ট করতে নিচের ধাপগুলো অনুসরণ করুন
+</string>
+    <string name="request_money_step_two">@string/send_money_step_two</string>
+    <string name="utility_bill">ইউটিলিটি বিল</string>
+    <string name="bill_pay_help_message">
+আপনার বাংলালিয়েন গ্রাহক আইডি অথবা গ্রাহক সংখ্যা বা MSISDN নাম্বার লিখুন।
+</string>
+    <string name="prepaid_amount_bill_pay_help_message">আপনার বাংলালায়নের বিল দিতে টাকার পরিমাণ লিখুন।</string>
+    <string name="choose_your_package">একটি প্যাকেজ নির্বাচন করুন</string>
+    <string name="pay_bill">বিল পরিশোধ করুন</string>
+    <string name="please_select_package">অনুগ্রহ করে একটি প্যাকেজ নির্বাচন করুন।</string>
+    <string name="west_zone_bill_pay_message">
+অনুগ্রহ করে আপনার ওয়েস্টজোন এর একাউন্ট নাম্বারটি লিখুন
+</string>
+    <string name="bill_month">বিলের মাস</string>
+    <string name="principal_amount">প্রধান পরিমাণ</string>
+    <string name="vat_amount">ভ্যাট</string>
+    <string name="bill_status">বিলের স্ট্যাটাস</string>
+    <string name="enter_customer_id">অনুগ্রহ করে গ্রাহক আইডি লিখুন</string>
+    <string name="enter_subscriber_id">অনুগ্রহ করে গ্রাহক আইডি লিখুন</string>
+    <string name="enter_carnival_id">Pঅনুগ্রহ করে কার্নিভাল আইডি লিখুন</string>
+    <string name="bill_number">বিল নাম্বার</string>
+    <string name="WestZone">ওয়েস্টজোন</string>
+    <string name="bill_pay">বিল পরিশোধ</string>
+    <string name="upload_identification_document">জাতীয় পরিচয়পত্র আপলোড করুন</string>
+    <string name="due_date">নির্ধারিত তারিখ</string>
+    <string name="ipc">আইপিসি</string>
+    <string name="enter_bill_no">বিল নাম্বারটি লিখুন</string>
+    <string name="desco_bill_pay_message">সকাল ৮টা থেকে রাত ১০টা পর্যন্ত বিল পরিশোধ করতে পারবেন।</string>
+    <string name="desco_bill_number">ডেস্কো বিল নাম্বার</string>
+    <string name="dpdc_bill_pay_message">
+অনুগ্রহ করে আপনার ডিপিডিসি একাউন্ট নম্বরটি এবং লোকেশনটি লিখুন
+</string>
+    <string name="enter_account_number">অনুগ্রহ করে একাউন্ট নম্বরটি লিখুন</string>
+    <string name="dpdc">ডিপিডিসি</string>
+    <string name="enter_location_code">লোকেশন কোডটি লিখুন</string>
+    <string name="current_package_rate">পরিমাণ</string>
+    <string name="you_cant_avail_this_service">
+আপনি এখন এই পরিষেবাটি উপভোগ করতে পারবেন না, পরে আবার চেষ্টা করুন
+</string>
+    <string name="active">সক্রিয়</string>
+    <string name="request_failed">অনুরোধ ব্যর্থ</string>
+    <string name="amber_it_customer_id">এম্বারআইটি গ্রাহক আইডি</string>
+    <string name="amberit_bill_pay_message">
+অনুগ্রহ করে এম্বারআইটি কাস্টোমার আইডি ও পরিমাণ লিখুন
+</string>
+    <string name="swipe_up_to_see_more">আরো দেখতে উপরের দিকে তুলুন</string>
+    <string name="swipe_down_to_close">বন্ধ করতে নীচে নামান</string>
+    <string name="send_money_helper_text">
+আপনি আপনার আইপে একাউন্ট থেকে অন্য আইপে একাউন্টে টাকা পাঠাতে পারেন। টাকা পাঠাতে নিচের ধাপগুলো অনুসরণ করুন
+</string>
+    <string name="send_money_step_one">
+<b>নাম/মোবাইল নাম্বার</b>
+খুঁজুন অথবা তালিকা থেকে আইপে সদস্যক নির্বাচন করুন।
+</string>
+    <string name="request_money_step_one">@string/send_money_step_one</string>
+    <string name="ok_got_it">ঠিক আছে!</string>
+    <string name="send_money_step_three">
+চাইলে
+<b>নোট</b>
+লিখুন এবং সম্পন্ন করুন!
+</string>
+    <string name="request_money_step_three">
+<b>নোট</b>
+লিখুন এবং সম্পন্ন করুন!
+</string>
+    <string name="top_up_step_three">সম্পন্ন করুন!</string>
+    <string name="send_money_step_two">
+<b>টাকার পরিমাণ</b>
+লিখুন
+</string>
+    <string name="enter_name_or_number">
+<i>নাম বা ফোন নাম্বার দিন</i>
+</string>
+    <string name="send_money_to">আপনি টাকা পাঠাচ্ছেন</string>
+    <string name="paying_money_to">আপনি পেমেন্ট করছেন</string>
+    <string name="your_ipay_balance">আপনার ব্যবহারযোগ্য আইপে ব্যালেন্স</string>
+    <string name="your_ipay_credit_balance">আপনার ব্যবহারযোগ্য ক্রেডিট ব্যালেন্স</string>
+    <string name="fetching_user_info">গ্রাহক তথ্য আনা হচ্ছে…</string>
+    <string name="request_money_from">আপনি টাকা অনুরোধ করছেন</string>
+    <string name="add_money_from_title">আপনি টাকা যোগ করছেন</string>
+    <string name="add_instant_money_from_title">আপনি তাৎক্ষণিক অর্থ যোগ করছেন</string>
+    <string name="withdraw_money_to_title">আপনি টাকা পাঠাচ্ছেন</string>
+    <string name="lanka_bangla_card_number">লঙ্কাবাংলা কার্ড নাম্বার</string>
+    <string name="card_number">কার্ড নাম্বার</string>
+    <string name="something_went_wrong">কোনো ত্রুটি হয়েছে। পরে আবার চেষ্টা করুন।</string>
+    <string name="zero_amount">০</string>
+    <string name="send_money_confirmation_message">টাকার পরিমাণ ৳ %1$s</string>
+    <string name="make_payment_confirmation_message">টাকার পরিমাণ %1$s </string>
+    <string name="add_money_confirmation_message">টাকার পরিমাণ ৳ %1$s</string>
+    <string name="add_instant_money_confirmation_message">টাকার পরিমাণ ৳ %1$s</string>
+    <string name="withdraw_money_confirmation_message">টাকার পরিমাণ ৳ %1$s</string>
+    <string name="pay_bill_confirmation_message">টাকার পরিমাণ ৳ %1$s</string>
+    <string name="top_up_confirmation_message">টাকার পরিমাণ ৳ %1$s</string>
+    <string name="send_money_success_message">সফলভাবে পাঠানো হয়েছে ৳ %1$s</string>
+    <string name="make_payment_success_message">সফলভাবে পেমেন্ট করা হয়েছে %1$s </string>
+    <string name="add_money_card_success_message">সফলভাবে যোগ করেছেন ৳ %1$s</string>
+    <string name="add_money_instant_money_success_message">সফলভাবে তাৎক্ষণিক টাকা আনছেন ৳ %1$s</string>
+    <string name="add_money_bank_success_message">
+আইপেতে টাকা আনার অনুরোধ করা হয়েছে। টাকার পরিমাণ ৳ %1$s
+</string>
+    <string name="withdraw_money_bank_success_message">
+আইপে থেকে ব্যাংকে টাকা পাঠানোর অনুরোধ করা হয়েছে। টাকার পরিমাণ ৳ %1$s
+</string>
+    <string name="pay_bill_success_message">সফলভাবে ৳ %1$s বিল পেমেন্ট করেছেন</string>
+    <string name="request_money_confirmation_message">টাকার পরিমাণ ৳ %1$s</string>
+    <string name="request_money_success_message">সফলভাবে অনুরোধ করা হয়েছে ৳ %1$s</string>
+    <string name="short_note_optional_hint">নোট লিখুন (ঐচ্ছিক)</string>
+    <string name="short_note_hint">নোট লিখুন</string>
+    <string name="please_enter_a_pin">দয়া করে আপনার পিন লিখুন</string>
+    <string name="go_back_to_wallet">ওয়ালেটে ফেরত যান</string>
+    <string name="minimum_pin_length_message">পিন কমপক্ষে ৪ সংখ্যা হতে হবে।</string>
+    <string name="instant_add_money">তাৎক্ষণিক টাকা</string>
+    <string name="debit_credit_card">ডেবিট/ক্রেডিট কার্ড</string>
+    <string name="money_from_bank">ব্যাংক</string>
+    <string name="add_money_card_option_message">
+তাৎক্ষনিকভাবে আইপেতে টাকা আনতে ডেবিট/ক্রেডিট কার্ড ব্যবহার করুন! চার্জ প্রযোজ্য।
+</string>
+    <string name="add_money_instant_option_message">
+আপনার আইপে ওয়ালেট-এ অবিলম্বে অর্থ যুক্ত করুন। এটি আপনার সংশ্লিষ্ট ব্যাংক একাউন্ট থেকে সামঞ্জস্যযুক্ত হবে।
+</string>
+    <string name="add_money_bank_option_message">
+কোনোরকম চার্জ ছাড়াই ব্যাংক থেকে টাকা আনতে পারবেন। এতে ৩-৫ কর্মদিবস সময় লাগতে পারে।
+</string>
+    <string name="choose_a_convenient_way">আইপেতে টাকা\nআনুন</string>
+    <string name="add_money_message">
+ব্যাংক অথবা ডেবিট/ক্রেডিট কার্ডের মাধ্যমে টাকা আনুন আইপেতে।
+</string>
+    <string name="add_money_securely">টাকা যোগ করুন\nনিরাপদে</string>
+    <string name="withdraw_money_anytime">আইপে থেকে ব্যাংকে\nটাকা পাঠান</string>
+    <string name="withdraw_money_bank_option_message">১-২ কর্মদিবস লাগতে পারে।</string>
+    <string name="fetching_bank_list">ব্যাংক তালিকা\nআনা হচ্ছে…</string>
+    <string name="fetching_cards">সংরক্ষিত কার্ডের তালিকা\nআনা হচ্ছে</string>
+    <string name="select_from_saved_cards">অথবা \nতালিকা থেকে কার্ড নির্বাচন করুন</string>
+    <string name="adding_money_from_bank">ব্যাংক</string>
+    <string name="lanka_bangla_card_number_input_message">
+অনুগ্রহ করে আপনার লঙ্কাবাংলা ভিসা অথবা মাস্টারকার্ড নাম্বার লিখুন
+</string>
+    <string name="link_three_subscriber_id_input_message">
+অনুগ্রহ করে আপনার লিঙ্কথ্রি সাবস্ক্রাইবার আইডি লিখুন
+</string>
+    <string name="carnival_id_input_message">অনুগ্রহ করে আপনার কার্নিভাল আইডিটি লিখুন।</string>
+    <string name="invalid_card_number_message">অনুগ্রহ করে একটি সঠিক কার্ড নাম্বার লিখুন।</string>
+    <string name="empty_card_number_message">অনুগ্রহ করে কার্ড নাম্বারটি লিখুন।</string>
+    <string name="empty_dps_number_message">অনুগ্রহ করে ডিপিএস নাম্বারটি লিখুন।</string>
+    <string name="bill_details">বিল বিবরণ</string>
+    <string name="pay_this_bill">বিলটি পরিশোধ করুন</string>
+    <string name="minimum_pay">সর্বনিম্ন পেমেন্ট</string>
+    <string name="paying_bill_message">আপনি বিল পরিশোধ করছেন</string>
+    <string name="request_on_process">অনুরোধটি প্রক্রিয়াধীন</string>
+    <string name="subscriber_id">সাবস্ক্রাইবার আইডি</string>
+    <string name="carnival_id">কার্নিভাল আইডি</string>
+    <string name="package_rate">প্যাকেজ রেট</string>
+    <string name="lanka_bangla_dps_number">লঙ্কাবাংলা ডিপিএস একাউন্ট নাম্বার</string>
+    <string name="account_title">একাউন্ট শিরোনাম</string>
+    <string name="account_maturity_date">একাউন্ট মেয়াদপূর্তি তারিখ</string>
+    <string name="installment_amount">ইনস্টলমেন্ট পরিমাণ</string>
+    <string name="branch_id">শাখা আইডি</string>
+    <string name="lanka_bangla_dps_number_input_message">আপনার লঙ্কাবাংলা ডিপিএস একাউন্ট নাম্বার দিন</string>
+    <string name="top_up_step_one">
+<b>মোবাইল নাম্বার</b>
+লিখুন অথবা কন্ট্যাক্ট থেকে মোবাইল নাম্বারটি
+<b>খুঁজুন</b>
+</string>
+    <string name="top_up_step_two">
+<b>টাকার পরিমাণ</b>
+দিন
+</string>
+    <string name="top_up_helper_text">
+আপনার আইপে ওয়ালেট থেকে যেকোনো মোবাইল নাম্বারে টপ-আপ করুন। আইপের মাধ্যমে আপনি সব অপারেটরেই টপ-আপ করতে পারবেন।
+</string>
+    <string name="make_payment_helper_text">
+আপনার কেনাকাটা এবং পেমেন্টের জন্য যে কোন সময়, যে কোন জায়গায় সহজেই অর্থ প্রদান করুন।\nশুভ হোক আপনার কেনাকাটা!
+</string>
+    <string name="make_payment_step_one">
+যে আউটলেট বা সার্ভিস প্রোভাইডারকে পেমেন্ট করতে চান তার
+<b>মোবাইল নাম্বারটি</b>
+দিন।
+</string>
+    <string name="make_payment_step_two">
+আপনি যে
+<b>টাকা</b>
+পেমেন্ট করতে চান তা দিন।
+</string>
+    <string name="make_payment_step_three">@string/send_money_step_three</string>
+    <string name="top_up_to">মোবাইল টপ-আপ</string>
+    <string name="total_outstanding">মোট অনাদায়ী</string>
+    <string name="take_photo">ফটো তুলুন</string>
+    <string name="fetching_balance">ব্যালেন্স আনা হচ্ছে…</string>
+    <string name="balance_break_down">ব্যালেন্স ব্রেকডাউন</string>
+    <string name="current_balance">বর্তমান ব্যালেন্স</string>
+    <string name="total_credit_balance">মোট ক্রেডিট ব্যালেন্স</string>
+    <string name="unsettled_balance">অমীমাংসিত ব্যালেন্স</string>
+    <string name="available_balance">ব্যবহার যোগ্য ব্যালেন্স</string>
+    <string name="instant_money_message_alert">
+আপনি তাৎক্ষণিক টাকা হিসাবে ৳ %1$s নিতে পারেন। এই অর্থটি পেতে আপনি একটি ব্যাংক নির্বাচন করতে হবে। এই তাৎক্ষনিক অর্থ আপনার নির্বাচিত ব্যাংক থেকে সামঞ্জস্য করা হবে।
+</string>
+    <string name="card_holder_name">কার্ড ধারক নাম</string>
+    <string name="credit_card">ক্রেডিট কার্ড</string>
+    <string name="enter_a_name">কার্ড ধারক নাম লিখুন</string>
+    <string name="card_bill_alert_message">
+*আপনার বিল পেমেন্ট অনুরোধ নিষ্পত্তির জন্য, ৩–৫ ব্যবসায়িক দিন সময় লাগবে
+</string>
+    <string name="instant_bill_pay">তাৎক্ষণিক বিল পে</string>
+    <string name="last_transaction">সর্বশেষ লেনদেন</string>
+    <string name="retry">পুনরায় চেষ্টা করুন</string>
+    <string name="unknown_error">অজানা ত্রুটি</string>
+    <string name="add_money_from_bank">অ্যাড মানি (ব্যাংক)</string>
+    <string name="add_money_from_bank_instantly">অ্যাড মানি (তাৎক্ষনিক)</string>
+    <string name="add_money_from_credit_or_debit_card">অ্যাড মানি (ক্রেডিট / ডেবিট কার্ড)</string>
+    <string name="new_items_available">নতুন আইটেম</string>
+    <string name="select_a_from_date_to_filter">
+আপনি তারিখ ফিল্টারিং করতে \"তারিখ থেকে\" নির্বাচন করতে হবে।
+</string>
+    <string name="remove_bank">ব্যাংকটি মুছুন</string>
+    <string name="gp">জিপি</string>
+    <string name="topup_operation_hint">
+অপারেটর নির্বাচন করুন এবং নাম্বার দিন বা কন্ট্যাক্ট থেকে সন্ধান করুন।
+</string>
+    <string name="top_up_my_number">আমার নাম্বারে টপ-আপ</string>
+    <string name="please_select_prepaid_postpaid">অনুগ্রহ করে প্রিপেইড/পোস্টপেইড নির্বাচন করুন</string>
+    <string name="enter_email_address">ইমেইল ঠিকানা দিন</string>
+    <string name="add_money_credit_card_charge_msg">
+ডেবিট/ক্রেডিট কার্ড থেকে টাকা যোগ করার জন্য ভিসা/মাস্টার কার্ডে সর্বোচ্চ ২.৫% সার্ভিস চার্জ এবং আ্যামেক্স কার্ডে ৩.৫% সার্ভিস চার্জ প্রযোজ্য।
+</string>
+    <string name="password_hint">
+পাসওয়ার্ড সর্বনিম্ন ৮ অক্ষর থাকা আবশ্যক এবং আলফানিউমেরিক হতে হবে।
+</string>
+    <string name="language">ভাষা</string>
+    <string name="no_iPay_account">ব্যবহারকারী একটি আইপে একাউন্ট নেই</string>
+    <string name="today_date">আজ %1$s</string>
+    <string name="no_news_available">কোনো খবর পাওয়া যায়নি!</string>
+    <string name="hey_what_s_going_on_here_and_there">দেখুন, কি হচ্ছে - এখানে এবং সেখানে</string>
+    <string name="you_can_see_here_what_is_going_on_your_ipay_wallet_and_what_is_ipay_doing_around_the_community">আপনার আশেপাশে কি হচ্ছে</string>
+    <string name="my_qr_code_to_share">আমার কিউ আর কোড</string>
+    <string name="remember_me">মনে রাখুন</string>
+    <string name="paying_money_for">আপনি পেমেন্ট করছেন</string>
+    <string name="train_ticket_success_description">
+সফলভাবে আপনি
+<b>রেলওয়ে টিকেট</b>
+কিনেছেন যা আমরা তাদেরকে অভিহিত করবো। অতি শীঘ্রই আপনি টিকেট এর বিবরণ এর একটি এসএমএস পাবেন।
+</string>
+    <string name="make_payment_confirmation_message_tk">টাকার পরিমাণ ৳ %1$s </string>
+    <string name="make_payment_success_message_tk">সফলভাবে পেমেন্ট করা হয়েছে ৳ %1$s</string>
+    <string name="select_a_station">স্টেশন নির্বাচন করুন</string>
+    <string name="select_no_of_adult">পুর্নবয়স্ক মানুষের সংখ্যা নির্বাচন করুন</string>
+    <string name="select_no_of_child">নাবালক মানুষের সংখ্যা নির্বাচন করুন</string>
+    <string name="select_a_gender">একটি লিঙ্গ নির্বাচন করুন</string>
+    <string name="invalid_journey_date">অনুগ্রহ করে যাত্রা তারিখ নির্বাচন করুন</string>
+    <string name="invalid_start_station">অনুগ্রহ করে একটি স্টেশন নির্বাচন করুন</string>
+    <string name="invalid_no_of_ticket">অনুগ্রহ করে টিকেট সংখ্যা নির্বাচন করুন</string>
+    <string name="invalid_gender">অনুগ্রহ করে একটি লিঙ্গ নির্বাচন করুন</string>
+    <string name="failed_loading_station_list">স্টেশনের তালিকা আনতে পারা সম্ভব হয়নি</string>
+    <string name="railway_ticket_title">রেলওয়ে টিকেট কিনুন</string>
+    <string name="ticket_info">টিকেট তথ্য</string>
+    <string name="railway_ticket_name">রেলওয়ে টিকেট</string>
+    <string name="failed_loading_ticket_info">টিকেট তথ্য আনা সম্ভব হয়নি</string>
+    <string name="failed_loading_train_list">ট্রেনের তালিকা আনতে পারা সম্ভব হয়নি</string>
+    <string name="pay">পে</string>
+    <string name="news_room">সংবাদ</string>
+    <string name="sof_success_message">
+আপনি আপনার আইপে ওয়ালেটের সুবিধাভোগী হিসেবে %1$sকে যুক্ত করেছেন। এতে আপনি তাকে আপনার ওয়ালেট হতে প্রতি মাসে একটি নির্দিষ্ট পরিমাণ টাকা ব্যবহারের সুযোগ দিচ্ছেন। আপনি যদি উক্ত ব্যক্তিকে আপনার ওয়ালেটের সুবিধাভোগী না রাখতে চান অথবা যদি তার মাসিক টাকা ব্যবহারের পরিমাণ যদি পরিবর্তন করতে চান তবে টাকার উৎস এ যান।
+</string>
+    <string name="upload_again">পুনরায় আপলোড করুন</string>
+    <string name="news_room_helper_text_sub_title">
+আপনি এখানে আপনার আইপে ওয়ালেট এবং যা আইপে দ্বারা কি সুবিধা পেতে পারেন তা এখানে দেখতে পারেন।
+</string>
+    <string name="empty_news_room">এ মুহুর্তে কোনো খবর নেই।</string>
+    <string name="news_room_helper_text_title">দেখুন, কি হচ্ছে - এখানে এবং সেখানে</string>
+    <string name="link_ipay_account">আইপে যুক্ত করুন</string>
+    <string name="source_of_fund_success">
+আপনি %1$sকে পৃষ্ঠপোষক হবার জন্য অনুরোধ পাঠিয়েছেন। যখন তিনি অনুরোধটি গ্রহণ করবে তা আপনাকে জানিয়ে দেওয়া হবে।
+</string>
+    <string name="please_enter_your_pin">অনুগ্রহ করে পিন দিন</string>
+    <string name="please_enter_an_amount">অনুগ্রহ করে পরিমাণটি লিখুন</string>
+    <string name="a_certain_amount">একটি নির্দিষ্ট পরিমাণ</string>
+    <string name="link_sponsor">টাকার উৎস হিসেবে আইপে ব্যবহারকারী</string>
+    <string name="select_source_type">উৎসের ধরণ নির্বাচন করুন</string>
+    <string name="tap_to_pay_from_other_source">অন্য উৎস হতে পে করতে ট্যাপ করুন</string>
+    <string name="sponsor_blocked">পৃষ্ঠপোষক ব্লকড আছেন</string>
+    <string name="add_sponsor_question">পৃষ্ঠপোষক যোগ করবেন?</string>
+    <string name="add_beneficiary_question">সুবিধাভোগকারী যোগ করবেন?</string>
+    <string name="pay_by">যার দ্বারা পেমেন্টটি হবেঃ</string>
+    <string name="accept_request">আপনিকি অনুরোধটি গ্রহণ করবেন?</string>
+    <string name="nothing_to_show_right_now">এই মুহুর্তে কিছু নেই</string>
+    <string name="ipay_user">আইপে ব্যবহারকারী</string>
+    <string name="beneficiary_ipay_user">সুবিধাভোগী আইপে ব্যবহারকারী</string>
+    <string name="link_beneficiary">সুবিধাভোগী আইপে ব্যবহারকারী</string>
+    <string name="link_beneficiary_description">
+আপনার আইপে ওয়ালেট সুবিধাভোগকারী পরিচালনা অথবা যুক্ত করুন
+</string>
+    <string name="source_of_fund_step_two">আপনাদের দুজনের মধ্যে সম্পর্কটি নির্বাচন করুন</string>
+    <string name="pending_with_bracket">(প্রক্রিয়াধীন)</string>
+    <string name="pending_notifications">প্রক্রিয়াধীন</string>
+    <string name="notifications_notifications">নোটিফিকেশন</string>
+    <string name="remove_sponsor">আপনি কি এই পৃষ্ঠপোষককে মুছে ফেলতে চান?</string>
+    <string name="link_bank_description">
+টাকা আনার জন্য যোগ করুন আপনার ব্যাংক একাউন্ট। ঠিক মতো যোগ করা শেষে আইপে থেকে আপনার ব্যাংক আকাউন্টে পাঠানো হবে অল্প কিছু টাকা যা যাচাইকরণে প্রয়োজন।
+</string>
+    <string name="link_sponsor_description">
+আপনার একাউন্ট এর সাথে অন্য একজন আইপে ব্যবহারকারী এর একাউন্ট যোগ করতে পারেন পেমেন্ট করতে।
+</string>
+    <string name="beneficiary_helper_text">
+আপনি অন্যান্য আইপে একাউন্টকে সুযোগ দিতে পারেন আপনার আইপে একাউন্ট থেকে পে করার। যোগ করতে নিচের ধাপগুলো অনুসরণ করতে হবে।
+</string>
+    <string name="source_of_fund_helper_text">
+যখন আপনার ব্যাল্যান্স অল্প থাকে তখন আপনি অন্যের আইপে একাউন্ট পেমেন্ট করতে পারবেন। আইপে ব্যবহারকারীকে টাকার উৎস হিসেবে ব্যবহার করতে নিচের ধাপগুলো অনুসরণ করতে হবে।
+</string>
+    <string name="source_of_fund_step_one">
+অন্যগ্রহ করে মোবাইল নাম্বারটি লিখুন অথবা কন্ট্যাক্ট হতে নির্বাচন করুন
+</string>
+    <string name="card_description">
+আপনার আইপে ওয়ালেটে সবচেয়ে দ্রুত অর্থ আনুন ডেবিট/ক্রেডিট কার্ড ব্যবহার করে
+</string>
+    <string name="beneficiary_helper_line_3">
+আপনি আপনার সুবিধাভোগীকে মাসিক যে পরিমাণ টাকা ব্যবহার করতে দিতে চান তা উল্লেখ করুন এবং আপনার পিন দিন।
+</string>
+    <string name="sponsor_helper_line_3">
+আপনি আপনার পৃষ্ঠপোষকের কাছ থেকে মাসিক যে পরিমাণ টাকা ব্যবহার করতে চান তা উল্লেখ করুন।
+</string>
+    <string name="no_sponsor_text">টাকার উৎস হিসেবে আপনি কোন আইপে ব্যবহারকারীকে যুক্ত করেন নি। কাউকে যুক্ত করার জন্য (+) বাটনটি চাপুন।</string>
+    <string name="no_beneficiary_text">আপনার কোন সুবিধাভোগী আইপে ব্যবহারকারী নেই। যোগ করার জন্য, (+) বাটনটি চাপুন।</string>
+    <string name="you_can_use_monthly">মাসিক হিসেবে ব্যবহার করতে পারবেন</string>
+    <string name="he_can_use_monthly">মাসিক হিসেবে ব্যবহার করতে পারবে</string>
+    <string name="remove_beneficiary">আপনি কি এই সুবিধাভোগকারীকে মুছে ফেলতে চান?</string>
+    <string name="sponsor_request_string">%1$s আপনার পৃষ্ঠপোষক হতে চান। পেমেন্ট করার সময় আপনি তার আইপে ওয়ালেট ব্যবহার করতে পারবেন।</string>
+    <string name="beneficiary_request_message">%1$s আপনাকে তার পৃষ্ঠপোষক হবার জন্য জিজ্ঞাসা করেছেন। এতে সে আপনার আইপে ওয়ালেট থেকে নির্ধারিত পরিমাণ টাকা ব্যবহার করতে পারবে।</string>
+    <string name="please_enter_a_amount_to_use_from_sponsor">অনুগ্রহ করে একটি মাসিক পরিমাণ লিখুন যা আপনি আপনার পৃষ্ঠপোষণকারী আইপে একাউন্ট হতে ব্যবহার করতে পারবেন।</string>
+    <string name="paid_for">%1$s এর জন্য পেইড</string>
+    <string name="paid_by">%1$s দ্বারা পেইড</string>
+    <string name="profile_picture">প্রোফাইল পিকচার</string>
+    <string name="prepaid">প্রিপেইড</string>
+    <string name="postpaid">পোস্টপেইড</string>
+    <string name="continue_button">পরবর্তী</string>
+    <string name="completed_transaction">@string/complete</string>
+    <string name="add_your_convenient_source_of_fund_to_update_your_ipay_balance_anytime_when_you_are_in_need">আপনার টাকার উৎস থেকে আইপেতে টাকা আনুন যখন তখন যেভাবে প্রয়োজন।</string>
+    <string name="continue_text">@string/continue_button_text</string>
+    <string name="use">ব্যবহার করুন</string>
+    <string name="bulk_signup_nid_helper_msg">আপনার জাতীয় পরিচয়পত্র নাম্বার আমাদের কাছে আছে, আপনি কি তা ব্যবহার করতে চান?</string>
+    <string name="bulk_signup_bank_helper_msg">আমাদের কাছে আপনার ব্যাংকের তথ্য আছে, আপনি কি তা ব্যবহার করতে চান?</string>
+    <string name="bulk_signup_basic_info_helper_msg">আপনার কিছু তথ্য আমাদের কাছে আছে, আপনি কি তা ব্যবহার করতে চান?</string>
+    <string name="dashboard_profile_picture_text">ভেরিফিকেশনের জন্য আপনার প্রোফাইল ফটো আপলোড করুন।</string>
+    <string name="dashboard_basic_info_text">আপনার প্রয়োজনীয় তথ্য আপডেট করুন।</string>
+    <string name="dashboard_personal_address_text">দ্রুত ভেরিফিকেশনের জন্য প্রয়োজনীয় তথ্য সহ আপনার বর্তমান ঠিকানা দিন।</string>
+    <string name="dashboard_photo_id_text">আপনার জাতীয় পরিচয়পত্র আপলোড করুন।</string>
+    <string name="dashboard_verify_bank_text">টাকার উৎস হিসাবে আপনার ব্যাংক বা ডেবিট/ক্রেডিট কার্ড যুক্ত করুন।</string>
+    <string name="dashboard_profile_picture">প্রোফাইল ফটো</string>
+    <string name="dashboard_verify_bank">ব্যাংক ভেরিফাই করুন</string>
+    <string name="dashboard_present_address">বর্তমান ঠিকানা</string>
+    <string name="dashboard_national_id">পরিচয় পত্র</string>
+    <string name="dashboard_basic_info">নিজস্ব তথ্য</string>
+    <string name="unconsented">অনুনমোদিত</string>
+    <string name="profile_completeness_percentage">আপনার প্রোফাইল %1$d\%% সম্পন্ন হয়েছে।</string>
+    <string name="profile_completeness_information">ভেরিফাইড হতে নীচে দেওয়া তথ্য গুলি প্রয়োজন:%1$s\n.</string>
+    <string name="qr_code_helper_text">কিউ আর কোড দ্রুত স্ক্যান করতে, ফ্রেমের মধ্যে কিউ আর কোডটি রাখুন</string>
+    <string name="invie_msg_text">%1$s এই আমন্ত্রণ কোড দিয়ে সাইন আপ করুন। লিঙ্ক:</string>
+    <string name="shop_outlet_name">দোকান বা আউটলেট নাম</string>
+    <string name="paying_message">আপনি পেমেন্ট করছেন</string>
+    <string name="payment_success_message">সফলভাবে পেমেন্ট করা হয়েছে</string>
+    <string name="confirm_title">নিশ্চিত করুন</string>
+    <string name="agreed_to_proceed">নিশ্চিত করুন</string>
+    <string name="rate_this_marchant">অনুগ্রহ করে এই মার্চেন্টকে রেটিং দিন</string>
+    <string name="add_money_from_card_title">আপনি ডেবিট/ক্রেডিট কার্ড থেকে টাকা আনছেন</string>
+    <string name="money_amount">টাকার পরিমাণ</string>
+    <string name="date">তারিখ</string>
+    <string name="station_from">স্টেশন থেকে</string>
+    <string name="station_to">স্টেশন পর্যন্ত</string>
+    <string name="adult">প্রাপ্তবয়স্ক</string>
+    <string name="child">শিশু</string>
+    <string name="you_can_purchase_max_4_tickets_at_once_and_heighst_8_tickets_per_week">আপনি একবারে সর্বোচ্চ ৪টি আসন এবং সপ্তাহে সর্বোচ্চ ৮টি আসন কিনতে পারবেন</string>
+    <string name="to_settle_your_bill_payment_request_it_will_take_3_5_business_day">আপনার বিল পরিশোধ নিষ্পন্ন হতে ৩-৫ কর্মদিবস লাগতে পারে।</string>
+    <string name="buy_ticket">টিকেট ক্রয়</string>
+    <string name="verification_information_required">ভেরিফিকেশনের তথ্য প্রয়োজন</string>
+    <string name="for_text">জন্য</string>
+    <string name="and_text">এবং</string>
+    <string name="to_text">থেকে</string>
+    <string name="adults">প্রাপ্তবয়স্ক</string>
+    <string name="children">শিশু</string>
+    <string name="select_a_class">ক্লাস নির্বাচন করুন</string>
+    <string name="find_ticket">টিকেট খুঁজুন</string>
+    <string name="select_card_type">আপনার কার্ডের ধরন নির্বাচন করুন</string>
+    <string name="insert_number_or_find_an_ipay_user_from_your_contact_and_choose_the_relation">মোবাইল নম্বর দিন অথবা কন্ট্যাক্ট থেকে আইপে ব্যবহারকারীকে নির্বাচন করুন এবং সম্পর্ক নির্বাচন করুন</string>
+    <string name="add_sponsor">পৃষ্ঠপোষক যোগ করুন </string>
+    <string name="add_benificiary">সুবিধাভোগী যোগ করুন</string>
+
+    <string name="train_ticket_msg_adults_childs">%1d জন প্রাপ্তবয়স্ক এবং %1d টি শিশুর জন্য।</string>
+    <string name="train_ticket_msg_adults_child">%1d জন প্রাপ্তবয়স্ক এবং %1d টি শিশুর জন্য।</string>
+    <string name="train_ticket_msg_adult_childs">%1d জন প্রাপ্তবয়স্ক এবং %1d টি শিশুর জন্য।</string>
+    <string name="train_ticket_msg_adult_child">%1d জন প্রাপ্তবয়স্ক এবং %1d টি শিশুর জন্য।</string>
+    <string name="train_ticket_msg_adults">%1d জন প্রাপ্তবয়স্কের জন্য।</string>
+    <string name="train_ticket_msg_adult">%1d জন প্রাপ্তবয়স্কের জন্য।</string>
+    <string name="transaction_help_title">হেল্প</string>
+    <string name="preview">প্রিভিউ</string>
+    <string name="document">ডকুমেন্ট</string>
+    <string name="national_id_no">জাতীয় পরিচয়পত্রের নম্বর</string>
+    <string name="buy_this_ticket">টিকেট ক্রয় করুন</string>
+    <string name="fare">ভাড়া (৳)</string>
+    <string name="select_bill_month">বিলের মাস নির্বাচন করুন</string>
+    <string name="wasa">ঢাকা ওয়াসা</string>
+    <string name="select_card">কার্ড নির্বাচন করুন</string>
+    <string name="isp">ইন্টারনেট বিল</string>
+    <string name="select_isp">আইএসপি নির্বাচন করুন</string>
+    <string name="dpdc_account_number">ডিপিডিসি একাউন্ট নাম্বার</string>
+    <string name="location_code">লোকেশন কোড</string>
+    <string name="desco" >ডেসকো</string>
+    <string name="out_referance_id">Out Referance ID:</string>
+    <string name="credit_card_bill_title">ক্রেডিট কার্ড</string>
+</resources>
+
+

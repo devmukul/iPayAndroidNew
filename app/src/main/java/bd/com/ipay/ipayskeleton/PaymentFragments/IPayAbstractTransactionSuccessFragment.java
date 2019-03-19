@@ -38,7 +38,7 @@ public abstract class IPayAbstractTransactionSuccessFragment extends Fragment {
 	private RoundedImageView senderProfilePictureImageView;
 	private RoundedImageView receiverProfilePictureImageView;
 	private ImageView arrowImageView;
-	protected final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+	protected final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -159,10 +159,11 @@ public abstract class IPayAbstractTransactionSuccessFragment extends Fragment {
 	protected CharSequence getStyledTransactionDescription(@StringRes int transactionStringId, Number amount) {
 		final String amountValue = numberFormat.format(amount);
 		final String spannedString = getString(transactionStringId, amountValue);
-		int position = spannedString.indexOf(String.format("Tk. %s", amountValue));
+		final String formattedAmountString = getString(R.string.balance_holder, amountValue);
+		int position = spannedString.indexOf(formattedAmountString);
 		final Spannable spannableAmount = new SpannableString(getString(transactionStringId, amountValue));
-		spannableAmount.setSpan(new StyleSpan(Typeface.BOLD), position, position + amountValue.length() + 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		spannableAmount.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorLightGreenSendMoney)), position, position + amountValue.length() + 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spannableAmount.setSpan(new StyleSpan(Typeface.BOLD), position, position + formattedAmountString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spannableAmount.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorLightGreenSendMoney)), position, position + formattedAmountString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		return spannableAmount;
 	}
 }

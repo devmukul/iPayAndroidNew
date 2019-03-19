@@ -2,7 +2,10 @@ package bd.com.ipay.ipayskeleton.Utilities;
 
 import android.app.Application;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.os.LocaleList;
 import android.support.multidex.MultiDexApplication;
 import android.widget.Toast;
 
@@ -10,6 +13,7 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -26,8 +30,10 @@ import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.LoginAndSignUp.LogoutRes
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.RefreshToken.GetRefreshTokenRequest;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ACLManager;
+import bd.com.ipay.ipayskeleton.Utilities.CacheManager.BulkSignupUserDetailsCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.SharedPrefManager;
+import bd.com.ipay.ipayskeleton.Utilities.Common.GenderList;
 import bd.com.ipay.ipayskeleton.Utilities.ToasterAndLogger.Logger;
 import okhttp3.OkHttpClient;
 
@@ -58,12 +64,46 @@ public class MyApplication extends MultiDexApplication implements HttpResponseLi
 		okHttpClient = new OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS)
 				.connectTimeout(60, TimeUnit.SECONDS).build();
 		SharedPrefManager.initialize(getApplicationContext());
+		setupLanguage();
+
 		ProfileInfoCacheManager.initialize(getApplicationContext());
+        BulkSignupUserDetailsCacheManager.initialize(getApplicationContext());
 		ACLManager.initialize(this);
 		TokenManager.initialize(this);
 		BusinessRuleCacheManager.initialize(this);
 		setDefaultBusinessRules();
 		sAnalytics = GoogleAnalytics.getInstance(this);
+	}
+
+	private void setupLanguage() {
+		final String appLanguage = SharedPrefManager.getAppLanguage();
+		final Locale locale;
+		switch (appLanguage) {
+			case Constants.APP_LANGUAGE_ENGLISH:
+				locale = Locale.US;
+				break;
+			default:
+			case Constants.APP_LANGUAGE_BENGALI:
+				locale = new Locale("bn");
+				break;
+		}
+		Locale.setDefault(locale);
+		final Configuration appConfig = getResources().getConfiguration();
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+			appConfig.setLocales(new LocaleList(locale));
+		} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+			appConfig.setLocale(locale);
+		}
+
+		getBaseContext().getResources().updateConfiguration(appConfig, getResources().getDisplayMetrics());
+		getResources().updateConfiguration(appConfig, getResources().getDisplayMetrics());
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+			getBaseContext().createConfigurationContext(appConfig);
+			createConfigurationContext(appConfig);
+		}
+		Utilities.updateLocale();
+		GenderList.initialize(this);
 	}
 
 	public OkHttpClient getOkHttpClient() {

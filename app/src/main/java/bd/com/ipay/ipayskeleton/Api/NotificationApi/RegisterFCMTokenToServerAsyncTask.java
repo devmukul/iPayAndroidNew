@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
@@ -33,7 +34,7 @@ public class RegisterFCMTokenToServerAsyncTask implements HttpResponseListener {
         this.context = context;
         Logger.logD("Firebase Token", "Refreshed token: " + refreshedToken);
 
-        refreshedToken = ProfileInfoCacheManager.getPushNotificationToken(null);
+        refreshedToken = FirebaseInstanceId.getInstance().getToken();
         sendRegistrationToServer(refreshedToken);
     }
 

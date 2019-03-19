@@ -33,10 +33,15 @@
         android:layout_alignParentRight="true" />
 
     <View
-        style="@style/DividerWithoutMargin"
+        android:id="@+id/divider3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/value16"
         android:layout_below="@+id/icon_card"
-        android:layout_marginTop="@dimen/value10"
-        android:background="@color/colorBlack"></View>
+        android:layout_marginLeft="@dimen/value32"
+        android:layout_marginRight="@dimen/value32"
+        android:layout_marginBottom="@dimen/value24"
+        android:background="#19000000" />
 
 
 </RelativeLayout>

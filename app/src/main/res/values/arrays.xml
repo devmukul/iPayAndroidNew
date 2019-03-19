@@ -9,6 +9,11 @@
         <item>@string/teletalk</item>
     </string-array>
 
+    <string-array name="gender_array">
+        <item>@string/male</item>
+        <item>@string/female</item>
+        <item>@string/other</item>
+    </string-array>
     <string-array name="package_type">
         <item>@string/pre_paid</item>
         <item>@string/post_paid</item>
@@ -42,7 +47,7 @@
 
     <string-array name="upload_picker_action">
         <item>@string/take_a_picture_message</item>
-        <item>Select from gallery</item>
+        <item>@string/select_from_gallery_message</item>
     </string-array>
 
     <string-array name="upload_picker_action_for_profile_picture">
@@ -112,16 +117,10 @@
 
     <string-array name="personal_document_id">
         <item>@string/national_id</item>
-        <item>@string/passport_id</item>
-        <item>@string/driving_license_id</item>
-        <item>@string/other_id</item>
     </string-array>
 
     <string-array name="personal_document_id_name">
         <item>@string/national_id</item>
-        <item>@string/passport</item>
-        <item>@string/driving_license</item>
-        <item>@string/other</item>
     </string-array>
 
     <string-array name="business_document_id">

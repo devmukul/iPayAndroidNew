@@ -1,7 +1,6 @@
 package bd.com.ipay.ipayskeleton.CustomView.Dialogs;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -33,7 +32,7 @@ public class AddPinDialogBuilder extends MaterialDialog.Builder implements HttpR
     private final AddPinListener mAddPinListener;
     private HttpRequestPutAsyncTask mSavePINTask = null;
     private SetPinResponse mSetPinResponse;
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
     private EditText mPinField;
     private EditText mConfirmPinField;
     private EditText mPasswordField;
@@ -59,7 +58,7 @@ public class AddPinDialogBuilder extends MaterialDialog.Builder implements HttpR
         positiveText(R.string.set_pin);
         negativeText(R.string.cancel);
 
-        mProgressDialog = new ProgressDialog(context);
+        mProgressDialog = new CustomProgressDialog(context);
 
         onPositive(new MaterialDialog.SingleButtonCallback() {
             @Override
@@ -114,7 +113,6 @@ public class AddPinDialogBuilder extends MaterialDialog.Builder implements HttpR
             return;
         }
 
-        mProgressDialog.setMessage(getContext().getString(R.string.saving_pin));
         mProgressDialog.show();
 
         SetPinRequest setPinRequest = new SetPinRequest(pin, password);

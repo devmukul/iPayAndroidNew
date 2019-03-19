@@ -269,7 +269,7 @@ public class DocumentPicker {
     }
 
     private static File getFileWithIndex(Context context, int index) throws IOException {
-        return getTempFile(context, String.format(Locale.US, TEMP_DOCUMENT_NAME_WITH_INDEX, index));
+        return getTempFile(context, String.format(Locale.getDefault(), TEMP_DOCUMENT_NAME_WITH_INDEX, index));
     }
 
     @NonNull

@@ -1,6 +1,5 @@
 package bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.AsyncTask;
@@ -27,6 +26,7 @@ import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.BaseFragments.BaseFragment;
 import bd.com.ipay.ipayskeleton.CustomView.CustomBillProviderTitleView;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.ProfileImageView;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.GetProviderResponse;
@@ -48,7 +48,7 @@ public class UtilityProviderListFragment extends BaseFragment implements HttpRes
 
     private PinChecker pinChecker;
 
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,8 +69,7 @@ public class UtilityProviderListFragment extends BaseFragment implements HttpRes
         utilityProviderListRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.trending_business_list_refresh_layout);
         getActivity().setTitle(R.string.bill_pay);
         getTrendingBusinessList();
-        mProgressDialog = new ProgressDialog(getContext());
-        mProgressDialog.setMessage(getString(R.string.please_wait));
+        mProgressDialog = new CustomProgressDialog(getContext());
         mProgressDialog.show();
 
         utilityProviderListRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()

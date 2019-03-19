@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/value24"
+        android:layout_marginBottom="@dimen/value24">
+
+        <RadioButton
+            android:id="@+id/radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/value16" />
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/profile_image"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="@dimen/value16"
+            android:layout_toRightOf="@+id/radio"
+            app:riv_oval="true"
+            tools:src="@drawable/user_brand_bg" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/value5"
+            android:layout_toRightOf="@+id/profile_image"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/value8"
+                android:layout_marginRight="@dimen/value16"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:fontFamily="@font/open_sans_semibold"
+                android:lineSpacingExtra="8sp"
+                android:textColor="#212121"
+                android:textSize="12sp"
+                tools:text="@string/dummy_name" />
+
+            <TextView
+                android:id="@+id/number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/name"
+                android:layout_marginLeft="@dimen/value8"
+                android:fontFamily="sans-serif"
+                android:textColor="#888888"
+                android:textSize="12sp"
+                android:textStyle="normal"
+                tools:text="@string/dummy_mobile_number" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

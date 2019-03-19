@@ -1,6 +1,8 @@
 package bd.com.ipay.ipayskeleton.LoginAndSignUpFragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,39 +15,38 @@ import bd.com.ipay.ipayskeleton.Utilities.Utilities;
 
 public class SelectAccountTypeFragment extends BaseFragment {
 
-    private Button buttonAccountTypePersonal;
-    private Button buttonAccountTypeBusiness;
-    private View v;
+	@Override
+	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		// Inflate the layout for this fragment
+		return inflater.inflate(R.layout.fragment_select_account_type, container, false);
+	}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        v = inflater.inflate(R.layout.fragment_select_account_type, container, false);
+	@Override
+	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		final Button buttonAccountTypePersonal = view.findViewById(R.id.button_account_type_personal);
+		final Button buttonAccountTypeBusiness = view.findViewById(R.id.button_account_type_business);
 
-        buttonAccountTypePersonal = (Button) v.findViewById(R.id.button_account_type_personal);
-        buttonAccountTypeBusiness = (Button) v.findViewById(R.id.button_account_type_business);
+		buttonAccountTypePersonal.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (getActivity() instanceof SignupOrLoginActivity)
+					((SignupOrLoginActivity) getActivity()).switchToSignupPersonalStepOneFragment();
+			}
+		});
 
-        buttonAccountTypePersonal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((SignupOrLoginActivity) getActivity()).switchToSignupPersonalStepOneFragment();
-            }
-        });
+		buttonAccountTypeBusiness.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (getActivity() instanceof SignupOrLoginActivity)
+					((SignupOrLoginActivity) getActivity()).switchToBusinessStepOneFragment();
+			}
+		});
+	}
 
-        buttonAccountTypeBusiness.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((SignupOrLoginActivity) getActivity()).switchToBusinessStepOneFragment();
-            }
-        });
-
-        return v;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getActivity().setTitle(R.string.title_select_account_type_page);
-        Utilities.sendScreenTracker(mTracker, getString(R.string.screen_name_select_account_type));
-    }
+	@Override
+	public void onResume() {
+		super.onResume();
+		Utilities.sendScreenTracker(mTracker, getString(R.string.screen_name_select_account_type));
+	}
 }

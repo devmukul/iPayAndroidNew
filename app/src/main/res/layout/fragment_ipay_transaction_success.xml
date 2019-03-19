@@ -73,7 +73,7 @@
                 android:gravity="center"
                 android:textColor="#212121"
                 android:textSize="12sp"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -82,18 +82,33 @@
                 android:gravity="center_horizontal"
                 android:orientation="horizontal">
 
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/sender_profile_picture_image_view"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/circular_background"
-                    android:contentDescription="@string/card"
-                    android:scaleType="fitCenter"
-                    app:riv_border_color="#d9d9d9"
-                    app:riv_border_width="0.5dip"
-                    app:riv_oval="true"
-                    tools:src="@tools:sample/avatars" />
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/sender_profile_picture_image_view"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/circular_background"
+                        android:contentDescription="@string/card"
+                        android:scaleType="fitCenter"
+                        app:riv_border_color="#d9d9d9"
+                        app:riv_border_width="0.5dip"
+                        app:riv_oval="true"
+                        tools:src="@tools:sample/avatars" />
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/sponsor_image_view"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignRight="@+id/sender_profile_picture_image_view"
+                        android:layout_alignBottom="@+id/sender_profile_picture_image_view"
+                        android:visibility="gone"
+                        app:riv_oval="true"
+                        tools:src="@drawable/user_brand_bg" />
+                </RelativeLayout>
 
                 <ImageView
                     android:id="@+id/arrow_icon_image_view"
@@ -148,7 +163,7 @@
                     android:textColor="#212121"
                     android:gravity="center_horizontal"
                     android:layout_gravity="center"
-                    android:text="Please rate this merchant" />
+                    android:text="@string/rate_this_marchant" />
 
                 <RatingBar
                     android:id="@+id/rate_merchant"

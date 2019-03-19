@@ -30,7 +30,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -47,6 +46,7 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
 
+import bd.com.ipay.ipayskeleton.Activities.BaseActivity;
 import bd.com.ipay.ipayskeleton.QRScanner.camera.CameraSource;
 import bd.com.ipay.ipayskeleton.QRScanner.camera.CameraSourcePreview;
 import bd.com.ipay.ipayskeleton.R;
@@ -56,7 +56,7 @@ import bd.com.ipay.ipayskeleton.R;
  * rear facing camera. During detection overlay graphics are drawn to indicate the position,
  * size, and ID of each barcode.
  */
-public final class BarcodeCaptureActivity extends AppCompatActivity implements BarcodeGraphicTracker.BarcodeDetectorListener {
+public final class BarcodeCaptureActivity extends BaseActivity implements BarcodeGraphicTracker.BarcodeDetectorListener {
     private static final String TAG = "Barcode-reader";
 
     // intent request code to handle updating play services if needed.
@@ -66,17 +66,13 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
     private static final int RC_HANDLE_CAMERA_PERM = 2;
 
     // constants used to pass extra data in the intent
-    public static final String AutoFocus = "AutoFocus";
-    public static final String UseFlash = "UseFlash";
-    public static final String AutoCapture = "AutoCapture";
     public static final String BarcodeObject = "Barcode";
 
     private CameraSource mCameraSource;
     private CameraSourcePreview mPreview;
     private View mRootView;
-    private boolean autoFocus = true, useFlash = false, autoCapture = true;
 
-    /**
+	/**
      * Initializes the UI and creates the detector pipeline.
      */
     @Override
@@ -84,7 +80,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
         super.onCreate(icicle);
         setContentView(R.layout.barcode_capture);
 
-        mPreview = (CameraSourcePreview) findViewById(R.id.preview);
+        mPreview =  findViewById(R.id.preview);
         mRootView = findViewById(R.id.topLayout);
         // Check for the camera permission before accessing the camera.  If the
         // permission is not granted yet, request permission.
@@ -187,7 +183,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
         // graphics for each barcode on screen.  The factory is used by the multi-processor to
         // create a separate tracker instance for each barcode.
         BarcodeDetector barcodeDetector = new BarcodeDetector.Builder(context).build();
-        BarcodeTrackerFactory barcodeFactory = new BarcodeTrackerFactory(autoCapture ? this : null);
+	    BarcodeTrackerFactory barcodeFactory = new BarcodeTrackerFactory(this);
         barcodeDetector.setProcessor(
                 new MultiProcessor.Builder<>(barcodeFactory).build());
 
@@ -227,20 +223,24 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
                 .setRequestedFps(30.0f);
 
         // make sure that auto focus is an available option
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-            builder = builder.setFocusMode(
-                    autoFocus ? Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE : null);
+	    builder = builder.setFocusMode(
+			    Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
 
-        mCameraSource = builder
-                .setFlashMode(useFlash ? Camera.Parameters.FLASH_MODE_TORCH : null)
+	    mCameraSource = builder
+                .setFlashMode(null)
                 .build();
+    }
+
+    @Override
+    protected Context setContext() {
+        return BarcodeCaptureActivity.this;
     }
 
     /**
      * Restarts the camera.
      */
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         startCameraSource();
     }
@@ -249,7 +249,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements B
      * Stops the camera.
      */
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         if (mPreview != null) {
             mPreview.stop();

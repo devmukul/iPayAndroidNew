@@ -8,10 +8,10 @@
         android:id="@+id/back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/activity_horizontal_margin_semi_double"
         android:paddingLeft="@dimen/activity_vertical_margin"
-        android:paddingRight="@dimen/activity_vertical_margin"
         android:paddingTop="@dimen/activity_horizontal_margin_semi_double"
+        android:paddingRight="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_horizontal_margin_semi_double"
         android:src="@drawable/left_arrow" />
 
     <ScrollView
@@ -32,6 +32,7 @@
                 style="@style/OnBoardPageTitleStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="@string/source_of_fund" />
 
             <ImageView
@@ -48,8 +49,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/onboard_page_description_horizontal_margin"
-                android:layout_marginRight="@dimen/onboard_page_description_horizontal_margin"
                 android:layout_marginTop="@dimen/onboard_page_vertical_margin"
+                android:layout_marginRight="@dimen/onboard_page_description_horizontal_margin"
                 android:gravity="top|center_horizontal"
                 android:minLines="4"
                 android:text="@string/onboard_source_of_fund_text" />
@@ -66,7 +67,8 @@
                 style="@style/ButtonPrimaryOnBoard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/add_money_by_card" />
+                android:text="@string/debit_credit_card"
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/button_skip"

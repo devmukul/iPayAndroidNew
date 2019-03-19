@@ -271,8 +271,7 @@ public class AddressInputView extends FrameLayout implements HttpResponseListene
         String addressLine1 = mAddressLine1Field.getText().toString().trim();
         String addressLine2 = mAddressLine2Field.getText().toString().trim();
         String postalCode = mPostalCodeField.getText().toString().trim();
-        String country = CountryList.countryNameToCountryCodeMap.get(
-                mCountrySelection.getText().toString());
+        String country = "BD";
         int thana = mSelectedThanaId;
         int district = mSelectedDistrictId;
 

@@ -47,7 +47,7 @@ public class CreditCardAmountInputFragment extends IPayAbstractAmountFragment {
     @Override
     protected void setupViewProperties() {
         setBalanceInfoLayoutVisibility(View.VISIBLE);
-        setTransactionDescription(getString(R.string.paying_bill_message));
+        hideTransactionDescription();
         setInputType(InputType.TYPE_CLASS_NUMBER);
         setTransactionImageResource(bankIconId);
         setName(CardNumberValidator.deSanitizeEntry(cardNumber, ' '));

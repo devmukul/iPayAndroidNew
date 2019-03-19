@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
@@ -12,6 +11,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import bd.com.ipay.android.IPayActivity;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPutAsyncTask;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UpdateNotificationStateRequest;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
@@ -22,7 +22,7 @@ import bd.com.ipay.ipayskeleton.Utilities.ToasterAndLogger.Logger;
 import bd.com.ipay.ipayskeleton.Utilities.TokenManager;
 import bd.com.ipay.ipayskeleton.Utilities.Utilities;
 
-public class LauncherActivity extends AppCompatActivity {
+public class LauncherActivity extends IPayActivity {
 
     private boolean firstLaunch = false;
     private static final String TAG = LauncherActivity.class.getSimpleName();
@@ -41,6 +41,7 @@ public class LauncherActivity extends AppCompatActivity {
         }
         switch (activityAction) {
             case Intent.ACTION_VIEW:
+
                 Uri uri = getIntent().getData();
                 if (uri != null)
                     Logger.logD(TAG, uri.toString());

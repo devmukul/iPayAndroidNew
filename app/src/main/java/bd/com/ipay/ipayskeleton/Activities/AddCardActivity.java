@@ -1,6 +1,5 @@
 package bd.com.ipay.ipayskeleton.Activities;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -9,12 +8,14 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -25,14 +26,19 @@ import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestGetAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.Aspect.ValidateAccess;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.AddCardResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.CardDetails;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Resource.BankBranch;
+import bd.com.ipay.ipayskeleton.PaymentFragments.AddMoneyFragments.Card.IPayAddMoneyFromCardAmountInputFragment;
 import bd.com.ipay.ipayskeleton.R;
+import bd.com.ipay.ipayskeleton.Utilities.BusinessRuleCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Utilities.ServiceIdConstants;
+import bd.com.ipay.ipayskeleton.Utilities.ToasterAndLogger.Toaster;
 import bd.com.ipay.ipayskeleton.Utilities.Utilities;
+import bd.com.ipay.ipayskeleton.Widget.View.CardSelectDialog;
 
 public class AddCardActivity extends BaseActivity implements HttpResponseListener {
 
@@ -44,19 +50,20 @@ public class AddCardActivity extends BaseActivity implements HttpResponseListene
 	public FloatingActionButton mFabAddNewBank;
 	private TextView mDescriptionTextView;
 
-	private ProgressDialog mProgressDialog;
+	private CustomProgressDialog mProgressDialog;
 
 	public ArrayList<String> mDistrictNames;
 	public ArrayList<BankBranch> mBranches;
 	public ArrayList<String> mBranchNames;
 
 	private RecyclerView mAllCardListRecyclerView;
+	private String cardType;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_card);
-		mProgressDialog = new ProgressDialog(this);
+		mProgressDialog = new CustomProgressDialog(this);
 		mDistrictNames = new ArrayList<>();
 		mBranches = new ArrayList<>();
 		mBranchNames = new ArrayList<>();
@@ -74,9 +81,7 @@ public class AddCardActivity extends BaseActivity implements HttpResponseListene
 			@Override
 			@ValidateAccess(ServiceIdConstants.ADD_MONEY_BY_CREDIT_OR_DEBIT_CARD)
 			public void onClick(View v) {
-				Intent intent = new Intent(AddCardActivity.this, IPayTransactionActionActivity.class);
-				intent.putExtra(IPayTransactionActionActivity.TRANSACTION_TYPE_KEY, IPayTransactionActionActivity.TRANSACTION_TYPE_ADD_MONEY_BY_CREDIT_OR_DEBIT_CARD);
-				startActivity(intent);
+				showCardType();
 			}
 		});
 	}
@@ -102,7 +107,6 @@ public class AddCardActivity extends BaseActivity implements HttpResponseListene
 			mGetAllAddedCards = new HttpRequestGetAsyncTask(Constants.COMMAND_ADD_CARD,
 					Constants.BASE_URL_MM + Constants.URL_GET_CARD, this, this, false);
 			mGetAllAddedCards.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-			mProgressDialog.setMessage(getString(R.string.loading));
 			mProgressDialog.show();
 		}
 	}
@@ -200,5 +204,33 @@ public class AddCardActivity extends BaseActivity implements HttpResponseListene
 				mCardImageView = itemView.findViewById(R.id.icon_card);
 			}
 		}
+	}
+
+	private void showCardType() {
+		final CardSelectDialog cardSelectDialog = new CardSelectDialog(AddCardActivity.this);
+		cardSelectDialog.setTitle(getString(R.string.select_card_type));
+		cardSelectDialog.setCloseButtonAction(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				cardSelectDialog.cancel();
+			}
+		});
+		cardSelectDialog.setPayBillButtonAction(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				cardType = cardSelectDialog.getSelectedCardType();
+				if(!TextUtils.isEmpty(cardType)) {
+					cardSelectDialog.cancel();
+
+					Intent intent = new Intent(AddCardActivity.this, IPayTransactionActionActivity.class);
+					intent.putExtra(IPayTransactionActionActivity.TRANSACTION_TYPE_KEY, IPayTransactionActionActivity.TRANSACTION_TYPE_ADD_MONEY_BY_CREDIT_OR_DEBIT_CARD);
+					intent.putExtra(Constants.CARD_TYPE, cardType);
+					startActivity(intent);
+				}else{
+					Toaster.makeText(AddCardActivity.this, getString(R.string.select_card_type), Toast.LENGTH_LONG);
+				}
+			}
+		});
+		cardSelectDialog.show();
 	}
 }

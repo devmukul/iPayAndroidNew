@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true">
@@ -43,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:focusable="false"
                     android:maxLines="1"
-                    android:hint="Date"
+                    android:hint="@string/date"
                     android:drawableRight="@drawable/calendar_form_icon"/>
             </android.support.design.widget.TextInputLayout>
 
@@ -53,14 +52,14 @@
                 android:id="@+id/station_from"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="Station From"
+                android:hint="@string/station_from"
                 android:inputType="text" />
 
             <bd.com.ipay.ipayskeleton.CustomView.Dialogs.SpinnerEditTextWithProgressBar
                 android:id="@+id/station_to"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="Station To"
+                android:hint="@string/station_to"
                 android:inputType="text" />
 
             <LinearLayout
@@ -73,7 +72,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hint="Adult"
+                    android:hint="@string/adult"
                     android:inputType="text" />
 
                 <bd.com.ipay.ipayskeleton.CustomView.Dialogs.SpinnerEditTextWithProgressBar
@@ -81,7 +80,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hint="Child"
+                    android:hint="@string/child"
                     android:inputType="text" />
 
             </LinearLayout>
@@ -90,7 +89,7 @@
                 android:id="@+id/gender"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="Gender"
+                android:hint="@string/gender"
                 android:inputType="text"
                 android:visibility="gone"/>
 
@@ -104,7 +103,7 @@
                 android:textColor="#5e000000"
                 android:lineSpacingExtra="6sp"
                 android:layout_margin="@dimen/activity_horizontal_margin"
-                android:text="You can purchase max 4 tickets at once and heighst 8 tickets per week." />
+                android:text="@string/you_can_purchase_max_4_tickets_at_once_and_heighst_8_tickets_per_week" />
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
@@ -118,7 +117,7 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/continue_button"
+            android:id="@+id/button_send_money"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/value10"

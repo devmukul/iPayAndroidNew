@@ -1,7 +1,6 @@
 package bd.com.ipay.ipayskeleton.DrawerFragments.HelpAndSupportFragments;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -41,6 +40,7 @@ import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.CustomView.CustomDrawable;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomUploadPickerDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.ResourceSelectorDialog;
 import bd.com.ipay.ipayskeleton.CustomView.EditTextWithProgressBar;
@@ -82,7 +82,7 @@ public class CreateTicketFragment extends ProgressFragment implements HttpRespon
     private RecyclerView mFileAttachmentRecyclerView;
 
     private View view;
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
 
     private ArrayList<String> attachedFiles;
 
@@ -126,7 +126,7 @@ public class CreateTicketFragment extends ProgressFragment implements HttpRespon
         mMessageEditText = (EditText) view.findViewById(R.id.message_edit_text);
         mCreateTicketButton = (Button) view.findViewById(R.id.button_create_ticket);
 
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
 
         mCreateTicketButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -358,7 +358,6 @@ public class CreateTicketFragment extends ProgressFragment implements HttpRespon
         if (mCreateTicketTask != null)
             return;
 
-        mProgressDialog.setMessage(getString(R.string.creating_ticket));
         mProgressDialog.show();
 
         CreateTicketRequest createTicketRequest = new CreateTicketRequest(mSubject, mSelectedCategoryCode, mMessage);

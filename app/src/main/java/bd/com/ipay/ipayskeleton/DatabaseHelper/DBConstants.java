@@ -55,6 +55,7 @@ public class DBConstants {
     public static final int NOT_VERIFIED_USER = 0;
 
     public static final int BUSINESS_USER = 2;
+    public static final int PERSONAL_USER = 1;
 
     public static final int IPAY_MEMBER = 1;
     public static final int NOT_IPAY_MEMBER = 0;

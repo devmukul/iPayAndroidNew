@@ -5,11 +5,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment;
 
-import bd.com.ipay.ipayskeleton.Utilities.ToasterAndLogger.Toaster;
+import bd.com.ipay.ipayskeleton.R;
 
 public class IPaySupportPlaceAutocompleteFragment extends SupportPlaceAutocompleteFragment {
 
@@ -21,6 +20,7 @@ public class IPaySupportPlaceAutocompleteFragment extends SupportPlaceAutocomple
 
 
         final EditText query = view.findViewById(com.google.android.gms.location.places.R.id.place_autocomplete_search_input);
+        query.setHint(getString(R.string.search));
 
         final View clear = view.findViewById(com.google.android.gms.location.places.R.id.place_autocomplete_clear_button);
         clear.setOnClickListener(new View.OnClickListener() {

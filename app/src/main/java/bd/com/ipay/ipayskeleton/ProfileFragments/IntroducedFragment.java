@@ -1,6 +1,5 @@
 package bd.com.ipay.ipayskeleton.ProfileFragments;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,6 +22,7 @@ import bd.com.ipay.ipayskeleton.Activities.DrawerActivities.ProfileActivity;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestGetAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.ProfileImageView;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.Address.AddressClass;
@@ -45,7 +45,7 @@ public class IntroducedFragment extends ProgressFragment implements HttpResponse
     private List<IntroductionRequestClass> mRecommendationRequestList;
     private List<Introduced> mIntroducedList;
 
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
     private RecyclerView mRecyclerView;
     private TextView mEmptyListTextView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -76,7 +76,7 @@ public class IntroducedFragment extends ProgressFragment implements HttpResponse
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh_layout);
         mEmptyListTextView = (TextView) v.findViewById(R.id.empty_list_text);
 
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
 
         mIntroduceAdapter = new IntroducedAdapter();
         mLayoutManager = new LinearLayoutManager(getActivity());

@@ -2,7 +2,6 @@ package bd.com.ipay.ipayskeleton.ManageBanksFragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -39,6 +38,7 @@ import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.BaseFragments.BaseFragment;
 import bd.com.ipay.ipayskeleton.BuildConfig;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomUploadPickerDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Bank.BankAccountList;
@@ -69,7 +69,7 @@ public class PreviewChequebookCoverFragment extends BaseFragment implements Http
     private Button mAgreeButton;
 
     private UploadChequebookCoverAsyncTask mUploadCheckbookCovorAsyncTask;
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
     private String[] mImageUrl;
     private View uploadImageView;
     private TextView mChequebookCoverPageErrorTextView;
@@ -80,8 +80,7 @@ public class PreviewChequebookCoverFragment extends BaseFragment implements Http
         if (getArguments() != null) {
             mSelectedChequebookCover = getArguments().getParcelable(Constants.SELECTED_CHEQUEBOOK_COVER);
         }
-        mProgressDialog = new ProgressDialog(getContext());
-        mProgressDialog.setMessage(getString(R.string.uploading_cheque));
+        mProgressDialog = new CustomProgressDialog(getContext());
 
 
     }

@@ -2,7 +2,6 @@ package bd.com.ipay.ipayskeleton.ProfileCompletionHelperFragments;
 
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -32,13 +31,13 @@ import bd.com.ipay.ipayskeleton.Api.DocumentUploadApi.UploadProfilePictureAsyncT
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.BuildConfig;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomUploadPickerDialog;
 import bd.com.ipay.ipayskeleton.CustomView.ProfileImageView;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.BasicInfo.SetProfilePictureResponse;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
-import bd.com.ipay.ipayskeleton.Utilities.CacheManager.SharedPrefManager;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Utilities.DocumentPicker;
 import bd.com.ipay.ipayskeleton.Utilities.ToasterAndLogger.Toaster;
@@ -59,7 +58,7 @@ public class OnBoardProfilePictureUploadHelperFragment extends Fragment implemen
 
     private Button mUploadPhotoButton;
     private Button mSelectPhotoButton;
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
     private ProfileImageView mUploadImageView;
     private TextView mDocumentHelperTextView;
 
@@ -90,7 +89,7 @@ public class OnBoardProfilePictureUploadHelperFragment extends Fragment implemen
     }
 
     private void initializeViews(View view) {
-        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog = new CustomProgressDialog(getActivity());
         mUploadPhotoButton = view.findViewById(R.id.button_upload_profile_pic);
         mSelectPhotoButton = view.findViewById(R.id.button_select_profile_pic);
         mOptionsForImageSelectionList = Arrays.asList(getResources().getStringArray(R.array.upload_picker_action_for_profile_picture));
@@ -278,7 +277,7 @@ public class OnBoardProfilePictureUploadHelperFragment extends Fragment implemen
                     } else {
                         // Check for a valid profile picture
                         if (isSelectedProfilePictureValid(mUri)) {
-                            mUploadImageView.setProfilePicture(mUri.getPath(), true);
+                            mUploadImageView.setProfilePicture(mUri.getPath());
                             mDocumentHelperTextView.setText("Nice Profile Photo");
                             mSelectPhotoButton.setVisibility(View.GONE);
                             mUploadPhotoButton.setVisibility(View.VISIBLE);
@@ -297,7 +296,6 @@ public class OnBoardProfilePictureUploadHelperFragment extends Fragment implemen
 
 
     private void updateProfilePicture(Uri selectedImageUri) {
-        mProgressDialog.setMessage(getString(R.string.uploading_profile_picture));
         mProgressDialog.show();
 
         mSelectedImagePath = selectedImageUri.getPath();

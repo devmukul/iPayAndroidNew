@@ -6,6 +6,11 @@ public class Bank {
     private String bankName;
     private String bankCode;
 
+    public Bank(String bankName, String bankCode) {
+        this.bankName = bankName;
+        this.bankCode = bankCode;
+    }
+
     public String getBankName() {
         return bankName;
     }

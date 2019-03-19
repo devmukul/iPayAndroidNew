@@ -52,11 +52,9 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorPrimary" />
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="face,barcode" />
@@ -70,7 +68,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -80,23 +77,17 @@
                 <data
                     android:host="launch"
                     android:scheme="ipay" />
-
                 <data
                     android:host="www.ipay.com.bd"
                     android:scheme="https" />
-
                 <data
                     android:host="${iPayUrl}"
                     android:scheme="https" />
-
                 <data
                     android:host="@string/ipay_live_host_without_www"
                     android:scheme="https" />
-
             </intent-filter>
-
         </activity>
-
         <activity
             android:name=".Activities.ProfileVerificationHelperActivity"
             android:label="@string/welcome_to_ipay"
@@ -110,6 +101,7 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".Activities.HomeActivity"
+            android:configChanges="locale"
             android:hardwareAccelerated="true"
             android:label="@string/app_name"
             android:launchMode="singleTask"
@@ -125,6 +117,7 @@
         <activity
             android:name=".Activities.SignupOrLoginActivity"
             android:label="@string/sign_up_with_ipay"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:supportsRtl="true"
             android:theme="@style/AppTheme.NoActionBar"
@@ -157,7 +150,7 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".Activities.PaymentActivities.RequestPaymentActivity"
-            android:label="@string/create_invoice"
+            android:label="@string/filter_request_payment"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.ActionBarNoElevation"
             android:windowSoftInputMode="adjustResize|stateHidden" />
@@ -211,7 +204,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.ActionBarNoElevation"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-
         <activity
             android:name=".Activities.PaymentActivities.SentReceivedRequestPaymentReviewActivity"
             android:label="@string/request_payment"
@@ -278,7 +270,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.ActionBarNoElevation"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
         <activity
             android:name=".Activities.PaymentActivities.QRCodePaymentActivity"
             android:label="@string/pay_by_QR_code"
@@ -297,12 +288,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.ActionBarNoElevation"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
         <activity
             android:name=".QRScanner.BarcodeCaptureActivity"
             android:label="Scan QR Code"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".Activities.PaymentActivities.UtilityBillPaymentActivity"
             android:label="@string/bill_pay"
@@ -323,11 +312,11 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <receiver android:name=".Api.NotificationApi.CreateRichNotification$NotificationButtonClickHandler" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAfsNoEC1Hdv0SMHBD1ElcFU3L_dLzeOpI" />
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -339,7 +328,6 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
-
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
@@ -352,6 +340,17 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".SourceOfFund.SourceOfFundActivity"
+            android:label="@string/transaction"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+        <activity
+            android:name=".Activities.RichNotificationDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.ActionBarNoElevation"
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
 
 
     </application>

@@ -32,6 +32,7 @@
                 android:id="@+id/profile_pic_upload_helper_title"
                 style="@style/OnBoardPageTitleStyle"
                 android:layout_width="match_parent"
+                android:gravity="center"
                 android:layout_height="wrap_content"
                 android:text="@string/upload_identification_document"/>
 

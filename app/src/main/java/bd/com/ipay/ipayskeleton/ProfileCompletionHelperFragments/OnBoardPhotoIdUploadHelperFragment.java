@@ -1,5 +1,6 @@
 package bd.com.ipay.ipayskeleton.ProfileCompletionHelperFragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,11 +10,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import bd.com.ipay.ipayskeleton.Activities.DrawerActivities.ProfileActivity;
 import bd.com.ipay.ipayskeleton.Activities.ProfileVerificationHelperActivity;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.Documents.IdentificationDocument;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
-import bd.com.ipay.ipayskeleton.Utilities.CacheManager.SharedPrefManager;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Utilities.IdentificationDocumentConstants;
 
@@ -49,6 +50,7 @@ public class OnBoardPhotoIdUploadHelperFragment extends Fragment {
         identificationDocument.setDocumentType(IdentificationDocumentConstants.DOCUMENT_TYPE_NATIONAL_ID);
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constants.SELECTED_IDENTIFICATION_DOCUMENT, identificationDocument);
+        bundle.putBoolean(Constants.FROM_ON_BOARD, true);
         ((ProfileVerificationHelperActivity) getActivity()).switchToUploadIdentificationDocumentFragment(bundle);
     }
 

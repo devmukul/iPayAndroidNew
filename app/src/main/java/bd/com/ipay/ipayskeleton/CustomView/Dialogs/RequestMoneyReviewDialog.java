@@ -1,6 +1,5 @@
 package bd.com.ipay.ipayskeleton.CustomView.Dialogs;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -47,7 +46,7 @@ public class RequestMoneyReviewDialog extends MaterialDialog.Builder implements 
     private final String mDescription;
     private final int mServiceID;
 
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
     private final ReviewDialogFinishListener mReviewFinishListener;
 
     private ProfileImageView mProfileImageView;
@@ -84,7 +83,7 @@ public class RequestMoneyReviewDialog extends MaterialDialog.Builder implements 
         View v = this.build().getCustomView();
         autoDismiss(false);
 
-        mProgressDialog = new ProgressDialog(context);
+        mProgressDialog = new CustomProgressDialog(context);
 
         mProfileImageView = (ProfileImageView) v.findViewById(R.id.profile_picture);
         mNameView = (TextView) v.findViewById(R.id.textview_name);
@@ -149,7 +148,6 @@ public class RequestMoneyReviewDialog extends MaterialDialog.Builder implements 
             return;
         }
 
-        mProgressDialog.setMessage(context.getString(R.string.progress_dialog_accepted));
         mProgressDialog.show();
         RequestMoneyAcceptRejectOrCancelRequest requestMoneyAcceptRejectOrCancelRequest =
                 new RequestMoneyAcceptRejectOrCancelRequest(id, pin);
@@ -167,7 +165,6 @@ public class RequestMoneyReviewDialog extends MaterialDialog.Builder implements 
             return;
         }
 
-        mProgressDialog.setMessage(context.getString(R.string.progress_dialog_accepted));
         mProgressDialog.show();
         PaymentAcceptRejectOrCancelRequest mPaymentAcceptRejectOrCancelRequest =
                 new PaymentAcceptRejectOrCancelRequest(id, pin);

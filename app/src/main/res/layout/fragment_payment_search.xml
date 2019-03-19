@@ -21,7 +21,7 @@
             android:paddingTop="@dimen/value4"
             android:paddingBottom="@dimen/value4"
             android:queryBackground="@color/colorTransparent"
-            android:queryHint="@string/search"
+            android:queryHint="@string/shop_outlet_name"
             android:submitBackground="@color/colorTransparent"
             android:layout_below="@+id/title_view"
             android:focusable="false"

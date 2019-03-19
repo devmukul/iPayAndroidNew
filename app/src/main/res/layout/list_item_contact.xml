@@ -57,34 +57,39 @@
         <TextView
             android:id="@+id/name1"
             style="@style/TextStylePrimaryMedium"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:singleLine="true"
             android:textColor="@color/colorTextPrimary"
             android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"/>
 
         <TextView
             android:id="@+id/name2"
             style="@style/TextStylePrimaryMedium"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/name1"
             android:singleLine="true"
             android:textColor="@color/colorTextPrimary"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:maxLines="1"
+            android:ellipsize="end"/>
 
         <TextView
             android:id="@+id/mobile_number"
             style="@style/TextStyleSecondaryMedium"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/name2"
             android:gravity="start"
             android:singleLine="true"
             android:textColor="@color/colorTextPrimary"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:maxLines="1"/>
     </RelativeLayout>
 
     <View
@@ -119,7 +124,6 @@
             style="@style/ButtonStyleInvite"
             android:text="@string/invite"
             android:textAllCaps="false"
-            android:textSize="10sp"
             android:visibility="gone"
             tools:ignore="SmallSp" />
 
@@ -128,7 +132,6 @@
             style="@style/ButtonStyleInvited"
             android:text="@string/asked_introduction"
             android:textAllCaps="false"
-            android:textSize="10sp"
             android:visibility="gone"
             tools:ignore="SmallSp" />
 
@@ -137,7 +140,6 @@
             style="@style/ButtonStyleInvite"
             android:text="@string/ask_introduction"
             android:textAllCaps="false"
-            android:textSize="10sp"
             android:visibility="gone"
             tools:ignore="SmallSp" />
     </LinearLayout>

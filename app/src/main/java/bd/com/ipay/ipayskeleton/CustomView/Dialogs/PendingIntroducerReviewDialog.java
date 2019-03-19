@@ -1,6 +1,5 @@
 package bd.com.ipay.ipayskeleton.CustomView.Dialogs;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
@@ -29,7 +28,7 @@ public class PendingIntroducerReviewDialog extends MaterialDialog.Builder implem
     private IntroduceActionResponse mPendingIntroducerActionResponse;
 
     private MaterialDialog reviewDialog;
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
 
     private Context Context;
 
@@ -77,7 +76,7 @@ public class PendingIntroducerReviewDialog extends MaterialDialog.Builder implem
         mAcceptButton = (Button) v.findViewById(R.id.button_accept);
         mRejectButton = (Button) v.findViewById(R.id.button_reject);
 
-        mProgressDialog = new ProgressDialog(Context);
+        mProgressDialog = new CustomProgressDialog(Context);
 
         setPendingIntroducerUserInfo();
 
@@ -117,10 +116,6 @@ public class PendingIntroducerReviewDialog extends MaterialDialog.Builder implem
     }
 
     private void attemptAcceptRejectPendingIntroducer(long requestID, String introducerAcceptRejectStatus) {
-        if (introducerAcceptRejectStatus.equals(Constants.INTRODUCTION_REQUEST_ACTION_APPROVE))
-            mProgressDialog.setMessage(Context.getString(R.string.adding_introducer));
-        else
-            mProgressDialog.setMessage(Context.getString(R.string.removing_introducer));
 
         mProgressDialog.show();
         GetPendingIntroducerRequestBuilder getSecurityQuestionBuilder = new GetPendingIntroducerRequestBuilder(requestID, introducerAcceptRejectStatus);

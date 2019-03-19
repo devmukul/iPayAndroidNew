@@ -271,7 +271,7 @@ public class DPDCEnterAccountNumberFragment extends BaseFragment implements Http
         final Calendar calendar1 = Calendar.getInstance(TimeZone.getDefault());
         if(month==0){
             calendar1.set(Calendar.YEAR, year-1);
-            calendar1.set(Calendar.MONTH, 12);
+            calendar1.set(Calendar.MONTH, 11);
         }else{
             calendar1.set(Calendar.YEAR, year);
             calendar1.set(Calendar.MONTH, month-1);
@@ -322,7 +322,7 @@ public class DPDCEnterAccountNumberFragment extends BaseFragment implements Http
                 .maxDate(year, month, day);
 
         if(month==0)
-            spinnerDatePickerDialogBuilder.defaultDate(year-1, 12, day);
+            spinnerDatePickerDialogBuilder.defaultDate(year-1, 11, day);
         else
             spinnerDatePickerDialogBuilder.defaultDate(year, month-1, day);
 

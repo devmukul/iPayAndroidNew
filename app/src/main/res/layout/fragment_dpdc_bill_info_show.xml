@@ -250,6 +250,7 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/stamp_devider"
                 style="@style/Divider"
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp"

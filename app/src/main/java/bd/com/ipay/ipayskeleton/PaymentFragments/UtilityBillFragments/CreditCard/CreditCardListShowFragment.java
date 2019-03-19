@@ -58,7 +58,7 @@ public class CreditCardListShowFragment extends Fragment implements HttpResponse
         progressView.setVisibility(View.VISIBLE);
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         ((IPayUtilityBillPayActionActivity) getActivity()).setSupportActionBar(toolbar);
-        getActivity().setTitle("My Cards");
+        getActivity().setTitle(R.string.credit_card_bill_title);
         getActivity().setTitleColor(R.color.colorWhite);
         ((IPayUtilityBillPayActionActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         progressTextView = progressView.findViewById(R.id.progress_text_view);

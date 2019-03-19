@@ -116,7 +116,7 @@ public class DPDCBillInfoFragment extends Fragment {
         mTransactionIdTextView = view.findViewById(R.id.transaction_id_view);
         mZoneCodeTextView = view.findViewById(R.id.zone_code_view);
 
-        View divider = view.findViewById(R.id.divider);
+        View divider = view.findViewById(R.id.stamp_devider);
         payBillButton = view.findViewById(R.id.continue_button);
         View stampView = view.findViewById(R.id.stamp_view);
         mTransactionIdTextView.setText(transactionId);

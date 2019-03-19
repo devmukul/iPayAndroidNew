@@ -286,19 +286,18 @@
                         android:baselineAligned="false">
 
                         <LinearLayout
-                            android:id="@+id/button_dpdc_bill_payment"
+                            android:id="@+id/button_desco_bill_payment"
                             style="@style/HomeImageLinearLayoutStyleHorizontal"
-                            android:layout_weight="1">
+                            android:layout_weight="1"
+                            tools:ignore="NestedWeights">
 
                             <TextView
                                 style="@style/HomeImageLinearLayoutTextStyleHorizontal"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:drawableTop="@drawable/ic_home_dpdc"
+                                android:drawableTop="@drawable/ic_home_desco"
                                 android:ellipsize="marquee"
                                 android:fontFamily="@font/open_sans_semibold"
                                 android:singleLine="true"
-                                android:text="@string/dpdc"
+                                android:text="@string/desco"
                                 android:gravity="center"/>
 
                         </LinearLayout>
@@ -312,18 +311,19 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/button_desco_bill_payment"
+                            android:id="@+id/button_dpdc_bill_payment"
                             style="@style/HomeImageLinearLayoutStyleHorizontal"
-                            android:layout_weight="1"
-                            tools:ignore="NestedWeights">
+                            android:layout_weight="1">
 
                             <TextView
                                 style="@style/HomeImageLinearLayoutTextStyleHorizontal"
-                                android:drawableTop="@drawable/ic_home_desco"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableTop="@drawable/ic_home_dpdc"
                                 android:ellipsize="marquee"
                                 android:fontFamily="@font/open_sans_semibold"
                                 android:singleLine="true"
-                                android:text="@string/desco"
+                                android:text="@string/dpdc"
                                 android:gravity="center"/>
 
                         </LinearLayout>

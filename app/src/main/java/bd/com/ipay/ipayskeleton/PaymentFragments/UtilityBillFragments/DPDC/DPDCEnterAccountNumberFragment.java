@@ -103,6 +103,7 @@ public class DPDCEnterAccountNumberFragment extends BaseFragment implements Http
         mContinueButton = view.findViewById(R.id.continue_button);
         mDatePickerDialog = initDatePickerDialog(getActivity(), this, false);
         UtilityBillPaymentActivity.mMandatoryBusinessRules = BusinessRuleCacheManager.getBusinessRules(Constants.UTILITY_BILL_PAYMENT);
+        setDefaultDate();
         setUpButtonAction();
     }
 
@@ -259,6 +260,28 @@ public class DPDCEnterAccountNumberFragment extends BaseFragment implements Http
 
     }
 
+    public void setDefaultDate() {
+        final Calendar calendar = Calendar.getInstance();
+        int year, month, day;
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+        mBillMonth = getFormattedDate(month);
+        mBillYear = String.valueOf(year);
+        final Calendar calendar1 = Calendar.getInstance(TimeZone.getDefault());
+        if(month==0){
+            calendar1.set(Calendar.YEAR, year-1);
+            calendar1.set(Calendar.MONTH, 12);
+        }else{
+            calendar1.set(Calendar.YEAR, year);
+            calendar1.set(Calendar.MONTH, month-1);
+        }
+        calendar1.set(Calendar.DAY_OF_MONTH, day);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMMM, yyyy", Locale.getDefault());
+        mMonthEditText.setError(null);
+        mMonthEditText.setText(simpleDateFormat.format(calendar1.getTime()));
+    }
+
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
 
@@ -293,11 +316,16 @@ public class DPDCEnterAccountNumberFragment extends BaseFragment implements Http
                 .context(context)
                 .spinnerTheme(R.style.NumberPickerStyle)
                 .callback(onDateSetListener)
-                .showTitle(true)
+                .showTitle(false)
                 .showDaySpinner(true)
-                .defaultDate(year, month, day)
                 .showDaySpinner(showDay)
                 .maxDate(year, month, day);
+
+        if(month==0)
+            spinnerDatePickerDialogBuilder.defaultDate(year-1, 12, day);
+        else
+            spinnerDatePickerDialogBuilder.defaultDate(year, month-1, day);
+
         return spinnerDatePickerDialogBuilder.build();
     }
 

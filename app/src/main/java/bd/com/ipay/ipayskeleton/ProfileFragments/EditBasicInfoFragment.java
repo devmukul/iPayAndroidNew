@@ -97,7 +97,7 @@ public class EditBasicInfoFragment extends BaseFragment implements HttpResponseL
 		mProgressDialog = new CustomProgressDialog(getActivity());
 
 		Date date = Utilities.formatDateFromString(mDateOfBirth);
-		mDatePickerDialog = Utilities.getDatePickerDialog(getActivity(), date, this);
+		mDatePickerDialog = Utilities.getDatePickerDialog(getActivity(), date, this, true);
 
 		if (ProfileInfoCacheManager.isAccountVerified())
 			mNameEditText.setEnabled(false);

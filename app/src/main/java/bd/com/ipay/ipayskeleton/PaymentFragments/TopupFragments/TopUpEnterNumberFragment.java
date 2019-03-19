@@ -97,7 +97,7 @@ public class TopUpEnterNumberFragment extends Fragment {
 		mMyNumberTopUpTextView = view.findViewById(R.id.my_number_topup_text_view);
 		mContactImageView = view.findViewById(R.id.contact_image_view);
 		mTypeSelector = view.findViewById(R.id.type_selector);
-		mContinueButton = view.findViewById(R.id.continue_button);
+		mContinueButton = view.findViewById(R.id.button_send_money);
 		operatorRadioGroup = view.findViewById(R.id.operator_radio_group);
 
 		mNumberEditText.setText(MOBILE_NUMBER_PREFIX);

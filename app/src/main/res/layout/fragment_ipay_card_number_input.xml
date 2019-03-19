@@ -82,7 +82,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/continue_button"
+        android:id="@+id/button_send_money"
         android:layout_width="match_parent"
         android:layout_height="@dimen/value50"
         android:layout_gravity="bottom"

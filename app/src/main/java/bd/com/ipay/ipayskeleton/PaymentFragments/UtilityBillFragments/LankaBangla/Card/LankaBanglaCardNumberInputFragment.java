@@ -38,7 +38,7 @@ public class LankaBanglaCardNumberInputFragment extends IPayAbstractCardNumberIn
         super.onViewCreated(view, savedInstanceState);
 
         if (getActivity() != null)
-            getActivity().setTitle(R.string.lanka_bangla_card);
+            getActivity().setTitle(R.string.credit_card_bill_title);
 
 		setCardIconImageResource(R.drawable.ic_debit_credit_card_icon);
 		setMessage(getString(R.string.lanka_bangla_card_number_input_message));

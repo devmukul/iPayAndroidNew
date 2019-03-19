@@ -14,13 +14,12 @@ import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import bd.com.ipay.ipayskeleton.Activities.UtilityBillPayActivities.IPayUtilityBillPayActionActivity;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.GroupedScheduledPaymentInfo;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.ScheduledPaymentInfo;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.IPDC.ScheduledPaymentInfo;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.Utilities;
 
@@ -73,7 +72,7 @@ public class IpdcScheduledPaymentFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ScheduledPaymentViewHolder scheduledPaymentViewHolder, int i) {
+        public void onBindViewHolder(@NonNull ScheduledPaymentViewHolder scheduledPaymentViewHolder, final int i) {
             scheduledPaymentViewHolder.totalInstallmentCountTextView.setText
                     (Long.toString(scheduledPaymentInfoList.get(i).getInstallmentNumber()) +
                             " installment remaining");
@@ -85,7 +84,7 @@ public class IpdcScheduledPaymentFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("scheduledPaymentList", (Serializable) groupedScheduledPaymentInfoList);
+                    bundle.putLong("ID",  scheduledPaymentInfoList.get(i).getId());
                     ((IPayUtilityBillPayActionActivity) getActivity()).switchFragment(new IpdcScheduledPaymentDetailsFragment(), bundle, 2, true);
                 }
             });

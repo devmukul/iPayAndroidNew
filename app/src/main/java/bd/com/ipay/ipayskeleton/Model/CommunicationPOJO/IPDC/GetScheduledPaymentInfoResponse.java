@@ -1,6 +1,8 @@
-package bd.com.ipay.ipayskeleton.Model.CommunicationPOJO;
+package bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.IPDC;
 
 import java.util.List;
+
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.GroupedScheduledPaymentInfo;
 
 public class GetScheduledPaymentInfoResponse {
     private List<GroupedScheduledPaymentInfo>groupedScheduledPaymentList;

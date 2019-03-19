@@ -1,4 +1,4 @@
-package bd.com.ipay.ipayskeleton.Model.CommunicationPOJO;
+package bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.IPDC;
 
 import java.io.Serializable;
 import java.util.List;

@@ -3,6 +3,8 @@ package bd.com.ipay.ipayskeleton.Model.CommunicationPOJO;
 import java.io.Serializable;
 import java.util.List;
 
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.IPDC.ScheduledPaymentInfo;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.IPDC.UserInfo;
 import bd.com.ipay.ipayskeleton.SourceOfFund.models.ProfilePicture;
 
 public class GroupedScheduledPaymentInfo implements Serializable {

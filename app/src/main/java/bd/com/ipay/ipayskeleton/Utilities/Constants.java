@@ -286,6 +286,8 @@ public class Constants {
     public static final String COMMAND_GET_SCHEDULED_PAYMENT_LIST = "COMMAND_GET_SCHEDULED_PAYMENT_LIST";
     public static final String URL_GET_SCHEDULED_PAYMENT_LIST = "scheduled-payment/list/customer";
 
+    public static final String URL_GET_SCHEDULED_PAYMENT_DETAILS = "scheduled-payment/";
+
 
     public static String ROLEID = "ROLEID";
     public static final String OUTLET_ID = "OUTLET_ID";

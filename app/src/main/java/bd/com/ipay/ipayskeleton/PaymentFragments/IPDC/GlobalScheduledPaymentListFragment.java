@@ -30,9 +30,8 @@ import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.GenericResponseWithMessageOnly;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.GetScheduledPaymentInfoResponse;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.IPDC.GetScheduledPaymentInfoResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.GroupedScheduledPaymentInfo;
-import bd.com.ipay.ipayskeleton.PaymentFragments.IPDC.IpdcScheduledPaymentFragment;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
 

@@ -1,6 +1,7 @@
 package bd.com.ipay.ipayskeleton.PaymentFragments.IPDC;
 
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,11 +13,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.makeramen.roundedimageview.RoundedImageView;
+
+import org.w3c.dom.Text;
 
 import java.io.Serializable;
 import java.util.List;
@@ -46,7 +50,7 @@ public class IpdcScheduledPaymentDetailsFragment extends Fragment implements Htt
     private ScheduledPaymentListAdapter scheduledPaymentAdapter;
 
 
-    private RoundedImageView productImageView;
+    private TextView productImageView;
     private TextView productNameTextView;
     private TextView createdAtTextView;
     private TextView mPaymentDateTextView;
@@ -152,8 +156,8 @@ public class IpdcScheduledPaymentDetailsFragment extends Fragment implements Htt
 
         //productImageView;
         productNameTextView.setText(getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getProduct());
-        createdAtTextView.setText(String.valueOf(getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getCreatedAt()));
-        //mPaymentDateTextView.;
+        String date = Utilities.formatDateWithoutTime(getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getCreatedAt());
+        createdAtTextView.setText(date);
         mLoanAmountTextView.setText(String.valueOf(getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getTotalAmount()));
         mInstallmentAmountTextView.setText(String.valueOf(getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getInstallmentAmount()));
         mPaidAmountTextView.setText(String.valueOf(getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getAmountPaid()));
@@ -175,7 +179,6 @@ public class IpdcScheduledPaymentDetailsFragment extends Fragment implements Htt
             this.scheduledPaymentInfoList = scheduledPaymentInfoList;
         }
 
-
         @NonNull
         @Override
         public ScheduledPaymentViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -185,10 +188,31 @@ public class IpdcScheduledPaymentDetailsFragment extends Fragment implements Htt
 
         @Override
         public void onBindViewHolder(@NonNull ScheduledPaymentViewHolder scheduledPaymentViewHolder, int i) {
-            scheduledPaymentViewHolder.installmentNoTextView.setText(String.valueOf(scheduledPaymentInfoList.get(i).getId()));
-            String date = Utilities.formatDayMonthYear(scheduledPaymentInfoList.get(i).getTriggerDate());
+            if(i==0) {
+                scheduledPaymentViewHolder.installmentNoTextView.setText("1st Installment");
+            }else if(i==1){
+                scheduledPaymentViewHolder.installmentNoTextView.setText("2nd Installment");
+            }else if(i==2){
+                scheduledPaymentViewHolder.installmentNoTextView.setText("3rd Installment");
+            }else{
+                scheduledPaymentViewHolder.installmentNoTextView.setText(i+"th Installment");
+            }
+
+            String date = Utilities.formatDateWithoutTime(scheduledPaymentInfoList.get(i).getTriggerDate());
             scheduledPaymentViewHolder.installmentDateTextView.setText(date);
             scheduledPaymentViewHolder.installmentAmountTextView.setText(String.valueOf(scheduledPaymentInfoList.get(i).getAmount()));
+            if(scheduledPaymentInfoList.get(i).getStatus()==200) {
+                Drawable img = getContext().getResources().getDrawable( R.drawable.transaction_tick_sign );
+                img.setBounds( 0, 0, 60, 60 );
+                scheduledPaymentViewHolder.installmentAmountTextView.setCompoundDrawables( img, null, null, null );
+            }
+
+            if(scheduledPaymentInfoList.get(i).getStatus()==103) {
+                scheduledPaymentViewHolder.payNowButton.setVisibility(View.VISIBLE);
+            }else{
+                scheduledPaymentViewHolder.payNowButton.setVisibility(View.GONE);
+            }
+
             scheduledPaymentViewHolder.installmentIdTextView.setText("Installment ID: "+scheduledPaymentInfoList.get(i).getId());
         }
 
@@ -199,20 +223,22 @@ public class IpdcScheduledPaymentDetailsFragment extends Fragment implements Htt
         }
 
         public class ScheduledPaymentViewHolder extends RecyclerView.ViewHolder {
-            private RoundedImageView productImageView;
+            private TextView productImageView;
             private TextView installmentNoTextView;
             private TextView installmentDateTextView;
             private TextView installmentAmountTextView;
             private View parentView;
             private TextView installmentIdTextView;
+            private Button payNowButton;
 
             public ScheduledPaymentViewHolder(@NonNull View itemView) {
                 super(itemView);
-                productImageView = (RoundedImageView) itemView.findViewById(R.id.transaction_image_view);
-                installmentNoTextView = (TextView) itemView.findViewById(R.id.installment_no_text_view);
-                installmentAmountTextView = (TextView) itemView.findViewById(R.id.installment_amount_text_view);
-                installmentDateTextView = (TextView) itemView.findViewById(R.id.installment_date_text_view);
-                installmentIdTextView = (TextView) itemView.findViewById(R.id.installment_id_text_view);
+                productImageView = itemView.findViewById(R.id.transaction_image_view);
+                installmentNoTextView = itemView.findViewById(R.id.installment_no_text_view);
+                installmentAmountTextView = itemView.findViewById(R.id.installment_amount_text_view);
+                installmentDateTextView = itemView.findViewById(R.id.installment_date_text_view);
+                installmentIdTextView = itemView.findViewById(R.id.installment_id_text_view);
+                payNowButton = itemView.findViewById(R.id.pay_now_button);
                 parentView = itemView;
             }
         }

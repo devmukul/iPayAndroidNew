@@ -1,5 +1,6 @@
 package bd.com.ipay.ipayskeleton.PaymentFragments.IPDC;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,12 +22,13 @@ import bd.com.ipay.ipayskeleton.Activities.UtilityBillPayActivities.IPayUtilityB
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.GroupedScheduledPaymentInfo;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.IPDC.ScheduledPaymentInfo;
 import bd.com.ipay.ipayskeleton.R;
+import bd.com.ipay.ipayskeleton.Utilities.ShedulePaymentConstant;
 import bd.com.ipay.ipayskeleton.Utilities.Utilities;
 
 public class IpdcScheduledPaymentFragment extends Fragment {
     private RecyclerView scheduledPaymentListRecyclerView;
     private GlobalScheduledPaymentListFragment.ScheduledPaymentListAdapter scheduledPaymentAdapter;
-    private List<GroupedScheduledPaymentInfo> groupedScheduledPaymentInfoList;
+    private GroupedScheduledPaymentInfo groupedScheduledPaymentInfoList;
     private List<ScheduledPaymentInfo> scheduledPaymentInfoList;
 
 
@@ -39,11 +41,19 @@ public class IpdcScheduledPaymentFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        groupedScheduledPaymentInfoList = (List<GroupedScheduledPaymentInfo>) getArguments().
+        groupedScheduledPaymentInfoList = (GroupedScheduledPaymentInfo) getArguments().
                 getSerializable("scheduledPaymentList");
-        scheduledPaymentInfoList = groupedScheduledPaymentInfoList.get(0).getScheduledPaymentInfos();
+        scheduledPaymentInfoList = new ArrayList<>();
+        for (ScheduledPaymentInfo scheduledPaymentInfo : groupedScheduledPaymentInfoList.getScheduledPaymentInfos()){
+            if(scheduledPaymentInfo.getStatus() == ShedulePaymentConstant.ScheduledPayment.RUNNING ||
+                    scheduledPaymentInfo.getStatus() == ShedulePaymentConstant.ScheduledPayment.WAITING_FOR_USER_APPROVAL ||
+                    scheduledPaymentInfo.getStatus() == ShedulePaymentConstant.ScheduledPayment.WAITING_FOR_UPDATE_APPROVAL ||
+                    scheduledPaymentInfo.getStatus() == ShedulePaymentConstant.ScheduledPayment.COMPLETED){
+                scheduledPaymentInfoList.add(scheduledPaymentInfo);
+            }
+        }
+
         scheduledPaymentListRecyclerView = view.findViewById(R.id.scheduled_payment_list);
-        groupedScheduledPaymentInfoList = new ArrayList<>();
         ((TextView) view.findViewById(R.id.title)).setText(getString(R.string.my_schedule_list));
         ((ImageView) view.findViewById(R.id.back)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,11 +83,28 @@ public class IpdcScheduledPaymentFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull ScheduledPaymentViewHolder scheduledPaymentViewHolder, final int i) {
-            scheduledPaymentViewHolder.totalInstallmentCountTextView.setText
+            scheduledPaymentViewHolder.productImageView.setText(String.valueOf(i+1));
+
+            if(scheduledPaymentInfoList.get(i).getStatus() == ShedulePaymentConstant.ScheduledPayment.RUNNING){
+                scheduledPaymentViewHolder.totalInstallmentCountTextView.setText
                     (Long.toString(scheduledPaymentInfoList.get(i).getInstallmentNumber()) +
-                            " installment remaining");
+                            " Installments");
+                scheduledPaymentViewHolder.totalInstallmentCountTextView.setTextColor(Color.parseColor("#888888"));
+            }else if(scheduledPaymentInfoList.get(i).getStatus() == ShedulePaymentConstant.ScheduledPayment.WAITING_FOR_USER_APPROVAL){
+                scheduledPaymentViewHolder.totalInstallmentCountTextView.setText
+                        ("Waiting for approval *");
+                scheduledPaymentViewHolder.totalInstallmentCountTextView.setTextColor(Color.parseColor("#00b2a2"));
+            }else if(scheduledPaymentInfoList.get(i).getStatus() == ShedulePaymentConstant.ScheduledPayment.WAITING_FOR_UPDATE_APPROVAL){
+                scheduledPaymentViewHolder.totalInstallmentCountTextView.setText
+                        ("Waiting for amendment approval *");
+                scheduledPaymentViewHolder.totalInstallmentCountTextView.setTextColor(Color.parseColor("#00b2a2"));
+            }else {
+                scheduledPaymentViewHolder.totalInstallmentCountTextView.setText("Completed");
+                scheduledPaymentViewHolder.totalInstallmentCountTextView.setTextColor(Color.parseColor("#FF0000"));
+            }
+
             scheduledPaymentViewHolder.productNameTextView.setText(scheduledPaymentInfoList.get(i).getProduct());
-            String date = Utilities.formatDayMonthYear(scheduledPaymentInfoList.get(i).getStartDate());
+            String date = Utilities.formatDateWithoutTime(scheduledPaymentInfoList.get(i).getStartDate());
             scheduledPaymentViewHolder.createdAtTextView.setText(date);
 
             scheduledPaymentViewHolder.parentView.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +124,7 @@ public class IpdcScheduledPaymentFragment extends Fragment {
         }
 
         public class ScheduledPaymentViewHolder extends RecyclerView.ViewHolder {
-            private RoundedImageView productImageView;
+            private TextView productImageView;
             private TextView productNameTextView;
             private TextView totalInstallmentCountTextView;
             private View parentView;
@@ -105,11 +132,10 @@ public class IpdcScheduledPaymentFragment extends Fragment {
 
             public ScheduledPaymentViewHolder(@NonNull View itemView) {
                 super(itemView);
-                productImageView = (RoundedImageView) itemView.findViewById(R.id.product_image);
-                productNameTextView = (TextView) itemView.findViewById(R.id.product_name);
-                totalInstallmentCountTextView = (TextView) itemView.findViewById(R.id.installment_count);
-                createdAtTextView = (TextView) itemView.findViewById(R.id.created_at);
-                createdAtTextView.setVisibility(View.VISIBLE);
+                productImageView = itemView.findViewById(R.id.product_image);
+                productNameTextView = itemView.findViewById(R.id.product_name);
+                totalInstallmentCountTextView = itemView.findViewById(R.id.installment_count);
+                createdAtTextView = itemView.findViewById(R.id.created_at);
                 parentView = itemView;
             }
         }

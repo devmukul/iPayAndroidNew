@@ -105,27 +105,6 @@ public abstract class IPayAbstractAmountFragment extends Fragment {
             LocalBroadcastManager.getInstance(getContext()).registerReceiver(mBusinessRuleUpdateBroadcastReceiver, new IntentFilter(Constants.BUSINESS_RULE_UPDATE_BROADCAST));
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (amountDummyEditText != null && amountDummyEditText.isFocused() && getContext() != null)
-            Utilities.showKeyboard(getContext(), amountDummyEditText);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (amountDummyEditText != null && amountDummyEditText.isFocused() && getContext() != null)
-            Utilities.hideKeyboard(getContext(), amountDummyEditText);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        if (getContext() != null)
-            LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(mBusinessRuleUpdateBroadcastReceiver);
-    }
 
     @Nullable
     @Override
@@ -136,7 +115,6 @@ public abstract class IPayAbstractAmountFragment extends Fragment {
     @Override
     public final void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         final Toolbar toolbar = view.findViewById(R.id.toolbar);
 
 
@@ -240,6 +218,7 @@ public abstract class IPayAbstractAmountFragment extends Fragment {
 
 
         setAmount(0, "");
+
         setupViewProperties();
     }
 

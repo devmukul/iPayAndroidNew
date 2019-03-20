@@ -1,69 +1,62 @@
 package bd.com.ipay.ipayskeleton.PaymentFragments.IPDC;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
+import bd.com.ipay.ipayskeleton.Activities.UtilityBillPayActivities.IPayUtilityBillPayActionActivity;
+import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractUserIdInputFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.IpdcAmountFragment;
 import bd.com.ipay.ipayskeleton.R;
-import bd.com.ipay.ipayskeleton.Widgets.IPaySnackbar;
+import bd.com.ipay.ipayskeleton.Utilities.Constants;
 
-public class IpdcInstantPaymentFragment extends Fragment {
-    private EditText amountEditText;
-    private EditText installmentIdEditText;
-    private Button makePaymentButton;
+public class IpdcInstantPaymentFragment extends IPayAbstractUserIdInputFragment {
 
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_ipdc_instant_payment, container, false);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        amountEditText = view.findViewById(R.id.amount);
-        installmentIdEditText = view.findViewById(R.id.installment_id);
-        makePaymentButton = view.findViewById(R.id.payment_button);
-        makePaymentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(verifyInputs()){
-
-                }
-            }
-        });
-    }
-
-    protected void showErrorMessage(String errorMessage) {
-        if (!TextUtils.isEmpty(errorMessage) && getActivity() != null) {
-            IPaySnackbar.error(makePaymentButton, errorMessage, IPaySnackbar.LENGTH_LONG).show();
+    protected boolean verifyInput() {
+        if (getUserId() == null || getUserId().isEmpty()) {
+            showErrorMessage(getString(R.string.please_enter_an_installment_id));
+            return false;
+        } else {
+            return true;
         }
     }
 
-    private boolean verifyInputs() {
-        if (amountEditText.getText() == null) {
-            showErrorMessage(getString(R.string.please_enter_an_amount));
-            return false;
-        } else if (amountEditText.getText().toString() == null || amountEditText.getText().toString().isEmpty()) {
-            showErrorMessage(getString(R.string.please_enter_an_amount));
-            return false;
+    @Override
+    protected void performContinueAction() {
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.INSTALLMENT_NUMBER, getUserId());
+        ((IPayUtilityBillPayActionActivity) getActivity()).switchFragment(new IpdcAmountFragment(), bundle, 1, true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        getActivity().getMenuInflater().inflate(R.menu.menu_ipdc, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.schedule_list) {
+            ((IPayUtilityBillPayActionActivity) getActivity()).switchFragment(new GlobalScheduledPaymentListFragment(), null, 1, true);
         }
-        if (installmentIdEditText.getText() == null) {
-            showErrorMessage(getString(R.string.please_enter_an_installment_id));
-            return false;
-        } else if (installmentIdEditText.getText().toString() == null ||
-                installmentIdEditText.getText().toString().isEmpty()) {
-            showErrorMessage(getString(R.string.please_enter_an_installment_id));
-            return false;
-        }
-        return true;
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void setupViewProperties() {
+        setTitle(getString(R.string.ipdc));
+        setInputMessage(getString(R.string.ipdc_instant_payment_input_message));
+        setUserIdHint(getString(R.string.installment_id));
+        setMerchantIconImage(R.drawable.ic_ipdc);
     }
 }

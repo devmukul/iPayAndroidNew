@@ -287,6 +287,9 @@ public class Constants {
     public static final String URL_GET_SCHEDULED_PAYMENT_LIST = "scheduled-payment/list/customer";
 
     public static final String URL_GET_SCHEDULED_PAYMENT_DETAILS = "scheduled-payment/";
+    public static final String INSTALLMENT_NUMBER = "INSTALLMENT_NUMBER";
+    public static final String IPDC_SCHEDULED_PAY = "IPDC SCHEDULED PAY";
+    public static final String COMMAND_IPDC_SCHEDULED_PAY = "COMMAND_IPDC_SCHEDULED_PAY";
 
 
     public static String ROLEID = "ROLEID";

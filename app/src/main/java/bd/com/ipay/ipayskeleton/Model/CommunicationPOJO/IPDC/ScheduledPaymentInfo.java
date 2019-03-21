@@ -52,7 +52,7 @@ public class ScheduledPaymentInfo implements Serializable
     private Long startDate;
     @SerializedName("status")
     @Expose
-    private Long status;
+    private int status;
     @SerializedName("statusUpdatedAt")
     @Expose
     private Long statusUpdatedAt;
@@ -92,7 +92,7 @@ public class ScheduledPaymentInfo implements Serializable
      * @param amountPaid
      * @param installmentAmount
      */
-    public ScheduledPaymentInfo(Long amountPaid, String center, Long createdAt, String customerAccountId, UserInfo customerInfo, String description, Long id, Long installmentAmount, Long installmentNumber, String product, String receiverAccountId, ReceiverInfo receiverInfo, String schedulerType, Long startDate, Long status, Long statusUpdatedAt, Long totalAmount, Long updatedAt) {
+    public ScheduledPaymentInfo(Long amountPaid, String center, Long createdAt, String customerAccountId, UserInfo customerInfo, String description, Long id, Long installmentAmount, Long installmentNumber, String product, String receiverAccountId, ReceiverInfo receiverInfo, String schedulerType, Long startDate, int status, Long statusUpdatedAt, Long totalAmount, Long updatedAt) {
         super();
         this.amountPaid = amountPaid;
         this.center = center;
@@ -226,11 +226,11 @@ public class ScheduledPaymentInfo implements Serializable
         this.startDate = startDate;
     }
 
-    public Long getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(Long status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -258,4 +258,27 @@ public class ScheduledPaymentInfo implements Serializable
         this.updatedAt = updatedAt;
     }
 
+    @Override
+    public String toString() {
+        return "ScheduledPaymentInfo{" +
+                "amountPaid=" + amountPaid +
+                ", center='" + center + '\'' +
+                ", createdAt=" + createdAt +
+                ", customerAccountId='" + customerAccountId + '\'' +
+                ", customerInfo=" + customerInfo +
+                ", description='" + description + '\'' +
+                ", id=" + id +
+                ", installmentAmount=" + installmentAmount +
+                ", installmentNumber=" + installmentNumber +
+                ", product='" + product + '\'' +
+                ", receiverAccountId='" + receiverAccountId + '\'' +
+                ", receiverInfo=" + receiverInfo +
+                ", schedulerType='" + schedulerType + '\'' +
+                ", startDate=" + startDate +
+                ", status=" + status +
+                ", statusUpdatedAt=" + statusUpdatedAt +
+                ", totalAmount=" + totalAmount +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
 }

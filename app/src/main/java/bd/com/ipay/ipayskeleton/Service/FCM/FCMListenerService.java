@@ -1,9 +1,15 @@
 package bd.com.ipay.ipayskeleton.Service.FCM;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v4.app.NotificationCompat;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -12,7 +18,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 
 import java.util.Map;
+import java.util.Random;
 
+import bd.com.ipay.ipayskeleton.Activities.UtilityBillPayActivities.IPayUtilityBillPayActionActivity;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
@@ -23,6 +31,7 @@ import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Notification.FCMNotificationResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.RefreshToken.FCMRefreshTokenRequest;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.TransactionHistory.TransactionHistory;
+import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.SharedPrefConstants;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.SharedPrefManager;
@@ -135,16 +144,61 @@ public class FCMListenerService extends FirebaseMessagingService implements Http
 
                 }
             } else {
-                try {
-                    createNotification(this, title, body, imageUrl);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                String deeplink = (String)data.get("deepLink");
+                if (deeplink != null) {
+                    if (deeplink.contains("schedulePayment")) {
+                        createScheduledPaymentNotification(deeplink, title, body);
+                    } else {
+                        try {
+                            createNotification(this, title, body, imageUrl);
+                        } catch (Exception e) {
+                            e.printStackTrace();
 
+                        }
+                    }
+
+                } else {
+                    try {
+                        createNotification(this, title, body, imageUrl);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+
+                    }
                 }
             }
         }
         FCMNotificationParser.parseInAppNotification(this, mFcmNotificationResponse);
 
+    }
+
+    private void createScheduledPaymentNotification(String deeplink, String title, String body) {
+        String id = Uri.parse(deeplink).getLastPathSegment();
+        Intent intent = new Intent(this, IPayUtilityBillPayActionActivity.class);
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.putExtra("id", id);
+        intent.putExtra(Constants.ACTION_FROM_NOTIFICATION, true);
+        int notificationID = new Random().nextInt();
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, notificationID, intent,
+                PendingIntent.FLAG_ONE_SHOT);
+
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        try {
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                    .setPriority(android.app.Notification.PRIORITY_HIGH)
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setColor(this.getResources().getColor(R.color.colorPrimary))
+                    .setContentTitle(title)
+                    .setGroup("Notifications")
+                    .setContentText(body)
+                    .setAutoCancel(true)
+                    .setSound(defaultSoundUri)
+                    .setContentIntent(pendingIntent);
+            NotificationManager notificationManager =
+                    (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(notificationID, notificationBuilder.build());
+        } catch (Exception e) {
+
+        }
     }
 
     private void setNotificationResponseFromData(Map data) {

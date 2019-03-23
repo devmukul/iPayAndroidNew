@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import bd.com.ipay.ipayskeleton.Activities.BaseActivity;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPDC.IpdcInstantPaymentFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.IPDC.IpdcScheduledPaymentDetailsFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractTransactionSuccessFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.Carnival.CarnivalIdInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.CreditCard.CreditCardBankSelectionFragment;
@@ -18,6 +19,7 @@ import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.LankaBangl
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.LinkThree.LinkThreeSubscriberIdInputFragment;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.BusinessRuleCacheManager;
+import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Utilities.ServiceIdConstants;
 import bd.com.ipay.ipayskeleton.Utilities.Utilities;
 
@@ -44,6 +46,15 @@ public final class IPayUtilityBillPayActionActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ipay_utility_bill_pay_action);
+        if (getIntent().hasExtra(Constants.ACTION_FROM_NOTIFICATION)) {
+            if (getIntent().getBooleanExtra(Constants.ACTION_FROM_NOTIFICATION, false)) {
+                String id = getIntent().getStringExtra("id");
+                Bundle bundle = new Bundle();
+                bundle.putLong(Constants.ID, Long.parseLong(id));
+                switchFragment(new IpdcScheduledPaymentDetailsFragment(), bundle, 2, true);
+            }
+            return;
+        }
         final String billPayPartyName = getIntent().getStringExtra(BILL_PAY_PARTY_NAME_KEY);
         BusinessRuleCacheManager.fetchBusinessRule(this, ServiceIdConstants.UTILITY_BILL_PAYMENT);
         final Bundle bundle = new Bundle();

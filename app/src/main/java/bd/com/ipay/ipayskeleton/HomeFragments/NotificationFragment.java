@@ -50,6 +50,9 @@ import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.BusinessRoles.GetPending
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.BusinessRuleAndServiceCharge.ServiceCharge.GetServiceChargeRequest;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.BusinessRuleAndServiceCharge.ServiceCharge.GetServiceChargeResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.GenericResponseWithMessageOnly;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.GroupedScheduledPaymentInfo;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.IPDC.GetScheduledPaymentInfoResponse;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.IPDC.ScheduledPaymentInfo;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.MakePayment.InvoiceItem;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Notification.BusinessRoleManagerInvitation;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Notification.GetMoneyAndPaymentRequest;
@@ -61,6 +64,7 @@ import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.Introducer.GetPe
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.Introducer.PendingIntroducer;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.IntroductionAndInvite.GetIntroductionRequestsResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.IntroductionAndInvite.IntroductionRequestClass;
+import bd.com.ipay.ipayskeleton.PaymentFragments.IPDC.GlobalScheduledPaymentListFragment;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.SourceOfFund.EditPermissionSourceOfFundBottomSheetFragment;
 import bd.com.ipay.ipayskeleton.SourceOfFund.models.AcceptOrRejectBeneficiaryRequest;
@@ -96,6 +100,8 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 
 	private HttpRequestGetAsyncTask mGetPendingRoleManagerRequestTask = null;
 	private GetPendingRoleManagerInvitationResponse mGetPendingRoleManagerInvitationResponse;
+
+	private HttpRequestGetAsyncTask getScheduledPaymentListTask;
 
 	private HttpRequestGetAsyncTask mGetBeneficiaryAsyncTask;
 	private GetBeneficiaryListResponse getBeneficiaryListResponse;
@@ -138,6 +144,9 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 	private OnNotificationUpdateListener mOnNotificationUpdateListener;
 	private NotificationBroadcastReceiver notificationBroadcastReceiver;
 	private Tracker mTracker;
+
+
+	private List<ScheduledPaymentInfo> scheduledPaymentInfoList;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -226,9 +235,9 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 		getMoneyAndPaymentRequest(context);
 		getIntroductionRequestList(context);
 		getPendingIntroducersList(context);
-		getPendingInvitationRequestsForRoleManager(context);
 		getPendingBeneficiaryListResponse(context);
 		getPendingSponsorListResponse(context);
+		getPendingSchedulePaymentListResponse(context);
 	}
 
 
@@ -304,6 +313,21 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 		mGetMoneyAndPaymentRequestTask = new HttpRequestPostAsyncTask(Constants.COMMAND_GET_MONEY_AND_PAYMENT_REQUESTS,
 				Constants.BASE_URL_SM + Constants.URL_GET_All_NOTIFICATIONS, json, context, this, true);
 		mGetMoneyAndPaymentRequestTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+	}
+
+	private void getPendingSchedulePaymentListResponse(Context context) {
+//		if (!ACLManager.hasServicesAccessibility(ServiceIdConstants.SCHEDULE_PAYMENT))
+//			return;
+
+		if (getScheduledPaymentListTask != null) {
+			return;
+		}
+
+		String uri = Constants.BASE_URL_SCHEDULED_PAYMENT + Constants.URL_GET_SCHEDULED_PAYMENT_LIST+"?status=102";
+		getScheduledPaymentListTask = new HttpRequestGetAsyncTask
+				(Constants.COMMAND_GET_SCHEDULED_PAYMENT_LIST, uri, getContext(), this,
+						false);
+		getScheduledPaymentListTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
 
 	private void getIntroductionRequestList(Context context) {
@@ -411,8 +435,7 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 			notifications.addAll(mBusinessRoleManagerRequestsList);
 		if (beneficiaryPendingList != null) {
 			notifications.addAll(beneficiaryPendingList);
-		}
-		if (sponsorPendingList != null) {
+		}if (sponsorPendingList != null) {
 			notifications.addAll(sponsorPendingList);
 		}
 
@@ -578,6 +601,7 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 				acceptOrRejectBeneficiaryAsyncTask = null;
 				mGetSponsorAsyncTask = null;
 				mGetBeneficiaryAsyncTask = null;
+				getScheduledPaymentListTask = null;
 				if (mProgressDialog != null) {
 					mProgressDialog.dismiss();
 				}
@@ -750,6 +774,31 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 					mGetPendingRoleManagerRequestTask = null;
 					postProcessNotificationList();
 					break;
+
+				case Constants.COMMAND_GET_SCHEDULED_PAYMENT_LIST:
+					if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
+						GetScheduledPaymentInfoResponse getScheduledPaymentInfoResponse = new Gson().
+								fromJson(result.getJsonString(), GetScheduledPaymentInfoResponse.class);
+
+						List<GroupedScheduledPaymentInfo> groupedScheduledPaymentInfoList = getScheduledPaymentInfoResponse.getGroupedScheduledPaymentList();
+						for(GroupedScheduledPaymentInfo groupedScheduledPaymentInfo : groupedScheduledPaymentInfoList){
+							scheduledPaymentInfoList.addAll(groupedScheduledPaymentInfo.getScheduledPaymentInfos());
+						}
+
+					} else {
+						GenericResponseWithMessageOnly genericResponseWithMessageOnly =
+								new Gson().fromJson(result.getJsonString(), GenericResponseWithMessageOnly.class);
+						new AlertDialog.Builder(getContext())
+								.setPositiveButton(genericResponseWithMessageOnly.getMessage(), new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog, int which) {
+										dialog.dismiss();
+									}
+								}).show();
+
+					}
+					break;
+
 				default:
 					break;
 			}

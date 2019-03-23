@@ -48,6 +48,7 @@ public class IpdcScheduledPaymentDetailsFragment extends Fragment implements Htt
     private CustomProgressDialog progressDialog;
     List<InstallmentInfoList> installmentInfoList;
     private ScheduledPaymentListAdapter scheduledPaymentAdapter;
+    private GetSchedulePaymentDetailsResponse getSchedulePaymentDetailsResponse;
 
 
     private TextView productImageView;
@@ -58,6 +59,10 @@ public class IpdcScheduledPaymentDetailsFragment extends Fragment implements Htt
     private TextView mInstallmentAmountTextView;
     private TextView mPaidAmountTextView;
     private TextView mNoOfInstallmentTextView;
+
+    private View mButtonView;
+    private Button mAcceptButtonView;
+    private Button mRejectButtonView;
 
 
     @Nullable
@@ -89,8 +94,25 @@ public class IpdcScheduledPaymentDetailsFragment extends Fragment implements Htt
         mInstallmentAmountTextView = view.findViewById(R.id.installment_amount_view);
         mPaidAmountTextView = view.findViewById(R.id.paid_amount_view);
         mNoOfInstallmentTextView = view.findViewById(R.id.no_of_installment_view);
+        mButtonView = view.findViewById(R.id.bottom_button);
+        mAcceptButtonView = view.findViewById(R.id.button_accept);
+        mRejectButtonView = view.findViewById(R.id.button_reject);
 
         getScheduledPaymentList();
+
+        mAcceptButtonView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        mRejectButtonView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     private void getScheduledPaymentList() {
@@ -131,7 +153,7 @@ public class IpdcScheduledPaymentDetailsFragment extends Fragment implements Htt
             return;
         } else {
             if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
-                GetSchedulePaymentDetailsResponse getSchedulePaymentDetailsResponse = new Gson().
+                getSchedulePaymentDetailsResponse = new Gson().
                         fromJson(result.getJsonString(), GetSchedulePaymentDetailsResponse.class);
                 setData(getSchedulePaymentDetailsResponse);
 
@@ -162,6 +184,13 @@ public class IpdcScheduledPaymentDetailsFragment extends Fragment implements Htt
         mInstallmentAmountTextView.setText(String.valueOf(getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getInstallmentAmount()));
         mPaidAmountTextView.setText(String.valueOf(getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getAmountPaid()));
         mNoOfInstallmentTextView.setText(String.valueOf(getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getInstallmentNumber()));
+
+        if(getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getStatus() == 103 ||
+                getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getStatus() == 104){
+            mButtonView.setVisibility(View.VISIBLE);
+        }else{
+            mButtonView.setVisibility(View.GONE);
+        }
 
 
         installmentInfoList = getSchedulePaymentDetailsResponse.getInstallmentInfoList();
@@ -214,6 +243,13 @@ public class IpdcScheduledPaymentDetailsFragment extends Fragment implements Htt
             }
 
             scheduledPaymentViewHolder.installmentIdTextView.setText("Installment ID: "+scheduledPaymentInfoList.get(i).getId());
+
+            scheduledPaymentViewHolder.payNowButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
         }
 
         @Override

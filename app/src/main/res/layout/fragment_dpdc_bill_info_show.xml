@@ -96,7 +96,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="@string/zone_code" />
+                    android:text="@string/location_code" />
 
                 <TextView
                     android:id="@+id/zone_code_view"

@@ -57,7 +57,7 @@
             android:textSize="32sp" />
 
         <Button
-            android:id="@+id/continue_button"
+            android:id="@+id/button_send_money"
             style="@style/ButtonPrimary.IPayTransactionAction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

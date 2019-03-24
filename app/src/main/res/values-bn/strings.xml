@@ -12,9 +12,9 @@
     <string name="navigation_drawer_close">ন্যাভিগেশন ড্রয়ার বন্ধ করুন</string>
     <string name="prompt_password">পাসওয়ার্ড</string>
     <string name="zone_code">জোন কোড</string>
-    <string name="bill_amount">বিল আমাউন্ট</string>
-    <string name="lpc">এলপিসি আমাউন্ট</string>
-    <string name="stamp_amount">স্ট্যাম্প আমাউন্ট</string>
+    <string name="bill_amount">বিল</string>
+    <string name="lpc">এলপিসি</string>
+    <string name="stamp_amount">স্ট্যাম্প</string>
     <string name="father_mobile">পিতার মোবাইল নাম্বার</string>
     <string name="mother_mobile">মাতার মোবাইল নাম্বার</string>
     <string name="prompt_password_new">আপনার পাসওয়ার্ড লিখুন</string>
@@ -131,11 +131,10 @@
     <string name="to_date">তারিখ পর্যন্ত</string>
     <string name="from_date">তারিখ হইতে</string>
     <string name="service_not_available">সেবা প্রদান করা যাচ্ছে না</string>
-    <string name="contact_support_message">
-আইপে সার্ভিস এখন সাময়িকভাবে বিঘ্নিত হচ্ছে। প্রয়োজনে আমাদের সাথে যোগাযোগ করুন।
+    <string name="contact_support_message">সার্ভিসটি এই মুহূর্তে বন্ধ আছে। আরও তথ্যের জন্য সাপোর্টে যোগাযোগ করুন।
 </string>
     <string name="service_unavailable_support_message">
-আইপে সার্ভিস এখন সাময়িকভাবে বিঘ্নিত হচ্ছে, দয়া করে একটু পরে আবার চেষ্টা করুন।
+        সার্ভিসটি এই মুহূর্তে বন্ধ আছে।  দয়া করে একটু পরে আবার চেষ্টা করুন।
 </string>
     <string name="instant_money_not_entitled">তাৎক্ষণিকভাবে টাকার জন্য আপনার অনুমতি নেই।</string>
     <string name="verification_required_message">
@@ -326,7 +325,7 @@
     <string name="submit">সাবমিট</string>
     <string name="otp_request_failed">কোড পাঠানো যায়নি। অনুগ্রহপূর্বক আবার চেষ্টা করুন</string>
     <string name="update_now">এখনই আপডেট করুন</string>
-    <string name="transaction_id">লেনদেন আইডি: </string>
+    <string name="transaction_id">লেনদেন আইডি </string>
     <string name="enter_amount">টাকার পরিমাণ</string>
     <string name="reference_number_optional">রেফারেন্স নাম্বার (ঐচ্ছিক)</string>
     <string name="description">বর্ণনা</string>
@@ -550,7 +549,7 @@
     <string name="invite_this_person_to_ipay" tools:keep="@string/invite_this_person_to_ipay">ব্যক্তিটিকে আইপেতে অমন্ত্রণ জানান</string>
     <string name="confirm_ipay_invitation">ব্যক্তিটিকে আইপেতে অমন্ত্রণ জানাবেন?</string>
     <string name="mobile_topup">মোবাইল টপ-আপ</string>
-    <string name="total_amount">সর্বমোট পরিমাণ</string>
+    <string name="total_amount">সর্বমোট</string>
     <string name="total_amount_in_tk">সর্বমোট পরিমাণ (৳)</string>
     <string name="amount">পরিমাণ</string>
     <string name="payment_amount">পরিমাণ</string>
@@ -984,7 +983,7 @@
     <string name="WestZone">ওয়েস্টজোন</string>
     <string name="bill_pay">বিল পরিশোধ</string>
     <string name="upload_identification_document">জাতীয় পরিচয়পত্র আপলোড করুন</string>
-    <string name="due_date">দেনা পরিশোধের তারিখ</string>
+    <string name="due_date">নির্ধারিত তারিখ</string>
     <string name="ipc">আইপিসি</string>
     <string name="enter_bill_no">বিল নাম্বারটি লিখুন</string>
     <string name="desco_bill_pay_message">সকাল ৮টা থেকে রাত ১০টা পর্যন্ত বিল পরিশোধ করতে পারবেন।</string>
@@ -1313,7 +1312,7 @@
     <string name="unconsented">অনুনমোদিত</string>
     <string name="profile_completeness_percentage">আপনার প্রোফাইল %1$d\%% সম্পন্ন হয়েছে।</string>
     <string name="profile_completeness_information">ভেরিফাইড হতে নীচে দেওয়া তথ্য গুলি প্রয়োজন:%1$s\n.</string>
-    <string name="qr_code_helper_text">সঠিক ও নির্ভুলভাবে স্ক্যান করার জন্য,কিউআর কোডটি ফ্রেমের মধ্যে ধরুন।</string>
+    <string name="qr_code_helper_text">কিউ আর কোড দ্রুত স্ক্যান করতে, ফ্রেমের মধ্যে কিউ আর কোডটি রাখুন</string>
     <string name="invie_msg_text">%1$s এই আমন্ত্রণ কোড দিয়ে সাইন আপ করুন। লিঙ্ক:</string>
     <string name="shop_outlet_name">দোকান বা আউটলেট নাম</string>
     <string name="paying_message">আপনি পেমেন্ট করছেন</string>
@@ -1356,6 +1355,17 @@
     <string name="national_id_no">জাতীয় পরিচয়পত্রের নম্বর</string>
     <string name="buy_this_ticket">টিকেট ক্রয় করুন</string>
     <string name="fare">ভাড়া (৳)</string>
+    <string name="select_bill_month">বিলের মাস নির্বাচন করুন</string>
+    <string name="wasa">ঢাকা ওয়াসা</string>
+    <string name="select_card">কার্ড নির্বাচন করুন</string>
+    <string name="isp">ইন্টারনেট বিল</string>
+    <string name="select_isp">আইএসপি নির্বাচন করুন</string>
+    <string name="dpdc_account_number">ডিপিডিসি কাস্টমার নাম্বার</string>
+    <string name="location_code">লোকেশন কোড</string>
+    <string name="desco" >ডেসকো</string>
+    <string name="out_referance_id">Out Referance ID:</string>
+    <string name="credit_card_bill_title">ক্রেডিট কার্ড</string>
+    <string name="select_location_code">লোকেশন কোড নির্বাচন করুন</string>
 </resources>
 
 

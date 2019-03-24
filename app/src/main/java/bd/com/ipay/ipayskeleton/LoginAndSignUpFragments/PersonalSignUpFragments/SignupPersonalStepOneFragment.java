@@ -152,7 +152,8 @@ public class SignupPersonalStepOneFragment extends BaseFragment implements HttpR
 		mNameView.requestFocus();
 		// Enable hyperlinked
 		setGenderCheckBoxTextColor(mMaleCheckBox.isChecked(), mFemaleCheckBox.isChecked());
-		mDatePickerDialog = Utilities.getDatePickerDialog(getActivity(), null, this);
+
+		mDatePickerDialog = Utilities.getDatePickerDialog(getActivity(), null, this, true);
 		mBirthdayEditText.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

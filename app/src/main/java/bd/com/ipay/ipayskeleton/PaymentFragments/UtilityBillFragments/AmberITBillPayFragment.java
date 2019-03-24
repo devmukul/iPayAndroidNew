@@ -103,7 +103,7 @@ public class AmberITBillPayFragment extends BaseFragment implements HttpResponse
         mCurrentPackageView = view.findViewById(R.id.current_package_view);
         mAccountIDEditText = view.findViewById(R.id.customer_id_edit_text);
         mAmountEditText = view.findViewById(R.id.amount_edit_text);
-        mContinueButton = view.findViewById(R.id.continue_button);
+        mContinueButton = view.findViewById(R.id.button_send_money);
 
         UtilityBillPaymentActivity.mMandatoryBusinessRules = BusinessRuleCacheManager.getBusinessRules(Constants.UTILITY_BILL_PAYMENT);
         setUpButtonAction();

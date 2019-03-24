@@ -56,7 +56,6 @@ public class DescoBillConfirmationFragment extends IPayAbstractTransactionConfir
         setTransactionDescription(getStyledTransactionDescription(R.string.pay_bill_confirmation_message, totalAmount));
         setName(descoAccountId);
         setUserName(billNumber);
-        setTransactionConfirmationButtonTitle(getString(R.string.pay));
     }
 
     @Override

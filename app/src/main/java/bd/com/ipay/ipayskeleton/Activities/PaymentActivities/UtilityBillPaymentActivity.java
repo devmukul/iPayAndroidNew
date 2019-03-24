@@ -9,12 +9,19 @@ import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.BusinessRuleAndServiceCh
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.AmberITBillPayFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.BanglalionBillPayFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.BrilliantBillPayFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.DPDC.DPDCBillConfirmationFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.DPDC.DPDCBillInfoFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.DPDC.DPDCBillSuccessFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.DPDC.DPDCEnterAccountNumberFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.Desco.DescoBillConfirmationFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.Desco.DescoBillInfoFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.Desco.DescoBillSuccessFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.Desco.DescoEnterBillNumberFragment;
-import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.DpdcBillPaymentFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.UtilityProviderListFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.WASA.WASABillConfirmationFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.WASA.WASABillInfoFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.WASA.WASABillSuccessFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.WASA.WASAEnterBillNumberFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.WestzoneBillPaymentFragment;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
@@ -45,6 +52,8 @@ public class UtilityBillPaymentActivity extends BaseActivity {
                     switchToDpdcBillPaymentFragment();
                 } else if (service.equals(Constants.AMBERIT)) {
                     switchToAmberITBillPaymentFragment();
+                }else if (service.equals(Constants.WASA)) {
+                    switchToWasaBillPaymentFragment();
                 }
             }
         } catch (Exception e) {
@@ -86,9 +95,34 @@ public class UtilityBillPaymentActivity extends BaseActivity {
                 R.anim.right_to_left_exit, R.anim.left_to_right_enter, R.anim.left_to_right_exit).replace(R.id.fragment_container, descoBillInfoFragment).addToBackStack(null).commit();
     }
 
+    public void switchToDPDCBillInfoFragment(Bundle bundle) {
+        while (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            getSupportFragmentManager().popBackStack();
+        }
+        DPDCBillInfoFragment dpdcBillInfoFragment = new DPDCBillInfoFragment();
+        dpdcBillInfoFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.right_to_left_enter,
+                R.anim.right_to_left_exit, R.anim.left_to_right_enter, R.anim.left_to_right_exit).replace(R.id.fragment_container, dpdcBillInfoFragment).addToBackStack(null).commit();
+    }
+
+    public void switchToWASABillInfoFragment(Bundle bundle) {
+        while (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            getSupportFragmentManager().popBackStack();
+        }
+        WASABillInfoFragment wasaBillInfoFragment = new WASABillInfoFragment();
+        wasaBillInfoFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.right_to_left_enter,
+                R.anim.right_to_left_exit, R.anim.left_to_right_enter, R.anim.left_to_right_exit).replace(R.id.fragment_container, wasaBillInfoFragment).addToBackStack(null).commit();
+    }
+
+    private void switchToWasaBillPaymentFragment() {
+        getSupportFragmentManager().beginTransaction().
+                replace(R.id.fragment_container, new WASAEnterBillNumberFragment()).commit();
+    }
+
     private void switchToDpdcBillPaymentFragment() {
         getSupportFragmentManager().beginTransaction().
-                replace(R.id.fragment_container, new DpdcBillPaymentFragment()).commit();
+                replace(R.id.fragment_container, new DPDCEnterAccountNumberFragment()).commit();
     }
 
     private void switchToAmberITBillPaymentFragment() {
@@ -146,5 +180,51 @@ public class UtilityBillPaymentActivity extends BaseActivity {
         getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.right_to_left_enter,
                 R.anim.right_to_left_exit, R.anim.left_to_right_enter, R.anim.left_to_right_exit).replace
                 (R.id.fragment_container, descoBillSuccessFragment).addToBackStack(null).commit();
+    }
+
+    public void switchToDPDCBillConfirmationFragment(Bundle bundle) {
+
+        while (getSupportFragmentManager().getBackStackEntryCount() > 2) {
+            getSupportFragmentManager().popBackStack();
+        }
+        DPDCBillConfirmationFragment dpdcBillConfirmationFragment = new DPDCBillConfirmationFragment();
+        dpdcBillConfirmationFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.right_to_left_enter,
+                R.anim.right_to_left_exit, R.anim.left_to_right_enter, R.anim.left_to_right_exit).replace
+                (R.id.fragment_container, dpdcBillConfirmationFragment).addToBackStack(null).commit();
+    }
+
+    public void switchToDPDCBillSuccessFragment(Bundle bundle) {
+        while (getSupportFragmentManager().getBackStackEntryCount() > 3) {
+            getSupportFragmentManager().popBackStack();
+        }
+        DPDCBillSuccessFragment dpdcBillSuccessFragment = new DPDCBillSuccessFragment();
+        dpdcBillSuccessFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.right_to_left_enter,
+                R.anim.right_to_left_exit, R.anim.left_to_right_enter, R.anim.left_to_right_exit).replace
+                (R.id.fragment_container, dpdcBillSuccessFragment).addToBackStack(null).commit();
+    }
+
+    public void switchToWASABillConfirmationFragment(Bundle bundle) {
+
+        while (getSupportFragmentManager().getBackStackEntryCount() > 2) {
+            getSupportFragmentManager().popBackStack();
+        }
+        WASABillConfirmationFragment wasaBillConfirmationFragment = new WASABillConfirmationFragment();
+        wasaBillConfirmationFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.right_to_left_enter,
+                R.anim.right_to_left_exit, R.anim.left_to_right_enter, R.anim.left_to_right_exit).replace
+                (R.id.fragment_container, wasaBillConfirmationFragment).addToBackStack(null).commit();
+    }
+
+    public void switchToWASABillSuccessFragment(Bundle bundle) {
+        while (getSupportFragmentManager().getBackStackEntryCount() > 3) {
+            getSupportFragmentManager().popBackStack();
+        }
+        WASABillSuccessFragment wasaBillSuccessFragment = new WASABillSuccessFragment();
+        wasaBillSuccessFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.right_to_left_enter,
+                R.anim.right_to_left_exit, R.anim.left_to_right_enter, R.anim.left_to_right_exit).replace
+                (R.id.fragment_container, wasaBillSuccessFragment).addToBackStack(null).commit();
     }
 }

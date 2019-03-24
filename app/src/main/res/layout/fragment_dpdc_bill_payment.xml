@@ -8,21 +8,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/continue_button"
-        android:padding="@dimen/activity_horizontal_margin">
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:animateLayoutChanges="true"
-            android:gravity="center"
             android:orientation="vertical"
-            android:paddingTop="@dimen/value15">
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/activity_horizontal_margin_double">
 
             <ImageView
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/dpdc" />
+                android:src="@drawable/dpdc"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"/>
 
             <LinearLayout
                 android:id="@+id/customer_id_view"
@@ -44,7 +45,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="0dp"
                         android:layout_marginRight="0dp"
-                        android:hint="DPDC Account Number"
+                        android:hint="@string/dpdc_account_number"
                         android:inputType="text"
                         android:maxLines="1" />
                 </android.support.design.widget.TextInputLayout>
@@ -66,9 +67,36 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="0dp"
                         android:layout_marginRight="0dp"
-                        android:hint="Location Code"
+                        android:hint="@string/location_code"
                         android:inputType="text"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        android:focusable="false"
+                        android:drawableRight="@drawable/dropdown"/> />
+                </android.support.design.widget.TextInputLayout>
+
+
+                <View
+                    style="@style/Divider"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/CustomTextInputLayout">
+
+                    <EditText
+                        android:id="@+id/month_edit_text"
+                        style="@style/CustomEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="0dp"
+                        android:hint="@string/bill_month"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:focusable="false"
+                        android:drawableRight="@drawable/dropdown"/>
                 </android.support.design.widget.TextInputLayout>
 
                 <View
@@ -83,248 +111,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp"
-                    android:gravity="left"
-                    android:text="@string/dpdc_bill_pay_message" />
-
-                <TextView
-                    android:id="@+id/bill_month_prev"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:gravity="center_horizontal"
-                    android:text="(Bill month " />
+                    android:gravity="center"
+                    android:text="@string/desco_bill_pay_message" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/info_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:orientation="vertical"
-                android:visibility="gone">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/value8"
-                    android:orientation="horizontal"
-                    android:visibility="gone"
-                    android:weightSum="2">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="@string/name" />
-
-                    <TextView
-                        android:id="@+id/name_view"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="" />
-                </LinearLayout>
-
-                <View
-                    style="@style/Divider"
-                    android:layout_marginBottom="@dimen/value8"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="0dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/value8"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="@string/account_number" />
-
-                    <TextView
-                        android:id="@+id/account_number_view"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="" />
-                </LinearLayout>
-
-                <View
-                    style="@style/Divider"
-                    android:layout_marginBottom="@dimen/value8"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="0dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/value8"
-                    android:orientation="horizontal"
-                    android:visibility="gone"
-                    android:weightSum="2">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="@string/bill_month" />
-
-                    <TextView
-                        android:id="@+id/bill_month_view"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="" />
-                </LinearLayout>
-
-                <View
-                    style="@style/Divider"
-                    android:layout_marginBottom="@dimen/value8"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="0dp"
-                    android:visibility="gone" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/value8"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="@string/bill_number" />
-
-                    <TextView
-                        android:id="@+id/bill_number"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="" />
-                </LinearLayout>
-
-                <View
-                    style="@style/Divider"
-                    android:layout_marginBottom="@dimen/value8"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="0dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/value8"
-                    android:orientation="horizontal"
-                    android:visibility="gone"
-                    android:weightSum="2">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="@string/principal_amount" />
-
-                    <TextView
-                        android:id="@+id/principal_amount_view"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="" />
-                </LinearLayout>
-
-                <View
-                    style="@style/Divider"
-                    android:layout_marginBottom="@dimen/value8"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="0dp"
-                    android:visibility="gone" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/value8"
-                    android:orientation="horizontal"
-                    android:visibility="gone"
-                    android:weightSum="2">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="@string/vat_amount" />
-
-                    <TextView
-                        android:id="@+id/vat_amount"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="" />
-                </LinearLayout>
-
-                <View
-                    style="@style/Divider"
-                    android:layout_marginBottom="@dimen/value8"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="0dp"
-                    android:visibility="gone" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/value8"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="@string/total_amount" />
-
-                    <TextView
-                        android:id="@+id/total_amount_view"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="" />
-                </LinearLayout>
-
-                <View
-                    style="@style/Divider"
-                    android:layout_marginBottom="@dimen/value8"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="0dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="@string/bill_status" />
-
-                    <TextView
-                        android:id="@+id/bill_status_view"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="" />
-                </LinearLayout>
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

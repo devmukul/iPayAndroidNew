@@ -59,7 +59,7 @@ public class CreditCardBankSelectionFragment extends Fragment implements HttpRes
 
         ((IPayUtilityBillPayActionActivity) getActivity()).setSupportActionBar(toolbar);
         ((IPayUtilityBillPayActionActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getActivity().setTitle("Credit Card Bill Pay");
+        getActivity().setTitle(R.string.credit_card_bill_title);
         attemptGetBankList();
     }
 

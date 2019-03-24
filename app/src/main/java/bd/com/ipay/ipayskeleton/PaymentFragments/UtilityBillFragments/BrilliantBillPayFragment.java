@@ -76,7 +76,7 @@ public class BrilliantBillPayFragment extends BaseFragment implements HttpRespon
 		View view = inflater.inflate(R.layout.fragment_brilliant_recahrge, container, false);
 		mCustomerIdEditText = (EditText) view.findViewById(R.id.customer_id_edit_text);
 		amountEditText = (EditText) view.findViewById(R.id.amount_edit_text);
-		mContinueButton = (Button) view.findViewById(R.id.continue_button);
+		mContinueButton = (Button) view.findViewById(R.id.button_send_money);
 		mProgressDialog = new CustomProgressDialog(getContext());
 		mCustomProgressDialog = new AnimatedProgressDialog(getContext());
 		if (UtilityBillPaymentActivity.mMandatoryBusinessRules == null) {

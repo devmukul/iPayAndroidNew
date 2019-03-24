@@ -40,7 +40,7 @@ public abstract class IPayAbstractUserIdInputFragment extends Fragment {
 		super.onViewCreated(view, savedInstanceState);
 
 		final Toolbar toolbar = view.findViewById(R.id.toolbar);
-		continueButton = view.findViewById(R.id.continue_button);
+		continueButton = view.findViewById(R.id.button_send_money);
 		merchantIconImageView = view.findViewById(R.id.merchant_icon_image_view);
 		inputMessageTextView = view.findViewById(R.id.input_message_text_view);
 		userIdEditText = view.findViewById(R.id.user_id_edit_text);

@@ -160,6 +160,7 @@ public class MakePaymentContactsSearchView extends RelativeLayout implements Sea
         mBusinessContacts.add(new CustomBusinessContact(Constants.BRILLIANT, "Bill_Pay", mContext.getString(R.string.brilliant), mContext.getString(R.string.bill_pay), ""));
         mBusinessContacts.add(new CustomBusinessContact(Constants.CARNIVAL, "Bill_Pay", mContext.getString(R.string.carnival), mContext.getString(R.string.bill_pay), ""));
         mBusinessContacts.add(new CustomBusinessContact(Constants.CREDIT_CARD, "Bill_Pay", mContext.getString(R.string.credit_card_title), mContext.getString(R.string.bill_pay), ""));
+        mBusinessContacts.add(new CustomBusinessContact(Constants.DPDC, "Bill_Pay", mContext.getString(R.string.dpdc), mContext.getString(R.string.bill_pay), ""));
         mBusinessContacts.add(new CustomBusinessContact(Constants.DESCO, "Bill_Pay", mContext.getString(R.string.desco), mContext.getString(R.string.bill_pay), ""));
         mBusinessContacts.add(new CustomBusinessContact(Constants.LANKABANGLA, "Bill_Pay", mContext.getString(R.string.lanka_bangla_card), mContext.getString(R.string.bill_pay), ""));
         mBusinessContacts.add(new CustomBusinessContact(Constants.LANKABANGLA, "Bill_Pay", mContext.getString(R.string.lanka_bangla_dps), mContext.getString(R.string.bill_pay), ""));
@@ -423,6 +424,8 @@ public class MakePaymentContactsSearchView extends RelativeLayout implements Sea
                         profilePictureView.setProfilePicture(R.drawable.credit_card);
                     else if (businessName.equalsIgnoreCase(mContext.getString(R.string.desco)))
                         profilePictureView.setProfilePicture(R.drawable.desco);
+                    else if (businessName.equalsIgnoreCase(mContext.getString(R.string.dpdc)))
+                        profilePictureView.setProfilePicture(R.drawable.dpdc);
                     else if (businessName.equalsIgnoreCase(mContext.getString(R.string.lanka_bangla_card)))
                         profilePictureView.setProfilePicture(R.drawable.lbf_credit_card);
                     else if (businessName.equalsIgnoreCase(mContext.getString(R.string.lanka_bangla_dps)))

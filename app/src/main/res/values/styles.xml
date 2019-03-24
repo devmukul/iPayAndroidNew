@@ -102,7 +102,7 @@
         <item name="android:textColor">@color/colorPaymentReviewPrimaryText</item>
         <item name="android:drawablePadding">@dimen/activity_horizontal_margin_card</item>
         <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textSize">9sp</item>
+        <item name="android:textSize">11sp</item>
     </style>
 
     <style name="HomeDividerStyleColorGrey">

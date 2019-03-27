@@ -97,7 +97,7 @@ public class IPayContactListFragment extends Fragment implements LoaderManager.L
 		mSearchedNumberLayout = view.findViewById(R.id.searched_number_layout);
 		mContactListEmptyMessageTextView = view.findViewById(R.id.contact_list_empty_message_text_view);
 		mContactListRecyclerView = view.findViewById(R.id.contact_list_recycler_view);
-		mContinueButton = view.findViewById(R.id.continue_button);
+		mContinueButton = view.findViewById(R.id.button_send_money);
 
 		mContactSearchView.setIconified(false);
 		mContactSearchView.setOnQueryTextListener(this);

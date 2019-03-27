@@ -669,13 +669,13 @@ public class Utilities {
         return "";
     }
 
-    public static com.tsongkha.spinnerdatepicker.DatePickerDialog getDatePickerDialog(Context context, Date date, com.tsongkha.spinnerdatepicker.DatePickerDialog.OnDateSetListener onDateSetListener) {
-        final com.tsongkha.spinnerdatepicker.DatePickerDialog datePickerDialog = initDatePickerDialog(context, date, onDateSetListener);
+    public static com.tsongkha.spinnerdatepicker.DatePickerDialog getDatePickerDialog(Context context, Date date, com.tsongkha.spinnerdatepicker.DatePickerDialog.OnDateSetListener onDateSetListener, boolean showDay) {
+        final com.tsongkha.spinnerdatepicker.DatePickerDialog datePickerDialog = initDatePickerDialog(context, date, onDateSetListener, showDay);
 
         return datePickerDialog;
     }
 
-    public static com.tsongkha.spinnerdatepicker.DatePickerDialog initDatePickerDialog(Context context, Date date, com.tsongkha.spinnerdatepicker.DatePickerDialog.OnDateSetListener onDateSetListener) {
+    public static com.tsongkha.spinnerdatepicker.DatePickerDialog initDatePickerDialog(Context context, Date date, com.tsongkha.spinnerdatepicker.DatePickerDialog.OnDateSetListener onDateSetListener, boolean showDay) {
         final Calendar calendar = Calendar.getInstance();
         int year, month, day;
         int minYear = calendar.get(Calendar.YEAR) - Constants.MIN_AGE_LIMIT;
@@ -699,6 +699,7 @@ public class Utilities {
                 .callback(onDateSetListener)
                 .showDaySpinner(true)
                 .defaultDate(year, month, day)
+                .showDaySpinner(showDay)
                 .maxDate(minYear, minMonth, minDay);
         return spinnerDatePickerDialogBuilder.build();
     }

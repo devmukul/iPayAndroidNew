@@ -270,7 +270,7 @@
     <string name="submit">Submit</string>
     <string name="otp_request_failed">Could not send OTP. Please try again</string>
     <string name="update_now">Update Now</string>
-    <string name="transaction_id">Transaction ID: </string>
+    <string name="transaction_id">Transaction ID </string>
     <string name="enter_amount">Amount in BDT</string>
     <string name="reference_number_optional">Reference Number (Optional)</string>
     <string name="description">Description</string>
@@ -868,10 +868,10 @@
     <string name="ipc">Ipc</string>
     <string name="desco_bill_pay_message">From 8 AM until 10 PM you can pay the bills.</string>
     <string name="enter_bill_no">Enter bill number</string>
-    <string name="desco"  translatable="false">Desco</string>
+    <string name="desco" >DESCO</string>
     <string name="dpdc_bill_pay_message">Please enter your DPDC account number and your location code</string>
     <string name="enter_account_number">Please enter an account number</string>
-    <string name="dpdc">Dpdc</string>
+    <string name="dpdc">DPDC</string>
     <string name="enter_location_code">Enter location code</string>
     <string name="current_package_rate">Amount</string>
     <string name="carnival"  translatable="false">Carnival</string>
@@ -1180,6 +1180,15 @@
     <string name="not_found">Not found</string>
     <string name="buy_this_ticket">BUY THIS TICKET</string>
     <string name="fare">Fare(Tk)</string>
+    <string name="select_bill_month">Select Bill Month</string>
+    <string name="wasa">Dhaka WASA</string>
+    <string name="select_card">Select Card</string>
+    <string name="isp">Internet Bill</string>
+    <string name="select_isp">Select ISP</string>
+    <string name="dpdc_account_number">DPDC Account Number</string>
+    <string name="location_code">Location Code</string>
+    <string name="out_referance_id">Out Referance ID:</string>
+    <string name="credit_card_bill_title">Credit Card</string>
     <string name="installment_id">Installment ID</string>
     <string name="ipdc_instant_payment">Ipdc instant payment</string>
     <string name="please_enter_an_installment_id">Please enter an installment ID</string>

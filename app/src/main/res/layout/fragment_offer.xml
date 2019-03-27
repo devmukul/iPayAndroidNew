@@ -63,7 +63,8 @@
                 android:paddingRight="@dimen/value24"
                 android:text="@string/you_can_see_here_what_is_going_on_your_ipay_wallet_and_what_is_ipay_doing_around_the_community"
                 android:textColor="#666666"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:visibility="gone"/>
 
             <RelativeLayout
                 android:id="@+id/content_container"

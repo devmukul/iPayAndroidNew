@@ -82,7 +82,7 @@ public class SignupBusinessStepThreeFragment extends BaseFragment implements Htt
 		if (getActivity() != null)
 			mDeviceID = DeviceInfoFactory.getDeviceId(getActivity());
 
-		mDatePickerDialog = Utilities.getDatePickerDialog(getActivity(), null, this);
+		mDatePickerDialog = Utilities.getDatePickerDialog(getActivity(), null, this, true);
 
 		final TextView termsAndPrivacyTextView = v.findViewById(R.id.terms_and_privacy_text_view);
 

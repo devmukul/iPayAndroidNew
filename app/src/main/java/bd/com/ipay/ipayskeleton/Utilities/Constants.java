@@ -171,7 +171,7 @@ public class Constants {
     public static final String COMMAND_WEST_ZONE_BILL_PAY = "COMMAND_WEST_ZONE_BILL_PAY";
     public static final String COMMAND_GET_WEST_ZONE_CUSTOMER = "COMMAND_GET_WEST_ZONE_CUSTOMER";
     public static final String URL_WEST_ZONE_BILL_PAY = "wzone/billpay";
-    public static final String URL_DPDC_BILL_PAY = "dpdc/billpay";
+    public static final String URL_DPDC_BILL_PAY = "dpdc/bill-pay";
     public static final String URL_DPDC_CUSTOMER_INFO = "dpdc/bill-info";
     public static final String WESTZONE_BILL_PAY = "WESTZONE BILL PAY";
     public static final String LINK_THREE_BILL_PAY = "LINK THREE BILL PAY";
@@ -179,6 +179,8 @@ public class Constants {
     public static final String BRILLIANT_BILL_PAY = "BRILLIANT BILL PAY";
     public static final String FIREBASE_TOKEN = "FIREBASE_TOKEN_V2";
     public static final String URL_DESCO_CUSTOMER_INFO = "desco/bill-info/";
+
+    public static final String URL_WASA_CUSTOMER_INFO = "wasa/bill-info";
     public static final String DESCO_BILL_PAY = "DESCO BILL PAY";
     public static final String DESCO = "DESCO";
     public static final String COMMAND_DPDC_BILL_PAY = "COMMAND_DPDC_BILL_PAY";
@@ -290,6 +292,12 @@ public class Constants {
     public static final String INSTALLMENT_NUMBER = "INSTALLMENT_NUMBER";
     public static final String IPDC_SCHEDULED_PAY = "IPDC SCHEDULED PAY";
     public static final String COMMAND_IPDC_SCHEDULED_PAY = "COMMAND_IPDC_SCHEDULED_PAY";
+    public static final String BILL_MONTH = "BILL_MONTH";
+    public static final String BILL_YEAR = "BILL_YEAR";
+    public static final String WASA = "WASA";
+    public static final String LOCATION_CODE = "LOCATION_CODE";
+    public static final String COMMAND_GET_WASA_CUSTOMER = "COMMAND_GET_WASA_CUSTOMER";
+    public static final String FROM_DASHBOARD = "FROM_DASHBOARD";
 
 
     public static String ROLEID = "ROLEID";

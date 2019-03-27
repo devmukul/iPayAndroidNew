@@ -50,7 +50,7 @@ public class CardSelectDialog {
 				alertDialog.cancel();
 			}
 		});
-		continueButton = customView.findViewById(R.id.continue_button);
+		continueButton = customView.findViewById(R.id.button_send_money);
 
         cardTypeRecyclerView = customView.findViewById(R.id.card_type_recycler_view);
 

@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -102,9 +101,9 @@ public class JourneyInfoSelectFragment extends Fragment implements HttpResponseL
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mContinueButton = view.findViewById(R.id.continue_button);
+        mContinueButton = view.findViewById(R.id.button_send_money);
         Toolbar toolbar = view.findViewById(R.id.toolbar);
-        mContinueButton = view.findViewById(R.id.continue_button);
+        mContinueButton = view.findViewById(R.id.button_send_money);
         mHelperText = view.findViewById(R.id.helper_text);
         //String text = "You can purchase max <font color='#00c0af'>4 seats</font> at once and highest <font color='#00c0af'>8 seats</font> per week.";
         //mHelperText.setText(Html.fromHtml(text));

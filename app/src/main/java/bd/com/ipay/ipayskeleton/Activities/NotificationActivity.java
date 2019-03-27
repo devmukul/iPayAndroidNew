@@ -33,6 +33,7 @@ public class NotificationActivity extends BaseActivity {
         else
             switchToNotificationFragment();
 
+        setTitle(getString(R.string.notification));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }

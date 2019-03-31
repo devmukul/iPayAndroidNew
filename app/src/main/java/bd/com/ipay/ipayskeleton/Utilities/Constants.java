@@ -298,6 +298,10 @@ public class Constants {
     public static final String LOCATION_CODE = "LOCATION_CODE";
     public static final String COMMAND_GET_WASA_CUSTOMER = "COMMAND_GET_WASA_CUSTOMER";
     public static final String FROM_DASHBOARD = "FROM_DASHBOARD";
+    public static final String COMMAND_SET_SCHEDULED_PAYMENT_DECESION = "COMMAND_SET_SCHEDULED_PAYMENT_DECESION";
+    public static final String INSTALLMENT_ID = "INSTALLMENT_ID";
+    public static final String COMMAND_ACCEPT_SCHEDULED_PAYMENT = "COMMAND_ACCEPT_SCHEDULED_PAYMENT";
+    public static final String COMMAND_REJECT_SCHEDULED_PAYMENT = "COMMAND_REJECT_SCHEDULED_PAYMENT";
 
 
     public static String ROLEID = "ROLEID";
@@ -990,6 +994,7 @@ public class Constants {
     public static final int NOTIFICATION_TYPE_INTRODUCTION_REQUEST = 4;
     public static final int NOTIFICATION_TYPE_PENDING_INTRODUCER_REQUEST = 5;
     public static final int NOTIFICATION_TYPE_PENDING_ROLE_MANAGER_REQUEST = 6;
+    public static final int NOTIFICATION_TYPE_SCHEDULE_PAYMENT_REQUEST = 7;
 
     public static final String ACTION_TYPE_VERIFY = "Verify";
     public static final String ACTION_TYPE_REMOVE = "Remove";

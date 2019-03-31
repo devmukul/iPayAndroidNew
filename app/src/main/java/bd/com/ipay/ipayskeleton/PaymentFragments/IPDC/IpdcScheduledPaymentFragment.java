@@ -13,14 +13,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.makeramen.roundedimageview.RoundedImageView;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import bd.com.ipay.ipayskeleton.Activities.UtilityBillPayActivities.IPayUtilityBillPayActionActivity;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.GroupedScheduledPaymentInfo;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.IPDC.ScheduledPaymentInfo;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SchedulePayment.GroupedScheduledPaymentList;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SchedulePayment.ScheduledPaymentInfo;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.ShedulePaymentConstant;
 import bd.com.ipay.ipayskeleton.Utilities.Utilities;
@@ -28,7 +26,7 @@ import bd.com.ipay.ipayskeleton.Utilities.Utilities;
 public class IpdcScheduledPaymentFragment extends Fragment {
     private RecyclerView scheduledPaymentListRecyclerView;
     private GlobalScheduledPaymentListFragment.ScheduledPaymentListAdapter scheduledPaymentAdapter;
-    private GroupedScheduledPaymentInfo groupedScheduledPaymentInfoList;
+    private GroupedScheduledPaymentList groupedScheduledPaymentInfoList;
     private List<ScheduledPaymentInfo> scheduledPaymentInfoList;
 
 
@@ -41,7 +39,7 @@ public class IpdcScheduledPaymentFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        groupedScheduledPaymentInfoList = (GroupedScheduledPaymentInfo) getArguments().
+        groupedScheduledPaymentInfoList = (GroupedScheduledPaymentList) getArguments().
                 getSerializable("scheduledPaymentList");
         scheduledPaymentInfoList = new ArrayList<>();
         for (ScheduledPaymentInfo scheduledPaymentInfo : groupedScheduledPaymentInfoList.getScheduledPaymentInfos()){

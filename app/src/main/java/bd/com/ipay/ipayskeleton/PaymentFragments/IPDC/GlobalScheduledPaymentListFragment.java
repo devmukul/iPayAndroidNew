@@ -15,11 +15,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
-import com.makeramen.roundedimageview.RoundedImageView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,9 +28,9 @@ import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.ProfileImageView;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.GenericResponseWithMessageOnly;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.IPDC.GetScheduledPaymentInfoResponse;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.GroupedScheduledPaymentInfo;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.IPDC.ScheduledPaymentInfo;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SchedulePayment.GetScheduledPaymentInfoResponse;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SchedulePayment.GroupedScheduledPaymentList;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SchedulePayment.ScheduledPaymentInfo;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Utilities.ShedulePaymentConstant;
@@ -43,7 +40,7 @@ public class GlobalScheduledPaymentListFragment extends Fragment implements Http
     private HttpRequestGetAsyncTask getScheduledPaymentListTask;
     private ScheduledPaymentListAdapter scheduledPaymentAdapter;
     private CustomProgressDialog progressDialog;
-    private List<GroupedScheduledPaymentInfo> groupedScheduledPaymentInfoList;
+    private List<GroupedScheduledPaymentList> groupedScheduledPaymentInfoList;
 
 
     @Nullable
@@ -133,9 +130,9 @@ public class GlobalScheduledPaymentListFragment extends Fragment implements Http
     }
 
     public class ScheduledPaymentListAdapter extends RecyclerView.Adapter<ScheduledPaymentListAdapter.ScheduledPaymentViewHolder> {
-        private List<GroupedScheduledPaymentInfo> scheduledPaymentInfoList;
+        private List<GroupedScheduledPaymentList> scheduledPaymentInfoList;
 
-        public ScheduledPaymentListAdapter(List<GroupedScheduledPaymentInfo> scheduledPaymentInfoList) {
+        public ScheduledPaymentListAdapter(List<GroupedScheduledPaymentList> scheduledPaymentInfoList) {
             this.scheduledPaymentInfoList = scheduledPaymentInfoList;
         }
 
@@ -165,7 +162,12 @@ public class GlobalScheduledPaymentListFragment extends Fragment implements Http
 
             scheduledPaymentViewHolder.runningCountTextView.setText(running + " Running");
             scheduledPaymentViewHolder.pendingCountTextView.setText(pending + " Pending");
-            scheduledPaymentViewHolder.productImageView.setProfilePicture(scheduledPaymentInfoList.get(i).getReceiverInfo().getProfilePictures().get(0).getUrl(),true);
+            try {
+                scheduledPaymentViewHolder.productImageView.setProfilePicture(scheduledPaymentInfoList.get(i).getReceiverInfo().getProfilePictures().get(0).getUrl(),true);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
 
             scheduledPaymentViewHolder.parentView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -1,4 +1,4 @@
-package bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.DPDC;
+package bd.com.ipay.ipayskeleton.PaymentFragments.IPDC;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,10 +10,10 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import bd.com.ipay.ipayskeleton.Activities.PaymentActivities.UtilityBillPaymentActivity;
+import bd.com.ipay.ipayskeleton.Activities.UtilityBillPayActivities.IPayUtilityBillPayActionActivity;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.DescoBillPayRequest;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.DpdcBillPayRequest;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.GenericBillPayResponse;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractTransactionConfirmationFragment;
@@ -26,22 +26,16 @@ import bd.com.ipay.ipayskeleton.Utilities.Utilities;
 
 import static bd.com.ipay.ipayskeleton.Utilities.Constants.TOTAL_AMOUNT;
 
-public class DPDCBillConfirmationFragment extends IPayAbstractTransactionConfirmationFragment {
+public class SchedulePaymentConfirmationFragment extends IPayAbstractTransactionConfirmationFragment {
 
     protected static final String BILL_AMOUNT_KEY = "BILL_AMOUNT";
     private final Gson gson = new Gson();
     private DpdcBillPayRequest mDpdcBillPayRequest;
 
-    private HttpRequestPostAsyncTask descoBillPayTask = null;
+    private HttpRequestPostAsyncTask schedulePaymentPayTask = null;
 
     private Number totalAmount;
-    private String descoAccountId;
-    private String billNumber;
-
-    private String billMonth;
-    private String billYear;
-    private String locationCode;
-
+    private int transactionId;
     private String uri;
 
 
@@ -49,12 +43,9 @@ public class DPDCBillConfirmationFragment extends IPayAbstractTransactionConfirm
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            descoAccountId = getArguments().getString(Constants.ACCOUNT_ID, "");
-            totalAmount = (Number) getArguments().getSerializable(TOTAL_AMOUNT);
-            billNumber = getArguments().getString(Constants.BILL_NUMBER, "");
-            billMonth = getArguments().getString(Constants.BILL_MONTH);
-            billYear = getArguments().getString(Constants.BILL_YEAR);
-            locationCode = getArguments().getString(Constants.LOCATION_CODE);
+            transactionId = getArguments().getInt(Constants.INSTALLMENT_ID, 0);
+            totalAmount = (Number) getArguments().getSerializable(BILL_AMOUNT_KEY);
+            System.out.println("total amount "+totalAmount);
         }
     }
 
@@ -62,8 +53,8 @@ public class DPDCBillConfirmationFragment extends IPayAbstractTransactionConfirm
     protected void setupViewProperties() {
         setTransactionImageResource(R.drawable.dpdc);
         setTransactionDescription(getStyledTransactionDescription(R.string.pay_bill_confirmation_message, totalAmount));
-        setName(getString(R.string.account_number)+": "+descoAccountId);
-        setUserName(getString(R.string.bill_number)+": "+billNumber);
+//        setName(getString(R.string.account_number)+": "+descoAccountId);
+//        setUserName(getString(R.string.bill_number)+": "+billNumber);
     }
 
     @Override
@@ -103,13 +94,13 @@ public class DPDCBillConfirmationFragment extends IPayAbstractTransactionConfirm
         if (!Utilities.isConnectionAvailable(getContext())) {
             Toaster.makeText(getContext(), R.string.no_internet_connection, Toast.LENGTH_SHORT);
         }
-        if (descoBillPayTask == null) {
-            mDpdcBillPayRequest = new DpdcBillPayRequest(descoAccountId, billMonth, billYear, null ,getPin(), locationCode);
-            String json = gson.toJson(mDpdcBillPayRequest);
-            uri = Constants.BASE_URL_UTILITY + Constants.URL_DPDC_BILL_PAY;
-            descoBillPayTask = new HttpRequestPostAsyncTask(Constants.COMMAND_DPDC_BILL_PAY,
-                    uri, json, getActivity(), this, false);
-            descoBillPayTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        if (schedulePaymentPayTask == null) {
+
+            uri = Constants.BASE_URL_SCHEDULED_PAYMENT + Constants.URL_GET_SCHEDULED_PAYMENT_DETAILS+"pay/"+transactionId;
+            schedulePaymentPayTask = new HttpRequestPostAsyncTask(Constants.COMMAND_DPDC_BILL_PAY,
+                    uri, null, getActivity(), this, false);
+            schedulePaymentPayTask.setPinAsHeader(getPin());
+            schedulePaymentPayTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             customProgressDialog.showDialog();
         }
     }
@@ -121,7 +112,7 @@ public class DPDCBillConfirmationFragment extends IPayAbstractTransactionConfirm
 
         if (HttpErrorHandler.isErrorFound(result, getContext(), customProgressDialog)) {
             customProgressDialog.dismissDialog();
-            descoBillPayTask = null;
+            schedulePaymentPayTask = null;
         } else {
             try {
                 switch (result.getApiCommand()) {
@@ -151,12 +142,10 @@ public class DPDCBillConfirmationFragment extends IPayAbstractTransactionConfirm
                                     public void run() {
                                         customProgressDialog.dismissDialog();
                                         Bundle bundle = new Bundle();
-                                        bundle.putString(Constants.ACCOUNT_ID, descoAccountId);
-                                        bundle.putString(Constants.BILL_NUMBER, billNumber);
+                                        bundle.putInt(Constants.TRANSACTION_ID, transactionId);
                                         bundle.putSerializable(Constants.TOTAL_AMOUNT, totalAmount);
-                                        if (getActivity() instanceof UtilityBillPaymentActivity) {
-                                            ((UtilityBillPaymentActivity) getActivity()).switchToDPDCBillSuccessFragment(bundle);
-                                        }
+                                        ((IPayUtilityBillPayActionActivity) getActivity()).switchFragment(new SchedulePaymentSuccessFragment(), bundle, 4, true);
+
 
                                     }
                                 }, 2000);
@@ -223,7 +212,7 @@ public class DPDCBillConfirmationFragment extends IPayAbstractTransactionConfirm
                 customProgressDialog.showFailureAnimationAndMessage(getString(R.string.payment_failed));
                 sendFailedEventTracking(e.getMessage(), totalAmount);
             }
-            descoBillPayTask = null;
+            schedulePaymentPayTask = null;
         }
     }
 }

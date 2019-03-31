@@ -56,14 +56,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
+                <bd.com.ipay.ipayskeleton.CustomView.ProfileImageView
                     android:id="@+id/product_image"
                     android:layout_width="@dimen/value48"
                     android:layout_height="@dimen/value48"
                     android:layout_marginRight="16dp"
                     android:textSize="22sp"
                     android:textColor="@color/colorBlack"
-                    android:text="1"
                     android:gravity="center"
                     android:layout_centerVertical="true"
                     android:background="@drawable/background_number_circle"/>
@@ -151,39 +150,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/value8"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:textSize="12sp"
-                        android:fontFamily="sans-serif"
-                        android:textStyle="normal"
-                        android:textColor="#333333"
-                        android:lineSpacingExtra="8sp"
-                        android:text="@string/installment_amount" />
-
-                    <TextView
-                        android:id="@+id/installment_amount_view"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:textSize="13sp"
-                        android:fontFamily="sans-serif-medium"
-                        android:textStyle="normal"
-                        android:textColor="#333333"
-                        android:lineSpacingExtra="7sp"
-                        android:text="" />
-
-                </LinearLayout>
-
-                <LinearLayout
                     android:id="@+id/stamp_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -204,73 +170,6 @@
 
                     <TextView
                         android:id="@+id/no_of_installment_view"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:textSize="13sp"
-                        android:fontFamily="sans-serif-medium"
-                        android:textStyle="normal"
-                        android:textColor="#333333"
-                        android:lineSpacingExtra="7sp"
-                        android:text="" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/value8"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:textSize="12sp"
-                        android:fontFamily="sans-serif"
-                        android:textStyle="normal"
-                        android:textColor="#333333"
-                        android:lineSpacingExtra="8sp"
-                        android:text="@string/schedule_date" />
-
-                    <TextView
-                        android:id="@+id/schedule_date_view"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:textSize="13sp"
-                        android:fontFamily="sans-serif-medium"
-                        android:textStyle="normal"
-                        android:textColor="#333333"
-                        android:lineSpacingExtra="7sp"
-                        android:text="" />
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/value8"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:textSize="12sp"
-                        android:fontFamily="sans-serif"
-                        android:textStyle="normal"
-                        android:textColor="#333333"
-                        android:lineSpacingExtra="8sp"
-                        android:text="@string/paid_till_today" />
-
-                    <TextView
-                        android:id="@+id/paid_amount_view"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -313,7 +212,8 @@
         android:orientation="horizontal"
         android:paddingBottom="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_horizontal_margin"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:visibility="gone">
 
         <Button
             android:id="@+id/button_reject"

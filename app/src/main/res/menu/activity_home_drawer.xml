@@ -17,6 +17,7 @@
             android:title="@string/source_of_fund" />
         <item
             android:id="@+id/nav_scheduled_payment"
+            android:icon="@drawable/ic_source_of_fund"
             android:title="@string/scheduled_payment" />
         <item
             android:id="@+id/nav_security_settings"

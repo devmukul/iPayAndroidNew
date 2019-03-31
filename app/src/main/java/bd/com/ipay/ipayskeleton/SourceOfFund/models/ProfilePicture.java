@@ -53,4 +53,12 @@ public class ProfilePicture implements Parcelable, Serializable {
         dest.writeString(url);
         dest.writeString(quality);
     }
+
+    @Override
+    public String toString() {
+        return "ProfilePicture{" +
+                "url='" + url + '\'' +
+                ", quality='" + quality + '\'' +
+                '}';
+    }
 }

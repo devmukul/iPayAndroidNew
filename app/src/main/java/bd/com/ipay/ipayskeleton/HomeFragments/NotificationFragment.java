@@ -35,6 +35,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import bd.com.ipay.ipayskeleton.Activities.NotificationActivity;
+import bd.com.ipay.ipayskeleton.Activities.UtilityBillPayActivities.IPayUtilityBillPayActionActivity;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestGetAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPutAsyncTask;
@@ -50,9 +51,6 @@ import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.BusinessRoles.GetPending
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.BusinessRuleAndServiceCharge.ServiceCharge.GetServiceChargeRequest;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.BusinessRuleAndServiceCharge.ServiceCharge.GetServiceChargeResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.GenericResponseWithMessageOnly;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.GroupedScheduledPaymentInfo;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.IPDC.GetScheduledPaymentInfoResponse;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.IPDC.ScheduledPaymentInfo;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.MakePayment.InvoiceItem;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Notification.BusinessRoleManagerInvitation;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Notification.GetMoneyAndPaymentRequest;
@@ -64,7 +62,9 @@ import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.Introducer.GetPe
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.Introducer.PendingIntroducer;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.IntroductionAndInvite.GetIntroductionRequestsResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.IntroductionAndInvite.IntroductionRequestClass;
-import bd.com.ipay.ipayskeleton.PaymentFragments.IPDC.GlobalScheduledPaymentListFragment;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SchedulePayment.GetScheduledPaymentInfoResponse;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SchedulePayment.GroupedScheduledPaymentList;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SchedulePayment.ScheduledPaymentInfo;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.SourceOfFund.EditPermissionSourceOfFundBottomSheetFragment;
 import bd.com.ipay.ipayskeleton.SourceOfFund.models.AcceptOrRejectBeneficiaryRequest;
@@ -127,6 +127,7 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 	private List<IntroductionRequestClass> mIntroductionRequests;
 	private List<PendingIntroducer> mPendingIntroducerList;
 	private List<BusinessRoleManagerInvitation> mBusinessRoleManagerRequestsList;
+	private List<ScheduledPaymentInfo> scheduledPaymentInfoList;
 
 	// These variables hold the information needed to populate the review dialog
 	private List<InvoiceItem> mInvoiceItemList;
@@ -146,7 +147,7 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 	private Tracker mTracker;
 
 
-	private List<ScheduledPaymentInfo> scheduledPaymentInfoList;
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -420,24 +421,31 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 	private boolean isAllNotificationsLoaded() {
 		return mGetMoneyAndPaymentRequestTask == null && mGetIntroductionRequestTask == null
 				&& mGetPendingRoleManagerRequestTask == null && mGetBeneficiaryAsyncTask ==
-				null && mGetSponsorAsyncTask == null;
+				null && mGetSponsorAsyncTask == null && getScheduledPaymentListTask == null;
 	}
 
 	private List<Notification> mergeNotificationLists() {
 		List<Notification> notifications = new ArrayList<>();
-		if (mMoneyAndPaymentRequests != null)
-			notifications.addAll(mMoneyAndPaymentRequests);
-		if (mIntroductionRequests != null)
-			notifications.addAll(mIntroductionRequests);
-		if (mPendingIntroducerList != null)
-			notifications.addAll(mPendingIntroducerList);
-		if (mBusinessRoleManagerRequestsList != null)
-			notifications.addAll(mBusinessRoleManagerRequestsList);
+		if (mMoneyAndPaymentRequests != null) {
+            notifications.addAll(mMoneyAndPaymentRequests);
+        }
+		if (mIntroductionRequests != null) {
+            notifications.addAll(mIntroductionRequests);
+        }
+		if (mPendingIntroducerList != null) {
+            notifications.addAll(mPendingIntroducerList);
+        }
+		if (mBusinessRoleManagerRequestsList != null) {
+            notifications.addAll(mBusinessRoleManagerRequestsList);
+        }
 		if (beneficiaryPendingList != null) {
 			notifications.addAll(beneficiaryPendingList);
 		}if (sponsorPendingList != null) {
 			notifications.addAll(sponsorPendingList);
 		}
+		if (scheduledPaymentInfoList != null) {
+            notifications.addAll(scheduledPaymentInfoList);
+        }
 
 		// Date wise sort all notifications
 		Collections.sort(notifications, new Comparator<Notification>() {
@@ -518,6 +526,16 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 				new ContactSearchHelper(getActivity()).searchMobileNumber(mReceiverMobileNumber));
 		startActivity(intent);
 	}
+
+    private void launchSchedulePaymentFragment(ScheduledPaymentInfo scheduledPaymentInfoPercel) {
+        Intent intent = new Intent(this.getContext(), IPayUtilityBillPayActionActivity.class);
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.putExtra("id", String.valueOf(scheduledPaymentInfoPercel.getId()));
+        intent.putExtra(Constants.ACTION_FROM_NOTIFICATION, true);
+        startActivity(intent);
+    }
+
+
 
 	private void launchIntroductionRequestReviewFragment(final IntroductionRequestClass introductionRequest) {
 		final long requestID = introductionRequest.getId();
@@ -777,13 +795,27 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 
 				case Constants.COMMAND_GET_SCHEDULED_PAYMENT_LIST:
 					if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
-						GetScheduledPaymentInfoResponse getScheduledPaymentInfoResponse = new Gson().
+                        GetScheduledPaymentInfoResponse getScheduledPaymentInfoResponse = new Gson().
 								fromJson(result.getJsonString(), GetScheduledPaymentInfoResponse.class);
 
-						List<GroupedScheduledPaymentInfo> groupedScheduledPaymentInfoList = getScheduledPaymentInfoResponse.getGroupedScheduledPaymentList();
-						for(GroupedScheduledPaymentInfo groupedScheduledPaymentInfo : groupedScheduledPaymentInfoList){
-							scheduledPaymentInfoList.addAll(groupedScheduledPaymentInfo.getScheduledPaymentInfos());
-						}
+						List<GroupedScheduledPaymentList> groupedScheduledPaymentInfoList = getScheduledPaymentInfoResponse.getGroupedScheduledPaymentList();
+                        scheduledPaymentInfoList = new ArrayList<>();
+						for(GroupedScheduledPaymentList groupedScheduledPaymentInfo : groupedScheduledPaymentInfoList) {
+						    scheduledPaymentInfoList = groupedScheduledPaymentInfo.getScheduledPaymentInfos();
+
+                            System.out.println("Test >>>>> 2"+groupedScheduledPaymentInfo.toString());
+
+                            System.out.println("Test >>>>> 2"+groupedScheduledPaymentInfo.getReceiverInfo().toString());
+						    for (int i=0 ; i <scheduledPaymentInfoList.size();i++) {
+						        ScheduledPaymentInfo scheduledPaymentInfo = scheduledPaymentInfoList.get(i);
+                                System.out.println("Test >>>>> 1"+scheduledPaymentInfo.toString());
+						        scheduledPaymentInfo.setReceiverInfo(groupedScheduledPaymentInfo.getReceiverInfo());
+                                System.out.println("Test >>>>> 3"+scheduledPaymentInfo.toString());
+                                scheduledPaymentInfoList.set(i, scheduledPaymentInfo);
+                            }
+
+                            System.out.println("Test >>>>> "+scheduledPaymentInfoList.toString());
+                        }
 
 					} else {
 						GenericResponseWithMessageOnly genericResponseWithMessageOnly =
@@ -797,6 +829,9 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 								}).show();
 
 					}
+
+                    getScheduledPaymentListTask = null;
+                    postProcessNotificationList();
 					break;
 
 				default:
@@ -808,6 +843,7 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 			mGetIntroductionRequestTask = null;
 			mGetPendingIntroducerListTask = null;
 			mGetPendingRoleManagerRequestTask = null;
+			getScheduledPaymentListTask = null;
 			acceptOrRejectBeneficiaryAsyncTask = null;
 
 		}
@@ -857,7 +893,28 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 			}
 		}
 
-		public class MoneyAndPaymentRequestViewHolder extends NotificationViewHolder {
+        public class SchedulePaymentViewHolder extends NotificationViewHolder {
+
+            public SchedulePaymentViewHolder(final View itemView) {
+                super(itemView);
+            }
+
+            @Override
+            public void bindView(final int pos) {
+                super.bindView(pos);
+
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    @ValidateAccess(ServiceIdConstants.MANAGE_INTRODUCERS)
+                    public void onClick(View v) {
+                        launchSchedulePaymentFragment ( (ScheduledPaymentInfo) mNotifications.get(pos));
+                    }
+                });
+            }
+
+        }
+
+        public class MoneyAndPaymentRequestViewHolder extends NotificationViewHolder {
 			private final TextView mAmountView;
 
 			public MoneyAndPaymentRequestViewHolder(final View itemView) {
@@ -1115,7 +1172,13 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 						(R.layout.list_item_get_beneficiaries,
 								parent, false);
 				return new SourceOfFundBeneficiaryViewHolder(v);
-			} else {
+			} else if (viewType == Constants.NOTIFICATION_TYPE_SCHEDULE_PAYMENT_REQUEST) {
+
+                v = LayoutInflater.from(parent.getContext()).inflate
+                        (R.layout.view_notification_description, parent,
+                                false);
+                return new SchedulePaymentViewHolder(v);
+            }else {
 				v = LayoutInflater.from(parent.getContext()).inflate
 						(R.layout.list_item_money_and_make_payment_request, parent,
 								false);

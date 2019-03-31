@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 
 import bd.com.ipay.ipayskeleton.Activities.BaseActivity;
+import bd.com.ipay.ipayskeleton.PaymentFragments.IPDC.GlobalScheduledPaymentListFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPDC.IpdcInstantPaymentFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPDC.IpdcScheduledPaymentDetailsFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractTransactionSuccessFragment;
@@ -44,13 +45,14 @@ public final class IPayUtilityBillPayActionActivity extends BaseActivity {
     public static final String BILL_AMOUNT_KEY = "BILL_AMOUNT";
     public static final String BANK_CODE = "BANK_CODE";
 
-    public ArrayList<MyCard> myCards;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ipay_utility_bill_pay_action);
-        if (getIntent().hasExtra(Constants.ACTION_FROM_NOTIFICATION)) {
+        if(getIntent().hasExtra(Constants.FROM_DASHBOARD)){
+            Bundle bundle = getIntent().getBundleExtra(Constants.BUNDLE);
+            switchFragment(new CreditCardInfoInputFragment(), bundle, 0, true);
+        }else if (getIntent().hasExtra(Constants.ACTION_FROM_NOTIFICATION)) {
             if (getIntent().getBooleanExtra(Constants.ACTION_FROM_NOTIFICATION, false)) {
                 String id = getIntent().getStringExtra("id");
                 Bundle bundle = new Bundle();
@@ -58,38 +60,6 @@ public final class IPayUtilityBillPayActionActivity extends BaseActivity {
                 switchFragment(new IpdcScheduledPaymentDetailsFragment(), bundle, 2, true);
             }
             return;
-        }
-        final String billPayPartyName = getIntent().getStringExtra(BILL_PAY_PARTY_NAME_KEY);
-        BusinessRuleCacheManager.fetchBusinessRule(this, ServiceIdConstants.UTILITY_BILL_PAYMENT);
-        final Bundle bundle = new Bundle();
-        switch (billPayPartyName) {
-            case BILL_PAY_LANKABANGLA_CARD:
-                switchFragment(new LankaBanglaCardNumberInputFragment(), bundle, 0, false);
-                break;
-            case BILL_PAY_LINK_THREE:
-                switchFragment(new LinkThreeSubscriberIdInputFragment(), bundle, 0, false);
-                break;
-            case BILL_PAY_CARNIVAL:
-                switchFragment(new CarnivalIdInputFragment(), bundle, 0, false);
-                break;
-            case CREDIT_CARD:
-                switchFragment(new CreditCardBankSelectionFragment(), bundle, 0, false);
-                break;
-            case BILL_PAY_LANKABANGLA_DPS:
-                switchFragment(new LankaBanglaDpsNumberInputFragment(), bundle, 0, false);
-                break;
-            case SCHEDULED_PAY_IPDC:
-                switchFragment(new IpdcInstantPaymentFragment(), bundle, 0, false);
-                break;
-
-            default:
-                finish();
-        }
-    }
-        if(getIntent().hasExtra(Constants.FROM_DASHBOARD)){
-            Bundle bundle = getIntent().getBundleExtra(Constants.BUNDLE);
-            System.out.println("Test Icon "+bundle.getString(BANK_CODE) );
-            switchFragment(new CreditCardInfoInputFragment(), bundle, 0, true);
         }else{
             final String billPayPartyName = getIntent().getStringExtra(BILL_PAY_PARTY_NAME_KEY);
             BusinessRuleCacheManager.fetchBusinessRule(this, ServiceIdConstants.UTILITY_BILL_PAYMENT);
@@ -109,6 +79,9 @@ public final class IPayUtilityBillPayActionActivity extends BaseActivity {
                     break;
                 case BILL_PAY_LANKABANGLA_DPS:
                     switchFragment(new LankaBanglaDpsNumberInputFragment(), bundle, 0, false);
+                    break;
+                case SCHEDULED_PAY_IPDC:
+                    switchFragment(new GlobalScheduledPaymentListFragment(), bundle, 0, false);
                     break;
                 default:
                     finish();

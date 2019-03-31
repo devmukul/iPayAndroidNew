@@ -24,7 +24,8 @@
         android:layout_marginTop="@dimen/value16"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="@dimen/value10"
-        android:text="@string/card_bill_alert_message" />
+        android:text="@string/card_bill_alert_message"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:id="@+id/progress_layout"

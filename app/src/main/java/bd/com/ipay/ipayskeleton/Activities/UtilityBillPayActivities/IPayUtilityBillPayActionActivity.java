@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import bd.com.ipay.ipayskeleton.Activities.BaseActivity;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.MyCard;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractTransactionSuccessFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.IspSelectionFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.Carnival.CarnivalIdInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.CreditCard.CreditCardBankSelectionFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.CreditCard.CreditCardInfoInputFragment;
@@ -49,9 +50,14 @@ public final class IPayUtilityBillPayActionActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ipay_utility_bill_pay_action);
         if(getIntent().hasExtra(Constants.FROM_DASHBOARD)){
-            Bundle bundle = getIntent().getBundleExtra(Constants.BUNDLE);
-            System.out.println("Test Icon "+bundle.getString(BANK_CODE) );
-            switchFragment(new CreditCardInfoInputFragment(), bundle, 0, true);
+            if(getIntent().getStringExtra(Constants.SERVICE).equals("CARD")) {
+                Bundle bundle = new Bundle();
+                bundle.putBoolean(Constants.FROM_DASHBOARD, true);
+                switchFragment(new CreditCardBankSelectionFragment(), bundle, 0, true);
+            }else{
+                switchFragment(new IspSelectionFragment(), null, 0, true);
+            }
+
         }else{
             final String billPayPartyName = getIntent().getStringExtra(BILL_PAY_PARTY_NAME_KEY);
             BusinessRuleCacheManager.fetchBusinessRule(this, ServiceIdConstants.UTILITY_BILL_PAYMENT);

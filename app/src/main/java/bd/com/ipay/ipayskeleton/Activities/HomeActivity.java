@@ -671,6 +671,10 @@ public class HomeActivity extends BaseActivity
             switchToIpaySourceOfFundActivity();
 
         } else if (id == R.id.nav_scheduled_payment) {
+            if (!ACLManager.hasServicesAccessibility(ServiceIdConstants.MAKE_PAYMENT)) {
+                DialogUtils.showServiceNotAllowedDialog(HomeActivity.this);
+                return;
+            }
             switchToScheduledPayment();
 
         } else if (id == R.id.nav_promo) {

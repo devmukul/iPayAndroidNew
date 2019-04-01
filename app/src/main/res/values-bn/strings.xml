@@ -1359,8 +1359,8 @@
     <string name="fare">ভাড়া (৳)</string>
     <string name="paid_till_today">Paid till today</string>
     <string name="schedule_date">Schedule date</string>
-    <string name="no_of_installmenr">No. of installment</string>
-    <string name="loan_amount">Loan ammount</string>
+    <string name="no_of_installmenr">কিস্তির সংখ্যা</string>
+    <string name="loan_amount">লোনের পরিমাণ</string>
     <string name="select_bill_month">বিলের মাস নির্বাচন করুন</string>
     <string name="wasa">ঢাকা ওয়াসা</string>
     <string name="select_card">কার্ড নির্বাচন করুন</string>

@@ -291,9 +291,9 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 		refreshIntroductionRequestList(context);
 		refreshMoneyAndPaymentRequestList(context);
 		refreshPendingIntroducerList(context);
-		refreshBusinessRoleManagerList(context);
 		refreshSourceOfFundBeneficiaryList(context);
 		refreshSourceOfFundSponsorList(context);
+		refreshSchedulePaymentList(context);
 	}
 
 
@@ -317,8 +317,8 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 	}
 
 	private void getPendingSchedulePaymentListResponse(Context context) {
-//		if (!ACLManager.hasServicesAccessibility(ServiceIdConstants.SCHEDULE_PAYMENT))
-//			return;
+		if (!ACLManager.hasServicesAccessibility(ServiceIdConstants.SCHEDULE_PAYMENT))
+			return;
 
 		if (getScheduledPaymentListTask != null) {
 			return;
@@ -389,6 +389,13 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 			getIntroductionRequestList(context);
 		}
 	}
+
+    private void refreshSchedulePaymentList(Context context) {
+        if (Utilities.isConnectionAvailable(context)) {
+            scheduledPaymentInfoList = null;
+            getPendingSchedulePaymentListResponse(context);
+        }
+    }
 
 	private void refreshBusinessRoleManagerList(Context context) {
 		if (Utilities.isConnectionAvailable(context)) {
@@ -802,19 +809,11 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
                         scheduledPaymentInfoList = new ArrayList<>();
 						for(GroupedScheduledPaymentList groupedScheduledPaymentInfo : groupedScheduledPaymentInfoList) {
 						    scheduledPaymentInfoList = groupedScheduledPaymentInfo.getScheduledPaymentInfos();
-
-                            System.out.println("Test >>>>> 2"+groupedScheduledPaymentInfo.toString());
-
-                            System.out.println("Test >>>>> 2"+groupedScheduledPaymentInfo.getReceiverInfo().toString());
 						    for (int i=0 ; i <scheduledPaymentInfoList.size();i++) {
 						        ScheduledPaymentInfo scheduledPaymentInfo = scheduledPaymentInfoList.get(i);
-                                System.out.println("Test >>>>> 1"+scheduledPaymentInfo.toString());
 						        scheduledPaymentInfo.setReceiverInfo(groupedScheduledPaymentInfo.getReceiverInfo());
-                                System.out.println("Test >>>>> 3"+scheduledPaymentInfo.toString());
                                 scheduledPaymentInfoList.set(i, scheduledPaymentInfo);
                             }
-
-                            System.out.println("Test >>>>> "+scheduledPaymentInfoList.toString());
                         }
 
 					} else {

@@ -1198,7 +1198,7 @@
     <string name="paid_till_today">Paid till today</string>
     <string name="schedule_date">Schedule date</string>
     <string name="no_of_installmenr">No. of installment</string>
-    <string name="loan_amount">Loan ammount</string>
+    <string name="loan_amount">Loan amount</string>
     <string name="ipdc_instant_payment_input_message">Please insert your Installment ID and  amount you want to pay</string>
     <string name="ipdc">IPDC</string>
 

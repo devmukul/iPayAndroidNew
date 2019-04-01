@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import bd.com.ipay.ipayskeleton.Activities.BaseActivity;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPDC.GlobalScheduledPaymentListFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPDC.IpdcInstantPaymentFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.IPDC.IpdcScheduledPaymentApiFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPDC.IpdcScheduledPaymentDetailsFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.IPDC.IpdcScheduledPaymentFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractTransactionSuccessFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.Carnival.CarnivalIdInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.CreditCard.CreditCardBankSelectionFragment;
@@ -81,7 +83,12 @@ public final class IPayUtilityBillPayActionActivity extends BaseActivity {
                     switchFragment(new LankaBanglaDpsNumberInputFragment(), bundle, 0, false);
                     break;
                 case SCHEDULED_PAY_IPDC:
-                    switchFragment(new GlobalScheduledPaymentListFragment(), bundle, 0, false);
+                    if(getIntent().hasExtra(Constants.MOBILE_NUMBER)) {
+                        bundle.putString(Constants.MOBILE_NUMBER, getIntent().getStringExtra(Constants.MOBILE_NUMBER));
+                        switchFragment(new IpdcScheduledPaymentApiFragment(), bundle, 0, false);
+                    }else{
+                        switchFragment(new GlobalScheduledPaymentListFragment(), bundle, 0, false);
+                    }
                     break;
                 default:
                     finish();

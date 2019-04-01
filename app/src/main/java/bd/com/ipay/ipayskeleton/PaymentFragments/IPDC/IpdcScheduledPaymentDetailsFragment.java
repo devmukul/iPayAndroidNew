@@ -3,6 +3,7 @@ package bd.com.ipay.ipayskeleton.PaymentFragments.IPDC;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -121,7 +122,7 @@ public class IpdcScheduledPaymentDetailsFragment extends Fragment implements Htt
         mAcceptButtonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                acceptScheduledPayment(getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getId(), "Accept");
+                acceptScheduledPayment(getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getId(), "ACCEPT");
 
             }
         });
@@ -129,7 +130,7 @@ public class IpdcScheduledPaymentDetailsFragment extends Fragment implements Htt
         mRejectButtonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                rejectScheduledPayment(getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getId(), "Reject");
+                rejectScheduledPayment(getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getId(), "REJECT");
             }
         });
     }
@@ -272,14 +273,13 @@ public class IpdcScheduledPaymentDetailsFragment extends Fragment implements Htt
 
     private void setData(GetSchedulePaymentDetailsResponse getSchedulePaymentDetailsResponse) {
 
-        System.out.println("Test Output "+ getSchedulePaymentDetailsResponse.toString());
 
         //productImageView;
         productNameTextView.setText(getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getProduct());
         String date = Utilities.formatDateWithoutTime(getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getCreatedAt());
         createdAtTextView.setText(date);
-        mLoanAmountTextView.setText(String.valueOf(getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getLoanAmount()));
-        mNoOfInstallmentTextView.setText(String.valueOf(getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getInstallmentNumber()));
+        mLoanAmountTextView.setText(getString(R.string.tk) + " " +numberFormat.format(getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getLoanAmount()));
+        mNoOfInstallmentTextView.setText(numberFormat.format(getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getInstallmentNumber()));
 
         if(getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getStatus() == ShedulePaymentConstant.ScheduledPayment.WAITING_FOR_UPDATE_APPROVAL ||
                 getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getStatus() == ShedulePaymentConstant.ScheduledPayment.WAITING_FOR_USER_APPROVAL){
@@ -330,9 +330,11 @@ public class IpdcScheduledPaymentDetailsFragment extends Fragment implements Htt
                 scheduledPaymentViewHolder.installmentNoTextView.setText((i+1)+"th Installment");
             }
 
+            String totalAmountString = numberFormat.format(scheduledPaymentInfoList.get(i).getAmount());
+
             String date = Utilities.formatDateWithoutTime(scheduledPaymentInfoList.get(i).getTriggerDate());
             scheduledPaymentViewHolder.installmentDateTextView.setText(date);
-            scheduledPaymentViewHolder.installmentAmountTextView.setText(String.valueOf(scheduledPaymentInfoList.get(i).getAmount()));
+            scheduledPaymentViewHolder.installmentAmountTextView.setText(getString(R.string.tk) + " " +totalAmountString);
             if(scheduledPaymentInfoList.get(i).getStatus()==200) {
                 scheduledPaymentViewHolder.installmentAmountTextView.setCompoundDrawablesWithIntrinsicBounds(
                         R.drawable.transaction_tick_sign, 0, 0, 0);
@@ -340,6 +342,8 @@ public class IpdcScheduledPaymentDetailsFragment extends Fragment implements Htt
                 scheduledPaymentViewHolder.installmentAmountTextView.setCompoundDrawablesWithIntrinsicBounds(
                         R.drawable.pending, 0, 0, 0);
             }else if(scheduledPaymentInfoList.get(i).getStatus()==400){
+                scheduledPaymentViewHolder.installmentAmountTextView.setPaintFlags(scheduledPaymentViewHolder.installmentAmountTextView.getPaintFlags()
+                        | Paint.STRIKE_THRU_TEXT_FLAG);
                 scheduledPaymentViewHolder.installmentAmountTextView.setCompoundDrawablesWithIntrinsicBounds(
                         R.drawable.transaction_cross_sign, 0, 0, 0);
             }
@@ -352,6 +356,7 @@ public class IpdcScheduledPaymentDetailsFragment extends Fragment implements Htt
             }
 
             scheduledPaymentViewHolder.installmentIdTextView.setText("Installment ID: "+scheduledPaymentInfoList.get(i).getId());
+            scheduledPaymentViewHolder.productImageView.setText(numberFormat.format(Double.valueOf(i+1)));
 
             scheduledPaymentViewHolder.payNowButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -359,15 +364,10 @@ public class IpdcScheduledPaymentDetailsFragment extends Fragment implements Htt
                     Bundle bundle = new Bundle();
                     try {
                         bundle.putSerializable(Constants.BILL_AMOUNT, numberFormat.parse(String.valueOf(scheduledPaymentInfoList.get(i).getAmount())));
-
-                        System.out.println("total amount "+numberFormat.parse(String.valueOf(scheduledPaymentInfoList.get(i).getAmount())));
                     } catch (ParseException e) {
                         e.printStackTrace();
-                        System.out.println("total amount "+ e.toString());
                     }
                     bundle.putInt(Constants.INSTALLMENT_ID, scheduledPaymentInfoList.get(i).getId());
-                    System.out.println("total ID "+ scheduledPaymentInfoList.get(i).getId());
-
                     ((IPayUtilityBillPayActionActivity) getActivity()).switchFragment(new SchedulePaymentConfirmationFragment(), bundle, 3, true);
 
                 }

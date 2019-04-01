@@ -141,4 +141,5 @@ public class ServiceIdConstants {
     public static final int CREATE_SOURCE_OF_FUND = 8071;
     public static final int DESCO = 6015;
     public static final int DPDC = 6016;
+    public static final int SCHEDULE_PAYMENT = 6305;
 }

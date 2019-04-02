@@ -28,6 +28,7 @@ import java.util.Locale;
 
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CircleTransform;
+import bd.com.ipay.ipayskeleton.Utilities.Constants;
 
 public abstract class IPayAbstractTransactionSuccessFragment extends Fragment {
 
@@ -123,7 +124,7 @@ public abstract class IPayAbstractTransactionSuccessFragment extends Fragment {
 	protected void setSenderImage(String imageUrl) {
 		arrowImageView.setVisibility(View.VISIBLE);
 		senderProfilePictureImageView.setVisibility(View.VISIBLE);
-		Glide.with(getContext()).load(imageUrl)
+		Glide.with(getContext()).load(Constants.BASE_URL_FTP_SERVER+imageUrl)
 				.transform(new CircleTransform(getContext()))
 				.crossFade()
 				.error(R.drawable.ic_profile)

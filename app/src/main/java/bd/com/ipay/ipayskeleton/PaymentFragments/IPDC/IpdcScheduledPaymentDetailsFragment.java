@@ -368,6 +368,8 @@ public class IpdcScheduledPaymentDetailsFragment extends Fragment implements Htt
                         e.printStackTrace();
                     }
                     bundle.putInt(Constants.INSTALLMENT_ID, scheduledPaymentInfoList.get(i).getId());
+                    bundle.putString(Constants.IMAGE_URL, getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getReceiverInfo().getProfilePictures().get(0).getUrl());
+                    bundle.putString(Constants.NAME, getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getReceiverInfo().getName());
                     ((IPayUtilityBillPayActionActivity) getActivity()).switchFragment(new SchedulePaymentConfirmationFragment(), bundle, 3, true);
 
                 }

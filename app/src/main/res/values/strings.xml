@@ -1202,4 +1202,8 @@
     <string name="ipdc_instant_payment_input_message">Please insert your Installment ID and  amount you want to pay</string>
     <string name="ipdc">IPDC</string>
 
+    <string name="pay_installment_success_message">YOU HAVE PAID INSTALLMENT Tk. %1$s FOR</string>
+    <string name="pay_installment_success_description">You have successfully paid your installment from you iPay wallet.\n See further details under \'Transactions\'.</string>
+
+
 </resources>

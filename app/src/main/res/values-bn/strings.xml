@@ -1378,6 +1378,10 @@
     <string name="my_schedule_list">My Schedule List</string>
     <string name="ipdc_instant_payment_input_message">Please insert your Installment ID and  amount you want to pay</string>
     <string name="ipdc">IPDC</string>
+
+    <string name="pay_installment_success_message">সফলভাবে ৳ %1$s ইন্সটলমেন্ট পেমেন্ট করেছেন</string>
+    <string name="pay_installment_success_description">
+        আপনি সফলভাবে পেমেন্ট করেছেন। বিস্তারিত জানতে আপনার \'লেনদেন\' দেখুন।</string>
 </resources>
 
 

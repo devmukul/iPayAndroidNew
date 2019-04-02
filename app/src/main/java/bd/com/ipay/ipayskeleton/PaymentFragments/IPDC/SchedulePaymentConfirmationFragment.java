@@ -37,6 +37,9 @@ public class SchedulePaymentConfirmationFragment extends IPayAbstractTransaction
     private Number totalAmount;
     private int transactionId;
     private String uri;
+    private String name;
+    private String imageUrl;
+
 
 
     @Override
@@ -45,16 +48,17 @@ public class SchedulePaymentConfirmationFragment extends IPayAbstractTransaction
         if (getArguments() != null) {
             transactionId = getArguments().getInt(Constants.INSTALLMENT_ID, 0);
             totalAmount = (Number) getArguments().getSerializable(BILL_AMOUNT_KEY);
-            System.out.println("total amount "+totalAmount);
+            imageUrl = getArguments().getString(Constants.IMAGE_URL);
+            name = getArguments().getString(Constants.NAME);
         }
     }
 
     @Override
     protected void setupViewProperties() {
-        setTransactionImageResource(R.drawable.dpdc);
+        setName(name);
+
+        setTransactionImage(Constants.BASE_URL_FTP_SERVER+imageUrl);
         setTransactionDescription(getStyledTransactionDescription(R.string.pay_bill_confirmation_message, totalAmount));
-//        setName(getString(R.string.account_number)+": "+descoAccountId);
-//        setUserName(getString(R.string.bill_number)+": "+billNumber);
     }
 
     @Override
@@ -143,6 +147,8 @@ public class SchedulePaymentConfirmationFragment extends IPayAbstractTransaction
                                         customProgressDialog.dismissDialog();
                                         Bundle bundle = new Bundle();
                                         bundle.putInt(Constants.TRANSACTION_ID, transactionId);
+                                        bundle.putString(Constants.IMAGE_URL, imageUrl);
+                                        bundle.putString(Constants.NAME, name);
                                         bundle.putSerializable(Constants.TOTAL_AMOUNT, totalAmount);
                                         ((IPayUtilityBillPayActionActivity) getActivity()).switchFragment(new SchedulePaymentSuccessFragment(), bundle, 4, true);
 

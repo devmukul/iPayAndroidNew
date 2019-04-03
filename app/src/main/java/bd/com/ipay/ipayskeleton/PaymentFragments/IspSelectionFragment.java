@@ -2,7 +2,6 @@ package bd.com.ipay.ipayskeleton.PaymentFragments;
 
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -32,14 +30,10 @@ import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.ISP;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.GetAvailableCreditCardBanks;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.GetProviderResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.Provider;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.ProviderCategory;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.Carnival.CarnivalIdInputFragment;
-import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.CreditCard.Bank;
-import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.CreditCard.CreditCardInfoInputFragment;
-import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.LankaBangla.Card.LankaBanglaCardNumberInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.LinkThree.LinkThreeSubscriberIdInputFragment;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ACLManager;
@@ -47,13 +41,11 @@ import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Utilities.DialogUtils;
 import bd.com.ipay.ipayskeleton.Utilities.PinChecker;
 import bd.com.ipay.ipayskeleton.Utilities.ServiceIdConstants;
-import bd.com.ipay.ipayskeleton.Utilities.ToasterAndLogger.Toaster;
-import bd.com.ipay.ipayskeleton.Widget.View.ISPSelectDialog;
 
 public class IspSelectionFragment extends Fragment implements HttpResponseListener {
-    private RecyclerView mBankListRecyclerView;
+    private RecyclerView mIspListRecyclerView;
     private LinearLayout mProgressLayout;
-    private BankListAdapter bankListAdapter;
+    private IspListAdapter ispListAdapter;
     private HttpRequestGetAsyncTask mGetUtilityProviderListTask;
     private GetProviderResponse mUtilityProviderResponse;
     private List<ProviderCategory> mUtilityProviderTypeList;
@@ -75,7 +67,7 @@ public class IspSelectionFragment extends Fragment implements HttpResponseListen
         super.onViewCreated(view, savedInstanceState);
         mProviderAvailabilityMap = new HashMap<>();
 
-        mBankListRecyclerView = view.findViewById(R.id.user_bank_list_recycler_view);
+        mIspListRecyclerView = view.findViewById(R.id.user_bank_list_recycler_view);
         mProgressLayout = view.findViewById(R.id.progress_layout);
         mProgressLayout.setVisibility(View.GONE);
         Toolbar toolbar = view.findViewById(R.id.toolbar);
@@ -85,9 +77,9 @@ public class IspSelectionFragment extends Fragment implements HttpResponseListen
         getActivity().setTitle(R.string.isp);
 
         genarateCardType();
-        bankListAdapter = new BankListAdapter();
-        mBankListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mBankListRecyclerView.setAdapter(bankListAdapter);
+        ispListAdapter = new IspListAdapter();
+        mIspListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mIspListRecyclerView.setAdapter(ispListAdapter);
 
         getServiceProviderList();
     }
@@ -154,7 +146,7 @@ public class IspSelectionFragment extends Fragment implements HttpResponseListen
         }
     }
 
-    public class BankListAdapter extends RecyclerView.Adapter<BankListAdapter.BankViewHolder> {
+    public class IspListAdapter extends RecyclerView.Adapter<IspListAdapter.BankViewHolder> {
         @NonNull
         @Override
         public BankViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

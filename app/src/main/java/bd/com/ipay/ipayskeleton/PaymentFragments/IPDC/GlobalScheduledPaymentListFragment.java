@@ -56,7 +56,7 @@ public class GlobalScheduledPaymentListFragment extends Fragment implements Http
         progressDialog = new CustomProgressDialog(getContext());
         groupedScheduledPaymentInfoList = new ArrayList<>();
         scheduledPaymentListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        ((TextView) view.findViewById(R.id.title)).setText(getString(R.string.schedule_payment_service_list));
+        ((TextView) view.findViewById(R.id.title)).setText(getString(R.string.scheduled_payment));
         ((ImageView) view.findViewById(R.id.back)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

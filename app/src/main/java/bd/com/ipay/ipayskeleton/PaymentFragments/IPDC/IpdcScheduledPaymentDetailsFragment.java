@@ -85,6 +85,7 @@ public class IpdcScheduledPaymentDetailsFragment extends Fragment implements Htt
     private View mButtonView;
     private Button mAcceptButtonView;
     private Button mRejectButtonView;
+    private TextView titleView;
 
 
     @Nullable
@@ -99,7 +100,8 @@ public class IpdcScheduledPaymentDetailsFragment extends Fragment implements Htt
         id = getArguments().getLong("ID");
         progressDialog = new CustomProgressDialog(getContext());
         scheduledPaymentListRecyclerView = view.findViewById(R.id.scheduled_payment_list);
-        ((TextView) view.findViewById(R.id.title)).setText(getString(R.string.my_schedule_list));
+        titleView = ((TextView) view.findViewById(R.id.title));
+        titleView.setText(getString(R.string.my_schedule_list));
         ((ImageView) view.findViewById(R.id.back)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -273,6 +275,8 @@ public class IpdcScheduledPaymentDetailsFragment extends Fragment implements Htt
 
     private void setData(GetSchedulePaymentDetailsResponse getSchedulePaymentDetailsResponse) {
 
+
+        titleView.setText(getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getReceiverInfo().getName());
 
         //productImageView;
         productNameTextView.setText(getSchedulePaymentDetailsResponse.getScheduledPaymentInfo().getProduct());

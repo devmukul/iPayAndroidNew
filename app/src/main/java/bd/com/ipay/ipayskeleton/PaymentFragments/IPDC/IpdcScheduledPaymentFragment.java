@@ -52,7 +52,7 @@ public class IpdcScheduledPaymentFragment extends Fragment {
         }
 
         scheduledPaymentListRecyclerView = view.findViewById(R.id.scheduled_payment_list);
-        ((TextView) view.findViewById(R.id.title)).setText(getString(R.string.my_schedule_list));
+        ((TextView) view.findViewById(R.id.title)).setText(groupedScheduledPaymentInfoList.getReceiverInfo().getName());
         ((ImageView) view.findViewById(R.id.back)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

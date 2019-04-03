@@ -1374,7 +1374,7 @@
 
     <string name="please_enter_an_installment_id">Please enter an installment ID</string>
     <string name="scheduled_payment">শিডিউল পেমেন্ট</string>
-    <string name="schedule_payment_service_list">Schedule Payment Service List</string>
+    <string name="schedule_payment_service_list">শিডিউল পেমেন্ট</string>
     <string name="my_schedule_list">My Schedule List</string>
     <string name="ipdc_instant_payment_input_message">Please insert your Installment ID and  amount you want to pay</string>
     <string name="ipdc">IPDC</string>

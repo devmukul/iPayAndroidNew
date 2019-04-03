@@ -375,7 +375,13 @@ public class ScheduledPaymentInfo implements Serializable, Notification {
 
     @Override
     public String getImageUrl() {
-        return receiverInfo.getProfilePictures().get(0).getUrl();
+        String profilePic = null;
+        try {
+            profilePic = receiverInfo.getProfilePictures().get(0).getUrl();
+        }catch (Exception e){
+            profilePic = null;
+        }
+        return profilePic;
     }
 
     @Override

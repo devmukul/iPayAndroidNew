@@ -63,6 +63,7 @@ import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.IntroductionAndI
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.IntroductionAndInvite.IntroductionRequestClass;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SchedulePayment.GetScheduledPaymentInfoResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SchedulePayment.GroupedScheduledPaymentList;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SchedulePayment.ReceiverInfo;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SchedulePayment.ScheduledPaymentInfo;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.SourceOfFund.EditPermissionSourceOfFundBottomSheetFragment;
@@ -766,12 +767,16 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 						List<GroupedScheduledPaymentList> groupedScheduledPaymentInfoList = getScheduledPaymentInfoResponse.getGroupedScheduledPaymentList();
                         scheduledPaymentInfoList = new ArrayList<>();
 						for(GroupedScheduledPaymentList groupedScheduledPaymentInfo : groupedScheduledPaymentInfoList) {
-						    scheduledPaymentInfoList = groupedScheduledPaymentInfo.getScheduledPaymentInfos();
-						    for (int i=0 ; i <scheduledPaymentInfoList.size();i++) {
-						        ScheduledPaymentInfo scheduledPaymentInfo = scheduledPaymentInfoList.get(i);
-						        scheduledPaymentInfo.setReceiverInfo(groupedScheduledPaymentInfo.getReceiverInfo());
-                                scheduledPaymentInfoList.set(i, scheduledPaymentInfo);
+                            List<ScheduledPaymentInfo> temp = new ArrayList<>();
+                            temp = groupedScheduledPaymentInfo.getScheduledPaymentInfos();
+                            ReceiverInfo receiverInfo = groupedScheduledPaymentInfo.getReceiverInfo();
+						    for (int i=0 ; i <temp.size();i++) {
+						        ScheduledPaymentInfo scheduledPaymentInfo = temp.get(i);
+						        scheduledPaymentInfo.setReceiverInfo(receiverInfo);
+                                //temp.set(i, scheduledPaymentInfo);
+                                scheduledPaymentInfoList.add(scheduledPaymentInfo);
                             }
+                            //scheduledPaymentInfoList.addAll(temp);
                         }
 
 					} else {

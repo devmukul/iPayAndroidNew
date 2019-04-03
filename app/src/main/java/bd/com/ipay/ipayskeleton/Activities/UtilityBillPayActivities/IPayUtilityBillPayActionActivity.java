@@ -17,6 +17,7 @@ import bd.com.ipay.ipayskeleton.PaymentFragments.IPDC.IpdcScheduledPaymentApiFra
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPDC.IpdcScheduledPaymentDetailsFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPDC.IpdcScheduledPaymentFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractTransactionSuccessFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.IspSelectionFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.Carnival.CarnivalIdInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.CreditCard.CreditCardBankSelectionFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.CreditCard.CreditCardInfoInputFragment;
@@ -52,8 +53,14 @@ public final class IPayUtilityBillPayActionActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ipay_utility_bill_pay_action);
         if(getIntent().hasExtra(Constants.FROM_DASHBOARD)){
-            Bundle bundle = getIntent().getBundleExtra(Constants.BUNDLE);
-            switchFragment(new CreditCardInfoInputFragment(), bundle, 0, true);
+            if(getIntent().getStringExtra(Constants.SERVICE).equals("CARD")) {
+                Bundle bundle = new Bundle();
+                bundle.putBoolean(Constants.FROM_DASHBOARD, true);
+                switchFragment(new CreditCardBankSelectionFragment(), bundle, 0, true);
+            }else{
+                switchFragment(new IspSelectionFragment(), null, 0, true);
+            }
+
         }else if (getIntent().hasExtra(Constants.ACTION_FROM_NOTIFICATION)) {
             if (getIntent().getBooleanExtra(Constants.ACTION_FROM_NOTIFICATION, false)) {
                 String id = getIntent().getStringExtra("id");

@@ -318,15 +318,10 @@ public class HomeFragment extends BaseFragment implements HttpResponseListener {
 			@Override
 			@ValidateAccess({ServiceIdConstants.UTILITY_BILL_PAYMENT})
 			public void onClick(View v) {
-				final ISPSelectDialog creditCardSelectDialog = new ISPSelectDialog(getContext());
-				creditCardSelectDialog.setTitle(getString(R.string.select_isp));
-				creditCardSelectDialog.setCloseButtonAction(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						creditCardSelectDialog.cancel();
-					}
-				});
-				creditCardSelectDialog.show();
+				Intent intent = new Intent(getContext(), IPayUtilityBillPayActionActivity.class);
+				intent.putExtra(Constants.FROM_DASHBOARD, true);
+				intent.putExtra(Constants.SERVICE, "ISP");
+				getContext().startActivity(intent);
 			}
 		});
 
@@ -334,7 +329,10 @@ public class HomeFragment extends BaseFragment implements HttpResponseListener {
 			@Override
 			@ValidateAccess({ServiceIdConstants.UTILITY_BILL_PAYMENT})
 			public void onClick(View v) {
-				attemptGetBankList();
+				Intent intent = new Intent(getContext(), IPayUtilityBillPayActionActivity.class);
+				intent.putExtra(Constants.FROM_DASHBOARD, true);
+				intent.putExtra(Constants.SERVICE, "CARD");
+				getContext().startActivity(intent);
 			}
 		});
 

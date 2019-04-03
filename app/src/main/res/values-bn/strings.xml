@@ -1383,6 +1383,7 @@
     <string name="pay_installment_success_description">
         আপনি সফলভাবে পেমেন্ট করেছেন। বিস্তারিত জানতে আপনার \'লেনদেন\' দেখুন।</string>
     <string name="select_location_code">লোকেশন কোড নির্বাচন করুন</string>
+    <string name="customer_number">কাস্টমার নাম্বার</string>
 </resources>
 
 

@@ -904,7 +904,7 @@
     <string name="add_instant_money_success_description">You have successfully added balance to your iPay wallet. Instant money amount will be adjusted from the selected bank within 3&#8211;5 business days.\n See further details under \'Transactions\'.</string>
     <string name="send_money_success_description">We will notify receiver that you have sent money.\n See further details under \'Transactions\'.</string>
     <string name="make_payment_success_description">Successfully paid to %1$s which we will notify them. You can see the details in your \'Transactions\' in case  you need them in future.</string>
-    <string name="pay_bill_success_description">You have successfully paid your bill from you iPay wallet.\n See further details under \'Transactions\'.</string>
+    <string name="pay_bill_success_description">You have successfully paid your bill from your iPay wallet.\n See further details under \'Transactions\'.</string>
     <string name="request_money_success_description">We will notify receiver that you requested money. We will notify you when he accepts or rejects your request.</string>
     <string name="fetching_user_info">Fetching user info…</string>
     <string name="request_money_helper_text">Running low balance in your iPay wallet? Request other members to transfer money to your iPay wallet</string>
@@ -1190,5 +1190,6 @@
     <string name="out_referance_id">Out Referance ID:</string>
     <string name="credit_card_bill_title">Credit Card</string>
     <string name="select_location_code">Select Locaton Code</string>
+    <string name="customer_number">Customer Number</string>
 
 </resources>

@@ -47,7 +47,6 @@ import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.PendingIntroducerReviewDialog;
 import bd.com.ipay.ipayskeleton.CustomView.ProfileImageView;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.BusinessRoles.GetPendingRoleManagerInvitationResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.BusinessRuleAndServiceCharge.ServiceCharge.GetServiceChargeRequest;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.BusinessRuleAndServiceCharge.ServiceCharge.GetServiceChargeResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.GenericResponseWithMessageOnly;
@@ -98,9 +97,6 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 	private HttpRequestGetAsyncTask mGetPendingIntroducerListTask = null;
 	private GetPendingIntroducerListResponse mPendingIntroducerListResponse;
 
-	private HttpRequestGetAsyncTask mGetPendingRoleManagerRequestTask = null;
-	private GetPendingRoleManagerInvitationResponse mGetPendingRoleManagerInvitationResponse;
-
 	private HttpRequestGetAsyncTask getScheduledPaymentListTask;
 
 	private HttpRequestGetAsyncTask mGetBeneficiaryAsyncTask;
@@ -145,9 +141,6 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 	private OnNotificationUpdateListener mOnNotificationUpdateListener;
 	private NotificationBroadcastReceiver notificationBroadcastReceiver;
 	private Tracker mTracker;
-
-
-
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -239,20 +232,6 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 		getPendingBeneficiaryListResponse(context);
 		getPendingSponsorListResponse(context);
 		getPendingSchedulePaymentListResponse(context);
-	}
-
-
-	private void getPendingInvitationRequestsForRoleManager(Context context) {
-		if (!ACLManager.hasServicesAccessibility(ServiceIdConstants.SEE_BUSINESS_ROLE_INVITATION_REQUEST))
-			return;
-		if (mGetPendingRoleManagerRequestTask != null)
-			return;
-		else {
-			mGetPendingRoleManagerRequestTask = new HttpRequestGetAsyncTask(Constants.COMMAND_GET_ROLE_MAANGER_REQUESTS,
-					Constants.BASE_URL_MM + Constants.URL_GET_ROLE_MANAGER_REQUESTS, context, this, true);
-			mGetPendingRoleManagerRequestTask.mHttpResponseListener = this;
-			mGetPendingRoleManagerRequestTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-		}
 	}
 
 	private void getPendingBeneficiaryListResponse(Context context) {
@@ -397,13 +376,6 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
         }
     }
 
-	private void refreshBusinessRoleManagerList(Context context) {
-		if (Utilities.isConnectionAvailable(context)) {
-			mBusinessRoleManagerRequestsList = null;
-			getPendingInvitationRequestsForRoleManager(context);
-		}
-	}
-
 	private void refreshSourceOfFundBeneficiaryList(Context context) {
 		if (Utilities.isConnectionAvailable(context)) {
 			beneficiaryPendingList = null;
@@ -427,7 +399,7 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 
 	private boolean isAllNotificationsLoaded() {
 		return mGetMoneyAndPaymentRequestTask == null && mGetIntroductionRequestTask == null
-				&& mGetPendingRoleManagerRequestTask == null && mGetBeneficiaryAsyncTask ==
+				&& mGetBeneficiaryAsyncTask ==
 				null && mGetSponsorAsyncTask == null && getScheduledPaymentListTask == null;
 	}
 
@@ -442,12 +414,10 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 		if (mPendingIntroducerList != null) {
             notifications.addAll(mPendingIntroducerList);
         }
-		if (mBusinessRoleManagerRequestsList != null) {
-            notifications.addAll(mBusinessRoleManagerRequestsList);
-        }
 		if (beneficiaryPendingList != null) {
 			notifications.addAll(beneficiaryPendingList);
-		}if (sponsorPendingList != null) {
+		}
+		if (sponsorPendingList != null) {
 			notifications.addAll(sponsorPendingList);
 		}
 		if (scheduledPaymentInfoList != null) {
@@ -622,7 +592,6 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 				mServiceChargeTask = null;
 				mGetIntroductionRequestTask = null;
 				mGetPendingIntroducerListTask = null;
-				mGetPendingRoleManagerRequestTask = null;
 				acceptOrRejectBeneficiaryAsyncTask = null;
 				mGetSponsorAsyncTask = null;
 				mGetBeneficiaryAsyncTask = null;
@@ -788,17 +757,6 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 
 					mServiceChargeTask = null;
 					break;
-				case Constants.COMMAND_GET_ROLE_MAANGER_REQUESTS:
-					try {
-						mGetPendingRoleManagerInvitationResponse = gson.fromJson(result.getJsonString(),
-								GetPendingRoleManagerInvitationResponse.class);
-						mBusinessRoleManagerRequestsList = mGetPendingRoleManagerInvitationResponse.getInvitationList();
-					} catch (Exception e) {
-
-					}
-					mGetPendingRoleManagerRequestTask = null;
-					postProcessNotificationList();
-					break;
 
 				case Constants.COMMAND_GET_SCHEDULED_PAYMENT_LIST:
 					if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
@@ -841,7 +799,6 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 			mServiceChargeTask = null;
 			mGetIntroductionRequestTask = null;
 			mGetPendingIntroducerListTask = null;
-			mGetPendingRoleManagerRequestTask = null;
 			getScheduledPaymentListTask = null;
 			acceptOrRejectBeneficiaryAsyncTask = null;
 

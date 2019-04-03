@@ -22,6 +22,7 @@ import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder;
 import java.lang.reflect.Field;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -37,6 +38,7 @@ import bd.com.ipay.ipayskeleton.BaseFragments.BaseFragment;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.AnimatedProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.OTPVerificationForTwoFactorAuthenticationServicesDialog;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.SelectorDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.BusinessRuleAndServiceCharge.BusinessRule.BusinessRuleV2;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.BusinessRuleAndServiceCharge.BusinessRule.MandatoryBusinessRules;
@@ -78,6 +80,8 @@ public class DPDCEnterAccountNumberFragment extends BaseFragment implements Http
     private AnimatedProgressDialog mCustomProgressDialog;
 
     private DatePickerDialog mDatePickerDialog;
+    private List<String> mLocationList;
+    private SelectorDialog locationSelectorDialog;
 
     @Nullable
     @Override
@@ -104,7 +108,28 @@ public class DPDCEnterAccountNumberFragment extends BaseFragment implements Http
         mDatePickerDialog = initDatePickerDialog(getActivity(), this, false);
         UtilityBillPaymentActivity.mMandatoryBusinessRules = BusinessRuleCacheManager.getBusinessRules(Constants.UTILITY_BILL_PAYMENT);
         setDefaultDate();
+        getLocationLIst();
+        setLocationAdapter(mLocationList);
         setUpButtonAction();
+    }
+
+    private void setLocationAdapter(List<String> classList) {
+        locationSelectorDialog = new SelectorDialog(getContext(), getContext().getString(R.string.select_location_code), classList);
+        locationSelectorDialog.setOnResourceSelectedListener(new SelectorDialog.OnResourceSelectedListener() {
+            @Override
+            public void onResourceSelected(String name) {
+                mLocationCodeEditText.setError(null);
+                mLocationCodeEditText.setText(name);
+                mLocationCode = name;
+            }
+        });
+
+        mLocationCodeEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                locationSelectorDialog.show();
+            }
+        });
     }
 
     private void setUpButtonAction() {
@@ -327,6 +352,47 @@ public class DPDCEnterAccountNumberFragment extends BaseFragment implements Http
             spinnerDatePickerDialogBuilder.defaultDate(year, month-1, day);
 
         return spinnerDatePickerDialogBuilder.build();
+    }
+
+    public void getLocationLIst(){
+        mLocationList = new ArrayList<>();
+        mLocationList.add("A1");
+        mLocationList.add("A2");
+        mLocationList.add("A3");
+        mLocationList.add("A4");
+        mLocationList.add("A5");
+        mLocationList.add("A6");
+        mLocationList.add("A7");
+        mLocationList.add("A8");
+        mLocationList.add("A9");
+        mLocationList.add("B1");
+        mLocationList.add("B2");
+        mLocationList.add("B3");
+        mLocationList.add("B4");
+        mLocationList.add("B5");
+        mLocationList.add("B6");
+        mLocationList.add("B7");
+        mLocationList.add("B8");
+        mLocationList.add("B9");
+        mLocationList.add("C1");
+        mLocationList.add("C2");
+        mLocationList.add("C3");
+        mLocationList.add("C6");
+        mLocationList.add("D1");
+        mLocationList.add("D2");
+        mLocationList.add("D3");
+        mLocationList.add("D4");
+        mLocationList.add("D5");
+        mLocationList.add("D6");
+        mLocationList.add("D7");
+        mLocationList.add("D8");
+        mLocationList.add("D9");
+        mLocationList.add("E1");
+        mLocationList.add("E2");
+        mLocationList.add("E3");
+        mLocationList.add("F1");
+        mLocationList.add("F2");
+        mLocationList.add("G1");
     }
 
 

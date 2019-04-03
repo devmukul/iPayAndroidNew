@@ -1185,7 +1185,7 @@
     <string name="select_card">Select Card</string>
     <string name="isp">Internet Bill</string>
     <string name="select_isp">Select ISP</string>
-    <string name="dpdc_account_number">DPDC Account Number</string>
+    <string name="dpdc_account_number">DPDC Customer Number</string>
     <string name="location_code">Location Code</string>
     <string name="out_referance_id">Out Referance ID:</string>
     <string name="credit_card_bill_title">Credit Card</string>
@@ -1205,5 +1205,6 @@
     <string name="pay_installment_success_message">YOU HAVE PAID INSTALLMENT Tk. %1$s FOR</string>
     <string name="pay_installment_success_description">You have successfully paid your installment from you iPay wallet.\n See further details under \'Transactions\'.</string>
 
+    <string name="select_location_code">Select Locaton Code</string>
 
 </resources>

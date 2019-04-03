@@ -285,6 +285,7 @@ public class Constants {
     public static final String ZONE_CODE = "ZONE_CODE";
     public static final String DUE_DATE = "DUE_DATE";
     public static final String BILL_NUMBER = "BILL_NUMBER";
+    public static final String URL_WITHDRAW_MONEY_V3 = "withdraw-money/v3";
     public static final String COMMAND_GET_SCHEDULED_PAYMENT_LIST = "COMMAND_GET_SCHEDULED_PAYMENT_LIST";
     public static final String URL_GET_SCHEDULED_PAYMENT_LIST = "scheduled-payment/list/customer";
 
@@ -536,6 +537,7 @@ public class Constants {
     public static final String URL_PAY_BY_DEEP_LINK = "orderId/pay";
     public static final String URL_PAYMENT_REVERT = "payment-revert";
     public static final String URL_PAYMENT_V3 = "payment/v3";
+    public static final String URL_ADD_MONEY_BY_BANK_V3 = "add-money/v3";
 
     public static final String X_IPAY_OTP = "X-iPay-OTP";
     public static final String X_IPAY_PIN = "X-iPay-PIN";

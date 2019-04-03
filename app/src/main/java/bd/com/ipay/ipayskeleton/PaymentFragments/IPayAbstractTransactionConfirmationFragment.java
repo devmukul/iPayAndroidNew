@@ -245,6 +245,15 @@ public abstract class IPayAbstractTransactionConfirmationFragment extends Fragme
 
 		}
 	}
+	protected void launchOTPVerification(long otpValidFor, String requestJson, String apiCommand, String url,String pin) {
+		if (getActivity() != null) {
+			mOTPVerificationForTwoFactorAuthenticationServicesDialog = new OTPVerificationForTwoFactorAuthenticationServicesDialog(getActivity(), requestJson, apiCommand,
+					url, Constants.METHOD_POST, otpValidFor,pin);
+			mOTPVerificationForTwoFactorAuthenticationServicesDialog.setOtpValidFor(otpValidFor);
+			mOTPVerificationForTwoFactorAuthenticationServicesDialog.mParentHttpResponseListener = this;
+
+		}
+	}
 
 	protected abstract void setupViewProperties();
 

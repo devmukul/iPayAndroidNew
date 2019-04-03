@@ -1366,7 +1366,7 @@
     <string name="select_card">কার্ড নির্বাচন করুন</string>
     <string name="isp">ইন্টারনেট বিল</string>
     <string name="select_isp">আইএসপি নির্বাচন করুন</string>
-    <string name="dpdc_account_number">ডিপিডিসি একাউন্ট নাম্বার</string>
+    <string name="dpdc_account_number">ডিপিডিসি কাস্টমার নাম্বার</string>
     <string name="location_code">লোকেশন কোড</string>
     <string name="desco" >ডেসকো</string>
     <string name="out_referance_id">Out Referance ID:</string>
@@ -1382,6 +1382,7 @@
     <string name="pay_installment_success_message">সফলভাবে ৳ %1$s ইন্সটলমেন্ট পেমেন্ট করেছেন</string>
     <string name="pay_installment_success_description">
         আপনি সফলভাবে পেমেন্ট করেছেন। বিস্তারিত জানতে আপনার \'লেনদেন\' দেখুন।</string>
+    <string name="select_location_code">লোকেশন কোড নির্বাচন করুন</string>
 </resources>
 
 

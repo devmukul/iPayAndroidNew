@@ -52,6 +52,7 @@ public class OTPVerificationForTwoFactorAuthenticationServicesDialog extends Ale
     private Button mCancelButton;
     private Button mResendOTPButton;
     private View view;
+    private String pin;
 
     //applicable only in make payment
     private long sponsorAccountId;
@@ -87,6 +88,19 @@ public class OTPVerificationForTwoFactorAuthenticationServicesDialog extends Ale
         this.mUri = mUri;
         this.method = method;
         this.otpValidFor = otpValidFor;
+        initializeView();
+        createProgressDialogStringMap();
+    }
+
+    public OTPVerificationForTwoFactorAuthenticationServicesDialog(@NonNull Activity context, String json, String desiredRequest, String mUri, String method, Long otpValidFor, String pin) {
+        super(context);
+        this.context = context;
+        OTPVerificationForTwoFactorAuthenticationServicesDialog.desiredRequest = desiredRequest;
+        this.json = json;
+        this.mUri = mUri;
+        this.method = method;
+        this.otpValidFor = otpValidFor;
+        this.pin = pin;
         initializeView();
         createProgressDialogStringMap();
     }
@@ -221,6 +235,10 @@ public class OTPVerificationForTwoFactorAuthenticationServicesDialog extends Ale
             mHttpPostAsyncTask = TwoFactorAuthServicesAsynctaskMap.getPostAsyncTask(desiredRequest, json, otp, context, mUri);
             if (desiredRequest.equals(Constants.COMMAND_PAYMENT)) {
                 mHttpPostAsyncTask.setSponsorAccountId(sponsorAccountId);
+            } else if (desiredRequest.equals(Constants.COMMAND_ADD_MONEY_FROM_BANK) ||
+                    desiredRequest.equals(Constants.COMMAND_WITHDRAW_MONEY)) {
+                mHttpPostAsyncTask.setPinAsHeader(pin);
+                mHttpPostAsyncTask.setOtpAsHeader(otp);
             }
             if (mHttpPostAsyncTask == null)
                 return;

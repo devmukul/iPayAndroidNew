@@ -51,7 +51,7 @@ public class IspSelectionFragment extends Fragment implements HttpResponseListen
     private List<ProviderCategory> mUtilityProviderTypeList;
     private HashMap<String, String> mProviderAvailabilityMap;
 
-    List<ISP> cardTypes;
+    private List<ISP> ispTypes;
     private PinChecker pinChecker;
 
     private static final int REQUEST_CODE_SUCCESSFUL_ACTIVITY_FINISH = 100;
@@ -85,17 +85,17 @@ public class IspSelectionFragment extends Fragment implements HttpResponseListen
     }
 
     private void genarateCardType() {
-        cardTypes = new ArrayList<>();
+        ispTypes = new ArrayList<>();
         ISP cardType = new ISP(getActivity().getString(R.string.amberIT), Constants.AMBERIT , R.drawable.ic_amber_it);
-        cardTypes.add(cardType);
+        ispTypes.add(cardType);
         cardType = new ISP(getActivity().getString(R.string.banglalion), Constants.BLION , R.drawable.banglalion);
-        cardTypes.add(cardType);
+        ispTypes.add(cardType);
         cardType = new ISP(getActivity().getString(R.string.brilliant), Constants.BRILLIANT , R.drawable.brilliant_logo);
-        cardTypes.add(cardType);
+        ispTypes.add(cardType);
         cardType = new ISP(getActivity().getString(R.string.carnival), Constants.CARNIVAL ,  R.drawable.ic_carnival);
-        cardTypes.add(cardType);
+        ispTypes.add(cardType);
         cardType = new ISP(getActivity().getString(R.string.link_three), Constants.LINK3 , R.drawable.link_three_logo);
-        cardTypes.add(cardType);
+        ispTypes.add(cardType);
     }
 
     private void getServiceProviderList() {
@@ -146,30 +146,30 @@ public class IspSelectionFragment extends Fragment implements HttpResponseListen
         }
     }
 
-    public class IspListAdapter extends RecyclerView.Adapter<IspListAdapter.BankViewHolder> {
+    public class IspListAdapter extends RecyclerView.Adapter<IspListAdapter.IspViewHolder> {
         @NonNull
         @Override
-        public BankViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public IspViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(getContext()).inflate(R.layout.list_bank_item, null, false);
-            return new BankViewHolder(view);
+            return new IspViewHolder(view);
         }
 
 
         @Override
-        public void onBindViewHolder(@NonNull final BankViewHolder holder, final int position) {
-            holder.bankNameTextView.setText(cardTypes.get(position).getIspName());
-            holder.bankIconImageView.setImageResource(cardTypes.get(position).getIspIconDrawable());
+        public void onBindViewHolder(@NonNull final IspViewHolder holder, final int position) {
+            holder.ispNameTextView.setText(ispTypes.get(position).getIspName());
+            holder.ispIconImageView.setImageResource(ispTypes.get(position).getIspIconDrawable());
 
-            holder.bankIconImageView.setOnClickListener(new View.OnClickListener() {
+            holder.ispIconImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    payBill(cardTypes.get(position).getIspCode(),null);
+                    payBill(ispTypes.get(position).getIspCode(),null);
                 }
             });
             holder.parentView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    payBill(cardTypes.get(position).getIspCode(),null);
+                    payBill(ispTypes.get(position).getIspCode(),null);
                 }
             });
 
@@ -177,19 +177,19 @@ public class IspSelectionFragment extends Fragment implements HttpResponseListen
 
         @Override
         public int getItemCount() {
-            return cardTypes.size();
+            return ispTypes.size();
         }
 
-        public class BankViewHolder extends RecyclerView.ViewHolder {
-            public TextView bankNameTextView;
-            private ImageView bankIconImageView;
+        public class IspViewHolder extends RecyclerView.ViewHolder {
+            public TextView ispNameTextView;
+            private ImageView ispIconImageView;
             private View parentView;
 
 
-            public BankViewHolder(View itemView) {
+            public IspViewHolder(View itemView) {
                 super(itemView);
-                bankIconImageView = itemView.findViewById(R.id.bank_icon);
-                bankNameTextView = itemView.findViewById(R.id.bank_name);
+                ispIconImageView = itemView.findViewById(R.id.bank_icon);
+                ispNameTextView = itemView.findViewById(R.id.bank_name);
                 parentView = itemView;
             }
         }

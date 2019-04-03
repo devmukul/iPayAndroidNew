@@ -322,16 +322,6 @@ public class HomeFragment extends BaseFragment implements HttpResponseListener {
 				intent.putExtra(Constants.FROM_DASHBOARD, true);
 				intent.putExtra(Constants.SERVICE, "ISP");
 				getContext().startActivity(intent);
-
-//				final ISPSelectDialog creditCardSelectDialog = new ISPSelectDialog(getContext());
-//				creditCardSelectDialog.setTitle(getString(R.string.select_isp));
-//				creditCardSelectDialog.setCloseButtonAction(new View.OnClickListener() {
-//					@Override
-//					public void onClick(View v) {
-//						creditCardSelectDialog.cancel();
-//					}
-//				});
-//				creditCardSelectDialog.show();
 			}
 		});
 

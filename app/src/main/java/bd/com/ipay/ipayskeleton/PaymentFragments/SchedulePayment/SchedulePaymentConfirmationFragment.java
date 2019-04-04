@@ -1,4 +1,4 @@
-package bd.com.ipay.ipayskeleton.PaymentFragments.IPDC;
+package bd.com.ipay.ipayskeleton.PaymentFragments.SchedulePayment;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-import bd.com.ipay.ipayskeleton.Activities.PaymentActivities.UtilityBillPaymentActivity;
 import bd.com.ipay.ipayskeleton.Activities.UtilityBillPayActivities.IPayUtilityBillPayActionActivity;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
@@ -23,8 +22,6 @@ import bd.com.ipay.ipayskeleton.Utilities.MyApplication;
 import bd.com.ipay.ipayskeleton.Utilities.ToasterAndLogger.Toaster;
 import bd.com.ipay.ipayskeleton.Utilities.TwoFactorAuthConstants;
 import bd.com.ipay.ipayskeleton.Utilities.Utilities;
-
-import static bd.com.ipay.ipayskeleton.Utilities.Constants.TOTAL_AMOUNT;
 
 public class SchedulePaymentConfirmationFragment extends IPayAbstractTransactionConfirmationFragment {
 

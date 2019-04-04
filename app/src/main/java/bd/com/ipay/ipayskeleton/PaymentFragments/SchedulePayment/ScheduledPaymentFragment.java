@@ -1,4 +1,4 @@
-package bd.com.ipay.ipayskeleton.PaymentFragments.IPDC;
+package bd.com.ipay.ipayskeleton.PaymentFragments.SchedulePayment;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,12 +20,13 @@ import bd.com.ipay.ipayskeleton.Activities.UtilityBillPayActivities.IPayUtilityB
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SchedulePayment.GroupedScheduledPaymentList;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SchedulePayment.ScheduledPaymentInfo;
 import bd.com.ipay.ipayskeleton.R;
+import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Utilities.ShedulePaymentConstant;
 import bd.com.ipay.ipayskeleton.Utilities.Utilities;
 
-public class IpdcScheduledPaymentFragment extends Fragment {
+public class ScheduledPaymentFragment extends Fragment {
     private RecyclerView scheduledPaymentListRecyclerView;
-    private GlobalScheduledPaymentListFragment.ScheduledPaymentListAdapter scheduledPaymentAdapter;
+    private ScheduledPaymentListAdapter scheduledPaymentAdapter;
     private GroupedScheduledPaymentList groupedScheduledPaymentInfoList;
     private List<ScheduledPaymentInfo> scheduledPaymentInfoList;
 
@@ -40,7 +41,7 @@ public class IpdcScheduledPaymentFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         groupedScheduledPaymentInfoList = (GroupedScheduledPaymentList) getArguments().
-                getSerializable("scheduledPaymentList");
+                getSerializable(IPayUtilityBillPayActionActivity.SCHEDULE_PAYMENT_LIST);
         scheduledPaymentInfoList = new ArrayList<>();
         for (ScheduledPaymentInfo scheduledPaymentInfo : groupedScheduledPaymentInfoList.getScheduledPaymentInfos()){
             if(scheduledPaymentInfo.getStatus() == ShedulePaymentConstant.ScheduledPayment.RUNNING ||
@@ -60,8 +61,10 @@ public class IpdcScheduledPaymentFragment extends Fragment {
             }
         });
 
+        scheduledPaymentAdapter = new ScheduledPaymentListAdapter(scheduledPaymentInfoList);
         scheduledPaymentListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        scheduledPaymentListRecyclerView.setAdapter(new ScheduledPaymentListAdapter(scheduledPaymentInfoList));
+        scheduledPaymentListRecyclerView.setAdapter(scheduledPaymentAdapter);
+        scheduledPaymentAdapter.notifyDataSetChanged();
     }
 
     public class ScheduledPaymentListAdapter extends RecyclerView.Adapter<ScheduledPaymentListAdapter.ScheduledPaymentViewHolder> {
@@ -86,18 +89,18 @@ public class IpdcScheduledPaymentFragment extends Fragment {
             if(scheduledPaymentInfoList.get(i).getStatus() == ShedulePaymentConstant.ScheduledPayment.RUNNING){
                 scheduledPaymentViewHolder.totalInstallmentCountTextView.setText
                     (Long.toString(scheduledPaymentInfoList.get(i).getInstallmentNumber()) +
-                            " Installments");
+                            " "+ getString(R.string.intallment_text));
                 scheduledPaymentViewHolder.totalInstallmentCountTextView.setTextColor(Color.parseColor("#888888"));
             }else if(scheduledPaymentInfoList.get(i).getStatus() == ShedulePaymentConstant.ScheduledPayment.WAITING_FOR_USER_APPROVAL){
                 scheduledPaymentViewHolder.totalInstallmentCountTextView.setText
-                        ("Waiting for approval *");
+                        (getString(R.string.waiting_for_approval));
                 scheduledPaymentViewHolder.totalInstallmentCountTextView.setTextColor(Color.parseColor("#00b2a2"));
             }else if(scheduledPaymentInfoList.get(i).getStatus() == ShedulePaymentConstant.ScheduledPayment.WAITING_FOR_UPDATE_APPROVAL){
                 scheduledPaymentViewHolder.totalInstallmentCountTextView.setText
-                        ("Waiting for amendment approval *");
+                        (getString(R.string.waiting_for_ammedment));
                 scheduledPaymentViewHolder.totalInstallmentCountTextView.setTextColor(Color.parseColor("#00b2a2"));
             }else {
-                scheduledPaymentViewHolder.totalInstallmentCountTextView.setText("Completed");
+                scheduledPaymentViewHolder.totalInstallmentCountTextView.setText(getString(R.string.installment_complete));
                 scheduledPaymentViewHolder.totalInstallmentCountTextView.setTextColor(Color.parseColor("#FF0000"));
             }
 
@@ -109,8 +112,8 @@ public class IpdcScheduledPaymentFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
-                    bundle.putLong("ID",  scheduledPaymentInfoList.get(i).getId());
-                    ((IPayUtilityBillPayActionActivity) getActivity()).switchFragment(new IpdcScheduledPaymentDetailsFragment(), bundle, 2, true);
+                    bundle.putLong(Constants.ID,  scheduledPaymentInfoList.get(i).getId());
+                    ((IPayUtilityBillPayActionActivity) getActivity()).switchFragment(new ScheduledPaymentDetailsFragment(), bundle, 2, true);
                 }
             });
         }

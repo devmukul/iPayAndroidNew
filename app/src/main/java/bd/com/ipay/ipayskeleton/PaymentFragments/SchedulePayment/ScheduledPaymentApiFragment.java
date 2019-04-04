@@ -1,4 +1,4 @@
-package bd.com.ipay.ipayskeleton.PaymentFragments.IPDC;
+package bd.com.ipay.ipayskeleton.PaymentFragments.SchedulePayment;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -31,18 +31,16 @@ import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.GenericResponseWithMessageOnly;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SchedulePayment.GetScheduledPaymentInfoResponse;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SchedulePayment.GroupedScheduledPaymentList;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SchedulePayment.ScheduledPaymentInfo;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Utilities.ShedulePaymentConstant;
 import bd.com.ipay.ipayskeleton.Utilities.Utilities;
 
-public class IpdcScheduledPaymentApiFragment extends Fragment implements HttpResponseListener {
+public class ScheduledPaymentApiFragment extends Fragment implements HttpResponseListener {
     private RecyclerView scheduledPaymentListRecyclerView;
     private HttpRequestGetAsyncTask getScheduledPaymentListTask;
-    private GlobalScheduledPaymentListFragment.ScheduledPaymentListAdapter scheduledPaymentAdapter;
-    //private GroupedScheduledPaymentList groupedScheduledPaymentInfoList;
+    private ScheduledPaymentListAdapter scheduledPaymentAdapter;
     private List<ScheduledPaymentInfo> scheduledPaymentInfoList;
     String mobileNumber;
     private CustomProgressDialog progressDialog;
@@ -132,7 +130,8 @@ public class IpdcScheduledPaymentApiFragment extends Fragment implements HttpRes
                     }
                 }
 
-                scheduledPaymentListRecyclerView.setAdapter(new ScheduledPaymentListAdapter(scheduledPaymentInfoList));
+                scheduledPaymentAdapter = new ScheduledPaymentListAdapter(scheduledPaymentInfoList);
+                scheduledPaymentListRecyclerView.setAdapter(scheduledPaymentAdapter);
                 scheduledPaymentListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 scheduledPaymentAdapter.notifyDataSetChanged();
 
@@ -198,8 +197,8 @@ public class IpdcScheduledPaymentApiFragment extends Fragment implements HttpRes
                 @Override
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
-                    bundle.putLong("ID",  scheduledPaymentInfoList.get(i).getId());
-                    ((IPayUtilityBillPayActionActivity) getActivity()).switchFragment(new IpdcScheduledPaymentDetailsFragment(), bundle, 2, true);
+                    bundle.putLong(Constants.ID,  scheduledPaymentInfoList.get(i).getId());
+                    ((IPayUtilityBillPayActionActivity) getActivity()).switchFragment(new ScheduledPaymentDetailsFragment(), bundle, 2, true);
                 }
             });
         }

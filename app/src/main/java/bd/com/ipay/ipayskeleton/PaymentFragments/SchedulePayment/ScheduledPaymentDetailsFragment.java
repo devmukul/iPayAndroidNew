@@ -1,13 +1,9 @@
-package bd.com.ipay.ipayskeleton.PaymentFragments.IPDC;
+package bd.com.ipay.ipayskeleton.PaymentFragments.SchedulePayment;
 
-import android.app.Activity;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,21 +16,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.makeramen.roundedimageview.RoundedImageView;
 
-import org.w3c.dom.Text;
-
-import java.io.Serializable;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Locale;
 
-import bd.com.ipay.ipayskeleton.Activities.DrawerActivities.SecuritySettingsActivity;
-import bd.com.ipay.ipayskeleton.Activities.PaymentActivities.SentReceivedRequestReviewActivity;
 import bd.com.ipay.ipayskeleton.Activities.UtilityBillPayActivities.IPayUtilityBillPayActionActivity;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestGetAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPutAsyncTask;
@@ -43,25 +32,17 @@ import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.ProfileImageView;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.BusinessRuleAndServiceCharge.BusinessRule.BusinessRule;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.GenericResponseWithMessageOnly;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.RequestMoney.RequestMoneyAcceptRejectOrCancelResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SchedulePayment.GetSchedulePaymentDetailsResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SchedulePayment.InstallmentInfoList;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SchedulePayment.SchedulePaymentAcceptReject;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SchedulePayment.SetSchedulePaymentDecisionRequest;
 import bd.com.ipay.ipayskeleton.R;
-import bd.com.ipay.ipayskeleton.Utilities.BusinessRuleCacheManager;
-import bd.com.ipay.ipayskeleton.Utilities.BusinessRuleConstants;
-import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
-import bd.com.ipay.ipayskeleton.Utilities.MyApplication;
 import bd.com.ipay.ipayskeleton.Utilities.ShedulePaymentConstant;
-import bd.com.ipay.ipayskeleton.Utilities.ToasterAndLogger.Toaster;
-import bd.com.ipay.ipayskeleton.Utilities.TwoFactorAuthConstants;
 import bd.com.ipay.ipayskeleton.Utilities.Utilities;
 
-public class IpdcScheduledPaymentDetailsFragment extends Fragment implements HttpResponseListener {
+public class ScheduledPaymentDetailsFragment extends Fragment implements HttpResponseListener {
     private RecyclerView scheduledPaymentListRecyclerView;
     private long id;
 
@@ -97,7 +78,7 @@ public class IpdcScheduledPaymentDetailsFragment extends Fragment implements Htt
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        id = getArguments().getLong("ID");
+        id = getArguments().getLong(Constants.ID);
         progressDialog = new CustomProgressDialog(getContext());
         scheduledPaymentListRecyclerView = view.findViewById(R.id.scheduled_payment_list);
         titleView = ((TextView) view.findViewById(R.id.title));

@@ -1384,6 +1384,12 @@
         আপনি সফলভাবে পেমেন্ট করেছেন। বিস্তারিত জানতে আপনার \'লেনদেন\' দেখুন।</string>
     <string name="select_location_code">লোকেশন কোড নির্বাচন করুন</string>
     <string name="customer_number">কাস্টমার নাম্বার</string>
+    <string name="intallment_text">Installments</string>
+    <string name="waiting_for_approval">Waiting for approval *</string>
+    <string name="waiting_for_ammedment">Waiting for amendment approval *</string>
+    <string name="installment_complete">Completed</string>
+    <string name="running">Running</string>
+    <string name="installment_pending">Pending</string>
 </resources>
 
 

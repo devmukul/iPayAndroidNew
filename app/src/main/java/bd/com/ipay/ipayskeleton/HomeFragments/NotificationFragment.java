@@ -767,16 +767,13 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 						List<GroupedScheduledPaymentList> groupedScheduledPaymentInfoList = getScheduledPaymentInfoResponse.getGroupedScheduledPaymentList();
                         scheduledPaymentInfoList = new ArrayList<>();
 						for(GroupedScheduledPaymentList groupedScheduledPaymentInfo : groupedScheduledPaymentInfoList) {
-                            List<ScheduledPaymentInfo> temp = new ArrayList<>();
-                            temp = groupedScheduledPaymentInfo.getScheduledPaymentInfos();
+                            List<ScheduledPaymentInfo> temp = groupedScheduledPaymentInfo.getScheduledPaymentInfos();
                             ReceiverInfo receiverInfo = groupedScheduledPaymentInfo.getReceiverInfo();
 						    for (int i=0 ; i <temp.size();i++) {
 						        ScheduledPaymentInfo scheduledPaymentInfo = temp.get(i);
 						        scheduledPaymentInfo.setReceiverInfo(receiverInfo);
-                                //temp.set(i, scheduledPaymentInfo);
                                 scheduledPaymentInfoList.add(scheduledPaymentInfo);
                             }
-                            //scheduledPaymentInfoList.addAll(temp);
                         }
 
 					} else {

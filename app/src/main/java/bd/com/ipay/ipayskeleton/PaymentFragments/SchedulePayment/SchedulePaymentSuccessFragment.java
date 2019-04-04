@@ -1,4 +1,4 @@
-package bd.com.ipay.ipayskeleton.PaymentFragments.IPDC;
+package bd.com.ipay.ipayskeleton.PaymentFragments.SchedulePayment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

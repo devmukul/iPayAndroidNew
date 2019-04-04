@@ -1,4 +1,4 @@
-package bd.com.ipay.ipayskeleton.PaymentFragments.IPDC;
+package bd.com.ipay.ipayskeleton.PaymentFragments.SchedulePayment;
 
 import android.content.DialogInterface;
 import android.os.AsyncTask;
@@ -35,7 +35,7 @@ import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Utilities.ShedulePaymentConstant;
 
-public class GlobalScheduledPaymentListFragment extends Fragment implements HttpResponseListener {
+public class ScheduledPaymentListFragment extends Fragment implements HttpResponseListener {
     private RecyclerView scheduledPaymentListRecyclerView;
     private HttpRequestGetAsyncTask getScheduledPaymentListTask;
     private ScheduledPaymentListAdapter scheduledPaymentAdapter;
@@ -160,8 +160,8 @@ public class GlobalScheduledPaymentListFragment extends Fragment implements Http
                 }
             }
 
-            scheduledPaymentViewHolder.runningCountTextView.setText(running + " Running");
-            scheduledPaymentViewHolder.pendingCountTextView.setText(pending + " Pending");
+            scheduledPaymentViewHolder.runningCountTextView.setText(running + " "+getString(R.string.running));
+            scheduledPaymentViewHolder.pendingCountTextView.setText(pending + " "+getString(R.string.installment_pending));
             try {
                 scheduledPaymentViewHolder.productImageView.setProfilePicture(scheduledPaymentInfoList.get(i).getReceiverInfo().getProfilePictures().get(0).getUrl(),true);
             }catch (Exception e){
@@ -173,8 +173,8 @@ public class GlobalScheduledPaymentListFragment extends Fragment implements Http
                 @Override
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("scheduledPaymentList", groupedScheduledPaymentInfoList.get(i));
-                    ((IPayUtilityBillPayActionActivity) getActivity()).switchFragment(new IpdcScheduledPaymentFragment(), bundle, 1, true);
+                    bundle.putSerializable(IPayUtilityBillPayActionActivity.SCHEDULE_PAYMENT_LIST, groupedScheduledPaymentInfoList.get(i));
+                    ((IPayUtilityBillPayActionActivity) getActivity()).switchFragment(new ScheduledPaymentFragment(), bundle, 1, true);
                 }
             });
         }
@@ -194,10 +194,10 @@ public class GlobalScheduledPaymentListFragment extends Fragment implements Http
 
             public ScheduledPaymentViewHolder(@NonNull View itemView) {
                 super(itemView);
-                productImageView = (ProfileImageView) itemView.findViewById(R.id.product_image);
-                productNameTextView = (TextView) itemView.findViewById(R.id.product_name);
-                runningCountTextView = (TextView) itemView.findViewById(R.id.running_item_text);
-                pendingCountTextView = (TextView) itemView.findViewById(R.id.pending_item_text);
+                productImageView = itemView.findViewById(R.id.product_image);
+                productNameTextView = itemView.findViewById(R.id.product_name);
+                runningCountTextView = itemView.findViewById(R.id.running_item_text);
+                pendingCountTextView = itemView.findViewById(R.id.pending_item_text);
                 parentView = itemView;
             }
         }

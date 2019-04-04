@@ -8,19 +8,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
-import java.util.ArrayList;
-
 import bd.com.ipay.ipayskeleton.Activities.BaseActivity;
-import bd.com.ipay.ipayskeleton.PaymentFragments.IPDC.GlobalScheduledPaymentListFragment;
-import bd.com.ipay.ipayskeleton.PaymentFragments.IPDC.IpdcInstantPaymentFragment;
-import bd.com.ipay.ipayskeleton.PaymentFragments.IPDC.IpdcScheduledPaymentApiFragment;
-import bd.com.ipay.ipayskeleton.PaymentFragments.IPDC.IpdcScheduledPaymentDetailsFragment;
-import bd.com.ipay.ipayskeleton.PaymentFragments.IPDC.IpdcScheduledPaymentFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.SchedulePayment.ScheduledPaymentListFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.SchedulePayment.ScheduledPaymentApiFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.SchedulePayment.ScheduledPaymentDetailsFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractTransactionSuccessFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IspSelectionFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.Carnival.CarnivalIdInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.CreditCard.CreditCardBankSelectionFragment;
-import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.CreditCard.CreditCardInfoInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.LankaBangla.Card.LankaBanglaCardNumberInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.LankaBangla.Dps.LankaBanglaDpsNumberInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.LinkThree.LinkThreeSubscriberIdInputFragment;
@@ -47,6 +42,7 @@ public final class IPayUtilityBillPayActionActivity extends BaseActivity {
 
     public static final String BILL_AMOUNT_KEY = "BILL_AMOUNT";
     public static final String BANK_CODE = "BANK_CODE";
+    public static final String SCHEDULE_PAYMENT_LIST = "SCHEDULE_PAYMENT_LIST";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,7 +62,7 @@ public final class IPayUtilityBillPayActionActivity extends BaseActivity {
                 String id = getIntent().getStringExtra("id");
                 Bundle bundle = new Bundle();
                 bundle.putLong(Constants.ID, Long.parseLong(id));
-                switchFragment(new IpdcScheduledPaymentDetailsFragment(), bundle, 2, true);
+                switchFragment(new ScheduledPaymentDetailsFragment(), bundle, 2, true);
             }
             return;
         }else{
@@ -92,9 +88,9 @@ public final class IPayUtilityBillPayActionActivity extends BaseActivity {
                 case SCHEDULED_PAY_IPDC:
                     if(getIntent().hasExtra(Constants.MOBILE_NUMBER)) {
                         bundle.putString(Constants.MOBILE_NUMBER, getIntent().getStringExtra(Constants.MOBILE_NUMBER));
-                        switchFragment(new IpdcScheduledPaymentApiFragment(), bundle, 0, false);
+                        switchFragment(new ScheduledPaymentApiFragment(), bundle, 0, false);
                     }else{
-                        switchFragment(new GlobalScheduledPaymentListFragment(), bundle, 0, false);
+                        switchFragment(new ScheduledPaymentListFragment(), bundle, 0, false);
                     }
                     break;
                 default:

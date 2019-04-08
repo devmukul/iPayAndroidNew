@@ -140,7 +140,7 @@ public class SignupBusinessStepTwoFragment extends BaseFragment {
 				public void onLoadSuccess(List<BusinessType> businessTypes) {
 					//set adapter to load the types
 					setTypeAdapter(businessTypes);
-					mProgressDialog.dismiss();
+					mProgressDialog.dismissDialogue();
 				}
 
 				@Override
@@ -148,7 +148,7 @@ public class SignupBusinessStepTwoFragment extends BaseFragment {
 					if (getActivity() != null) {
 						Toast.makeText(getActivity(), R.string.error_loading_data, Toast.LENGTH_SHORT).show();
 						getActivity().finish();
-						mProgressDialog.dismiss();
+						mProgressDialog.dismissDialogue();
 					}
 				}
 			};

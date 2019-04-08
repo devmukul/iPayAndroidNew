@@ -119,7 +119,7 @@ public class ImplementTwoFactorAuthenticationSettingsFragment extends Fragment i
             }
         }
         if (mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
         }
     }
 
@@ -173,7 +173,7 @@ public class ImplementTwoFactorAuthenticationSettingsFragment extends Fragment i
                         }
                     } else {
                         if (getActivity() != null) {
-                            mProgressDialog.dismiss();
+                            mProgressDialog.dismissDialogue();
                             Toaster.makeText(getActivity(), mTwoFaServiceResponse.getMessage(), Toast.LENGTH_LONG);
                         }
                     }
@@ -181,13 +181,13 @@ public class ImplementTwoFactorAuthenticationSettingsFragment extends Fragment i
                     Toaster.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG);
                 }
                 mGetTwoFactorAuthSettingsAsyncTask = null;
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
 
             } else if (result.getApiCommand().equals(Constants.COMMAND_PUT_TWO_FACTOR_AUTH_SETTINGS)) {
                 TwoFactorAuthSettingsSaveResponse twoFactorAuthSettingsSaveResponse = gson.fromJson(result.getJsonString(), TwoFactorAuthSettingsSaveResponse.class);
                 try {
                     if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
-                        mProgressDialog.dismiss();
+                        mProgressDialog.dismissDialogue();
                         Toaster.makeText(getActivity(), twoFactorAuthSettingsSaveResponse.getMessage(), Toast.LENGTH_SHORT);
                         if (mOTPVerificationForTwoFactorAuthenticationServicesDialog != null) {
                             mOTPVerificationForTwoFactorAuthenticationServicesDialog.dismissDialog();
@@ -213,7 +213,7 @@ public class ImplementTwoFactorAuthenticationSettingsFragment extends Fragment i
                     Toaster.makeText(getActivity(), twoFactorAuthSettingsSaveResponse.getMessage(), Toast.LENGTH_LONG);
                 }
                 mPutTwoFactorAuthSettingsAsyncTask = null;
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
             }
         }
     }

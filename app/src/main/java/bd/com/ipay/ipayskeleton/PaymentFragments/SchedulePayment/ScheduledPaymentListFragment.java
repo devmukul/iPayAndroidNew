@@ -42,6 +42,8 @@ public class ScheduledPaymentListFragment extends Fragment implements HttpRespon
     private CustomProgressDialog progressDialog;
     private List<GroupedScheduledPaymentList> groupedScheduledPaymentInfoList;
 
+    private TextView emptyTextView;
+
 
     @Nullable
     @Override
@@ -53,6 +55,8 @@ public class ScheduledPaymentListFragment extends Fragment implements HttpRespon
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         scheduledPaymentListRecyclerView = view.findViewById(R.id.scheduled_payment_list);
+
+        emptyTextView = view.findViewById(R.id.empty_text);
         progressDialog = new CustomProgressDialog(getContext());
         groupedScheduledPaymentInfoList = new ArrayList<>();
         scheduledPaymentListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -86,7 +90,7 @@ public class ScheduledPaymentListFragment extends Fragment implements HttpRespon
     public void httpResponseReceiver(GenericHttpResponse result) {
 
         getScheduledPaymentListTask = null;
-        progressDialog.dismissDialog();
+        progressDialog.dismissDialogue();
         if (HttpErrorHandler.isErrorFoundWithout404(result, getContext(), null)) {
             getScheduledPaymentListTask = null;
 
@@ -111,6 +115,13 @@ public class ScheduledPaymentListFragment extends Fragment implements HttpRespon
                 scheduledPaymentListRecyclerView.setAdapter(scheduledPaymentAdapter);
                 scheduledPaymentListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 scheduledPaymentAdapter.notifyDataSetChanged();
+
+                if(groupedScheduledPaymentInfoList.size()>0){
+                    emptyTextView.setVisibility(View.GONE);
+                }else {
+                    emptyTextView.setVisibility(View.VISIBLE);
+                }
+
 
             } else {
                 GenericResponseWithMessageOnly genericResponseWithMessageOnly =

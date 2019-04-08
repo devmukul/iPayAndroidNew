@@ -399,7 +399,7 @@ public class ContactsHolderFragment extends Fragment implements HttpResponseList
 	@Override
 	public void httpResponseReceiver(GenericHttpResponse result) {
 		if (isAdded()) {
-			mProgressDialog.dismiss();
+			mProgressDialog.dismissDialogue();
 		}
 
 		if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {

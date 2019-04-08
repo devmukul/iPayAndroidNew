@@ -253,7 +253,7 @@ public class RemoveTrustedDeviceFragment extends ProgressFragment implements Htt
     public void httpResponseReceiver(GenericHttpResponse result) {
 
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog) && !result.getApiCommand().equals(Constants.COMMAND_GET_BULK_SIGN_UP_USER_DETAILS)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mGetTrustedDeviceTask = null;
             mAddTrustedDeviceTask = null;
             mLogoutTask = null;
@@ -283,7 +283,7 @@ public class RemoveTrustedDeviceFragment extends ProgressFragment implements Htt
                     }
                 }
 
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mGetTrustedDeviceTask = null;
                 break;
 
@@ -300,13 +300,13 @@ public class RemoveTrustedDeviceFragment extends ProgressFragment implements Htt
                         getTrustedDeviceList();
                         attemptTrustedDeviceAdd();
                     } else {
-                        mProgressDialog.dismiss();
+                        mProgressDialog.dismissDialogue();
                         if (getActivity() != null) {
                             Toast.makeText(getActivity(), mRemoveTrustedDeviceResponse.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
                 } catch (Exception e) {
-                    mProgressDialog.dismiss();
+                    mProgressDialog.dismissDialogue();
                     e.printStackTrace();
                     if (getActivity() != null) {
                         Toast.makeText(getActivity(), mRemoveTrustedDeviceResponse.getMessage(), Toast.LENGTH_LONG).show();
@@ -329,7 +329,7 @@ public class RemoveTrustedDeviceFragment extends ProgressFragment implements Htt
                     }
 
                 } catch (Exception e) {
-                    mProgressDialog.dismiss();
+                    mProgressDialog.dismissDialogue();
                     e.printStackTrace();
                     Toast.makeText(getActivity(), R.string.failed_add_trusted_device, Toast.LENGTH_LONG).show();
                 }
@@ -350,7 +350,7 @@ public class RemoveTrustedDeviceFragment extends ProgressFragment implements Htt
                     Toast.makeText(getActivity(), R.string.could_not_sign_out, Toast.LENGTH_LONG).show();
                 }
 
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mLogoutTask = null;
                 break;
 
@@ -363,11 +363,11 @@ public class RemoveTrustedDeviceFragment extends ProgressFragment implements Htt
                         getBulkSignUpUserDetails();
 
                     } else {
-                        mProgressDialog.dismiss();
+                        mProgressDialog.dismissDialogue();
                         Toaster.makeText(getActivity(), R.string.profile_info_get_failed, Toast.LENGTH_SHORT);
                     }
                 } catch (Exception e) {
-                    mProgressDialog.dismiss();
+                    mProgressDialog.dismissDialogue();
                     e.printStackTrace();
                     Toaster.makeText(getActivity(), R.string.profile_info_get_failed, Toast.LENGTH_SHORT);
                 }
@@ -432,7 +432,7 @@ public class RemoveTrustedDeviceFragment extends ProgressFragment implements Htt
                         }
                     }
                 }
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mGetProfileCompletionStatusTask = null;
                 break;
 
@@ -464,7 +464,7 @@ public class RemoveTrustedDeviceFragment extends ProgressFragment implements Htt
                 mGetAllAddedCards = null;
                 break;
             default:
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 if (getActivity() != null)
                     Toast.makeText(getActivity(), R.string.service_not_available, Toast.LENGTH_LONG).show();
                 break;

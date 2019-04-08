@@ -359,7 +359,7 @@ public class OTPVerificationPersonalFragment extends Fragment implements HttpRes
     }
 
     private void hideProgressDialog() {
-        if (isAdded()) mProgressDialog.dismiss();
+        if (isAdded()) mProgressDialog.dismissDialogue();
     }
 
     private void attemptAddTrustedDevice() {

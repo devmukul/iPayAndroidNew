@@ -30,6 +30,8 @@ public class ScheduledPaymentFragment extends Fragment {
     private GroupedScheduledPaymentList groupedScheduledPaymentInfoList;
     private List<ScheduledPaymentInfo> scheduledPaymentInfoList;
 
+    private TextView emptyTextView;
+
 
     @Nullable
     @Override
@@ -53,6 +55,8 @@ public class ScheduledPaymentFragment extends Fragment {
         }
 
         scheduledPaymentListRecyclerView = view.findViewById(R.id.scheduled_payment_list);
+        emptyTextView = view.findViewById(R.id.empty_text);
+
         ((TextView) view.findViewById(R.id.title)).setText(groupedScheduledPaymentInfoList.getReceiverInfo().getName());
         ((ImageView) view.findViewById(R.id.back)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +64,12 @@ public class ScheduledPaymentFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });
+
+        if(scheduledPaymentInfoList.size()>0){
+            emptyTextView.setVisibility(View.GONE);
+        }else {
+            emptyTextView.setVisibility(View.VISIBLE);
+        }
 
         scheduledPaymentAdapter = new ScheduledPaymentListAdapter(scheduledPaymentInfoList);
         scheduledPaymentListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

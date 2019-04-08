@@ -321,7 +321,7 @@ public class TicketDetailsFragment extends ProgressFragment implements HttpRespo
     public void httpResponseReceiver(GenericHttpResponse result) {
         if (getActivity() != null) {
             mSwipeRefreshLayout.setRefreshing(false);
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
         }
 
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {

@@ -174,7 +174,7 @@ public class InviteDialog extends MaterialDialog.Builder implements HttpResponse
         int numberOfInvitees = ContactsHolderFragment.mGetInviteInfoResponse.invitees.size();
 
         if (numberOfInvitees >= ContactsHolderFragment.mGetInviteInfoResponse.totalLimit) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             Toast.makeText(context, R.string.invitation_limit_exceeded, Toast.LENGTH_LONG).show();
         } else {
             boolean wantToIntroduce = mIntroduceCheckbox.isChecked();
@@ -205,18 +205,18 @@ public class InviteDialog extends MaterialDialog.Builder implements HttpResponse
                     new GetContactsAsyncTask(context).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     sendInvite(mMobileNumber);
                 } else {
-                    mProgressDialog.dismiss();
+                    mProgressDialog.dismissDialogue();
                     Toaster.makeText(context, R.string.failed_invite_contact, Toast.LENGTH_LONG);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 Toaster.makeText(context, R.string.failed_invite_contact, Toast.LENGTH_LONG);
             }
 
             mAddContactAsyncTask = null;
         } else if (result.getApiCommand().equals(Constants.COMMAND_SEND_INVITE)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             try {
                 mSendInviteResponse = gson.fromJson(result.getJsonString(), SendInviteResponse.class);
 

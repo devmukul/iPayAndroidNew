@@ -157,13 +157,13 @@ public class WithdrawMoneyReviewFragment extends ReviewFragment implements HttpR
     @Override
     public void onPause() {
         super.onPause();
-        mCustomProgressDialog.dismiss();
+        mCustomProgressDialog.dismissDialog();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mCustomProgressDialog.dismiss();
+        mCustomProgressDialog.dismissDialog();
     }
 
     private void attemptWithdrawMoneyWithPinCheck() {
@@ -235,7 +235,7 @@ public class WithdrawMoneyReviewFragment extends ReviewFragment implements HttpR
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
         super.httpResponseReceiver(result);
-        mProgressDialog.dismiss();
+        mProgressDialog.dismissDialogue();
 
         if (HttpErrorHandler.isErrorFound(result, getContext(), mCustomProgressDialog)) {
             mWithdrawMoneyTask = null;
@@ -321,7 +321,7 @@ public class WithdrawMoneyReviewFragment extends ReviewFragment implements HttpR
                 mCustomProgressDialog.showFailureAnimationAndMessage(getResources().getString(R.string.service_not_available));
             }
 
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mWithdrawMoneyTask = null;
 
         }

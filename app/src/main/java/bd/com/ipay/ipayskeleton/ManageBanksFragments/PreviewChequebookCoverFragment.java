@@ -276,7 +276,7 @@ public class PreviewChequebookCoverFragment extends BaseFragment implements Http
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             return;
         }
 
@@ -284,14 +284,14 @@ public class PreviewChequebookCoverFragment extends BaseFragment implements Http
 
         if (result.getApiCommand().equals(Constants.COMMAND_UPLOAD_DOCUMENT)) {
 
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
 
             UploadDocumentResponse uploadDocumentResponse = gson.fromJson(result.getJsonString(), UploadDocumentResponse.class);
             if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
                 if (getActivity() != null)
                     Toaster.makeText(getActivity(), getString(R.string.cheque_uploaded), Toast.LENGTH_LONG);
             } else {
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 if (getActivity() != null)
                     Toaster.makeText(getActivity(), uploadDocumentResponse.getMessage(), Toast.LENGTH_SHORT);
             }

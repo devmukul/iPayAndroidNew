@@ -838,7 +838,7 @@
 আপনি ডেবিট/ক্রেডিট কার্ড থেকে টাকা যোগ করার অনুরোধ বাতিল করেছেন। আবার টাকা যোগ করার অনুরোধ করুন।
 </string>
     <string name="add_money_from_credit_or_debit_card_failed_message">
-আপনার যোগ আনার অনুরোধ সম্ভব হয় নি। অনুগ্রহ করে নিশ্চিত করুন যে আপনি সঠিক তথ্য সরবরাহ করেছেন এবং আপনার কার্ডে পর্যাপ্ত ব্যালান্স আছে, তারপরে আবার চেষ্টা করুন। সঠিক তথ্য প্রদানের পরেও যদি আপনি এখনও সমস্যার সম্মুখীন হন তবে দয়া করে support@ipay.com.bd এ আমাদের জানান।
+আপনার টাকা আনার অনুরোধ সম্ভব হয় নি। অনুগ্রহ করে নিশ্চিত করুন যে আপনি সঠিক তথ্য সরবরাহ করেছেন এবং আপনার কার্ডে পর্যাপ্ত ব্যালান্স আছে, তারপরে আবার চেষ্টা করুন। সঠিক তথ্য প্রদানের পরেও যদি আপনি এখনও সমস্যার সম্মুখীন হন তবে দয়া করে support@ipay.com.bd এ আমাদের জানান।
 </string>
     <string name="verification_icon">যাচাই আইকন</string>
     <string name="document_front_side">সামনের অংশ</string>
@@ -1390,6 +1390,7 @@
     <string name="installment_complete">Completed</string>
     <string name="running">Running</string>
     <string name="installment_pending">Pending</string>
+    <string name="no_schedule_payment_available">কোনো শিডিউল পেমেন্ট পাওয়া যায়নি!</string>
 </resources>
 
 

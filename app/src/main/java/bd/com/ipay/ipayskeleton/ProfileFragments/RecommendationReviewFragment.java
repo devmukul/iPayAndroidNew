@@ -302,7 +302,7 @@ public class RecommendationReviewFragment extends ProgressFragment implements Ht
     public void httpResponseReceiver(GenericHttpResponse result) {
 
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mGetThanaListAsyncTask = null;
             mGetDistrictListAsyncTask = null;
             mRecommendActionTask = null;
@@ -332,7 +332,7 @@ public class RecommendationReviewFragment extends ProgressFragment implements Ht
                         Toast.makeText(getActivity(), R.string.service_not_available, Toast.LENGTH_LONG).show();
                 }
 
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mRecommendActionTask = null;
                 break;
             case Constants.COMMAND_GET_THANA_LIST:

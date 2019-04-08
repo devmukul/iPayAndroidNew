@@ -27,8 +27,9 @@ public class CustomProgressDialog extends android.support.v7.app.AlertDialog {
         this.show();
     }
 
-    public void dismissDialog() {
-        this.dismiss();
+    public void dismissDialogue() {
+        if(this.isShowing())
+            this.cancel();
     }
 }
 

@@ -134,13 +134,13 @@ public class IPayContactListFragment extends Fragment implements LoaderManager.L
 			@Override
 			public void httpResponseReceiver(GenericHttpResponse result) {
 				if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
-					mProgressDialog.dismiss();
+					mProgressDialog.dismissDialogue();
 					mGetProfileInfoTask = null;
 				} else {
 					try {
 						if (result.getApiCommand().equals(Constants.COMMAND_GET_USER_INFO)) {
 							mGetProfileInfoTask = null;
-							mProgressDialog.dismiss();
+							mProgressDialog.dismissDialogue();
 							if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
 								GetUserInfoResponse getUserInfoResponse = new Gson().fromJson(result.getJsonString(), GetUserInfoResponse.class);
 								final String name = getUserInfoResponse.getName();
@@ -156,7 +156,7 @@ public class IPayContactListFragment extends Fragment implements LoaderManager.L
 							}
 						}
 					} catch (Exception e) {
-						mProgressDialog.dismiss();
+						mProgressDialog.dismissDialogue();
 						mGetProfileInfoTask = null;
 					}
 				}

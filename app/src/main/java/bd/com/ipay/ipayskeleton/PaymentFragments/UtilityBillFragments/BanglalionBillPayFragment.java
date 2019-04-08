@@ -385,7 +385,7 @@ public class BanglalionBillPayFragment extends BaseFragment implements HttpRespo
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
         if (HttpErrorHandler.isErrorFoundWithout404(result, getContext(), mProgressDialog)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mGetCustomerInfoTask = null;
             mGetBusinessRuleTask = null;
             mBanglalionBillPayTask = null;
@@ -401,13 +401,13 @@ public class BanglalionBillPayFragment extends BaseFragment implements HttpRespo
             return;
         }
 
-        if (isAdded()) mProgressDialog.dismiss();
+        if (isAdded()) mProgressDialog.dismissDialogue();
 
         Gson gson = new Gson();
 
         switch (result.getApiCommand()) {
             case Constants.COMMAND_GET_BANGLALION_CUSTOMER_INFO:
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mCustomProgressDialog.dismissDialog();
                 GetCustomerInfoResponse mCustomerInfoResponse = null;
                 switch (result.getStatus()) {
@@ -580,13 +580,13 @@ public class BanglalionBillPayFragment extends BaseFragment implements HttpRespo
     @Override
     public void onPause() {
         super.onPause();
-        mCustomProgressDialog.dismiss();
+        mCustomProgressDialog.dismissDialog();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mCustomProgressDialog.dismiss();
+        mCustomProgressDialog.dismissDialog();
     }
 
 }

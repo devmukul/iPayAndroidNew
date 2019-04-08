@@ -152,7 +152,7 @@ public class IntroducerFragment extends ProgressFragment implements HttpResponse
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) throws RuntimeException {
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mGetIntroducersTask = null;
             mSwipeRefreshLayout.setRefreshing(false);
             setContentShown(true);
@@ -250,7 +250,7 @@ public class IntroducerFragment extends ProgressFragment implements HttpResponse
                         Toast.makeText(getActivity(), R.string.failed_asking_introduction, Toast.LENGTH_LONG).show();
                     }
                 }
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mAskForRecommendationTask = null;
                 break;
         }

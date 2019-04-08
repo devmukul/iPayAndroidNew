@@ -523,7 +523,7 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mIntroduceTask = null;
             mAskForRecommendationTask = null;
             return;
@@ -551,12 +551,12 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
                     }
                 }
 
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mAskForRecommendationTask = null;
                 break;
             case Constants.COMMAND_INTRODUCE_ACTION:
                 mIntroduceTask = null;
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 try {
                     AskForIntroductionResponse askForIntroductionResponse = gson.fromJson(result.getJsonString(),
                             AskForIntroductionResponse.class);

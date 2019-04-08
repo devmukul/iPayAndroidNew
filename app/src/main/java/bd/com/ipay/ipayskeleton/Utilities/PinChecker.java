@@ -77,7 +77,7 @@ public class PinChecker implements HttpResponseListener {
 
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
-        mProgressDialog.dismiss();
+        mProgressDialog.dismissDialogue();
 
         if (HttpErrorHandler.isErrorFound(result, mContext, null)) {
             mGetPinInfoTask = null;

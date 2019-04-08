@@ -148,7 +148,7 @@ public class WASAEnterBillNumberFragment extends BaseFragment implements HttpRes
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
         if (HttpErrorHandler.isErrorFoundWithout404(result, getContext(), mCustomProgressDialog)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mCustomProgressDialog.dismissDialog();
             mWasaCustomerInfoTask = null;
             mGetBusinessRuleTask = null;
@@ -164,7 +164,7 @@ public class WASAEnterBillNumberFragment extends BaseFragment implements HttpRes
             return;
         } else {
             try {
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 Gson gson = new Gson();
                 if (result.getApiCommand().equals(Constants.URL_WASA_CUSTOMER_INFO)) {
                     mWasaCustomerInfoResponse = gson.fromJson(result.getJsonString(), WasaCustomerInfoResponse.class);
@@ -220,7 +220,7 @@ public class WASAEnterBillNumberFragment extends BaseFragment implements HttpRes
                     mGetBusinessRuleTask = null;
                 }
             } catch (Exception e) {
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mWasaCustomerInfoTask = null;
                 mGetBusinessRuleTask = null;
                 Utilities.showErrorDialog(getContext(), getString(R.string.request_failed));

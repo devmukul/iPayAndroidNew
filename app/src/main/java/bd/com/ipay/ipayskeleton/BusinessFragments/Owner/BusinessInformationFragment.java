@@ -599,7 +599,7 @@ public class BusinessInformationFragment extends ProgressFragment implements Htt
 	@Override
 	public void httpResponseReceiver(GenericHttpResponse result) {
 		if (getActivity() != null) {
-			mProgressDialog.dismiss();
+			mProgressDialog.dismissDialogue();
 		}
 		if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
 			mGetBusinessInformationAsyncTask = null;

@@ -311,7 +311,7 @@ public class SignupPersonalStepOneFragment extends BaseFragment implements HttpR
 	public void httpResponseReceiver(GenericHttpResponse result) {
 
 		if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
-			mProgressDialog.dismiss();
+			mProgressDialog.dismissDialogue();
 			mRequestOTPTask = null;
 			return;
 		}
@@ -375,7 +375,7 @@ public class SignupPersonalStepOneFragment extends BaseFragment implements HttpR
 				}
 			}
 
-			mProgressDialog.dismiss();
+			mProgressDialog.dismissDialogue();
 			mRequestOTPTask = null;
 		}
 	}

@@ -106,10 +106,10 @@ public class AddBeneficiaryAsSourceOfFundFragment extends IpayAbstractSpecificSo
     public void httpResponseReceiver(GenericHttpResponse result) {
         if (HttpErrorHandler.isErrorFound(result, getContext(), null)) {
             mGetBeneficiaryAsyncTask = null;
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             return;
         } else {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
                 GetBeneficiaryListResponse getBeneficiaryListResponse = new Gson().
                         fromJson(result.getJsonString(), GetBeneficiaryListResponse.class);

@@ -98,7 +98,7 @@ public class ScheduledPaymentApiFragment extends Fragment implements HttpRespons
     public void httpResponseReceiver(GenericHttpResponse result) {
 
         getScheduledPaymentListTask = null;
-        progressDialog.dismissDialog();
+        progressDialog.dismissDialogue();
         if (HttpErrorHandler.isErrorFoundWithout404(result, getContext(), null)) {
             getScheduledPaymentListTask = null;
 

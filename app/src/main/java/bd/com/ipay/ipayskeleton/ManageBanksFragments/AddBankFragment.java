@@ -239,7 +239,7 @@ public class AddBankFragment extends BaseFragment implements HttpResponseListene
                 new GetAvailableBankAsyncTask.BankLoadListener() {
                     @Override
                     public void onLoadSuccess() {
-                        mProgressDialog.dismiss();
+                        mProgressDialog.dismissDialogue();
                         setBankAdapter(CommonData.getAvailableBanks());
 
                     }
@@ -516,7 +516,7 @@ public class AddBankFragment extends BaseFragment implements HttpResponseListene
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             return;
         }
 
@@ -553,7 +553,7 @@ public class AddBankFragment extends BaseFragment implements HttpResponseListene
                         Toaster.makeText(getActivity(), R.string.failed_to_fetch_branch, Toast.LENGTH_LONG);
                 }
 
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mGetBankBranchesTask = null;
 
                 break;

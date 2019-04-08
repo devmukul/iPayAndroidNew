@@ -297,7 +297,7 @@ public class SecurityQuestionFragment extends ProgressFragment implements HttpRe
             }
 
             mSetSecurityAnswerTask = null;
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
         }
 
     }

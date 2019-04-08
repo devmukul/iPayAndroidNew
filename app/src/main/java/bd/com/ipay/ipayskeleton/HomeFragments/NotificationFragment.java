@@ -598,7 +598,7 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 				mGetBeneficiaryAsyncTask = null;
 				getScheduledPaymentListTask = null;
 				if (mProgressDialog != null) {
-					mProgressDialog.dismiss();
+					mProgressDialog.dismissDialogue();
 				}
 				setContentShown(true);
 
@@ -711,7 +711,7 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 
 				case Constants.COMMAND_ACCEPT_OR_REJECT_BENEFICIARY:
 					try {
-						mProgressDialog.dismiss();
+						mProgressDialog.dismissDialogue();
 						GenericResponseWithMessageOnly responseWithMessageOnly = gson.fromJson(result.getJsonString(),
 								GenericResponseWithMessageOnly.class);
 						if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
@@ -728,7 +728,7 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 					break;
 
 				case Constants.COMMAND_GET_SERVICE_CHARGE:
-					mProgressDialog.dismiss();
+					mProgressDialog.dismissDialogue();
 					try {
 						mGetServiceChargeResponse = gson.fromJson(result.getJsonString(), GetServiceChargeResponse.class);
 

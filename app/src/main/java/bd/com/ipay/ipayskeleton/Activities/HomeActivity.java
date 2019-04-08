@@ -671,7 +671,7 @@ public class HomeActivity extends BaseActivity
             switchToIpaySourceOfFundActivity();
 
         } else if (id == R.id.nav_scheduled_payment) {
-            if (!ACLManager.hasServicesAccessibility(ServiceIdConstants.MAKE_PAYMENT)) {
+            if (!ACLManager.hasServicesAccessibility(ServiceIdConstants.SCHEDULE_PAYMENT)) {
                 DialogUtils.showServiceNotAllowedDialog(HomeActivity.this);
                 return;
             }
@@ -894,7 +894,7 @@ public class HomeActivity extends BaseActivity
             firebaseLogoutTask = null;
             return;
         }
-        mProgressDialog.dismiss();
+        mProgressDialog.dismissDialogue();
         Gson gson = new Gson();
 
         switch (result.getApiCommand()) {
@@ -937,7 +937,7 @@ public class HomeActivity extends BaseActivity
                     Toast.makeText(HomeActivity.this, R.string.could_not_sign_out, Toast.LENGTH_LONG).show();
                 }
 
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mLogoutTask = null;
 
                 break;

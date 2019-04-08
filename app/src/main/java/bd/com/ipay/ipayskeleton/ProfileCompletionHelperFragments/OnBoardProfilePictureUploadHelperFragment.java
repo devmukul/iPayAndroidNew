@@ -308,7 +308,7 @@ public class OnBoardProfilePictureUploadHelperFragment extends Fragment implemen
 
     public void httpResponseReceiver(GenericHttpResponse result) {
         if (getActivity() != null) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
         }
 
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {

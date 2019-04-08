@@ -170,11 +170,9 @@ public class ScheduledPaymentDetailsFragment extends Fragment implements HttpRes
 
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
-
-        getScheduledPaymentListTask = null;
-        progressDialog.dismissDialog();
         if (HttpErrorHandler.isErrorFoundWithout404(result, getContext(), null)) {
             getScheduledPaymentListTask = null;
+            progressDialog.dismissDialogue();
 
             if (result != null && result.getStatus() == Constants.HTTP_RESPONSE_STATUS_NOT_FOUND) {
                 GenericResponseWithMessageOnly genericResponseWithMessageOnly =
@@ -215,7 +213,7 @@ public class ScheduledPaymentDetailsFragment extends Fragment implements HttpRes
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                progressDialog.dismissDialog();
+                progressDialog.dismissDialogue();
                 getScheduledPaymentListTask = null;
                 break;
 
@@ -232,7 +230,7 @@ public class ScheduledPaymentDetailsFragment extends Fragment implements HttpRes
                     e.printStackTrace();
                 }
 
-                progressDialog.dismissDialog();
+                progressDialog.dismissDialogue();
                 setScheduledPaymentDecisionTask = null;
 
                 break;
@@ -246,7 +244,7 @@ public class ScheduledPaymentDetailsFragment extends Fragment implements HttpRes
                     e.printStackTrace();
                 }
 
-                progressDialog.dismissDialog();
+                progressDialog.dismissDialogue();
                 setScheduledPaymentDecisionTask = null;
 
                 break;

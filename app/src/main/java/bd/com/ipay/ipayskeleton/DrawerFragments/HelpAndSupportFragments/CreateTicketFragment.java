@@ -392,7 +392,7 @@ public class CreateTicketFragment extends ProgressFragment implements HttpRespon
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
         if (getActivity() != null)
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
 
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
             mCreateTicketTask = null;
@@ -474,7 +474,7 @@ public class CreateTicketFragment extends ProgressFragment implements HttpRespon
                         Toaster.makeText(getActivity(), R.string.service_not_available, Toast.LENGTH_LONG);
                 }
 
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mGetTicketCategoriesTask = null;
                 break;
 

@@ -204,7 +204,7 @@ public class NotificationDeeplinkedFragment extends ProgressFragment implements 
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
         try {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             if (HttpErrorHandler.isErrorFound(result, getActivity(), mProgressDialog)) {
                 setContentShown(true);
                 mSwipeRefreshLayout.setRefreshing(false);

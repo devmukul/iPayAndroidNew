@@ -1213,5 +1213,6 @@
     <string name="installment_complete">Completed</string>
     <string name="running">Running</string>
     <string name="installment_pending">Pending</string>
+    <string name="no_schedule_payment_available">No schedule payment available!</string>
 
 </resources>

@@ -334,7 +334,7 @@ public class BankAccountsFragment extends ProgressFragment implements HttpRespon
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mGetBankTask = null;
             mRemoveBankAccountTask = null;
             return;
@@ -383,7 +383,7 @@ public class BankAccountsFragment extends ProgressFragment implements HttpRespon
                         Toaster.makeText(getActivity(), R.string.failed_remove_bank, Toast.LENGTH_LONG);
                 }
 
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mRemoveBankAccountTask = null;
 
                 break;
@@ -407,7 +407,7 @@ public class BankAccountsFragment extends ProgressFragment implements HttpRespon
                 // Refresh the bank list for updated bank status
                 refreshBankList();
 
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mSendForVerificationWithAmountTask = null;
                 break;
         }

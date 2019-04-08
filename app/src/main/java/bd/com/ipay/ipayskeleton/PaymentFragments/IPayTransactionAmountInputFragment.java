@@ -47,6 +47,7 @@ import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.SourceOfFund.models.Sponsor;
 import bd.com.ipay.ipayskeleton.SourceOfFund.view.SponsorSelectorDialog;
 import bd.com.ipay.ipayskeleton.Utilities.BusinessRuleCacheManager;
+import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ACLManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.SharedPrefManager;
 import bd.com.ipay.ipayskeleton.Utilities.CircleTransform;
@@ -125,7 +126,7 @@ public class IPayTransactionAmountInputFragment extends Fragment implements View
             LocalBroadcastManager.getInstance(getContext()).registerReceiver(mBusinessRuleUpdateBroadcastReceiver, new IntentFilter(Constants.BUSINESS_RULE_UPDATE_BROADCAST));
         mMandatoryBusinessRules = BusinessRuleCacheManager.getBusinessRules(BusinessRuleCacheManager.getTag(transactionType));
 
-        if(mBusinessType.equals("NBFI")){
+        if(!TextUtils.isEmpty(mBusinessType) && mBusinessType.equals("NBFI")){
             setHasOptionsMenu(true);
         }
     }
@@ -448,11 +449,15 @@ public class IPayTransactionAmountInputFragment extends Fragment implements View
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.schedule_list:
-                Intent intent = new Intent(getContext(), IPayUtilityBillPayActionActivity.class);
-                intent.putExtra(IPayUtilityBillPayActionActivity.BILL_PAY_PARTY_NAME_KEY,
-                        IPayUtilityBillPayActionActivity.SCHEDULED_PAY_IPDC);
-                intent.putExtra(Constants.MOBILE_NUMBER, mobileNumber);
-                startActivity(intent);
+                if (!ACLManager.hasServicesAccessibility(ServiceIdConstants.SCHEDULE_PAYMENT)) {
+                    DialogUtils.showServiceNotAllowedDialog(getContext());
+                }else {
+                    Intent intent = new Intent(getContext(), IPayUtilityBillPayActionActivity.class);
+                    intent.putExtra(IPayUtilityBillPayActionActivity.BILL_PAY_PARTY_NAME_KEY,
+                            IPayUtilityBillPayActionActivity.SCHEDULED_PAY_IPDC);
+                    intent.putExtra(Constants.MOBILE_NUMBER, mobileNumber);
+                    startActivity(intent);
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

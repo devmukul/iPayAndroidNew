@@ -124,7 +124,7 @@ public class AmberITBillPayFragment extends BaseFragment implements HttpResponse
             @Override
             public void onClick(View view) {
                 if (Utilities.isConnectionAvailable(getContext())) {
-                    if (mContinueButton.getText().toString().toUpperCase().equals(getString(R.string.continue_button))) {
+                    if (mContinueButton.getText().toString().toUpperCase().equalsIgnoreCase(getString(R.string.continue_button))) {
                         if (verifyUserInput()) {
                             getCustomerInfo();
                         }
@@ -291,7 +291,7 @@ public class AmberITBillPayFragment extends BaseFragment implements HttpResponse
             return;
 
         if (HttpErrorHandler.isErrorFoundWithout404(result, getContext(), mProgressDialog)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mCustomProgressDialog.dismissDialog();
             mGetAmberItUserInfo = null;
             mAmberITBillPayTask = null;
@@ -310,7 +310,7 @@ public class AmberITBillPayFragment extends BaseFragment implements HttpResponse
                 Gson gson = new Gson();
                 switch (result.getApiCommand()) {
                     case Constants.COMMAND_GET_AMBERIT_CUSTOMER:
-                        mProgressDialog.dismiss();
+                        mProgressDialog.dismissDialogue();
                         mCustomProgressDialog.dismissDialog();
                         amberITCustomerInfoResponse = gson.fromJson(result.getJsonString(), AmberITCustomerInfoResponse.class);
                         if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
@@ -440,7 +440,7 @@ public class AmberITBillPayFragment extends BaseFragment implements HttpResponse
                         break;
                 }
             } catch (Exception e) {
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mGetAmberItUserInfo = null;
                 mAmberITBillPayTask = null;
                 mGetBusinessRuleTask = null;

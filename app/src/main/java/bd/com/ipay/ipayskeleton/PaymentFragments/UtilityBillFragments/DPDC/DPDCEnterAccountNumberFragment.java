@@ -201,7 +201,7 @@ public class DPDCEnterAccountNumberFragment extends BaseFragment implements Http
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
         if (HttpErrorHandler.isErrorFoundWithout404(result, getContext(), mCustomProgressDialog)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mCustomProgressDialog.dismissDialog();
             mDpdcCustomerInfoTask = null;
             mGetBusinessRuleTask = null;
@@ -217,7 +217,7 @@ public class DPDCEnterAccountNumberFragment extends BaseFragment implements Http
             return;
         } else {
             try {
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 Gson gson = new Gson();
                 if (result.getApiCommand().equals(Constants.COMMAND_GET_DPDC_CUSTOMER)) {
                     mDpdcCustomerInfoResponse = gson.fromJson(result.getJsonString(), DpdcCustomerInfoResponse.class);
@@ -275,7 +275,7 @@ public class DPDCEnterAccountNumberFragment extends BaseFragment implements Http
                     mGetBusinessRuleTask = null;
                 }
             } catch (Exception e) {
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mDpdcCustomerInfoTask = null;
                 mGetBusinessRuleTask = null;
                 Utilities.showErrorDialog(getContext(), getString(R.string.request_failed));

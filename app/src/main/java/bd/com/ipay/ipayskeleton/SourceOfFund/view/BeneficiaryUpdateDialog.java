@@ -188,10 +188,10 @@ public class BeneficiaryUpdateDialog implements HttpResponseListener {
     public void httpResponseReceiver(GenericHttpResponse result) {
         if (HttpErrorHandler.isErrorFound(result, context, null)) {
             mUpdateBeneficiaryAsyckTask = null;
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             return;
         } else {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             try {
                 if (result.getApiCommand().equals(Constants.COMMAND_ACCEPT_OR_REJECT_BENEFICIARY)) {
                     GenericResponseWithMessageOnly genericResponseWithMessageOnly =

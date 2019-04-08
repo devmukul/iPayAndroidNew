@@ -128,7 +128,7 @@ public class AddPinDialogBuilder extends MaterialDialog.Builder implements HttpR
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
 
-        mProgressDialog.dismiss();
+        mProgressDialog.dismissDialogue();
 
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
             mSavePINTask = null;
@@ -165,7 +165,7 @@ public class AddPinDialogBuilder extends MaterialDialog.Builder implements HttpR
                     Toaster.makeText(getContext(), R.string.save_failed, Toast.LENGTH_LONG);
             }
 
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mSavePINTask = null;
         }
     }

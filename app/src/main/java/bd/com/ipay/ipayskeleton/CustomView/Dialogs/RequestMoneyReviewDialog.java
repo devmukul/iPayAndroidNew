@@ -209,7 +209,7 @@ public class RequestMoneyReviewDialog extends MaterialDialog.Builder implements 
                     Toaster.makeText(context, R.string.could_not_accept_money_request, Toast.LENGTH_LONG);
             }
 
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mAcceptRequestTask = null;
 
         } else if (result.getApiCommand().equals(Constants.COMMAND_ACCEPT_PAYMENT_REQUEST)) {
@@ -236,7 +236,7 @@ public class RequestMoneyReviewDialog extends MaterialDialog.Builder implements 
                     Toaster.makeText(context, R.string.could_not_accept_money_request, Toast.LENGTH_LONG);
             }
 
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mAcceptPaymentTask = null;
 
         }

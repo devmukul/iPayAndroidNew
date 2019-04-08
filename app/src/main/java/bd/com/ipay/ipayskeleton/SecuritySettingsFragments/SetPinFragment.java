@@ -139,7 +139,7 @@ public class SetPinFragment extends BaseFragment implements HttpResponseListener
     public void httpResponseReceiver(GenericHttpResponse result) {
 
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mSavePINTask = null;
             return;
         }
@@ -194,7 +194,7 @@ public class SetPinFragment extends BaseFragment implements HttpResponseListener
                 Utilities.sendExceptionTracker(mTracker, ProfileInfoCacheManager.getAccountId(), e.getMessage());
             }
 
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mSavePINTask = null;
 
         }

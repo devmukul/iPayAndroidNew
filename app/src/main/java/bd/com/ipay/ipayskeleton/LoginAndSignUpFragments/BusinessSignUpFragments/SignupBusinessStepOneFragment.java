@@ -186,7 +186,7 @@ public class SignupBusinessStepOneFragment extends BaseFragment implements HttpR
 	public void httpResponseReceiver(GenericHttpResponse result) {
 
 		if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
-			mProgressDialog.dismiss();
+			mProgressDialog.dismissDialogue();
 			mCheckIfUserExistsTask = null;
 			return;
 		}
@@ -213,7 +213,7 @@ public class SignupBusinessStepOneFragment extends BaseFragment implements HttpR
 				if (getActivity() != null)
 					Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
 			}
-			mProgressDialog.dismiss();
+			mProgressDialog.dismissDialogue();
 			mCheckIfUserExistsTask = null;
 		}
 	}

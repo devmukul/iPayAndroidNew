@@ -245,13 +245,13 @@ public class PaymentRequestReceivedDetailsFragment extends ReviewFragment implem
     @Override
     public void onPause() {
         super.onPause();
-        mCustomProgressDialog.dismiss();
+        mCustomProgressDialog.dismissDialog();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mCustomProgressDialog.dismiss();
+        mCustomProgressDialog.dismissDialog();
     }
 
     @Override
@@ -486,11 +486,11 @@ public class PaymentRequestReceivedDetailsFragment extends ReviewFragment implem
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
 
-        mProgressDialog.dismiss();
+        mProgressDialog.dismissDialogue();
         super.httpResponseReceiver(result);
 
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             return;
         }
         Gson gson = new Gson();
@@ -519,7 +519,7 @@ public class PaymentRequestReceivedDetailsFragment extends ReviewFragment implem
                         e.printStackTrace();
                     }
 
-                    mProgressDialog.dismiss();
+                    mProgressDialog.dismissDialogue();
                     mGetBusinessRuleTask = null;
                 }
                 mGetBusinessRuleTask = null;
@@ -551,7 +551,7 @@ public class PaymentRequestReceivedDetailsFragment extends ReviewFragment implem
                         Toaster.makeText(getActivity(), R.string.could_not_cancel_money_request, Toast.LENGTH_LONG);
                 }
 
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mCancelRequestTask = null;
                 break;
             case Constants.COMMAND_ACCEPT_PAYMENT_REQUEST:
@@ -612,7 +612,7 @@ public class PaymentRequestReceivedDetailsFragment extends ReviewFragment implem
                     e.printStackTrace();
                     mCustomProgressDialog.showFailureAnimationAndMessage(getString(R.string.service_not_available));
                 }
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mAcceptRequestTask = null;
 
                 break;
@@ -642,7 +642,7 @@ public class PaymentRequestReceivedDetailsFragment extends ReviewFragment implem
                         Toaster.makeText(getActivity(), R.string.could_not_reject_money_request, Toast.LENGTH_LONG);
                 }
 
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mRejectRequestTask = null;
 
                 break;

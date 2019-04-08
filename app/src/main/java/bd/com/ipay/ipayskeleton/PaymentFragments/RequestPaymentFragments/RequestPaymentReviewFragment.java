@@ -98,13 +98,13 @@ public class RequestPaymentReviewFragment extends ReviewFragment implements Http
     @Override
     public void onPause() {
         super.onPause();
-        mCustomProgressDialog.dismiss();
+        mCustomProgressDialog.dismissDialog();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mCustomProgressDialog.dismiss();
+        mCustomProgressDialog.dismissDialog();
     }
 
     @Override
@@ -231,7 +231,7 @@ public class RequestPaymentReviewFragment extends ReviewFragment implements Http
         super.httpResponseReceiver(result);
 
         if (HttpErrorHandler.isErrorFound(result, getContext(), mCustomProgressDialog)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mSendPaymentRequestTask = null;
 
             return;
@@ -293,6 +293,6 @@ public class RequestPaymentReviewFragment extends ReviewFragment implements Http
             mSendPaymentRequestTask = null;
         }
 
-        mProgressDialog.dismiss();
+        mProgressDialog.dismissDialogue();
     }
 }

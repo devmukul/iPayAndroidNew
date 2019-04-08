@@ -145,14 +145,14 @@ public class MakePaymentByDeepLinkFragment extends Fragment implements HttpRespo
     public void onPause() {
         super.onPause();
         if (mGetOrderDetailsTask == null)
-            mCustomProgressDialog.dismiss();
+            mCustomProgressDialog.dismissDialog();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         if (mGetOrderDetailsTask == null)
-            mCustomProgressDialog.dismiss();
+            mCustomProgressDialog.dismissDialog();
     }
 
     private void setButtonActions() {
@@ -242,7 +242,7 @@ public class MakePaymentByDeepLinkFragment extends Fragment implements HttpRespo
         if (result != null && result.getStatus() == Constants.HTTP_RESPONSE_STATUS_NOT_FOUND
                 && result.getApiCommand().equals(Constants.COMMAND_GET_ORDER_DETAILS)) {
             if (mCustomProgressDialog != null)
-                mCustomProgressDialog.dismiss();
+                mCustomProgressDialog.dismissDialog();
 
             Gson gson = new Gson();
             mOrderDetailsResponse = gson.fromJson(result.getJsonString(), OrderDetailsResponse.class);
@@ -257,7 +257,7 @@ public class MakePaymentByDeepLinkFragment extends Fragment implements HttpRespo
             switch (result.getApiCommand()) {
                 case Constants.COMMAND_GET_ORDER_DETAILS:
                     if (mCustomProgressDialog != null)
-                        mCustomProgressDialog.dismiss();
+                        mCustomProgressDialog.dismissDialog();
 
                     mOrderDetailsResponse = gson.fromJson(result.getJsonString(), OrderDetailsResponse.class);
                     try {

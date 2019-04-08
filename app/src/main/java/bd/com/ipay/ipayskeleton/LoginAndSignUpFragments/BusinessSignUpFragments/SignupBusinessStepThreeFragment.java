@@ -235,7 +235,7 @@ public class SignupBusinessStepThreeFragment extends BaseFragment implements Htt
 	public void httpResponseReceiver(GenericHttpResponse result) {
 
 		if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
-			mProgressDialog.dismiss();
+			mProgressDialog.dismissDialogue();
 			mRequestOTPTask = null;
 			return;
 		}
@@ -299,7 +299,7 @@ public class SignupBusinessStepThreeFragment extends BaseFragment implements Htt
 
 			}
 
-			mProgressDialog.dismiss();
+			mProgressDialog.dismissDialogue();
 			mRequestOTPTask = null;
 		}
 	}

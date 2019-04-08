@@ -126,7 +126,7 @@ public class InviteFriendFragment extends BaseFragment implements HttpResponseLi
 
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
-        mProgressDialog.dismiss();
+        mProgressDialog.dismissDialogue();
         Gson gson = new Gson();
         if (HttpErrorHandler.isErrorFound(result, getContext(), null)) {
             mGetInvitationCodeTask = null;
@@ -150,7 +150,7 @@ public class InviteFriendFragment extends BaseFragment implements HttpResponseLi
             }
 
             mGetInvitationCodeTask = null;
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
         }
 
     }

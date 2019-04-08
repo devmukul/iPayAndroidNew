@@ -299,7 +299,7 @@ public class OnBoardContactsFragment extends Fragment implements LoaderManager.L
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mSendInviteTask = null;
             return;
         }
@@ -331,7 +331,7 @@ public class OnBoardContactsFragment extends Fragment implements LoaderManager.L
                 }
             }
 
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mSendInviteTask = null;
 
         } else if (result.getApiCommand().equals(Constants.COMMAND_ASK_FOR_RECOMMENDATION)) {
@@ -353,7 +353,7 @@ public class OnBoardContactsFragment extends Fragment implements LoaderManager.L
                 }
             }
 
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mAskForRecommendationTask = null;
         }
     }

@@ -262,7 +262,7 @@ public class EditBasicInfoFragment extends BaseFragment implements HttpResponseL
 	}
 
 	public void httpResponseReceiver(GenericHttpResponse result) {
-		mProgressDialog.dismiss();
+		mProgressDialog.dismissDialogue();
 		if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
 			mSetProfileInfoTask = null;
 			return;

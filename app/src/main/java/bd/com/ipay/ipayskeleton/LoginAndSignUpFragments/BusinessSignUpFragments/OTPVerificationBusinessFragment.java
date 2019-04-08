@@ -257,7 +257,7 @@ public class OTPVerificationBusinessFragment extends BaseFragment implements Htt
                     e.printStackTrace();
                 }
 
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mSignUpTask = null;
 
                 break;
@@ -295,7 +295,7 @@ public class OTPVerificationBusinessFragment extends BaseFragment implements Htt
                     e.printStackTrace();
                 }
 
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mRequestOTPTask = null;
                 break;
             case Constants.COMMAND_ADD_TRUSTED_DEVICE:
@@ -332,7 +332,7 @@ public class OTPVerificationBusinessFragment extends BaseFragment implements Htt
     }
 
     private void hideProgressDialog() {
-        if (isAdded()) mProgressDialog.dismiss();
+        if (isAdded()) mProgressDialog.dismissDialogue();
     }
 
     private void attemptAddTrustedDevice() {

@@ -167,7 +167,7 @@ public class ChangePasswordFragment extends BaseFragment implements HttpResponse
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mChangePasswordValidationTask = null;
             return;
         }
@@ -207,7 +207,7 @@ public class ChangePasswordFragment extends BaseFragment implements HttpResponse
 
             }
 
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mChangePasswordValidationTask = null;
         }
     }

@@ -125,7 +125,7 @@ public class TransactionDetailsActivity extends BaseActivity implements HttpResp
                     Toaster.makeText(this, R.string.transaction_history_get_failed, Toast.LENGTH_LONG);
             }
 
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mTransactionHistoryTask = null;
         }
     }

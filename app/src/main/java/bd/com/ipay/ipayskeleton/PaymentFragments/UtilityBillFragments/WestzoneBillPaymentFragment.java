@@ -282,7 +282,7 @@ public class WestzoneBillPaymentFragment extends BaseFragment implements HttpRes
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mCustomProgressDialog.dismissDialog();
             mWestZoneCustomerInfoTask = null;
             mWestZoneBillPayTask = null;
@@ -412,7 +412,7 @@ public class WestzoneBillPaymentFragment extends BaseFragment implements HttpRes
                     mWestZoneBillPayTask = null;
                 }
             } catch (Exception e) {
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mWestZoneCustomerInfoTask = null;
                 mWestZoneBillPayTask = null;
                 mGetBusinessRuleTask = null;

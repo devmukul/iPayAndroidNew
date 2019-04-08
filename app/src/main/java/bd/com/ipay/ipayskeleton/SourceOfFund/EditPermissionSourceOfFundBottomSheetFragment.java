@@ -205,14 +205,14 @@ public class EditPermissionSourceOfFundBottomSheetFragment extends Fragment impl
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
         if (HttpErrorHandler.isErrorFound(result, getContext(), null)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             updateBeneficiaryAsyncTask = null;
             updateMonthlyLimitAsyncTask = null;
             mAddBeneficiaryAsyncTask = null;
             mAddSponsorAsyncTask = null;
             return;
         } else {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             if (result.getApiCommand().equals(Constants.COMMAND_ACCEPT_OR_REJECT_BENEFICIARY)) {
                 try {
                     GenericResponseWithMessageOnly genericResponseWithMessageOnly =

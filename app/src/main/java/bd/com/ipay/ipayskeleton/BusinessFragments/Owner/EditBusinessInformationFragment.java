@@ -148,7 +148,7 @@ public class EditBusinessInformationFragment extends Fragment implements HttpRes
         if (mSetBusinessInformationRequestAsyncTask != null)
             return;
 
-        mProgressDialog.dismiss();
+        mProgressDialog.dismissDialogue();
 
         Gson gson = new Gson();
         SetBusinessInformationRequest setBusinessInformationRequest = new SetBusinessInformationRequest(
@@ -190,7 +190,7 @@ public class EditBusinessInformationFragment extends Fragment implements HttpRes
 
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
-        mProgressDialog.dismiss();
+        mProgressDialog.dismissDialogue();
 
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
             mSetBusinessInformationRequestAsyncTask = null;

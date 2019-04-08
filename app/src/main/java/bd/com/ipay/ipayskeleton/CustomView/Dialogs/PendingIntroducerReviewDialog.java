@@ -130,7 +130,7 @@ public class PendingIntroducerReviewDialog extends MaterialDialog.Builder implem
     public void httpResponseReceiver(GenericHttpResponse result) {
 
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mPendingIntroducerActionTask = null;
             return;
         }
@@ -159,7 +159,7 @@ public class PendingIntroducerReviewDialog extends MaterialDialog.Builder implem
                         Toaster.makeText(Context, R.string.service_not_available, Toast.LENGTH_LONG);
                 }
 
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mPendingIntroducerActionTask = null;
                 break;
         }

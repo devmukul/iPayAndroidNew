@@ -399,7 +399,7 @@ public class SentReceivedRequestReviewFragment extends BaseFragment implements H
 
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
-        mProgressDialog.dismiss();
+        mProgressDialog.dismissDialogue();
 
         if (HttpErrorHandler.isErrorFound(result, getContext(), mCustomProgressDialog)) {
             mAcceptRequestTask = null;
@@ -509,7 +509,7 @@ public class SentReceivedRequestReviewFragment extends BaseFragment implements H
                     Utilities.sendExceptionTracker(mTracker, ProfileInfoCacheManager.getAccountId(), e.getMessage());
                 }
 
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mAcceptRequestTask = null;
 
                 break;
@@ -540,7 +540,7 @@ public class SentReceivedRequestReviewFragment extends BaseFragment implements H
                         Toaster.makeText(getActivity(), R.string.could_not_reject_money_request, Toast.LENGTH_LONG);
                 }
 
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mRejectRequestTask = null;
 
                 break;
@@ -571,7 +571,7 @@ public class SentReceivedRequestReviewFragment extends BaseFragment implements H
                         Toaster.makeText(getActivity(), R.string.could_not_cancel_money_request, Toast.LENGTH_LONG);
                 }
 
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mCancelRequestTask = null;
                 break;
         }

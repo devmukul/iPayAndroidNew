@@ -4,7 +4,9 @@ package bd.com.ipay.ipayskeleton.SourceOfFund.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class ProfilePicture implements Parcelable {
+import java.io.Serializable;
+
+public class ProfilePicture implements Parcelable, Serializable {
     private String url;
     private String quality;
 
@@ -50,5 +52,13 @@ public class ProfilePicture implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(url);
         dest.writeString(quality);
+    }
+
+    @Override
+    public String toString() {
+        return "ProfilePicture{" +
+                "url='" + url + '\'' +
+                ", quality='" + quality + '\'' +
+                '}';
     }
 }

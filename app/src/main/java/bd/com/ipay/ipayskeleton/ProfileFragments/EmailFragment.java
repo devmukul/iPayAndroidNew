@@ -293,7 +293,7 @@ public class EmailFragment extends ProgressFragment implements HttpResponseListe
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
 
-        mProgressDialog.dismiss();
+        mProgressDialog.dismissDialogue();
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
             mGetEmailsTask = null;
             mAddNewEmailTask = null;

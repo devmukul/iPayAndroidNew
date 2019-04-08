@@ -567,9 +567,9 @@ public class AddSourceOfFundFragment extends Fragment implements bd.com.ipay.ipa
         if (HttpErrorHandler.isErrorFound(result, getContext(), null)) {
             mGetProfileInfoTask = null;
             mAddSponsorAsyncTask = null;
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
         } else {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             try {
                 mGetProfileInfoTask = null;
                 if (result.getApiCommand().equals(Constants.COMMAND_GET_PROFILE_INFO_REQUEST)) {

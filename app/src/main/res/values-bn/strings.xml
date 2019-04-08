@@ -255,6 +255,8 @@
     <string name="verify_otp_for_trust_description">
 আপনি এটি দেখছেন কারণ আপনি এই ডিভাইস থেকে প্রথমবার লগ ইন করছেন অথবা আপনি সর্বোচ্চ সংখ্যক ট্রাস্টেড ডিভাইস যোগ করে ফেলেছেন।
 </string>
+    <string name="ipdc_instant_payment">আইপিডিসি তাৎক্ষনিক পেমেন্ট</string>
+    <string name="installment_id">ইন্সটলমেন্ট আইডি</string>
     <string name="resend">পুনরায় পাঠান</string>
     <string name="send_money">সেন্ড মানি</string>
     <string name="continue_button_text">পরবর্তী</string>
@@ -836,7 +838,7 @@
 আপনি ডেবিট/ক্রেডিট কার্ড থেকে টাকা যোগ করার অনুরোধ বাতিল করেছেন। আবার টাকা যোগ করার অনুরোধ করুন।
 </string>
     <string name="add_money_from_credit_or_debit_card_failed_message">
-আপনার যোগ আনার অনুরোধ সম্ভব হয় নি। অনুগ্রহ করে নিশ্চিত করুন যে আপনি সঠিক তথ্য সরবরাহ করেছেন এবং আপনার কার্ডে পর্যাপ্ত ব্যালান্স আছে, তারপরে আবার চেষ্টা করুন। সঠিক তথ্য প্রদানের পরেও যদি আপনি এখনও সমস্যার সম্মুখীন হন তবে দয়া করে support@ipay.com.bd এ আমাদের জানান।
+আপনার টাকা আনার অনুরোধ সম্ভব হয় নি। অনুগ্রহ করে নিশ্চিত করুন যে আপনি সঠিক তথ্য সরবরাহ করেছেন এবং আপনার কার্ডে পর্যাপ্ত ব্যালান্স আছে, তারপরে আবার চেষ্টা করুন। সঠিক তথ্য প্রদানের পরেও যদি আপনি এখনও সমস্যার সম্মুখীন হন তবে দয়া করে support@ipay.com.bd এ আমাদের জানান।
 </string>
     <string name="verification_icon">যাচাই আইকন</string>
     <string name="document_front_side">সামনের অংশ</string>
@@ -1355,6 +1357,10 @@
     <string name="national_id_no">জাতীয় পরিচয়পত্রের নম্বর</string>
     <string name="buy_this_ticket">টিকেট ক্রয় করুন</string>
     <string name="fare">ভাড়া (৳)</string>
+    <string name="paid_till_today">Paid till today</string>
+    <string name="schedule_date">Schedule date</string>
+    <string name="no_of_installmenr">কিস্তির সংখ্যা</string>
+    <string name="loan_amount">লোনের পরিমাণ</string>
     <string name="select_bill_month">বিলের মাস নির্বাচন করুন</string>
     <string name="wasa">ঢাকা ওয়াসা</string>
     <string name="select_card">কার্ড নির্বাচন করুন</string>
@@ -1365,8 +1371,26 @@
     <string name="desco" >ডেসকো</string>
     <string name="out_referance_id">Out Referance ID:</string>
     <string name="credit_card_bill_title">ক্রেডিট কার্ড</string>
+
+    <string name="please_enter_an_installment_id">Please enter an installment ID</string>
+    <string name="scheduled_payment">শিডিউল পেমেন্ট</string>
+    <string name="schedule_payment_service_list">শিডিউল পেমেন্ট</string>
+    <string name="my_schedule_list">My Schedule List</string>
+    <string name="ipdc_instant_payment_input_message">Please insert your Installment ID and  amount you want to pay</string>
+    <string name="ipdc">IPDC</string>
+
+    <string name="pay_installment_success_message">সফলভাবে ৳ %1$s ইন্সটলমেন্ট পেমেন্ট করেছেন</string>
+    <string name="pay_installment_success_description">
+        আপনি সফলভাবে পেমেন্ট করেছেন। বিস্তারিত জানতে আপনার \'লেনদেন\' দেখুন।</string>
     <string name="select_location_code">লোকেশন কোড নির্বাচন করুন</string>
     <string name="customer_number">কাস্টমার নাম্বার</string>
+    <string name="intallment_text">Installments</string>
+    <string name="waiting_for_approval">Waiting for approval *</string>
+    <string name="waiting_for_ammedment">Waiting for amendment approval *</string>
+    <string name="installment_complete">Completed</string>
+    <string name="running">Running</string>
+    <string name="installment_pending">Pending</string>
+    <string name="no_schedule_payment_available">কোনো শিডিউল পেমেন্ট পাওয়া যায়নি!</string>
 </resources>
 
 

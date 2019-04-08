@@ -81,6 +81,8 @@ public abstract class IPayAbstractUserIdInputFragment extends Fragment {
 				.into(merchantIconImageView);
 	}
 
+
+
 	protected void setInputMessage(CharSequence inputMessage) {
 		inputMessageTextView.setVisibility(View.VISIBLE);
 		inputMessageTextView.setText(inputMessage, TextView.BufferType.SPANNABLE);

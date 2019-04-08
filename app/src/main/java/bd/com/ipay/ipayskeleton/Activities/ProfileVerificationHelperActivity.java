@@ -179,7 +179,7 @@ public class ProfileVerificationHelperActivity extends BaseActivity implements H
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
         if (HttpErrorHandler.isErrorFound(result, this, mProgressDialog)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mLogoutTask = null;
             return;
         }

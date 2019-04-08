@@ -139,7 +139,7 @@ public class PaymentRequestsSentFragment extends ProgressFragment implements Htt
     public void httpResponseReceiver(GenericHttpResponse result) {
 
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mPendingInvoicesTask = null;
             mSwipeRefreshLayout.setRefreshing(false);
 

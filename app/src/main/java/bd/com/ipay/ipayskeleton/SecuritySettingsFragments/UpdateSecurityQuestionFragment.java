@@ -226,7 +226,7 @@ public class UpdateSecurityQuestionFragment extends BaseFragment implements Http
             }
 
             mUpdateSecurityAnswerTask = null;
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
         }
 
     }

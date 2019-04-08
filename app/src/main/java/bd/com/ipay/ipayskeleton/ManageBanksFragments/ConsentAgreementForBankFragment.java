@@ -176,7 +176,7 @@ public class ConsentAgreementForBankFragment extends BaseFragment implements Htt
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mAddBankTask = null;
             return;
         }
@@ -193,7 +193,7 @@ public class ConsentAgreementForBankFragment extends BaseFragment implements Htt
                     if (mImageUrl != null) {
                         performIdentificationDocumentUpload(mAddBankResponse.getId());
                     } else {
-                        mProgressDialog.dismiss();
+                        mProgressDialog.dismissDialogue();
                         if (getActivity() != null)
                             Toaster.makeText(getActivity(), mAddBankResponse.getMessage(), Toast.LENGTH_LONG);
                         if (isSwitchedFromOnBoard) {
@@ -207,20 +207,20 @@ public class ConsentAgreementForBankFragment extends BaseFragment implements Htt
                     }
 
                 } else {
-                    mProgressDialog.dismiss();
+                    mProgressDialog.dismissDialogue();
                     if (getActivity() != null)
                         Toaster.makeText(getActivity(), mAddBankResponse.getMessage(), Toast.LENGTH_SHORT);
                 }
 
             } catch (Exception e) {
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 e.printStackTrace();
             }
             mAddBankTask = null;
 
         } else if (result.getApiCommand().equals(Constants.COMMAND_UPLOAD_DOCUMENT)) {
 
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
 
             UploadDocumentResponse uploadDocumentResponse = gson.fromJson(result.getJsonString(), UploadDocumentResponse.class);
             if (getActivity() != null)
@@ -236,7 +236,7 @@ public class ConsentAgreementForBankFragment extends BaseFragment implements Htt
 
         } else if (result.getApiCommand().equals(Constants.COMMAND_UPDATE_CONCENT)) {
 
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
 
             UploadDocumentResponse uploadDocumentResponse = gson.fromJson(result.getJsonString(), UploadDocumentResponse.class);
             if (getActivity() != null)

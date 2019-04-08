@@ -19,6 +19,9 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -26,6 +29,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -37,11 +41,13 @@ import java.util.Locale;
 
 import bd.com.ipay.ipayskeleton.Activities.HomeActivity;
 import bd.com.ipay.ipayskeleton.Activities.IPayTransactionActionActivity;
+import bd.com.ipay.ipayskeleton.Activities.UtilityBillPayActivities.IPayUtilityBillPayActionActivity;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.BusinessRuleAndServiceCharge.BusinessRule.MandatoryBusinessRules;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.SourceOfFund.models.Sponsor;
 import bd.com.ipay.ipayskeleton.SourceOfFund.view.SponsorSelectorDialog;
 import bd.com.ipay.ipayskeleton.Utilities.BusinessRuleCacheManager;
+import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ACLManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.SharedPrefManager;
 import bd.com.ipay.ipayskeleton.Utilities.CircleTransform;
@@ -87,6 +93,8 @@ public class IPayTransactionAmountInputFragment extends Fragment implements View
     private String mAddressString;
     private Long mOutletId = null;
 
+    private String mBusinessType = null;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +111,10 @@ public class IPayTransactionAmountInputFragment extends Fragment implements View
                 if (getArguments().containsKey(Constants.OUTLET_ID)) {
                     mOutletId = getArguments().getLong(Constants.OUTLET_ID);
                 }
+
+                if (getArguments().containsKey(Constants.TYPE)) {
+                    mBusinessType = getArguments().getString(Constants.TYPE);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -113,6 +125,10 @@ public class IPayTransactionAmountInputFragment extends Fragment implements View
         if (getContext() != null)
             LocalBroadcastManager.getInstance(getContext()).registerReceiver(mBusinessRuleUpdateBroadcastReceiver, new IntentFilter(Constants.BUSINESS_RULE_UPDATE_BROADCAST));
         mMandatoryBusinessRules = BusinessRuleCacheManager.getBusinessRules(BusinessRuleCacheManager.getTag(transactionType));
+
+        if(!TextUtils.isEmpty(mBusinessType) && mBusinessType.equals("NBFI")){
+            setHasOptionsMenu(true);
+        }
     }
 
     @Nullable
@@ -423,6 +439,32 @@ public class IPayTransactionAmountInputFragment extends Fragment implements View
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_ipdc, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.schedule_list:
+                if (!ACLManager.hasServicesAccessibility(ServiceIdConstants.SCHEDULE_PAYMENT)) {
+                    DialogUtils.showServiceNotAllowedDialog(getContext());
+                }else {
+                    Intent intent = new Intent(getContext(), IPayUtilityBillPayActionActivity.class);
+                    intent.putExtra(IPayUtilityBillPayActionActivity.BILL_PAY_PARTY_NAME_KEY,
+                            IPayUtilityBillPayActionActivity.SCHEDULED_PAY_IPDC);
+                    intent.putExtra(Constants.MOBILE_NUMBER, mobileNumber);
+                    startActivity(intent);
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         if (getContext() != null)
@@ -528,4 +570,6 @@ public class IPayTransactionAmountInputFragment extends Fragment implements View
             mTakaFiveHundredTextView.setTextColor(getResources().getColor(R.color.colorWhite));
         }
     }
+
+
 }

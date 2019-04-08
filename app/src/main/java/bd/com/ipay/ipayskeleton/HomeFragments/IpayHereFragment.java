@@ -332,7 +332,7 @@ public class IpayHereFragment extends ProgressFragment implements PlaceSelection
                 }
 
                 if (mProgressDialog.isShowing())
-                    mProgressDialog.dismiss();
+                    mProgressDialog.dismissDialogue();
 
                 mSwipeRefreshLayout.setRefreshing(false);
                 mIPayHereTask = null;

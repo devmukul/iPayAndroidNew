@@ -286,12 +286,23 @@ public class Constants {
     public static final String DUE_DATE = "DUE_DATE";
     public static final String BILL_NUMBER = "BILL_NUMBER";
     public static final String URL_WITHDRAW_MONEY_V3 = "withdraw-money/v3";
+    public static final String COMMAND_GET_SCHEDULED_PAYMENT_LIST = "COMMAND_GET_SCHEDULED_PAYMENT_LIST";
+    public static final String URL_GET_SCHEDULED_PAYMENT_LIST = "scheduled-payment/list/customer";
+
+    public static final String URL_GET_SCHEDULED_PAYMENT_DETAILS = "scheduled-payment/";
+    public static final String INSTALLMENT_NUMBER = "INSTALLMENT_NUMBER";
+    public static final String IPDC_SCHEDULED_PAY = "IPDC SCHEDULED PAY";
+    public static final String COMMAND_IPDC_SCHEDULED_PAY = "COMMAND_IPDC_SCHEDULED_PAY";
     public static final String BILL_MONTH = "BILL_MONTH";
     public static final String BILL_YEAR = "BILL_YEAR";
     public static final String WASA = "WASA";
     public static final String LOCATION_CODE = "LOCATION_CODE";
     public static final String COMMAND_GET_WASA_CUSTOMER = "COMMAND_GET_WASA_CUSTOMER";
     public static final String FROM_DASHBOARD = "FROM_DASHBOARD";
+    public static final String COMMAND_SET_SCHEDULED_PAYMENT_DECESION = "COMMAND_SET_SCHEDULED_PAYMENT_DECESION";
+    public static final String INSTALLMENT_ID = "INSTALLMENT_ID";
+    public static final String COMMAND_ACCEPT_SCHEDULED_PAYMENT = "COMMAND_ACCEPT_SCHEDULED_PAYMENT";
+    public static final String COMMAND_REJECT_SCHEDULED_PAYMENT = "COMMAND_REJECT_SCHEDULED_PAYMENT";
 
 
     public static String ROLEID = "ROLEID";
@@ -354,6 +365,7 @@ public class Constants {
 
     public static final String BASE_URL_MM = BuildConfig.BASE_URL_IPAY + "/api/v1/";
     public static final String BASE_URL_SM = BuildConfig.BASE_URL_IPAY + "/api/v1/money/";
+    public static final String BASE_URL_SCHEDULED_PAYMENT = BuildConfig.BASE_URL_IPAY + "/api/sp/";
     public static final String BASE_URL_PG = BuildConfig.BASE_URL_IPAY + "/api/pg/order/";
     public static final String BASE_URL_CARD = BuildConfig.BASE_URL_IPAY + "/api/v1/card/";
     public static final String BASE_URL_EDU = BuildConfig.BASE_URL_IPAY + "/api/v1/em/";
@@ -984,6 +996,7 @@ public class Constants {
     public static final int NOTIFICATION_TYPE_INTRODUCTION_REQUEST = 4;
     public static final int NOTIFICATION_TYPE_PENDING_INTRODUCER_REQUEST = 5;
     public static final int NOTIFICATION_TYPE_PENDING_ROLE_MANAGER_REQUEST = 6;
+    public static final int NOTIFICATION_TYPE_SCHEDULE_PAYMENT_REQUEST = 7;
 
     public static final String ACTION_TYPE_VERIFY = "Verify";
     public static final String ACTION_TYPE_REMOVE = "Remove";

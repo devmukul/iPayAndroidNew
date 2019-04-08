@@ -110,10 +110,10 @@ public class AddSponsorAsSourceOfFundFragment extends IpayAbstractSpecificSource
     public void httpResponseReceiver(GenericHttpResponse result) {
         if (HttpErrorHandler.isErrorFound(result, getContext(), null)) {
             mGetSponsorAsyncTask = null;
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             return;
         } else {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
                 GetSponsorListResponse getSponsorListResponse = new Gson().
                         fromJson(result.getJsonString(), GetSponsorListResponse.class);

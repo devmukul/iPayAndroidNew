@@ -146,7 +146,7 @@ public class TrustedDeviceFragment extends ProgressFragment implements HttpRespo
     public void httpResponseReceiver(GenericHttpResponse result) {
 
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mGetTrustedDeviceTask = null;
             mRemoveTrustedDeviceTask = null;
             return;
@@ -174,7 +174,7 @@ public class TrustedDeviceFragment extends ProgressFragment implements HttpRespo
             }
 
             mSwipeRefreshLayout.setRefreshing(false);
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mGetTrustedDeviceTask = null;
 
         } else if (result.getApiCommand().equals(Constants.COMMAND_REMOVE_TRUSTED_DEVICE)) {

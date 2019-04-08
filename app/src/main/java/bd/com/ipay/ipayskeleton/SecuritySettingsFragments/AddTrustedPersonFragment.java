@@ -189,7 +189,7 @@ public class AddTrustedPersonFragment extends BaseFragment implements HttpRespon
 
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
-        mProgressDialog.dismiss();
+        mProgressDialog.dismissDialogue();
 
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
             mAddTrustedPersonTask = null;

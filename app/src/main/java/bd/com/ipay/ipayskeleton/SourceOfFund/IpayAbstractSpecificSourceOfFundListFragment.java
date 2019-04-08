@@ -171,11 +171,11 @@ public abstract class IpayAbstractSpecificSourceOfFundListFragment extends Fragm
                 public void httpResponseReceiver(GenericHttpResponse result) {
                     if (HttpErrorHandler.isErrorFound(result, getContext(), null)) {
                         deleteSponsorAsyncTask = null;
-                        mProgressDialog.dismiss();
+                        mProgressDialog.dismissDialogue();
                         return;
                     } else {
                         deleteSponsorAsyncTask = null;
-                        mProgressDialog.dismiss();
+                        mProgressDialog.dismissDialogue();
                         try {
                             GenericResponseWithMessageOnly genericResponseWithMessageOnly =
                                     new Gson().fromJson

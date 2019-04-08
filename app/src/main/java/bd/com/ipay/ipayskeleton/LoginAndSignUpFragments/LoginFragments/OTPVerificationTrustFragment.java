@@ -450,7 +450,7 @@ public class OTPVerificationTrustFragment extends BaseFragment implements HttpRe
     }
 
     private void hideProgressDialog() {
-        mProgressDialog.dismiss();
+        mProgressDialog.dismissDialogue();
     }
 
     private void attemptTrustedDeviceAdd() {

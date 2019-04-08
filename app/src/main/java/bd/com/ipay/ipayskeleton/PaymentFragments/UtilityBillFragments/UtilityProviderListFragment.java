@@ -109,11 +109,11 @@ public class UtilityProviderListFragment extends BaseFragment implements HttpRes
         if (HttpErrorHandler.isErrorFound(result, getContext(), null)) {
             mGetUtilityProviderListTask = null;
             utilityProviderListRefreshLayout.setRefreshing(false);
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             return;
         }
         try {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
                 Gson gson = new Gson();
 
@@ -152,7 +152,7 @@ public class UtilityProviderListFragment extends BaseFragment implements HttpRes
             utilityProviderListRefreshLayout.setRefreshing(false);
         } catch (Exception e) {
             e.printStackTrace();
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             if (getActivity() != null) {
                 Toaster.makeText(getActivity(), R.string.business_contacts_sync_failed, Toast.LENGTH_LONG);
             }

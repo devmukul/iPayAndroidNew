@@ -179,7 +179,7 @@ public class EditAddressFragment extends BaseFragment implements HttpResponseLis
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mSetUserAddressTask = null;
             return;
         }
@@ -215,7 +215,7 @@ public class EditAddressFragment extends BaseFragment implements HttpResponseLis
             }
 
             mSetUserAddressTask = null;
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
         }
     }
 }

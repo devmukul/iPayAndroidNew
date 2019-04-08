@@ -431,7 +431,7 @@ public class HomeFragment extends BaseFragment implements HttpResponseListener {
 	public void httpResponseReceiver(GenericHttpResponse result) {
 
 		if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
-			mProgressDialog.dismiss();
+			mProgressDialog.dismissDialogue();
 			mRefreshBalanceTask = null;
 			refreshBalanceButton.clearAnimation();
 			return;
@@ -486,7 +486,7 @@ public class HomeFragment extends BaseFragment implements HttpResponseListener {
 					creditCardSelectDialog.show();
 				}
 
-				mProgressDialog.dismiss();
+				mProgressDialog.dismissDialogue();
 				mGetBankListAsyncTask = null;
 				break;
 

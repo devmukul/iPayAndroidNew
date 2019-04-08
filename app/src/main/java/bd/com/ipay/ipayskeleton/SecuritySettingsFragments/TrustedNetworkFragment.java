@@ -208,7 +208,7 @@ public class TrustedNetworkFragment extends ProgressFragment implements HttpResp
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
 
-        mProgressDialog.dismiss();
+        mProgressDialog.dismissDialogue();
 
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
             mGetTrustedPersonsTask = null;

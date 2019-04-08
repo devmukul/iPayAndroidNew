@@ -148,7 +148,7 @@ public class DescoEnterBillNumberFragment extends BaseFragment implements HttpRe
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
         if (HttpErrorHandler.isErrorFoundWithout404(result, getContext(), mCustomProgressDialog)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mCustomProgressDialog.dismissDialog();
             mDescoCustomerInfoTask = null;
             mGetBusinessRuleTask = null;
@@ -164,7 +164,7 @@ public class DescoEnterBillNumberFragment extends BaseFragment implements HttpRe
             return;
         } else {
             try {
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 Gson gson = new Gson();
                 if (result.getApiCommand().equals(Constants.COMMAND_GET_DESCO_CUSTOMER)) {
                     mDescoCustomerInfoResponse = gson.fromJson(result.getJsonString(), DescoCustomerInfoResponse.class);
@@ -220,7 +220,7 @@ public class DescoEnterBillNumberFragment extends BaseFragment implements HttpRe
                     mGetBusinessRuleTask = null;
                 }
             } catch (Exception e) {
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mDescoCustomerInfoTask = null;
                 mGetBusinessRuleTask = null;
                 Utilities.showErrorDialog(getContext(), getString(R.string.request_failed));

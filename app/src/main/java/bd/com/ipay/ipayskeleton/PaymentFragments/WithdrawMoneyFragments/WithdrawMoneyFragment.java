@@ -152,7 +152,7 @@ public class WithdrawMoneyFragment extends BaseFragment implements HttpResponseL
                 new GetAvailableBankAsyncTask.BankLoadListener() {
                     @Override
                     public void onLoadSuccess() {
-                        mProgressDialog.dismiss();
+                        mProgressDialog.dismissDialogue();
                         getBankList();
                     }
 

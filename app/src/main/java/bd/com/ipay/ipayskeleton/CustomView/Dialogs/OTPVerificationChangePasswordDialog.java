@@ -251,7 +251,7 @@ public class OTPVerificationChangePasswordDialog extends MaterialDialog.Builder 
                     Toast.makeText(context, R.string.change_pass_failed, Toast.LENGTH_LONG).show();
             }
 
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mChangePasswordWithOTPTask = null;
 
         } else if (result.getApiCommand().equals(Constants.COMMAND_RESEND_OTP)) {
@@ -276,7 +276,7 @@ public class OTPVerificationChangePasswordDialog extends MaterialDialog.Builder 
                 e.printStackTrace();
             }
 
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mRequestOTPTask = null;
         }
     }

@@ -230,7 +230,7 @@ public class SecuritySettingsFragment extends BaseFragment implements HttpRespon
     public void httpResponseReceiver(GenericHttpResponse result) {
 
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mLogoutTask = null;
             return;
         }
@@ -253,7 +253,7 @@ public class SecuritySettingsFragment extends BaseFragment implements HttpRespon
                 Toast.makeText(getActivity(), R.string.could_not_sign_out, Toast.LENGTH_LONG).show();
             }
 
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mLogoutTask = null;
 
         }

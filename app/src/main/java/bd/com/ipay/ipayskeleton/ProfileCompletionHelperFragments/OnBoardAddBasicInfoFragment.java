@@ -207,7 +207,7 @@ public class OnBoardAddBasicInfoFragment extends BaseFragment implements HttpRes
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mSetUserAddressTask = null;
             return;
         }
@@ -237,7 +237,7 @@ public class OnBoardAddBasicInfoFragment extends BaseFragment implements HttpRes
                 if (getActivity() != null)
                     Toast.makeText(getActivity(), R.string.profile_info_save_failed, Toast.LENGTH_SHORT).show();
             }
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mSetUserAddressTask = null;
         } else if (result.getApiCommand().equals(Constants.COMMAND_GET_OCCUPATIONS_REQUEST)) {
 
@@ -262,14 +262,14 @@ public class OnBoardAddBasicInfoFragment extends BaseFragment implements HttpRes
                     }
                 } else {
                     if (getActivity() != null) {
-                        mProgressDialog.dismiss();
+                        mProgressDialog.dismissDialogue();
                         Toast.makeText(getActivity(), R.string.profile_info_save_failed, Toast.LENGTH_SHORT).show();
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
                 if (getActivity() != null) {
-                    mProgressDialog.dismiss();
+                    mProgressDialog.dismissDialogue();
                     Toast.makeText(getActivity(), R.string.profile_info_save_failed, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -291,7 +291,7 @@ public class OnBoardAddBasicInfoFragment extends BaseFragment implements HttpRes
                     Toaster.makeText(getActivity(), R.string.profile_info_fetch_failed, Toast.LENGTH_SHORT);
             }
 
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mGetProfileInfoTask = null;
         }
     }

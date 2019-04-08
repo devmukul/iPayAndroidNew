@@ -214,7 +214,7 @@ public class RequestPaymentFragment extends BaseFragment implements LocationList
     }
 
     private void launchReviewPage(@Nullable Location location) {
-        mProgressDialog.dismiss();
+        mProgressDialog.dismissDialogue();
 
         Intent intent = new Intent(getActivity(), RequestPaymentReviewActivity.class);
         intent.putExtra(Constants.DESCRIPTION_TAG, mDescription);
@@ -308,10 +308,10 @@ public class RequestPaymentFragment extends BaseFragment implements LocationList
 
         if (HttpErrorHandler.isErrorFound(result, getContext(), null)) {
             mGetBusinessRuleTask = null;
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             return;
         } else if (result.getApiCommand().equals(Constants.COMMAND_GET_BUSINESS_RULE)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
 
                 try {

@@ -52,7 +52,7 @@ public class CreateOtherTypeRichNotification {
     private void initiateNotificationAction(final PendingIntent pendingIntent) {
         try {
             bigPictureBitmap = BitmapFactory.decodeFile(Glide.with(context)
-                    .load(Constants.BASE_URL_FTP_SERVER+imageUrl)
+                    .load(Constants.BASE_URL_FTP_SERVER + imageUrl)
                     .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                     .get().getPath());
         } catch (Exception e) {

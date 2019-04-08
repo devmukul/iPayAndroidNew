@@ -186,15 +186,15 @@ public class SourceOfFundListShowFragment extends Fragment implements HttpRespon
     public void httpResponseReceiver(GenericHttpResponse result) {
         if (HttpErrorHandler.isErrorFound(result, getContext(), null)) {
             getSponsorListAsyncTask = null;
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             return;
         } else {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             GetSponsorListResponse getSponsorListResponse = null;
             try {
                 if (result.getApiCommand().equals(Constants.COMMAND_GET_SPONSOR_LIST)) {
                     attemptGetBeneficiaryList();
-                    mProgressDialog.dismiss();
+                    mProgressDialog.dismissDialogue();
                     isSponsorApiCalled = true;
                     if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
                         getSponsorListResponse = new Gson().fromJson(result.getJsonString(), GetSponsorListResponse.class);
@@ -224,7 +224,7 @@ public class SourceOfFundListShowFragment extends Fragment implements HttpRespon
                     getSponsorListAsyncTask = null;
 
                 } else if (result.getApiCommand().equals(Constants.COMMAND_GET_BENEFICIARY_LIST)) {
-                    mProgressDialog.dismiss();
+                    mProgressDialog.dismissDialogue();
                     isBeneficiaryApiCalled = true;
                     GetBeneficiaryListResponse getBeneficiaryListResponse = new Gson().fromJson(result.getJsonString(),
                             GetBeneficiaryListResponse.class);

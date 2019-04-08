@@ -3,7 +3,6 @@ package bd.com.ipay.ipayskeleton.CustomView.Dialogs;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 
 import bd.com.ipay.ipayskeleton.R;
 
@@ -28,8 +27,9 @@ public class CustomProgressDialog extends android.support.v7.app.AlertDialog {
         this.show();
     }
 
-    public void dismissDialog() {
-        this.dismiss();
+    public void dismissDialogue() {
+        if(this.isShowing())
+            this.cancel();
     }
 }
 

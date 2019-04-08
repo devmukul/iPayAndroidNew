@@ -712,6 +712,7 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
                                         bundle.putString(Constants.PHOTO_URI, Constants.BASE_URL_FTP_SERVER + merchantDetails.getBusinessLogo());
                                         bundle.putString(Constants.MOBILE_NUMBER, merchantDetails.getMerchantMobileNumber());
                                         bundle.putString(Constants.ADDRESS, merchantDetails.getAddressString());
+                                        bundle.putString(Constants.TYPE, merchantDetails.getBusinessType());
 
                                         if (!(approvedSponsorArrayList == null || approvedSponsorArrayList.size() == 0)) {
                                             bundle.putSerializable(Constants.SPONSOR_LIST, (Serializable) approvedSponsorArrayList);

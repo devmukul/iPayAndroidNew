@@ -262,12 +262,12 @@ public class BasicInfoFragment extends ProgressFragment implements HttpResponseL
 
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
-        mProgressDialog.dismiss();
+        mProgressDialog.dismissDialogue();
 
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
             mGetProfileInfoTask = null;
             setContentShown(true);
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mGetOccupationTask = null;
             return;
         }

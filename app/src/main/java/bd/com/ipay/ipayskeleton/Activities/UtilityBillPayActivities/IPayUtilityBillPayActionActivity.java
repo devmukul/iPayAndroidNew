@@ -8,15 +8,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
-import java.util.ArrayList;
-
 import bd.com.ipay.ipayskeleton.Activities.BaseActivity;
-import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.MyCard;
+import bd.com.ipay.ipayskeleton.PaymentFragments.SchedulePayment.ScheduledPaymentListFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.SchedulePayment.ScheduledPaymentApiFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.SchedulePayment.ScheduledPaymentDetailsFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractTransactionSuccessFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IspSelectionFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.Carnival.CarnivalIdInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.CreditCard.CreditCardBankSelectionFragment;
-import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.CreditCard.CreditCardInfoInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.LankaBangla.Card.LankaBanglaCardNumberInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.LankaBangla.Dps.LankaBanglaDpsNumberInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.LinkThree.LinkThreeSubscriberIdInputFragment;
@@ -33,6 +32,7 @@ public final class IPayUtilityBillPayActionActivity extends BaseActivity {
     public static final String BILL_PAY_CARNIVAL = "CARNIVAL";
     public static final String BILL_PAY_PARTY_NAME_KEY = "BILL_PAY_PARTY_NAME";
     public static final String BILL_PAY_LANKABANGLA_DPS = "LANKABANGLA_DPS";
+    public static final String SCHEDULED_PAY_IPDC = "SCHEDULED_PAY_IPDC";
     public static final String CREDIT_CARD = "CREDIT_CARD";
 
     public static final String CARD_NUMBER_KEY = "CARD_NUMBER";
@@ -42,8 +42,7 @@ public final class IPayUtilityBillPayActionActivity extends BaseActivity {
 
     public static final String BILL_AMOUNT_KEY = "BILL_AMOUNT";
     public static final String BANK_CODE = "BANK_CODE";
-
-    public ArrayList<MyCard> myCards;
+    public static final String SCHEDULE_PAYMENT_LIST = "SCHEDULE_PAYMENT_LIST";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +57,14 @@ public final class IPayUtilityBillPayActionActivity extends BaseActivity {
                 switchFragment(new IspSelectionFragment(), null, 0, true);
             }
 
+        }else if (getIntent().hasExtra(Constants.ACTION_FROM_NOTIFICATION)) {
+            if (getIntent().getBooleanExtra(Constants.ACTION_FROM_NOTIFICATION, false)) {
+                String id = getIntent().getStringExtra("id");
+                Bundle bundle = new Bundle();
+                bundle.putLong(Constants.ID, Long.parseLong(id));
+                switchFragment(new ScheduledPaymentDetailsFragment(), bundle, 2, true);
+            }
+            return;
         }else{
             final String billPayPartyName = getIntent().getStringExtra(BILL_PAY_PARTY_NAME_KEY);
             BusinessRuleCacheManager.fetchBusinessRule(this, ServiceIdConstants.UTILITY_BILL_PAYMENT);
@@ -77,6 +84,14 @@ public final class IPayUtilityBillPayActionActivity extends BaseActivity {
                     break;
                 case BILL_PAY_LANKABANGLA_DPS:
                     switchFragment(new LankaBanglaDpsNumberInputFragment(), bundle, 0, false);
+                    break;
+                case SCHEDULED_PAY_IPDC:
+                    if(getIntent().hasExtra(Constants.MOBILE_NUMBER)) {
+                        bundle.putString(Constants.MOBILE_NUMBER, getIntent().getStringExtra(Constants.MOBILE_NUMBER));
+                        switchFragment(new ScheduledPaymentApiFragment(), bundle, 0, false);
+                    }else{
+                        switchFragment(new ScheduledPaymentListFragment(), bundle, 0, false);
+                    }
                     break;
                 default:
                     finish();

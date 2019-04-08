@@ -35,6 +35,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import bd.com.ipay.ipayskeleton.Activities.NotificationActivity;
+import bd.com.ipay.ipayskeleton.Activities.UtilityBillPayActivities.IPayUtilityBillPayActionActivity;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestGetAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPutAsyncTask;
@@ -60,6 +61,10 @@ import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.Introducer.GetPe
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.Introducer.PendingIntroducer;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.IntroductionAndInvite.GetIntroductionRequestsResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.IntroductionAndInvite.IntroductionRequestClass;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SchedulePayment.GetScheduledPaymentInfoResponse;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SchedulePayment.GroupedScheduledPaymentList;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SchedulePayment.ReceiverInfo;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SchedulePayment.ScheduledPaymentInfo;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.SourceOfFund.EditPermissionSourceOfFundBottomSheetFragment;
 import bd.com.ipay.ipayskeleton.SourceOfFund.models.AcceptOrRejectBeneficiaryRequest;
@@ -93,6 +98,7 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 	private HttpRequestGetAsyncTask mGetPendingIntroducerListTask = null;
 	private GetPendingIntroducerListResponse mPendingIntroducerListResponse;
 
+	private HttpRequestGetAsyncTask getScheduledPaymentListTask;
 
 	private HttpRequestGetAsyncTask mGetBeneficiaryAsyncTask;
 	private GetBeneficiaryListResponse getBeneficiaryListResponse;
@@ -118,6 +124,7 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 	private List<IntroductionRequestClass> mIntroductionRequests;
 	private List<PendingIntroducer> mPendingIntroducerList;
 	private List<BusinessRoleManagerInvitation> mBusinessRoleManagerRequestsList;
+	private List<ScheduledPaymentInfo> scheduledPaymentInfoList;
 
 	// These variables hold the information needed to populate the review dialog
 	private List<InvoiceItem> mInvoiceItemList;
@@ -225,6 +232,7 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 		getPendingIntroducersList(context);
 		getPendingBeneficiaryListResponse(context);
 		getPendingSponsorListResponse(context);
+		getPendingSchedulePaymentListResponse(context);
 	}
 
 	private void getPendingBeneficiaryListResponse(Context context) {
@@ -265,6 +273,7 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 		refreshPendingIntroducerList(context);
 		refreshSourceOfFundBeneficiaryList(context);
 		refreshSourceOfFundSponsorList(context);
+		refreshSchedulePaymentList(context);
 	}
 
 
@@ -285,6 +294,21 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 		mGetMoneyAndPaymentRequestTask = new HttpRequestPostAsyncTask(Constants.COMMAND_GET_MONEY_AND_PAYMENT_REQUESTS,
 				Constants.BASE_URL_SM + Constants.URL_GET_All_NOTIFICATIONS, json, context, this, true);
 		mGetMoneyAndPaymentRequestTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+	}
+
+	private void getPendingSchedulePaymentListResponse(Context context) {
+		if (!ACLManager.hasServicesAccessibility(ServiceIdConstants.SCHEDULE_PAYMENT))
+			return;
+
+		if (getScheduledPaymentListTask != null) {
+			return;
+		}
+
+		String uri = Constants.BASE_URL_SCHEDULED_PAYMENT + Constants.URL_GET_SCHEDULED_PAYMENT_LIST+"?status=102";
+		getScheduledPaymentListTask = new HttpRequestGetAsyncTask
+				(Constants.COMMAND_GET_SCHEDULED_PAYMENT_LIST, uri, getContext(), this,
+						false);
+		getScheduledPaymentListTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
 
 	private void getIntroductionRequestList(Context context) {
@@ -346,6 +370,12 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 		}
 	}
 
+    private void refreshSchedulePaymentList(Context context) {
+        if (Utilities.isConnectionAvailable(context)) {
+            scheduledPaymentInfoList = null;
+            getPendingSchedulePaymentListResponse(context);
+        }
+    }
 
 	private void refreshSourceOfFundBeneficiaryList(Context context) {
 		if (Utilities.isConnectionAvailable(context)) {
@@ -370,24 +400,30 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 
 	private boolean isAllNotificationsLoaded() {
 		return mGetMoneyAndPaymentRequestTask == null && mGetIntroductionRequestTask == null
-				 && mGetBeneficiaryAsyncTask ==
-				null && mGetSponsorAsyncTask == null;
+				&& mGetBeneficiaryAsyncTask ==
+				null && mGetSponsorAsyncTask == null && getScheduledPaymentListTask == null;
 	}
 
 	private List<Notification> mergeNotificationLists() {
 		List<Notification> notifications = new ArrayList<>();
-		if (mMoneyAndPaymentRequests != null)
-			notifications.addAll(mMoneyAndPaymentRequests);
-		if (mIntroductionRequests != null)
-			notifications.addAll(mIntroductionRequests);
-		if (mPendingIntroducerList != null)
-			notifications.addAll(mPendingIntroducerList);
+		if (mMoneyAndPaymentRequests != null) {
+            notifications.addAll(mMoneyAndPaymentRequests);
+        }
+		if (mIntroductionRequests != null) {
+            notifications.addAll(mIntroductionRequests);
+        }
+		if (mPendingIntroducerList != null) {
+            notifications.addAll(mPendingIntroducerList);
+        }
 		if (beneficiaryPendingList != null) {
 			notifications.addAll(beneficiaryPendingList);
 		}
 		if (sponsorPendingList != null) {
 			notifications.addAll(sponsorPendingList);
 		}
+		if (scheduledPaymentInfoList != null) {
+            notifications.addAll(scheduledPaymentInfoList);
+        }
 
 		// Date wise sort all notifications
 		Collections.sort(notifications, new Comparator<Notification>() {
@@ -468,6 +504,16 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 				new ContactSearchHelper(getActivity()).searchMobileNumber(mReceiverMobileNumber));
 		startActivity(intent);
 	}
+
+    private void launchSchedulePaymentFragment(ScheduledPaymentInfo scheduledPaymentInfoPercel) {
+        Intent intent = new Intent(this.getContext(), IPayUtilityBillPayActionActivity.class);
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.putExtra("id", String.valueOf(scheduledPaymentInfoPercel.getId()));
+        intent.putExtra(Constants.ACTION_FROM_NOTIFICATION, true);
+        startActivity(intent);
+    }
+
+
 
 	private void launchIntroductionRequestReviewFragment(final IntroductionRequestClass introductionRequest) {
 		final long requestID = introductionRequest.getId();
@@ -550,8 +596,9 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 				acceptOrRejectBeneficiaryAsyncTask = null;
 				mGetSponsorAsyncTask = null;
 				mGetBeneficiaryAsyncTask = null;
+				getScheduledPaymentListTask = null;
 				if (mProgressDialog != null) {
-					mProgressDialog.dismiss();
+					mProgressDialog.dismissDialogue();
 				}
 				setContentShown(true);
 
@@ -664,7 +711,7 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 
 				case Constants.COMMAND_ACCEPT_OR_REJECT_BENEFICIARY:
 					try {
-						mProgressDialog.dismiss();
+						mProgressDialog.dismissDialogue();
 						GenericResponseWithMessageOnly responseWithMessageOnly = gson.fromJson(result.getJsonString(),
 								GenericResponseWithMessageOnly.class);
 						if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
@@ -681,7 +728,7 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 					break;
 
 				case Constants.COMMAND_GET_SERVICE_CHARGE:
-					mProgressDialog.dismiss();
+					mProgressDialog.dismissDialogue();
 					try {
 						mGetServiceChargeResponse = gson.fromJson(result.getJsonString(), GetServiceChargeResponse.class);
 
@@ -711,6 +758,41 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 
 					mServiceChargeTask = null;
 					break;
+
+				case Constants.COMMAND_GET_SCHEDULED_PAYMENT_LIST:
+					if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
+                        GetScheduledPaymentInfoResponse getScheduledPaymentInfoResponse = new Gson().
+								fromJson(result.getJsonString(), GetScheduledPaymentInfoResponse.class);
+
+						List<GroupedScheduledPaymentList> groupedScheduledPaymentInfoList = getScheduledPaymentInfoResponse.getGroupedScheduledPaymentList();
+                        scheduledPaymentInfoList = new ArrayList<>();
+						for(GroupedScheduledPaymentList groupedScheduledPaymentInfo : groupedScheduledPaymentInfoList) {
+                            List<ScheduledPaymentInfo> temp = groupedScheduledPaymentInfo.getScheduledPaymentInfos();
+                            ReceiverInfo receiverInfo = groupedScheduledPaymentInfo.getReceiverInfo();
+						    for (int i=0 ; i <temp.size();i++) {
+						        ScheduledPaymentInfo scheduledPaymentInfo = temp.get(i);
+						        scheduledPaymentInfo.setReceiverInfo(receiverInfo);
+                                scheduledPaymentInfoList.add(scheduledPaymentInfo);
+                            }
+                        }
+
+					} else {
+						GenericResponseWithMessageOnly genericResponseWithMessageOnly =
+								new Gson().fromJson(result.getJsonString(), GenericResponseWithMessageOnly.class);
+						new AlertDialog.Builder(getContext())
+								.setPositiveButton(genericResponseWithMessageOnly.getMessage(), new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog, int which) {
+										dialog.dismiss();
+									}
+								}).show();
+
+					}
+
+                    getScheduledPaymentListTask = null;
+                    postProcessNotificationList();
+					break;
+
 				default:
 					break;
 			}
@@ -719,6 +801,7 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 			mServiceChargeTask = null;
 			mGetIntroductionRequestTask = null;
 			mGetPendingIntroducerListTask = null;
+			getScheduledPaymentListTask = null;
 			acceptOrRejectBeneficiaryAsyncTask = null;
 
 		}
@@ -768,7 +851,28 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 			}
 		}
 
-		public class MoneyAndPaymentRequestViewHolder extends NotificationViewHolder {
+        public class SchedulePaymentViewHolder extends NotificationViewHolder {
+
+            public SchedulePaymentViewHolder(final View itemView) {
+                super(itemView);
+            }
+
+            @Override
+            public void bindView(final int pos) {
+                super.bindView(pos);
+
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    @ValidateAccess(ServiceIdConstants.MANAGE_INTRODUCERS)
+                    public void onClick(View v) {
+                        launchSchedulePaymentFragment ( (ScheduledPaymentInfo) mNotifications.get(pos));
+                    }
+                });
+            }
+
+        }
+
+        public class MoneyAndPaymentRequestViewHolder extends NotificationViewHolder {
 			private final TextView mAmountView;
 
 			public MoneyAndPaymentRequestViewHolder(final View itemView) {
@@ -1026,7 +1130,13 @@ public class NotificationFragment extends ProgressFragment implements bd.com.ipa
 						(R.layout.list_item_get_beneficiaries,
 								parent, false);
 				return new SourceOfFundBeneficiaryViewHolder(v);
-			} else {
+			} else if (viewType == Constants.NOTIFICATION_TYPE_SCHEDULE_PAYMENT_REQUEST) {
+
+                v = LayoutInflater.from(parent.getContext()).inflate
+                        (R.layout.view_notification_description, parent,
+                                false);
+                return new SchedulePaymentViewHolder(v);
+            }else {
 				v = LayoutInflater.from(parent.getContext()).inflate
 						(R.layout.list_item_money_and_make_payment_request, parent,
 								false);

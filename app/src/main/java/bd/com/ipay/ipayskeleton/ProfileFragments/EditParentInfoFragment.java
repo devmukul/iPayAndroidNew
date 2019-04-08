@@ -251,7 +251,7 @@ public class EditParentInfoFragment extends BaseFragment implements HttpResponse
     }
 
     public void httpResponseReceiver(GenericHttpResponse result) {
-        mProgressDialog.dismiss();
+        mProgressDialog.dismissDialogue();
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
             mSetParentInfoTask = null;
             return;

@@ -107,7 +107,7 @@ public class AddPromoDialogBuilder extends MaterialDialog.Builder implements Htt
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
 
-        mProgressDialog.dismiss();
+        mProgressDialog.dismissDialogue();
 
         if (HttpErrorHandler.isErrorFound(result, context, mProgressDialog)) {
             mAddPromoTask = null;
@@ -137,7 +137,7 @@ public class AddPromoDialogBuilder extends MaterialDialog.Builder implements Htt
                     Toaster.makeText(getContext(), R.string.save_failed, Toast.LENGTH_LONG);
             }
 
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mAddPromoTask = null;
         }
     }

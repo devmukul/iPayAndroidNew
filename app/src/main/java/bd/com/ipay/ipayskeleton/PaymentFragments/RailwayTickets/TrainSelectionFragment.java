@@ -188,7 +188,7 @@ public class TrainSelectionFragment extends Fragment implements HttpResponseList
             }
 
             if (mProgressDialog.isShowing())
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialog();
 
             mGetTrainInfoAsyncTask = null;
         } else if (result.getApiCommand().equals(Constants.COMMAND_GET_TRAIN_LIST)) {

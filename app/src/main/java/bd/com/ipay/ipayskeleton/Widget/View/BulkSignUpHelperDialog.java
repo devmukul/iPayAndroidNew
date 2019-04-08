@@ -69,7 +69,7 @@ public class BulkSignUpHelperDialog implements HttpResponseListener {
     public void httpResponseReceiver(GenericHttpResponse result) {
 
         if (HttpErrorHandler.isErrorFound(result, context , mProgressDialog)) {
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mSendStatusCheckedTask = null;
             return;
         }
@@ -87,7 +87,7 @@ public class BulkSignUpHelperDialog implements HttpResponseListener {
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-                mProgressDialog.dismiss();
+                mProgressDialog.dismissDialogue();
                 mSendStatusCheckedTask = null;
                 break;
         }

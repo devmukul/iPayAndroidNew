@@ -359,7 +359,7 @@ public class AddressInputOnboardView extends FrameLayout implements HttpResponse
                 e.printStackTrace();
             }
 
-            mProgressDialog.dismiss();
+            mProgressDialog.dismissDialogue();
             mGetUserAddressTask = null;
         }
     }

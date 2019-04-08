@@ -1189,7 +1189,30 @@
     <string name="location_code">Location Code</string>
     <string name="out_referance_id">Out Referance ID:</string>
     <string name="credit_card_bill_title">Credit Card</string>
+    <string name="installment_id">Installment ID</string>
+    <string name="ipdc_instant_payment">Ipdc instant payment</string>
+    <string name="please_enter_an_installment_id">Please enter an installment ID</string>
+    <string name="scheduled_payment">Scheduled Payment</string>
+    <string name="schedule_payment_service_list">Schedule Payment Service List</string>
+    <string name="my_schedule_list">My Schedule List</string>
+    <string name="paid_till_today">Paid till today</string>
+    <string name="schedule_date">Schedule date</string>
+    <string name="no_of_installmenr">No. of installment</string>
+    <string name="loan_amount">Loan amount</string>
+    <string name="ipdc_instant_payment_input_message">Please insert your Installment ID and  amount you want to pay</string>
+    <string name="ipdc">IPDC</string>
+
+    <string name="pay_installment_success_message">YOU HAVE PAID INSTALLMENT Tk. %1$s FOR</string>
+    <string name="pay_installment_success_description">You have successfully paid your installment from you iPay wallet.\n See further details under \'Transactions\'.</string>
+
     <string name="select_location_code">Select Locaton Code</string>
     <string name="customer_number">Customer Number</string>
+    <string name="intallment_text">Installments</string>
+    <string name="waiting_for_approval">Waiting for approval *</string>
+    <string name="waiting_for_ammedment">Waiting for amendment approval *</string>
+    <string name="installment_complete">Completed</string>
+    <string name="running">Running</string>
+    <string name="installment_pending">Pending</string>
+    <string name="no_schedule_payment_available">No schedule payment available!</string>
 
 </resources>

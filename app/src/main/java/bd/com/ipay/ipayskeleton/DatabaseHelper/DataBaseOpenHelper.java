@@ -20,6 +20,7 @@ class DataBaseOpenHelper extends SQLiteOpenHelper {
         createContactsTable(db);
         createBusinessAccountsTable(db);
         createContactsForBusinessAccountTable(db);
+        createSavedBillTable(db);
     }
 
     private void createContactsTable(SQLiteDatabase db) {
@@ -78,6 +79,26 @@ class DataBaseOpenHelper extends SQLiteOpenHelper {
                 DBConstants.KEY_BUSINESS_ACCOUNT_ID + " integer default 0)");
     }
 
+    private void createSavedBillTable(SQLiteDatabase db) {
+        db.execSQL("create table if not exists " +
+                DBConstants.DB_TABLE_SAVED_BILL +
+                "(_id integer primary key autoincrement, " +
+                DBConstants.KEY_BILL_PROVIDER_CODE + " text, " +
+                DBConstants.KEY_BILL_PROVIDER_NAME + " text, " +
+                DBConstants.KEY_BILL_IS_SAVED + " integer default 0, " +
+                DBConstants.KEY_BILL_IS_SCHEDULED + " integer default 0, " +
+                DBConstants.KEY_BILL_DATE + " integer default 0, " +
+                DBConstants.KEY_BILL_LAST_PAID_DATE + " text, " +
+                DBConstants.KEY_BILL_PAID_FOR_OTHERS + "  integer default 0, " +
+                DBConstants.KEY_BILL_PARAMS_ID + " text, " +
+                DBConstants.KEY_BILL_PARAMS_LABEL + " text, " +
+                DBConstants.KEY_BILL_AMOUNT_TYPE + " text, " +
+                DBConstants.KEY_BILL_LOCATION_CODE + " text, " +
+                DBConstants.KEY_BILL_PARAMS_VALUE + " text unique COLLATE NOCASE not null, " +
+                DBConstants.KEY_BILL_AMOUNT + " integer  default 0, " +
+                DBConstants.KEY_BILL_META_DATA + " text)");
+    }
+
     private void dropTable(SQLiteDatabase db, String tableName) {
         db.execSQL("drop table if exists " + tableName);
     }
@@ -96,6 +117,8 @@ class DataBaseOpenHelper extends SQLiteOpenHelper {
             case 14:
                 dropTable(db, DBConstants.DB_TABLE_BUSINESS_ACCOUNTS);
                 createBusinessAccountsTable(db);
+            case 15:
+                createSavedBillTable(db);
                 break;
         }
     }

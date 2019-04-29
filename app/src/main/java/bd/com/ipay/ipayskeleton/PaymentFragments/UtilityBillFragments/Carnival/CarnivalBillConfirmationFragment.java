@@ -9,13 +9,26 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 import bd.com.ipay.ipayskeleton.Activities.UtilityBillPayActivities.IPayUtilityBillPayActionActivity;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
+import bd.com.ipay.ipayskeleton.DatabaseHelper.DataHelper;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SaveBill.MetaData;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SaveBill.Notification;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SaveBill.RecentBill;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.CarnivalBillPayRequest;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.GenericBillPayResponse;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.LinkThreeBillPayRequest;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.NotificationForOther;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractTransactionConfirmationFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.LinkThree.LinkThreeBillAmountInputFragment;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Utilities.MyApplication;
@@ -37,13 +50,24 @@ public class CarnivalBillConfirmationFragment extends IPayAbstractTransactionCon
 	private String uri;
 	private CarnivalBillPayRequest carnivalBillPayRequest1;
 
+
+	private String otherPersonName;
+	private String otherPersonMobile;
+	private LinkThreeBillPayRequest linkThreeBillPayRequest;
+	DataHelper dataHelper ;
+	private boolean isFromSaved;
+
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
+		dataHelper = DataHelper.getInstance(getContext());
 		super.onCreate(savedInstanceState);
 		if (getArguments() != null) {
 			carnivalId = getArguments().getString(CarnivalBillAmountInputFragment.CARNIVAL_ID_KEY, "");
 			billAmount = (Number) getArguments().getSerializable(BILL_AMOUNT_KEY);
 			userName = getArguments().getString(CarnivalBillAmountInputFragment.USER_NAME_KEY, "");
+			otherPersonName = getArguments().getString(CarnivalBillAmountInputFragment.OTHER_PERSON_NAME_KEY, "");
+			otherPersonMobile = getArguments().getString(CarnivalBillAmountInputFragment.OTHER_PERSON_MOBILE_KEY, "");
+			isFromSaved = getArguments().getBoolean("IS_FROM_HISTORY", false);
 		}
 	}
 
@@ -94,7 +118,14 @@ public class CarnivalBillConfirmationFragment extends IPayAbstractTransactionCon
 			Toaster.makeText(getContext(), R.string.no_internet_connection, Toast.LENGTH_SHORT);
 		}
 		if (carnivalBillPayRequest == null) {
-			carnivalBillPayRequest1 = new CarnivalBillPayRequest(carnivalId, billAmount.toString(), getPin());
+
+            if(TextUtils.isEmpty(otherPersonName) && TextUtils.isEmpty(otherPersonMobile)){
+                carnivalBillPayRequest1 = new CarnivalBillPayRequest(carnivalId, billAmount.toString(), getPin());
+            }else{
+                bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.MetaData metaData = new bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.MetaData(new NotificationForOther(otherPersonName, otherPersonMobile));
+                carnivalBillPayRequest1 = new CarnivalBillPayRequest(carnivalId, billAmount.toString(), getPin(), metaData);
+
+            }
 			String json = gson.toJson(carnivalBillPayRequest1);
 			uri = Constants.BASE_URL_UTILITY + Constants.URL_CARNIVAL_BILL_PAY;
 			carnivalBillPayRequest = new HttpRequestPostAsyncTask(Constants.COMMAND_CARNIVAL_BILL_PAY,
@@ -152,6 +183,8 @@ public class CarnivalBillConfirmationFragment extends IPayAbstractTransactionCon
 								}, 2000);
 								if (getActivity() != null)
 									Utilities.hideKeyboard(getActivity());
+
+                                saveRecent();
 								break;
 							case Constants.HTTP_RESPONSE_STATUS_BLOCKED:
 								if (getActivity() != null) {
@@ -216,4 +249,35 @@ public class CarnivalBillConfirmationFragment extends IPayAbstractTransactionCon
 			carnivalBillPayRequest = null;
 		}
 	}
+
+    public void saveRecent(){
+        Date c = new Date();
+        SimpleDateFormat curFormater = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        String formattedDate = curFormater.format(c);
+
+        List<RecentBill> recentBills = new ArrayList<>();
+        RecentBill recentBill = new RecentBill();
+        if(TextUtils.isEmpty(userName))
+            recentBill.setShortName("");
+        else
+            recentBill.setShortName(userName);
+        recentBill.setScheduledToo(false);
+        recentBill.setSaved(false);
+        recentBill.setProviderCode("CARNIVAL");
+        recentBill.setDateOfBillPayment(0);
+        recentBill.setLastPaid(formattedDate);
+        if(!TextUtils.isEmpty(otherPersonName) && !TextUtils.isEmpty(otherPersonMobile)){
+            MetaData metaData = new MetaData(new Notification(otherPersonName, otherPersonMobile));
+            recentBill.setPaidForOthers(true);
+            recentBill.setMetaData(new  Gson().toJson(metaData));
+        }else{
+            recentBill.setPaidForOthers(false);
+        }
+        recentBill.setParamId("carnivalId");
+        recentBill.setParamLabel("Carnival Id");
+        recentBill.setParamValue(carnivalId);
+        recentBill.setAmount(String.valueOf(billAmount));
+        recentBills.add(recentBill);
+        dataHelper.createBills(recentBills);
+    }
 }

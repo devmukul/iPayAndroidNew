@@ -9,13 +9,26 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 import bd.com.ipay.ipayskeleton.Activities.UtilityBillPayActivities.IPayUtilityBillPayActionActivity;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
+import bd.com.ipay.ipayskeleton.DatabaseHelper.DataHelper;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SaveBill.MetaData;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SaveBill.Notification;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SaveBill.RecentBill;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.GenericBillPayResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.LankaBanglaCardBillPayRequest;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.LankaBanglaDpsBillPayRequest;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.NotificationForOther;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractTransactionConfirmationFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.LankaBangla.Dps.LankaBanglaDpsAmountInputFragment;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CardNumberValidator;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
@@ -40,14 +53,25 @@ public class LankaBanglaBillConfirmationFragment extends IPayAbstractTransaction
 	private String uri;
 	private LankaBanglaCardBillPayRequest lankaBanglaCardBillPayRequest;
 
+	private String otherPersonName;
+	private String otherPersonMobile;
+	DataHelper dataHelper ;
+	private boolean isFromSaved;
+	private String cardType;
+
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        dataHelper = DataHelper.getInstance(getContext());
 		if (getArguments() != null) {
 			amountType = getArguments().getString(AMOUNT_TYPE_KEY, Constants.OTHER);
 			billAmount = (Number) getArguments().getSerializable(BILL_AMOUNT_KEY);
 			cardNumber = getArguments().getString(LankaBanglaAmountInputFragment.CARD_NUMBER_KEY, "");
 			cardUserName = getArguments().getString(LankaBanglaAmountInputFragment.CARD_USER_NAME_KEY, "");
+			otherPersonName = getArguments().getString(LankaBanglaAmountInputFragment.OTHER_PERSON_NAME_KEY, "");
+			otherPersonMobile = getArguments().getString(LankaBanglaAmountInputFragment.OTHER_PERSON_MOBILE_KEY, "");
+			cardType = getArguments().getString(Constants.CARD_TYPE,"");
+			isFromSaved = getArguments().getBoolean("IS_FROM_HISTORY", false);
 		}
 	}
 
@@ -57,7 +81,6 @@ public class LankaBanglaBillConfirmationFragment extends IPayAbstractTransaction
 		setTransactionDescription(getStyledTransactionDescription(R.string.pay_bill_confirmation_message, billAmount));
 		setName(CardNumberValidator.deSanitizeEntry(cardNumber, ' '));
 		setUserName(cardUserName);
-		setTransactionConfirmationButtonTitle(getString(R.string.pay));
 	}
 
 	@Override
@@ -98,7 +121,13 @@ public class LankaBanglaBillConfirmationFragment extends IPayAbstractTransaction
 			Toaster.makeText(getContext(), R.string.no_internet_connection, Toast.LENGTH_SHORT);
 		}
 		if (lankaBanglaCardBillPayTask == null) {
-			lankaBanglaCardBillPayRequest = new LankaBanglaCardBillPayRequest(cardNumber, billAmount.toString(), amountType, getPin());
+
+			if(TextUtils.isEmpty(otherPersonName) && TextUtils.isEmpty(otherPersonMobile)){
+				lankaBanglaCardBillPayRequest = new LankaBanglaCardBillPayRequest(cardNumber, billAmount.toString(), amountType, getPin());
+			}else{
+				bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.MetaData metaData = new bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.MetaData(new NotificationForOther(otherPersonName, otherPersonMobile));
+				lankaBanglaCardBillPayRequest = new LankaBanglaCardBillPayRequest(cardNumber, billAmount.toString(), amountType, getPin(), metaData);
+			}
 			String json = gson.toJson(lankaBanglaCardBillPayRequest);
 			CardNumberValidator.Cards cards = CardNumberValidator.getCardType(cardNumber);
 			if (cards != null) {
@@ -158,7 +187,18 @@ public class LankaBanglaBillConfirmationFragment extends IPayAbstractTransaction
 										Bundle bundle = new Bundle();
 										bundle.putString(LankaBanglaAmountInputFragment.CARD_NUMBER_KEY, cardNumber);
 										bundle.putSerializable(LankaBanglaBillConfirmationFragment.BILL_AMOUNT_KEY, billAmount);
+										bundle.putString(LankaBanglaAmountInputFragment.OTHER_PERSON_NAME_KEY, otherPersonName);
+										bundle.putString(LankaBanglaAmountInputFragment.OTHER_PERSON_MOBILE_KEY, otherPersonMobile);
+										bundle.putString(LankaBanglaBillConfirmationFragment.AMOUNT_TYPE_KEY, amountType);
+										bundle.putString(Constants.CARD_TYPE, cardType);
+
+										if(isFromSaved) {
+											bundle.putBoolean("IS_FROM_HISTORY", true);
+										}
 										if (getActivity() instanceof IPayUtilityBillPayActionActivity) {
+											int maxBackStack=4;
+											if(isFromSaved)
+												maxBackStack =5;
 											((IPayUtilityBillPayActionActivity) getActivity()).switchFragment(new LankaBanglaBillSuccessFragment(), bundle, 4, true);
 										}
 
@@ -166,6 +206,8 @@ public class LankaBanglaBillConfirmationFragment extends IPayAbstractTransaction
 								}, 2000);
 								if (getActivity() != null)
 									Utilities.hideKeyboard(getActivity());
+
+								saveRecent();
 								break;
 							case Constants.HTTP_RESPONSE_STATUS_BLOCKED:
 								if (getActivity() != null) {
@@ -229,5 +271,34 @@ public class LankaBanglaBillConfirmationFragment extends IPayAbstractTransaction
 			}
 			lankaBanglaCardBillPayTask = null;
 		}
+	}
+
+	public void saveRecent(){
+		Date c = new Date();
+		SimpleDateFormat curFormater = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+		String formattedDate = curFormater.format(c);
+
+		List<RecentBill> recentBills = new ArrayList<>();
+		RecentBill recentBill = new RecentBill();
+		recentBill.setShortName("");
+		recentBill.setScheduledToo(false);
+		recentBill.setSaved(false);
+		recentBill.setProviderCode(cardType);
+		recentBill.setDateOfBillPayment(0);
+		recentBill.setLastPaid(formattedDate);
+		if(!TextUtils.isEmpty(otherPersonName) && !TextUtils.isEmpty(otherPersonMobile)){
+			MetaData metaData = new MetaData(new Notification(otherPersonName, otherPersonMobile));
+			recentBill.setPaidForOthers(true);
+			recentBill.setMetaData(new  Gson().toJson(metaData));
+		}else{
+			recentBill.setPaidForOthers(false);
+		}
+		recentBill.setParamId("cardNumber");
+		recentBill.setParamLabel(getString(R.string.card_number));
+		recentBill.setParamValue(cardNumber);
+		recentBill.setAmount(String.valueOf(billAmount));
+		recentBill.setAmountType(amountType);
+		recentBills.add(recentBill);
+		dataHelper.createBills(recentBills);
 	}
 }

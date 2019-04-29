@@ -9,12 +9,26 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 import bd.com.ipay.ipayskeleton.Activities.UtilityBillPayActivities.IPayUtilityBillPayActionActivity;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
+import bd.com.ipay.ipayskeleton.DatabaseHelper.DataHelper;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SaveBill.MetaData;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SaveBill.Notification;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SaveBill.RecentBill;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SaveBill.SavedBill;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.GenericBillPayResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.LinkThreeBillPayRequest;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.NotificationForOther;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractTransactionConfirmationFragment;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
@@ -33,17 +47,26 @@ public class LinkThreeBillConfirmationFragment extends IPayAbstractTransactionCo
 	private Number billAmount;
 	private String subscriberId;
 	private String userName;
+	private String otherPersonName;
+	private String otherPersonMobile;
 
 	private String uri;
 	private LinkThreeBillPayRequest linkThreeBillPayRequest;
+    DataHelper dataHelper ;
+    private boolean isFromSaved;
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        dataHelper = DataHelper.getInstance(getContext());
 		if (getArguments() != null) {
 			subscriberId = getArguments().getString(LinkThreeBillAmountInputFragment.SUBSCRIBER_ID_KEY, "");
 			billAmount = (Number) getArguments().getSerializable(BILL_AMOUNT_KEY);
 			userName = getArguments().getString(LinkThreeBillAmountInputFragment.USER_NAME_KEY, "");
+			otherPersonName = getArguments().getString(LinkThreeBillAmountInputFragment.OTHER_PERSON_NAME_KEY, "");
+			otherPersonMobile = getArguments().getString(LinkThreeBillAmountInputFragment.OTHER_PERSON_MOBILE_KEY, "");
+
+            isFromSaved = getArguments().getBoolean("IS_FROM_HISTORY", false);
 		}
 	}
 
@@ -53,7 +76,6 @@ public class LinkThreeBillConfirmationFragment extends IPayAbstractTransactionCo
 		setTransactionDescription(getStyledTransactionDescription(R.string.pay_bill_confirmation_message, billAmount));
 		setName(subscriberId);
 		setUserName(userName);
-		setTransactionConfirmationButtonTitle(getString(R.string.pay));
 	}
 
 	@Override
@@ -94,7 +116,14 @@ public class LinkThreeBillConfirmationFragment extends IPayAbstractTransactionCo
 			Toaster.makeText(getContext(), R.string.no_internet_connection, Toast.LENGTH_SHORT);
 		}
 		if (linkThreeBillPayTask == null) {
-			linkThreeBillPayRequest = new LinkThreeBillPayRequest(subscriberId, billAmount.intValue(), getPin());
+		    if(TextUtils.isEmpty(otherPersonName) && TextUtils.isEmpty(otherPersonMobile)){
+                linkThreeBillPayRequest = new LinkThreeBillPayRequest(subscriberId, billAmount.toString(), getPin());
+            }else{
+                bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.MetaData metaData = new bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.MetaData(new NotificationForOther(otherPersonName, otherPersonMobile));
+                linkThreeBillPayRequest = new LinkThreeBillPayRequest(subscriberId, billAmount.toString(), getPin(), metaData);
+
+            }
+
 			String json = gson.toJson(linkThreeBillPayRequest);
 			uri = Constants.BASE_URL_UTILITY + Constants.URL_LINK_THREE_BILL_PAY;
 			linkThreeBillPayTask = new HttpRequestPostAsyncTask(Constants.COMMAND_LINK_THREE_BILL_PAY,
@@ -127,6 +156,7 @@ public class LinkThreeBillConfirmationFragment extends IPayAbstractTransactionCo
 									Utilities.hideKeyboard(getActivity());
 									getActivity().finish();
 								}
+								saveRecent();
 								break;
 							case Constants.HTTP_RESPONSE_STATUS_OK:
 								if (mOTPVerificationForTwoFactorAuthenticationServicesDialog != null) {
@@ -143,14 +173,25 @@ public class LinkThreeBillConfirmationFragment extends IPayAbstractTransactionCo
 										Bundle bundle = new Bundle();
 										bundle.putString(LinkThreeBillAmountInputFragment.SUBSCRIBER_ID_KEY, subscriberId);
 										bundle.putString(LinkThreeBillAmountInputFragment.USER_NAME_KEY, userName);
-										bundle.putSerializable(BILL_AMOUNT_KEY, billAmount);
+										bundle.putString(LinkThreeBillAmountInputFragment.OTHER_PERSON_NAME_KEY, otherPersonName);
+                                        bundle.putString(LinkThreeBillAmountInputFragment.OTHER_PERSON_MOBILE_KEY, otherPersonMobile);
+
+                                        if(isFromSaved) {
+                                            bundle.putBoolean("IS_FROM_HISTORY", true);
+                                        }
+
+                                        bundle.putSerializable(BILL_AMOUNT_KEY, billAmount);
 										if (getActivity() instanceof IPayUtilityBillPayActionActivity) {
-											((IPayUtilityBillPayActionActivity) getActivity()).switchFragment(new LinkThreeBillSuccessFragment(), bundle, 3, true);
+                                            int maxBackStack=3;
+                                            if(isFromSaved)
+                                                maxBackStack =4;
+											((IPayUtilityBillPayActionActivity) getActivity()).switchFragment(new LinkThreeBillSuccessFragment(), bundle, maxBackStack, true);
 										}
 									}
 								}, 2000);
 								if (getActivity() != null)
 									Utilities.hideKeyboard(getActivity());
+								saveRecent();
 								break;
 							case Constants.HTTP_RESPONSE_STATUS_BLOCKED:
 								if (getActivity() != null) {
@@ -215,4 +256,34 @@ public class LinkThreeBillConfirmationFragment extends IPayAbstractTransactionCo
 			linkThreeBillPayTask = null;
 		}
 	}
+
+	public void saveRecent(){
+        Date c = new Date();
+        SimpleDateFormat curFormater = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        String formattedDate = curFormater.format(c);
+
+        List<RecentBill> recentBills = new ArrayList<>();
+        RecentBill recentBill = new RecentBill();
+        recentBill.setShortName("");
+        recentBill.setScheduledToo(false);
+        recentBill.setSaved(false);
+        recentBill.setProviderCode("LINK3");
+        recentBill.setDateOfBillPayment(0);
+        recentBill.setLastPaid(formattedDate);
+        if(!TextUtils.isEmpty(otherPersonName) && !TextUtils.isEmpty(otherPersonMobile)){
+            MetaData metaData = new MetaData(new Notification(otherPersonName, otherPersonMobile));
+            recentBill.setPaidForOthers(true);
+            recentBill.setMetaData(new  Gson().toJson(metaData));
+        }else{
+            recentBill.setPaidForOthers(false);
+        }
+        recentBill.setParamId("subscriberId");
+        recentBill.setParamLabel(getString(R.string.subscriber_id));
+        recentBill.setParamValue(subscriberId);
+        recentBill.setAmount(String.valueOf(billAmount));
+        recentBills.add(recentBill);
+        dataHelper.createBills(recentBills);
+    }
+
+
 }

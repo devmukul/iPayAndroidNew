@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 
 import bd.com.ipay.ipayskeleton.Activities.UtilityBillPayActivities.IPayUtilityBillPayActionActivity;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractAmountFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.LinkThree.LinkThreeBillConfirmationFragment;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.SharedPrefManager;
@@ -24,10 +25,16 @@ public class CarnivalBillAmountInputFragment extends IPayAbstractAmountFragment 
 	static final String USER_NAME_KEY = "USER_NAME";
 	static final String CARNIVAL_ID_KEY = "CARNIVAL_ID";
 	static final String PACKAGE_RATE_KEY = "PACKAGE_RATE";
+	static final String OTHER_PERSON_NAME_KEY = "OTHER_PERSON_NAME";
+	static final String OTHER_PERSON_MOBILE_KEY = "OTHER_PERSON_MOBILE";
 
 	private String userName;
 	private String carnivalId;
 	private int packageRate;
+
+	private String otherPersonName;
+	private String otherPersonMobile;
+	private boolean isFromSaved;
 
 
 	@Override
@@ -37,6 +44,9 @@ public class CarnivalBillAmountInputFragment extends IPayAbstractAmountFragment 
 			userName = getArguments().getString(USER_NAME_KEY, "");
 			carnivalId = getArguments().getString(CARNIVAL_ID_KEY, "");
 			packageRate = getArguments().getInt(PACKAGE_RATE_KEY, 0);
+            otherPersonName = getArguments().getString(OTHER_PERSON_NAME_KEY, "");
+            otherPersonMobile = getArguments().getString(OTHER_PERSON_MOBILE_KEY, "");
+            isFromSaved = getArguments().getBoolean("IS_FROM_HISTORY", false);
 		}
 	}
 
@@ -128,9 +138,18 @@ public class CarnivalBillAmountInputFragment extends IPayAbstractAmountFragment 
 		bundle.putString(CARNIVAL_ID_KEY, carnivalId);
 		bundle.putString(USER_NAME_KEY, userName);
 		bundle.putSerializable(CarnivalBillConfirmationFragment.BILL_AMOUNT_KEY, getAmount());
+        bundle.putString(OTHER_PERSON_NAME_KEY, otherPersonName);
+        bundle.putString(OTHER_PERSON_MOBILE_KEY, otherPersonMobile);
 
-		if (getActivity() instanceof IPayUtilityBillPayActionActivity) {
-			((IPayUtilityBillPayActionActivity) getActivity()).switchFragment(new CarnivalBillConfirmationFragment(), bundle, 2, true);
+        if(isFromSaved) {
+            bundle.putBoolean("IS_FROM_HISTORY", true);
+        }
+
+        if (getActivity() instanceof IPayUtilityBillPayActionActivity) {
+            int maxBackStack=2;
+            if(isFromSaved)
+                maxBackStack =3;
+			((IPayUtilityBillPayActionActivity) getActivity()).switchFragment(new CarnivalBillConfirmationFragment(), bundle, maxBackStack, true);
 		}
 	}
 

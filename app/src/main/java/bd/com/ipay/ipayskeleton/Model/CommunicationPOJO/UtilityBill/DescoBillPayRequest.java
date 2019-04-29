@@ -5,6 +5,7 @@ public class DescoBillPayRequest {
     private String billNumber;
     private String pin;
     private String otp;
+    private MetaData metaData;
 
     public DescoBillPayRequest(String billNumber, String pin) {
         this.billNumber = billNumber;
@@ -15,6 +16,12 @@ public class DescoBillPayRequest {
         this.billNumber = billNumber;
         this.pin = pin;
         this.otp = otp;
+    }
+
+    public DescoBillPayRequest(String billNumber, String pin, MetaData metaData) {
+        this.billNumber = billNumber;
+        this.pin = pin;
+        this.metaData = metaData;
     }
 
     public String getBillNumber() {

@@ -879,7 +879,7 @@
     <string name="active">Active</string>
     <string name="request_failed">Request Failed</string>
     <string name="amber_it_customer_id">AmberIT Customer ID</string>
-    <string name="amberit_bill_pay_message">Please enter your AmberIT customer ID and amount</string>
+    <string name="amberit_bill_pay_message">Please enter your AmberIT customer ID</string>
     <string name="swipe_up_to_see_more">SWIPE UP TO SEE MORE</string>
     <string name="swipe_down_to_close">SWIPE DOWN TO CLOSE</string>
     <string name="claim" translatable="false">Claim</string>
@@ -1206,6 +1206,12 @@
     <string name="pay_installment_success_description">You have successfully paid your installment from you iPay wallet.\n See further details under \'Transactions\'.</string>
 
     <string name="select_location_code">Select Locaton Code</string>
+    <string name="save_for_future_payment">SAVE IT FOR FUTURE PAYMENT</string>
+    <string name="other_person_mobile">Perosn’s Mobile Number</string>
+    <string name="other_person_name">Perosn’s Name</string>
+    <string name="paying_for_others">I am paying this bill for other person and iPay will notify the person through SMS</string>
+    <string name="enter_name">Please enter name</string>
+    <string name="save_bill_info">Save Bill Info</string>
     <string name="customer_number">Customer Number</string>
     <string name="intallment_text">Installments</string>
     <string name="waiting_for_approval">Waiting for approval *</string>
@@ -1214,5 +1220,13 @@
     <string name="running">Running</string>
     <string name="installment_pending">Pending</string>
     <string name="no_schedule_payment_available">No schedule payment available!</string>
+    <string name="pay_for_other_account">Pay Bill for other account</string>
+    <string name="select_schedule_date">Select schedule date</string>
+    <string name="schedule_bill_info">Schedule Bill</string>
+    <string name="you_can_not_give_own_number">You cannot use your own number for other person’s number.</string>
+    <string name="customer_id">Customer ID</string>
+    <string name="saved_bill_information">Saved Bill Information</string>
+    <string name="recent_bill_information">Recent Bill Information</string>
+    <string name="name_title">Name/Title</string>
 
 </resources>

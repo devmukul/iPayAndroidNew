@@ -25,9 +25,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import bd.com.ipay.ipayskeleton.Activities.HomeActivity;
 import bd.com.ipay.ipayskeleton.Activities.IPayTransactionActionActivity;
@@ -43,11 +47,15 @@ import bd.com.ipay.ipayskeleton.BaseFragments.BaseFragment;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.TrendingBusinessOutletSelectorDialog;
 import bd.com.ipay.ipayskeleton.CustomView.MakePaymentContactsSearchView;
+import bd.com.ipay.ipayskeleton.DatabaseHelper.DataHelper;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.BusinessContact.GetAllBusinessContactRequestBuilder;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Business.Merchants.BusinessList;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Business.Merchants.GetAllTrendingBusinessResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Business.Merchants.TrendingBusinessList;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SaveBill.GetSavedBillResponse;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SaveBill.RecentBill;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SaveBill.SavedBill;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.GetProviderResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.Provider;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.ProviderCategory;
@@ -103,10 +111,26 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
 
     private int transactionType;
 
+    private HttpRequestGetAsyncTask mGetSavedBillListTask;
+    private GetSavedBillResponse mSavedBillResponse;
+    private List<SavedBill> mSavedBills = new ArrayList<>();
+    List<RecentBill> mRecentBill = new ArrayList<>();
+    DataHelper dataHelper ;
+
+    CustomProgressDialog mCustomProgressDialog;
+
+    String providerCode1;
+    String providerCode2;
+    String typeText;
+    SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mTracker = Utilities.getTracker(getActivity());
+        dataHelper = DataHelper.getInstance(getContext());
+
+        mCustomProgressDialog = new CustomProgressDialog(getContext());
         approvedSponsorArrayList = new ArrayList<>();
         if (getArguments() != null) {
             transactionType = getArguments().getInt(IPayTransactionActionActivity.TRANSACTION_TYPE_KEY);
@@ -406,19 +430,23 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
                     case Constants.BRILLIANT:
                     case Constants.AMBERIT:
                     case Constants.WESTZONE:
-                    case Constants.DESCO:
                     case Constants.WASA:
-                    case Constants.DPDC:
                         intent = new Intent(getActivity(), UtilityBillPaymentActivity.class);
                         intent.putExtra(Constants.SERVICE, provider);
                         startActivity(intent);
                         getActivity().finish();
                         break;
+                    case Constants.DESCO:
+                        providerCode1 = "DESCO";
+                        getSavedList(providerCode1);
+                        break;
+                    case Constants.DPDC:
+                        providerCode1 = "DESCO";
+                        getSavedList(providerCode1);
+                        break;
                     case Constants.LINK3:
-                        intent = new Intent(getActivity(), IPayUtilityBillPayActionActivity.class);
-                        intent.putExtra(IPayUtilityBillPayActionActivity.BILL_PAY_PARTY_NAME_KEY, IPayUtilityBillPayActionActivity.BILL_PAY_LINK_THREE);
-                        startActivityForResult(intent, REQUEST_CODE_SUCCESSFUL_ACTIVITY_FINISH);
-                        getActivity().finish();
+                        providerCode1 = "LINK3";
+                        getSavedList(providerCode1);
                         break;
                     case Constants.CARNIVAL:
                         intent = new Intent(getActivity(), IPayUtilityBillPayActionActivity.class);
@@ -439,13 +467,17 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
                         getActivity().finish();
                         break;
                     case Constants.LANKABANGLA:
-                        intent = new Intent(getActivity(), IPayUtilityBillPayActionActivity.class);
-                        if (type.equals("CARD"))
-                            intent.putExtra(IPayUtilityBillPayActionActivity.BILL_PAY_PARTY_NAME_KEY, IPayUtilityBillPayActionActivity.BILL_PAY_LANKABANGLA_CARD);
-                        else
-                            intent.putExtra(IPayUtilityBillPayActionActivity.BILL_PAY_PARTY_NAME_KEY, IPayUtilityBillPayActionActivity.BILL_PAY_LANKABANGLA_DPS);
-                        startActivityForResult(intent, REQUEST_CODE_SUCCESSFUL_ACTIVITY_FINISH);
-                        getActivity().finish();
+                        if (type.equals("CARD")) {
+                            typeText  = "CARD";
+                            providerCode1 = "LANKABANGLA-VISA";
+                            providerCode2 = "LANKABANGLA-MASTERCARD";
+                            getSavedList(providerCode1,providerCode2);
+                        }
+                        else {
+                            typeText  = "DPS";
+                            providerCode1 = "LANKABANGLA-DPS";
+                            getSavedList(providerCode1);
+                        }
                         break;
                 }
             }
@@ -531,8 +563,7 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
                         }
                     }
                 }
-            }
-            if (result.getApiCommand().equals(Constants.COMMAND_GET_SPONSOR_LIST)) {
+            }else if (result.getApiCommand().equals(Constants.COMMAND_GET_SPONSOR_LIST)) {
                 if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
                     getSponsorListResponse = new Gson().fromJson(result.getJsonString(), GetSponsorListResponse.class);
                     sponsorArrayList = getSponsorListResponse.getSponsor();
@@ -542,6 +573,144 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
                     Toast.makeText(getContext(), getSponsorListResponse.getMessage(), Toast.LENGTH_LONG).show();
                 }
                 getSponsorListAsyncTask = null;
+
+            }else if (result.getApiCommand().equals(Constants.COMMAND_GET_SAVED_BILL_LIST)) {
+                if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
+                    mSavedBillResponse = new Gson().fromJson(result.getJsonString(), GetSavedBillResponse.class);
+                    mSavedBills = mSavedBillResponse.getSavedBills();
+                    if(TextUtils.isEmpty(providerCode2))
+                        mRecentBill = dataHelper.getBills(providerCode1);
+                    else
+                        mRecentBill = dataHelper.getBills(providerCode1, providerCode2);
+
+                    if(mSavedBills!=null && mSavedBills.size()>0) {
+
+                        List<RecentBill> tempRecentBills = new ArrayList<>();
+
+                        for(RecentBill recentBill: mRecentBill) {
+                            String providerCode = recentBill.getParamValue();
+                            boolean isFound = false;
+                            for (SavedBill savedBill : mSavedBills) {
+                                if (savedBill.getBillParams().get(0).getParamValue().equalsIgnoreCase(providerCode)){
+                                    isFound = true;
+                                    recentBill.setShortName(savedBill.getShortName());
+                                    recentBill.setScheduledToo(savedBill.getIsScheduledToo());
+                                    recentBill.setSaved(true);
+                                    recentBill.setProviderCode(savedBill.getProviderCode());
+                                    recentBill.setDateOfBillPayment(savedBill.getDateOfBillPayment());
+                                    Date date1 =null;
+                                    Date date2 = null;
+                                    try {
+                                        date2 = dateFormater.parse(savedBill.getLastPaid());
+                                        date1 = dateFormater.parse(recentBill.getLastPaid());
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                    if (date1.compareTo(date2) <= 0) {
+                                        recentBill.setLastPaid(savedBill.getLastPaid());
+                                    }
+                                    if (date1.compareTo(date2) <= 0) {
+                                        recentBill.setLastPaid(savedBill.getLastPaid());
+                                    }
+                                    recentBill.setPaidForOthers(savedBill.getPaidForOthers());
+                                    recentBill.setMetaData(new  Gson().toJson(savedBill.getMetaData()));
+
+                                    recentBill.setParamId(savedBill.getBillParams().get(0).getParamId());
+                                    recentBill.setParamLabel(savedBill.getBillParams().get(0).getParamLabel());
+                                    recentBill.setParamValue(savedBill.getBillParams().get(0).getParamValue());
+                                    if (savedBill.getBillParams().size() > 1) {
+                                        for(int i=1; i<savedBill.getBillParams().size();i++){
+                                            if(savedBill.getBillParams().get(i).getParamId().equalsIgnoreCase("amount"))
+                                                recentBill.setAmount(savedBill.getBillParams().get(i).getParamValue());
+                                            if(savedBill.getBillParams().get(i).getParamId().equalsIgnoreCase("amountType"))
+                                                recentBill.setAmountType(savedBill.getBillParams().get(i).getParamValue());
+                                            if(savedBill.getBillParams().get(i).getParamId().equalsIgnoreCase("locationCode"))
+                                                recentBill.setAmountType(savedBill.getBillParams().get(i).getParamValue());
+
+                                        }
+
+                                    }
+                                    tempRecentBills.add(recentBill);
+                                    break;
+
+                                }
+                            }
+
+                            if(!isFound) {
+                                recentBill.setSaved(false);
+                                tempRecentBills.add(recentBill);
+                            }
+                        }
+
+                        dataHelper.createBills(tempRecentBills);
+                    }else {
+                        List<RecentBill> tempRecentBills = new ArrayList<>();
+
+                        for(RecentBill recentBill: mRecentBill) {
+                            recentBill.setSaved(false);
+                            tempRecentBills.add(recentBill);
+                        }
+                        dataHelper.createBills(tempRecentBills);
+                    }
+                }
+
+                if(TextUtils.isEmpty(providerCode2))
+                    mRecentBill = dataHelper.getBills(providerCode1);
+                else
+                    mRecentBill = dataHelper.getBills(providerCode1, providerCode2);
+
+                switch (providerCode1){
+                    case Constants.DESCO:
+                    case Constants.DPDC:
+                        Intent intent = new Intent(getActivity(), UtilityBillPaymentActivity.class);
+                        intent.putExtra(Constants.SERVICE, providerCode1);
+
+                        if((mRecentBill !=null && mRecentBill.size()>0) || (mSavedBills != null&& mSavedBills.size()>0)){
+                            intent.putExtra("SAVED_DATA", (Serializable) mSavedBills);
+                            intent.putExtra("RECENT_DATA", (Serializable) mRecentBill);
+                        }
+                        startActivityForResult(intent, REQUEST_CODE_SUCCESSFUL_ACTIVITY_FINISH);
+                        getActivity().finish();
+                        break;
+                    case Constants.LINK3:
+                        intent = new Intent(getActivity(), IPayUtilityBillPayActionActivity.class);
+                        intent.putExtra(IPayUtilityBillPayActionActivity.BILL_PAY_PARTY_NAME_KEY, IPayUtilityBillPayActionActivity.BILL_PAY_LINK_THREE);
+
+                        if((mRecentBill !=null && mRecentBill.size()>0) || (mSavedBills != null&& mSavedBills.size()>0)){
+                            intent.putExtra("SAVED_DATA", (Serializable) mSavedBills);
+                            intent.putExtra("RECENT_DATA", (Serializable) mRecentBill);
+                        }
+                        startActivityForResult(intent, REQUEST_CODE_SUCCESSFUL_ACTIVITY_FINISH);
+                        getActivity().finish();
+                        break;
+                    case "LANKABANGLA-VISA":
+                    case "LANKABANGLA-MASTERCARD":
+                        intent = new Intent(getActivity(), IPayUtilityBillPayActionActivity.class);
+                        if((mRecentBill !=null && mRecentBill.size()>0) || (mSavedBills != null&& mSavedBills.size()>0)){
+                            intent.putExtra("SAVED_DATA", (Serializable) mSavedBills);
+                            intent.putExtra("RECENT_DATA", (Serializable) mRecentBill);
+                        }
+                        intent.putExtra(IPayUtilityBillPayActionActivity.BILL_PAY_PARTY_NAME_KEY, IPayUtilityBillPayActionActivity.BILL_PAY_LANKABANGLA_CARD);
+                        startActivityForResult(intent, REQUEST_CODE_SUCCESSFUL_ACTIVITY_FINISH);
+                        getActivity().finish();
+
+                        break;
+
+                    case "LANKABANGLA-DPS":
+                        intent = new Intent(getActivity(), IPayUtilityBillPayActionActivity.class);
+                        if((mRecentBill !=null && mRecentBill.size()>0) || (mSavedBills != null&& mSavedBills.size()>0)){
+                            intent.putExtra("SAVED_DATA", (Serializable) mSavedBills);
+                            intent.putExtra("RECENT_DATA", (Serializable) mRecentBill);
+                        }
+                        intent.putExtra(IPayUtilityBillPayActionActivity.BILL_PAY_PARTY_NAME_KEY, IPayUtilityBillPayActionActivity.BILL_PAY_LANKABANGLA_DPS);
+                        startActivityForResult(intent, REQUEST_CODE_SUCCESSFUL_ACTIVITY_FINISH);
+                        getActivity().finish();
+
+                        break;
+
+                }
+                mCustomProgressDialog.dismissDialogue();
+                mGetSavedBillListTask = null;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -603,6 +772,30 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
                 trendingBusinessCAtegory = view.findViewById(R.id.trending_business_recycler_view_category);
             }
         }
+    }
+
+    private void getSavedList(String providerCode) {
+        mCustomProgressDialog.show();
+        if (mGetSavedBillListTask != null) {
+            return;
+        }
+
+        mGetSavedBillListTask = new HttpRequestGetAsyncTask(Constants.COMMAND_GET_SAVED_BILL_LIST,
+                Constants.BASE_URL_UTILITY + "/scheduled/saved-bills/?providerCodes="+providerCode, getActivity(), false);
+        mGetSavedBillListTask.mHttpResponseListener = this;
+        mGetSavedBillListTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    private void getSavedList(String providerCode1, String providerCode2) {
+        mCustomProgressDialog.show();
+        if (mGetSavedBillListTask != null) {
+            return;
+        }
+
+        mGetSavedBillListTask = new HttpRequestGetAsyncTask(Constants.COMMAND_GET_SAVED_BILL_LIST,
+                Constants.BASE_URL_UTILITY + "/scheduled/saved-bills/?providerCodes="+providerCode1+"&providerCodes="+providerCode2, getActivity(), false);
+        mGetSavedBillListTask.mHttpResponseListener = this;
+        mGetSavedBillListTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void attemptGetSponsorList() {
@@ -682,7 +875,7 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
                                                     bundle.putString(Constants.ADDRESS, address);
                                                     bundle.putLong(Constants.OUTLET_ID, outletId);
                                                     if (!(approvedSponsorArrayList == null || approvedSponsorArrayList.size() == 0)) {
-                                                        bundle.putSerializable(Constants.SPONSOR_LIST, (Serializable) approvedSponsorArrayList);
+                                                        bundle.putSerializable(Constants.SPONSOR_LIST, approvedSponsorArrayList);
                                                     }
                                                     bundle.putInt(IPayTransactionActionActivity.TRANSACTION_TYPE_KEY, transactionType);
                                                     if (getActivity() instanceof IPayTransactionActionActivity) {
@@ -699,7 +892,7 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
                                             bundle.putLong(Constants.OUTLET_ID, merchantDetails.getOutlets().get(0).getOutletId());
 
                                             if (!(approvedSponsorArrayList == null || approvedSponsorArrayList.size() == 0)) {
-                                                bundle.putSerializable(Constants.SPONSOR_LIST, (Serializable) approvedSponsorArrayList);
+                                                bundle.putSerializable(Constants.SPONSOR_LIST, approvedSponsorArrayList);
                                             }
                                             bundle.putInt(IPayTransactionActionActivity.TRANSACTION_TYPE_KEY, transactionType);
                                             if (getActivity() instanceof IPayTransactionActionActivity) {
@@ -715,7 +908,7 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
                                         bundle.putString(Constants.TYPE, merchantDetails.getBusinessType());
 
                                         if (!(approvedSponsorArrayList == null || approvedSponsorArrayList.size() == 0)) {
-                                            bundle.putSerializable(Constants.SPONSOR_LIST, (Serializable) approvedSponsorArrayList);
+                                            bundle.putSerializable(Constants.SPONSOR_LIST, approvedSponsorArrayList);
                                         }
                                         bundle.putInt(IPayTransactionActionActivity.TRANSACTION_TYPE_KEY, transactionType);
                                         if (getActivity() instanceof IPayTransactionActionActivity) {

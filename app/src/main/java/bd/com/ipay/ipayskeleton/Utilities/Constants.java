@@ -303,6 +303,12 @@ public class Constants {
     public static final String INSTALLMENT_ID = "INSTALLMENT_ID";
     public static final String COMMAND_ACCEPT_SCHEDULED_PAYMENT = "COMMAND_ACCEPT_SCHEDULED_PAYMENT";
     public static final String COMMAND_REJECT_SCHEDULED_PAYMENT = "COMMAND_REJECT_SCHEDULED_PAYMENT";
+    public static final String URL_SAVED_BILL = "scheduled/saved-bills";
+    public static final String COMMAND_GET_SAVED_BILL_LIST = "COMMAND_GET_SAVED_BILL_LIST";
+    public static final String COMMAND_LINK_THREE_BILL_PAY_SAVE = "COMMAND_LINK_THREE_BILL_PAY_SAVE";
+    public static final String COMMAND_LINK_THREE_BILL_PAY_DELETE = "COMMAND_LINK_THREE_BILL_PAY_DELETE";
+    public static final String COMMAND_LINK_THREE_BILL_PAY_SCHEDULE = "COMMAND_LINK_THREE_BILL_PAY_SCHEDULE";
+    public static final String AMOUNT_TYPE = "AMOUNT_TYPE";
 
 
     public static String ROLEID = "ROLEID";

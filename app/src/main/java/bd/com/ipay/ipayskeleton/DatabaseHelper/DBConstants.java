@@ -12,12 +12,15 @@ public class DBConstants {
     public static final String DB_TABLE_CONTACTS = "contacts";
     public static final String DB_TABLE_BUSINESS_ACCOUNTS = "business";
     public static final String DB_TABLE_CONTACTS_BUSINESS = "business_contacts";
+    public static final String DB_TABLE_SAVED_BILL = "recent_bill";
     public static final Uri DB_TABLE_CONTACTS_URI = Uri
             .parse("sqlite://" + Constants.ApplicationPackage + "/" + DB_TABLE_CONTACTS);
     public static final Uri DB_TABLE_BUSINESS_URI = Uri
             .parse("sqlite://" + Constants.ApplicationPackage + "/" + DB_TABLE_BUSINESS_ACCOUNTS);
-    public static final Uri DB_TABLE_BUSINESS_CONTWACT_URI = Uri
+    public static final Uri DB_TABLE_BUSINESS_CONTACT_URI = Uri
             .parse("sqlite://" + Constants.ApplicationPackage + "/" + DB_TABLE_CONTACTS_BUSINESS);
+    public static final Uri DB_TABLE_SAVED_BILL_URI = Uri
+            .parse("sqlite://" + Constants.ApplicationPackage + "/" + DB_TABLE_SAVED_BILL);
     // Subscriber table
     public static final String KEY_MOBILE_NUMBER = "mobile_number";
     public static final String KEY_VERIFICATION_STATUS = "verification_status";
@@ -46,6 +49,23 @@ public class DBConstants {
     public static final String KEY_BUSINESS_THANA = "business_thana";
     public static final String KEY_BUSINESS_DISTRICT = "business_district";
     public static final String KEY_BUSINESS_OUTLET = "business_outlet";
+
+
+    // Saved bill table
+    public static final String KEY_BILL_PROVIDER_CODE = "provider_code";
+    public static final String KEY_BILL_PROVIDER_NAME = "provider_name";
+    public static final String KEY_BILL_IS_SAVED = "is_saved";
+    public static final String KEY_BILL_IS_SCHEDULED = "is_schedule";
+    public static final String KEY_BILL_DATE = "bill_date";
+    public static final String KEY_BILL_LAST_PAID_DATE = "last_paid_date";
+    public static final String KEY_BILL_PAID_FOR_OTHERS = "paid_for_others";
+    public static final String KEY_BILL_PARAMS_ID = "bill_params_id";
+    public static final String KEY_BILL_PARAMS_LABEL = "bill_params_label";
+    public static final String KEY_BILL_PARAMS_VALUE = "bill_params_value";
+    public static final String KEY_BILL_AMOUNT = "bill_params_amount";
+    public static final String KEY_BILL_AMOUNT_TYPE = "amount_type";
+    public static final String KEY_BILL_LOCATION_CODE = "location_code";
+    public static final String KEY_BILL_META_DATA = "meta_data";
 
     // Push events table
     public static final String KEY_TAG_NAME = "tag_name";

@@ -8,7 +8,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
+import java.io.Serializable;
+import java.util.List;
+
 import bd.com.ipay.ipayskeleton.Activities.BaseActivity;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SaveBill.RecentBill;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SaveBill.SavedBill;
+import bd.com.ipay.ipayskeleton.PaymentFragments.SaveAndScheduleBill.BillPaySavedNumberSelectFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.SaveAndScheduleBill.LankaBanglaCARDSavedNumberSelectFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.SaveAndScheduleBill.LankaBanglaDPSSavedNumberSelectFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.SchedulePayment.ScheduledPaymentListFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.SchedulePayment.ScheduledPaymentApiFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.SchedulePayment.ScheduledPaymentDetailsFragment;
@@ -43,6 +51,8 @@ public final class IPayUtilityBillPayActionActivity extends BaseActivity {
     public static final String BILL_AMOUNT_KEY = "BILL_AMOUNT";
     public static final String BANK_CODE = "BANK_CODE";
     public static final String SCHEDULE_PAYMENT_LIST = "SCHEDULE_PAYMENT_LIST";
+    private List<SavedBill> savedBills;
+    private List<RecentBill> recentBills;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,10 +81,32 @@ public final class IPayUtilityBillPayActionActivity extends BaseActivity {
             final Bundle bundle = new Bundle();
             switch (billPayPartyName) {
                 case BILL_PAY_LANKABANGLA_CARD:
-                    switchFragment(new LankaBanglaCardNumberInputFragment(), bundle, 0, false);
+                    if(getIntent().hasExtra("SAVED_DATA"))
+                        savedBills = (List<SavedBill>) getIntent().getSerializableExtra("SAVED_DATA");
+                    if(getIntent().hasExtra("RECENT_DATA"))
+                        recentBills = (List<RecentBill>) getIntent().getSerializableExtra("RECENT_DATA");
+                    if((recentBills !=null && recentBills.size()>0) || (savedBills != null&& savedBills.size()>0)){
+                        bundle.putString(Constants.NAME, getString(R.string.lanka_bangla_card));
+                        bundle.putSerializable("SAVED_DATA", (Serializable) savedBills);
+                        bundle.putSerializable("RECENT_DATA", (Serializable) recentBills);
+                        switchFragment(new LankaBanglaCARDSavedNumberSelectFragment(), bundle, 0, false);
+                    }else{
+                        switchFragment(new LankaBanglaCardNumberInputFragment(), bundle, 0, false);
+                    }
                     break;
                 case BILL_PAY_LINK_THREE:
-                    switchFragment(new LinkThreeSubscriberIdInputFragment(), bundle, 0, false);
+                    if(getIntent().hasExtra("SAVED_DATA"))
+                        savedBills = (List<SavedBill>) getIntent().getSerializableExtra("SAVED_DATA");
+                    if(getIntent().hasExtra("RECENT_DATA"))
+                        recentBills = (List<RecentBill>) getIntent().getSerializableExtra("RECENT_DATA");
+                    if((recentBills !=null && recentBills.size()>0) || (savedBills != null&& savedBills.size()>0)){
+                        bundle.putString(Constants.NAME, getString(R.string.link_three));
+                        bundle.putSerializable("SAVED_DATA", (Serializable) savedBills);
+                        bundle.putSerializable("RECENT_DATA", (Serializable) recentBills);
+                        switchFragment(new BillPaySavedNumberSelectFragment(), bundle, 0, true);
+                    }else{
+                        switchFragment(new LinkThreeSubscriberIdInputFragment(), null, 0, true);
+                    }
                     break;
                 case BILL_PAY_CARNIVAL:
                     switchFragment(new CarnivalIdInputFragment(), bundle, 0, false);
@@ -83,7 +115,18 @@ public final class IPayUtilityBillPayActionActivity extends BaseActivity {
                     switchFragment(new CreditCardBankSelectionFragment(), bundle, 0, false);
                     break;
                 case BILL_PAY_LANKABANGLA_DPS:
-                    switchFragment(new LankaBanglaDpsNumberInputFragment(), bundle, 0, false);
+                    if(getIntent().hasExtra("SAVED_DATA"))
+                        savedBills = (List<SavedBill>) getIntent().getSerializableExtra("SAVED_DATA");
+                    if(getIntent().hasExtra("RECENT_DATA"))
+                        recentBills = (List<RecentBill>) getIntent().getSerializableExtra("RECENT_DATA");
+                    if((recentBills !=null && recentBills.size()>0) || (savedBills != null&& savedBills.size()>0)){
+                        bundle.putString(Constants.NAME, getString(R.string.lanka_bangla_dps));
+                        bundle.putSerializable("SAVED_DATA", (Serializable) savedBills);
+                        bundle.putSerializable("RECENT_DATA", (Serializable) recentBills);
+                        switchFragment(new LankaBanglaDPSSavedNumberSelectFragment(), bundle, 0, false);
+                    }else{
+                        switchFragment(new LankaBanglaDpsNumberInputFragment(), bundle, 0, false);
+                    }
                     break;
                 case SCHEDULED_PAY_IPDC:
                     if(getIntent().hasExtra(Constants.MOBILE_NUMBER)) {

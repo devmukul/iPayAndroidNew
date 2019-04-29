@@ -23,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,8 +32,12 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.gson.Gson;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -53,17 +58,26 @@ import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.Aspect.ValidateAccess;
 import bd.com.ipay.ipayskeleton.BaseFragments.BaseFragment;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
+import bd.com.ipay.ipayskeleton.DatabaseHelper.DataHelper;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Balance.RefreshBalanceResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.DashboardProfileCompletionPOJO;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.ProfileCompletion.ProfileCompletionPropertyConstants;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.ProfileCompletion.ProfileCompletionStatusResponse;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SaveBill.BillParam;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SaveBill.GetSavedBillResponse;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SaveBill.RecentBill;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SaveBill.SavedBill;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.TransactionHistory.TransactionHistory;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.TransactionHistory.TransactionHistoryRequest;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.TransactionHistory.TransactionHistoryResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.TransactionHistory.TransactionMetaData;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.GetAvailableCreditCardBanks;
+import bd.com.ipay.ipayskeleton.PaymentFragments.SaveAndScheduleBill.BillPaySavedNumberSelectFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.SaveAndScheduleBill.DESCOSavedNumberSelectFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.CreditCard.Bank;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.DPDC.DPDCEnterAccountNumberFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.LinkThree.LinkThreeSubscriberIdInputFragment;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ACLManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
@@ -94,6 +108,15 @@ public class HomeFragment extends BaseFragment implements HttpResponseListener {
 	private ArrayList<Bank> mBankList;
 	private HttpRequestGetAsyncTask mGetBankListAsyncTask;
 
+	private HttpRequestGetAsyncTask mGetSavedBillListTask;
+	private GetSavedBillResponse mSavedBillResponse;
+	private List<SavedBill> mSavedBills = new ArrayList<>();
+	List<RecentBill> mRecentBill = new ArrayList<>();
+	DataHelper dataHelper ;
+
+	String providerCode;
+	SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+
 	private final BroadcastReceiver mBalanceUpdateBroadcastReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -122,6 +145,9 @@ public class HomeFragment extends BaseFragment implements HttpResponseListener {
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		View view = inflater.inflate(R.layout.fragment_home, container, false);
+		Utilities.hideKeyboard(getActivity());
+
+		dataHelper = DataHelper.getInstance(getContext());
 		balanceView = view.findViewById(R.id.balance);
 		mProgressDialog = new CustomProgressDialog(getActivity());
 		refreshBalanceButton = view.findViewById(R.id.refresh_balance_button);
@@ -302,6 +328,7 @@ public class HomeFragment extends BaseFragment implements HttpResponseListener {
 			@Override
 			@ValidateAccess({ServiceIdConstants.DESCO})
 			public void onClick(View v) {
+
 				payBill(Constants.DESCO, null);
 			}
 		});
@@ -490,6 +517,95 @@ public class HomeFragment extends BaseFragment implements HttpResponseListener {
 				mGetBankListAsyncTask = null;
 				break;
 
+            case Constants.COMMAND_GET_SAVED_BILL_LIST:
+					if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
+						mSavedBillResponse = new Gson().fromJson(result.getJsonString(), GetSavedBillResponse.class);
+						mSavedBills = mSavedBillResponse.getSavedBills();
+                        mRecentBill = dataHelper.getBills(providerCode);
+
+                        if(mSavedBills!=null && mSavedBills.size()>0) {
+
+                            List<RecentBill> tempRecentBills = new ArrayList<>();
+
+                            for(RecentBill recentBill: mRecentBill) {
+                                String providerCode = recentBill.getParamValue();
+                                boolean isFound = false;
+                                for (SavedBill savedBill : mSavedBills) {
+                                    if (savedBill.getBillParams().get(0).getParamValue().equalsIgnoreCase(providerCode)){
+                                        isFound = true;
+                                        recentBill.setShortName(savedBill.getShortName());
+                                        recentBill.setScheduledToo(savedBill.getIsScheduledToo());
+                                        recentBill.setSaved(true);
+                                        recentBill.setProviderCode(savedBill.getProviderCode());
+                                        recentBill.setDateOfBillPayment(savedBill.getDateOfBillPayment());
+                                        Date date1 =null;
+                                        Date date2 = null;
+                                        try {
+                                            date2 = dateFormater.parse(savedBill.getLastPaid());
+                                            date1 = dateFormater.parse(recentBill.getLastPaid());
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        if (date1.compareTo(date2) <= 0) {
+                                            recentBill.setLastPaid(savedBill.getLastPaid());
+                                        }
+                                        recentBill.setPaidForOthers(savedBill.getPaidForOthers());
+                                        recentBill.setMetaData(new  Gson().toJson(savedBill.getMetaData()));
+
+                                        recentBill.setParamId(savedBill.getBillParams().get(0).getParamId());
+                                        recentBill.setParamLabel(savedBill.getBillParams().get(0).getParamLabel());
+                                        recentBill.setParamValue(savedBill.getBillParams().get(0).getParamValue());
+                                        if (savedBill.getBillParams().size() > 1) {
+                                            for(int i=1; i<savedBill.getBillParams().size();i++){
+                                                if(savedBill.getBillParams().get(i).getParamId().equalsIgnoreCase("amount"))
+                                                    recentBill.setAmount(savedBill.getBillParams().get(i).getParamValue());
+                                                if(savedBill.getBillParams().get(i).getParamId().equalsIgnoreCase("amountType"))
+                                                    recentBill.setAmountType(savedBill.getBillParams().get(i).getParamValue());
+                                                if(savedBill.getBillParams().get(i).getParamId().equalsIgnoreCase("locationCode"))
+                                                    recentBill.setAmountType(savedBill.getBillParams().get(i).getParamValue());
+
+                                            }
+
+                                        }
+                                        tempRecentBills.add(recentBill);
+                                        break;
+
+                                    }
+                                }
+
+                                if(!isFound) {
+                                    recentBill.setSaved(false);
+                                    tempRecentBills.add(recentBill);
+                                }
+                            }
+
+                            dataHelper.createBills(tempRecentBills);
+                        }else {
+                            List<RecentBill> tempRecentBills = new ArrayList<>();
+
+                            for(RecentBill recentBill: mRecentBill) {
+                                recentBill.setSaved(false);
+                                tempRecentBills.add(recentBill);
+                            }
+                            dataHelper.createBills(tempRecentBills);
+                        }
+                    }
+
+					mRecentBill = dataHelper.getBills(providerCode);
+
+                    Intent intent = new Intent(getActivity(), UtilityBillPaymentActivity.class);
+                    intent.putExtra(Constants.SERVICE, providerCode);
+
+                    if((mRecentBill !=null && mRecentBill.size()>0) || (mSavedBills != null&& mSavedBills.size()>0)){
+                        intent.putExtra("SAVED_DATA", (Serializable) mSavedBills);
+                        intent.putExtra("RECENT_DATA", (Serializable) mRecentBill);
+                    }
+                    startActivityForResult(intent, REQUEST_CODE_SUCCESSFUL_ACTIVITY_FINISH);
+					mProgressDialog.dismissDialogue();
+					mGetSavedBillListTask = null;
+					break;
+
+
 		}
 	}
 
@@ -507,7 +623,13 @@ public class HomeFragment extends BaseFragment implements HttpResponseListener {
 				Intent intent;
 				switch (provider) {
 					case Constants.DESCO:
+					    providerCode = "DESCO";
+						getSavedList(providerCode);
+						break;
 					case Constants.DPDC:
+                        providerCode = "DPDC";
+                        getSavedList(providerCode);
+						break;
 					case Constants.WASA:
 						intent = new Intent(getActivity(), UtilityBillPaymentActivity.class);
 						intent.putExtra(Constants.SERVICE, provider);
@@ -541,6 +663,18 @@ public class HomeFragment extends BaseFragment implements HttpResponseListener {
 					Constants.BASE_URL_SM + Constants.URL_GET_BANK_LIST, getContext(), this, false);
 			mGetBankListAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		}
+	}
+
+	private void getSavedList(String providerCode) {
+		mProgressDialog.show();
+		if (mGetSavedBillListTask != null) {
+			return;
+		}
+
+		mGetSavedBillListTask = new HttpRequestGetAsyncTask(Constants.COMMAND_GET_SAVED_BILL_LIST,
+				Constants.BASE_URL_UTILITY + "/scheduled/saved-bills/?providerCodes="+providerCode, getActivity(), false);
+		mGetSavedBillListTask.mHttpResponseListener = this;
+		mGetSavedBillListTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
 
 }

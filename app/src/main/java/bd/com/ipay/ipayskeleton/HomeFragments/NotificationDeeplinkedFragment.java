@@ -89,9 +89,9 @@ public class NotificationDeeplinkedFragment extends ProgressFragment implements 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_notifications, container, false);
 
-        mSwipeRefreshLayout = (CustomSwipeRefreshLayout) v.findViewById(R.id.swipe_refresh_layout);
-        mNotificationsRecyclerView = (RecyclerView) v.findViewById(R.id.list_notification);
-        mEmptyListTextView = (TextView) v.findViewById(R.id.empty_list_text);
+        mSwipeRefreshLayout = v.findViewById(R.id.swipe_refresh_layout);
+        mNotificationsRecyclerView = v.findViewById(R.id.list_notification);
+        mEmptyListTextView = v.findViewById(R.id.empty_list_text);
         if (mEmptyListTextView != null) {
             mEmptyListTextView.setText("You do not have any notifications");
         }
@@ -332,13 +332,13 @@ public class NotificationDeeplinkedFragment extends ProgressFragment implements 
             public NotificationViewHolder(final View itemView) {
                 super(itemView);
 
-                mNameView = (TextView) itemView.findViewById(R.id.textview_description);
-                mTimeView = (TextView) itemView.findViewById(R.id.textview_time);
-                mProfileImageView = (ProfileImageView) itemView.findViewById(R.id.profile_picture);
-                mLoadMoreProgressBar = (ProgressBar) itemView.findViewById(R.id.progress_bar);
-                mLoadMoreTextView = (TextView) itemView.findViewById(R.id.load_more);
-                titleView = (TextView) itemView.findViewById(R.id.textview_title);
-                notificationHolderLayout = (LinearLayout) itemView.findViewById(R.id.notification_holder);
+                mNameView = itemView.findViewById(R.id.textview_description);
+                mTimeView = itemView.findViewById(R.id.textview_time);
+                mProfileImageView = itemView.findViewById(R.id.profile_picture);
+                mLoadMoreProgressBar = itemView.findViewById(R.id.progress_bar);
+                mLoadMoreTextView = itemView.findViewById(R.id.load_more);
+                titleView = itemView.findViewById(R.id.textview_title);
+                notificationHolderLayout = itemView.findViewById(R.id.notification_holder);
             }
 
             private void setItemVisibilityOfFooterView() {
@@ -392,7 +392,7 @@ public class NotificationDeeplinkedFragment extends ProgressFragment implements 
                                     deepLinkedNotification.getMeta().getImageUrl().equals("")) {
                                 Intent intent = new Intent(getActivity(), WebViewActivity.class);
                                 intent.putExtra("url", mDeepLinkedNotifications.get(pos).getDeepLink());
-                                intent.putExtra("sourceActivity", "Notification");
+                                intent.putExtra("sourceActivity", "NotificationForOther");
                                 startActivity(intent);
                                 new Handler().postDelayed(new Runnable() {
                                     @Override

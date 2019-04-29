@@ -11,9 +11,11 @@ import java.math.BigDecimal;
 
 import bd.com.ipay.ipayskeleton.Activities.UtilityBillPayActivities.IPayUtilityBillPayActionActivity;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractAmountFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.LinkThree.LinkThreeBillConfirmationFragment;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.SharedPrefManager;
+import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Utilities.DialogUtils;
 import bd.com.ipay.ipayskeleton.Utilities.InputValidator;
 import bd.com.ipay.ipayskeleton.Utilities.ServiceIdConstants;
@@ -24,11 +26,16 @@ public class LankaBanglaDpsAmountInputFragment extends IPayAbstractAmountFragmen
 	static final String ACCOUNT_NUMBER_KEY = "ACCOUNT_NUMBER";
 	static final String ACCOUNT_USER_NAME_KEY = "ACCOUNT_USER_NAME";
 	public static final String INSTALLMENT_AMOUNT_KEY = "INSTALLMENT_AMOUNT";
+	static final String OTHER_PERSON_NAME_KEY = "OTHER_PERSON_NAME";
+	static final String OTHER_PERSON_MOBILE_KEY = "OTHER_PERSON_MOBILE";
 
 
 	private String installmentAmount;
 	private String accountNumber;
 	private String accountUserName;
+	private String otherPersonName;
+	private String otherPersonMobile;
+	private boolean isFromSaved;
 
 
 	@Override
@@ -39,6 +46,9 @@ public class LankaBanglaDpsAmountInputFragment extends IPayAbstractAmountFragmen
 			installmentAmount = getArguments().getString(INSTALLMENT_AMOUNT_KEY, "");
 			accountNumber = getArguments().getString(ACCOUNT_NUMBER_KEY, "");
 			accountUserName = getArguments().getString(ACCOUNT_USER_NAME_KEY, "");
+			otherPersonName = getArguments().getString(OTHER_PERSON_NAME_KEY, "");
+			otherPersonMobile = getArguments().getString(OTHER_PERSON_MOBILE_KEY, "");
+			isFromSaved = getArguments().getBoolean("IS_FROM_HISTORY", false);
 		}
 	}
 
@@ -127,7 +137,18 @@ public class LankaBanglaDpsAmountInputFragment extends IPayAbstractAmountFragmen
 		bundle.putString(ACCOUNT_USER_NAME_KEY, accountUserName);
 		bundle.putSerializable(INSTALLMENT_AMOUNT_KEY, getAmount());
 
+
+		bundle.putString(OTHER_PERSON_NAME_KEY, otherPersonName);
+		bundle.putString(OTHER_PERSON_MOBILE_KEY, otherPersonMobile);
+
+		if(isFromSaved) {
+			bundle.putBoolean("IS_FROM_HISTORY", true);
+		}
+
 		if (getActivity() instanceof IPayUtilityBillPayActionActivity) {
+			int maxBackStack=2;
+			if(isFromSaved)
+				maxBackStack =3;
 			((IPayUtilityBillPayActionActivity) getActivity()).switchFragment(new LankaBanglaDpsBillConfirmationFragment(), bundle, 2, true);
 		}
 	}

@@ -155,7 +155,7 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.firebase:firebase-client-android:2.4.0'
     implementation 'com.github.drawers:SpinnerDatePicker:1.0.6'
-    // Notification badge
+    // NotificationForOther badge
     implementation 'com.mikepenz:actionitembadge:3.2.6@aar'
     implementation 'com.mikepenz:iconics-core:2.6.6@aar'
     // Aspect

@@ -6,12 +6,22 @@ public class LankaBanglaCardBillPayRequest {
     private String amountType;
     private String pin;
     private String otp;
+    bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.MetaData metaData;
 
     public LankaBanglaCardBillPayRequest(String cardNumber, String amount, String amountType, String pin) {
         this.cardNumber = cardNumber;
         this.amount = amount;
         this.amountType = amountType;
         this.pin = pin;
+    }
+
+    public LankaBanglaCardBillPayRequest(String cardNumber, String amount, String amountType, String pin, MetaData metaData) {
+        this.cardNumber = cardNumber;
+        this.amount = amount;
+        this.amountType = amountType;
+        this.pin = pin;
+        this.otp = otp;
+        this.metaData = metaData;
     }
 
     public String getCardNumber() {

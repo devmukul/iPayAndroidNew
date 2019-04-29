@@ -9,6 +9,7 @@ public class DpdcBillPayRequest {
     private String pin;
     private String otp;
     private String locationCode;
+    private MetaData metaData;
 
     public DpdcBillPayRequest(String accountNumber, String billMonths, String billYears, String chequeRemarks, String pin, String locationCode) {
         this.accountNumber = accountNumber;
@@ -27,6 +28,16 @@ public class DpdcBillPayRequest {
         this.pin = pin;
         this.otp = otp;
         this.locationCode = locationCode;
+    }
+
+    public DpdcBillPayRequest(String accountNumber, String billMonths, String billYears, String chequeRemarks, String pin, String locationCode, MetaData metaData) {
+        this.accountNumber = accountNumber;
+        this.billMonths = billMonths;
+        this.billYears = billYears;
+        this.chequeRemarks = chequeRemarks;
+        this.pin = pin;
+        this.locationCode = locationCode;
+        this.metaData = metaData;
     }
 
     public String getAccountNumber() {
@@ -83,5 +94,13 @@ public class DpdcBillPayRequest {
 
     public void setLocationCode(String locationCode) {
         this.locationCode = locationCode;
+    }
+
+    public MetaData getMetaData() {
+        return metaData;
+    }
+
+    public void setMetaData(MetaData metaData) {
+        this.metaData = metaData;
     }
 }

@@ -31,6 +31,7 @@ import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Utilities.Utilities;
 
+import static bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.ProfileCompletion.ProfileCompletionPropertyConstants.ADD_AND_VERIFY_BANK;
 import static bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.ProfileCompletion.ProfileCompletionPropertyConstants.BASIC_PROFILE;
 import static bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.ProfileCompletion.ProfileCompletionPropertyConstants.BUSINESS_ADDRESS;
 import static bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.ProfileCompletion.ProfileCompletionPropertyConstants.BUSINESS_DOCUMENTS;
@@ -147,6 +148,9 @@ public class ProfileActivity extends BaseActivity {
         Fragment fragment = null;
         switch (targetFragment) {
             case Constants.VERIFY_BANK:
+                launchIntendedActivity(new ManageBanksActivity(), Constants.BANK_ACCOUNT);
+                break;
+            case ADD_AND_VERIFY_BANK:
                 launchIntendedActivity(new ManageBanksActivity(), Constants.BANK_ACCOUNT);
                 break;
             case Constants.ADD_BANK:

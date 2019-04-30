@@ -4,8 +4,15 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import java.io.Serializable;
+import java.util.List;
+
 import bd.com.ipay.ipayskeleton.Activities.BaseActivity;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.BusinessRuleAndServiceCharge.BusinessRule.MandatoryBusinessRules;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SaveBill.RecentBill;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SaveBill.SavedBill;
+import bd.com.ipay.ipayskeleton.PaymentFragments.SaveAndScheduleBill.DESCOSavedNumberSelectFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.SaveAndScheduleBill.DPDCSavedNumberSelectFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.AmberITBillPayFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.BanglalionBillPayFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.BrilliantBillPayFragment;
@@ -31,6 +38,13 @@ public class UtilityBillPaymentActivity extends BaseActivity {
 
     public static MandatoryBusinessRules mMandatoryBusinessRules;
 
+
+    public static final String OTHER_PERSON_NAME_KEY = "OTHER_PERSON_NAME";
+    public static final String OTHER_PERSON_MOBILE_KEY = "OTHER_PERSON_MOBILE";
+
+    private List<SavedBill> savedBills;
+    private List<RecentBill> recentBills;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,9 +61,24 @@ public class UtilityBillPaymentActivity extends BaseActivity {
                 } else if (service.equals(Constants.WESTZONE)) {
                     switchToWestZoneBillPayFragment();
                 } else if (service.equals(Constants.DESCO)) {
-                    switchToDescoBillPayFragment();
+                    if(getIntent().hasExtra("SAVED_DATA"))
+                        savedBills = (List<SavedBill>) getIntent().getSerializableExtra("SAVED_DATA");
+                    if(getIntent().hasExtra("RECENT_DATA"))
+                        recentBills = (List<RecentBill>) getIntent().getSerializableExtra("RECENT_DATA");
+                    if((recentBills !=null && recentBills.size()>0) || (savedBills != null&& savedBills.size()>0)) {
+                        switchToDescoSavedBillPayFragment();
+                    }else
+                        switchToDescoBillPayFragment();
                 } else if (service.equals(Constants.DPDC)) {
-                    switchToDpdcBillPaymentFragment();
+
+                    if(getIntent().hasExtra("SAVED_DATA"))
+                        savedBills = (List<SavedBill>) getIntent().getSerializableExtra("SAVED_DATA");
+                    if(getIntent().hasExtra("RECENT_DATA"))
+                        recentBills = (List<RecentBill>) getIntent().getSerializableExtra("RECENT_DATA");
+                    if((recentBills !=null && recentBills.size()>0) || (savedBills != null&& savedBills.size()>0)) {
+                        switchToDpdcSavedBillPayFragment();
+                    }else
+                        switchToDpdcBillPaymentFragment();
                 } else if (service.equals(Constants.AMBERIT)) {
                     switchToAmberITBillPaymentFragment();
                 }else if (service.equals(Constants.WASA)) {
@@ -79,10 +108,53 @@ public class UtilityBillPaymentActivity extends BaseActivity {
                 .replace(R.id.fragment_container, new UtilityProviderListFragment()).commit();
     }
 
+    public void switchToDescoSavedBillPayFragment() {
+        Bundle bundle = new Bundle();
+
+        bundle.putString(Constants.NAME, getString(R.string.desco));
+        bundle.putSerializable("SAVED_DATA", (Serializable) savedBills);
+        bundle.putSerializable("RECENT_DATA", (Serializable) recentBills);
+
+
+        DESCOSavedNumberSelectFragment dpdcSavedNumberSelectFragment = new DESCOSavedNumberSelectFragment();
+        dpdcSavedNumberSelectFragment.setArguments(bundle);
+
+        getSupportFragmentManager().beginTransaction().
+                replace(R.id.fragment_container, dpdcSavedNumberSelectFragment).commit();
+    }
+
+    public void switchToDpdcSavedBillPayFragment() {
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.NAME, getString(R.string.dpdc));
+        bundle.putSerializable("SAVED_DATA", (Serializable) savedBills);
+        bundle.putSerializable("RECENT_DATA", (Serializable) recentBills);
+
+        DPDCSavedNumberSelectFragment dpdcSavedNumberSelectFragment = new DPDCSavedNumberSelectFragment();
+        dpdcSavedNumberSelectFragment.setArguments(bundle);
+
+        getSupportFragmentManager().beginTransaction().
+                replace(R.id.fragment_container, dpdcSavedNumberSelectFragment).commit();
+    }
+
     public void switchToDescoBillPayFragment() {
 
         getSupportFragmentManager().beginTransaction().
                 replace(R.id.fragment_container, new DescoEnterBillNumberFragment()).commit();
+    }
+
+    public void switchToDescoBillPayFragment(Bundle bundle) {
+        DescoEnterBillNumberFragment descoEnterBillNumberFragment = new DescoEnterBillNumberFragment();
+        descoEnterBillNumberFragment.setArguments(bundle);
+
+        getSupportFragmentManager().beginTransaction().
+                replace(R.id.fragment_container, descoEnterBillNumberFragment).commit();
+    }
+
+    public void switchToDpdcBillPaymentFragment(Bundle bundle) {
+        DPDCEnterAccountNumberFragment descoEnterBillNumberFragment = new DPDCEnterAccountNumberFragment();
+        descoEnterBillNumberFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().
+                replace(R.id.fragment_container, descoEnterBillNumberFragment).commit();
     }
 
     public void switchToDescoBillInfoFragment(Bundle bundle) {
@@ -120,7 +192,7 @@ public class UtilityBillPaymentActivity extends BaseActivity {
                 replace(R.id.fragment_container, new WASAEnterBillNumberFragment()).commit();
     }
 
-    private void switchToDpdcBillPaymentFragment() {
+    public void switchToDpdcBillPaymentFragment() {
         getSupportFragmentManager().beginTransaction().
                 replace(R.id.fragment_container, new DPDCEnterAccountNumberFragment()).commit();
     }

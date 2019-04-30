@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.view.View;
 
 import java.math.BigDecimal;
@@ -14,6 +15,8 @@ import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractAmountFragment;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.SharedPrefManager;
+import bd.com.ipay.ipayskeleton.Utilities.Constants;
+import bd.com.ipay.ipayskeleton.Utilities.DecimalDigitsInputFilter;
 import bd.com.ipay.ipayskeleton.Utilities.DialogUtils;
 import bd.com.ipay.ipayskeleton.Utilities.InputValidator;
 import bd.com.ipay.ipayskeleton.Utilities.ServiceIdConstants;
@@ -23,9 +26,15 @@ public class LinkThreeBillAmountInputFragment extends IPayAbstractAmountFragment
 
 	static final String USER_NAME_KEY = "USER_NAME";
 	static final String SUBSCRIBER_ID_KEY = "SUBSCRIBER_ID";
+	static final String OTHER_PERSON_NAME_KEY = "OTHER_PERSON_NAME";
+	static final String OTHER_PERSON_MOBILE_KEY = "OTHER_PERSON_MOBILE";
 
 	private String userName;
 	private String subscriberId;
+    private String otherPersonName;
+    private String otherPersonMobile;
+	private String amount;
+	private boolean isFromSaved;
 
 
 	@Override
@@ -34,6 +43,11 @@ public class LinkThreeBillAmountInputFragment extends IPayAbstractAmountFragment
 		if (getArguments() != null) {
 			userName = getArguments().getString(USER_NAME_KEY, "");
 			subscriberId = getArguments().getString(SUBSCRIBER_ID_KEY, "");
+            otherPersonName = getArguments().getString(OTHER_PERSON_NAME_KEY, "");
+            otherPersonMobile = getArguments().getString(OTHER_PERSON_MOBILE_KEY, "");
+			isFromSaved = getArguments().getBoolean("IS_FROM_HISTORY", false);
+			amount = getArguments().getString(Constants.AMOUNT);
+
 		}
 	}
 
@@ -41,15 +55,17 @@ public class LinkThreeBillAmountInputFragment extends IPayAbstractAmountFragment
 	protected void setupViewProperties() {
 		setBalanceInfoLayoutVisibility(View.VISIBLE);
 		hideTransactionDescription();
-		setInputType(InputType.TYPE_CLASS_NUMBER);
+		setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_CLASS_NUMBER);
 		setTransactionImageResource(R.drawable.link_three_logo);
 		setName(subscriberId);
 		setUserName(userName);
+		if(!TextUtils.isEmpty(amount))
+			setAmount(amount);
 	}
 
 	@Override
 	protected InputFilter getInputFilter() {
-		return new InputFilter() {
+		return new DecimalDigitsInputFilter() {
 			@Override
 			public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
 				if (source != null) {
@@ -71,11 +87,10 @@ public class LinkThreeBillAmountInputFragment extends IPayAbstractAmountFragment
 						e.printStackTrace();
 					}
 				}
-				return null;
+				return super.filter(source, start, end, dest, dstart, dend);
 			}
 		};
 	}
-
 	@Override
 	protected boolean verifyInput() {
 		if (!Utilities.isValueAvailable(businessRules.getMIN_AMOUNT_PER_PAYMENT())
@@ -121,10 +136,19 @@ public class LinkThreeBillAmountInputFragment extends IPayAbstractAmountFragment
 		Bundle bundle = new Bundle();
 		bundle.putString(SUBSCRIBER_ID_KEY, subscriberId);
 		bundle.putString(USER_NAME_KEY, userName);
+        bundle.putString(OTHER_PERSON_NAME_KEY, otherPersonName);
+        bundle.putString(OTHER_PERSON_MOBILE_KEY, otherPersonMobile);
 		bundle.putSerializable(LinkThreeBillConfirmationFragment.BILL_AMOUNT_KEY, getAmount());
 
+		if(isFromSaved) {
+			bundle.putBoolean("IS_FROM_HISTORY", true);
+		}
+
 		if (getActivity() instanceof IPayUtilityBillPayActionActivity) {
-			((IPayUtilityBillPayActionActivity) getActivity()).switchFragment(new LinkThreeBillConfirmationFragment(), bundle, 2, true);
+			int maxBackStack=2;
+			if(isFromSaved)
+				maxBackStack =3;
+			((IPayUtilityBillPayActionActivity) getActivity()).switchFragment(new LinkThreeBillConfirmationFragment(), bundle, maxBackStack, true);
 		}
 	}
 

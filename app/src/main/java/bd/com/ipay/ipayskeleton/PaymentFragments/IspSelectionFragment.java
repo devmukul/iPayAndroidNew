@@ -19,20 +19,31 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import bd.com.ipay.ipayskeleton.Activities.PaymentActivities.UtilityBillPaymentActivity;
 import bd.com.ipay.ipayskeleton.Activities.UtilityBillPayActivities.IPayUtilityBillPayActionActivity;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestGetAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
+import bd.com.ipay.ipayskeleton.DatabaseHelper.DataHelper;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.ISP;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SaveBill.GetSavedBillResponse;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SaveBill.RecentBill;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SaveBill.SavedBill;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.GetProviderResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.Provider;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.ProviderCategory;
+import bd.com.ipay.ipayskeleton.PaymentFragments.SaveAndScheduleBill.BillPaySavedNumberSelectFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.Carnival.CarnivalIdInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.LinkThree.LinkThreeSubscriberIdInputFragment;
 import bd.com.ipay.ipayskeleton.R;
@@ -54,6 +65,15 @@ public class IspSelectionFragment extends Fragment implements HttpResponseListen
     private List<ISP> ispTypes;
     private PinChecker pinChecker;
 
+    private HttpRequestGetAsyncTask mGetSavedBillListTask;
+    private GetSavedBillResponse mSavedBillResponse;
+    private List<SavedBill> mSavedBills = new ArrayList<>();
+    List<RecentBill> mRecentBill = new ArrayList<>();
+    DataHelper dataHelper ;
+
+    CustomProgressDialog mCustomProgressDialog;
+    SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+
     private static final int REQUEST_CODE_SUCCESSFUL_ACTIVITY_FINISH = 100;
 
     @Nullable
@@ -65,7 +85,10 @@ public class IspSelectionFragment extends Fragment implements HttpResponseListen
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        dataHelper = DataHelper.getInstance(getContext());
         mProviderAvailabilityMap = new HashMap<>();
+
+        mCustomProgressDialog = new CustomProgressDialog(getContext());
 
         mIspListRecyclerView = view.findViewById(R.id.user_bank_list_recycler_view);
         mProgressLayout = view.findViewById(R.id.progress_layout);
@@ -90,8 +113,6 @@ public class IspSelectionFragment extends Fragment implements HttpResponseListen
         ispTypes.add(cardType);
         cardType = new ISP(getActivity().getString(R.string.banglalion), Constants.BLION , R.drawable.banglalion);
         ispTypes.add(cardType);
-        cardType = new ISP(getActivity().getString(R.string.brilliant), Constants.BRILLIANT , R.drawable.brilliant_logo);
-        ispTypes.add(cardType);
         cardType = new ISP(getActivity().getString(R.string.carnival), Constants.CARNIVAL ,  R.drawable.ic_carnival);
         ispTypes.add(cardType);
         cardType = new ISP(getActivity().getString(R.string.link_three), Constants.LINK3 , R.drawable.link_three_logo);
@@ -109,10 +130,25 @@ public class IspSelectionFragment extends Fragment implements HttpResponseListen
         mGetUtilityProviderListTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
+    private void getSavedList(String providerCode) {
+        mCustomProgressDialog.show();
+        if (mGetSavedBillListTask != null) {
+            return;
+        }
+
+        mGetSavedBillListTask = new HttpRequestGetAsyncTask(Constants.COMMAND_GET_SAVED_BILL_LIST,
+                Constants.BASE_URL_UTILITY + "/scheduled/saved-bills/?providerCodes="+providerCode, getActivity(), false);
+        mGetSavedBillListTask.mHttpResponseListener = this;
+        mGetSavedBillListTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
         if (HttpErrorHandler.isErrorFound(result, getContext(), null)) {
+
             mGetUtilityProviderListTask = null;
+            mGetSavedBillListTask = null;
+            mCustomProgressDialog.dismissDialogue();
             return;
         }
         try {
@@ -139,10 +175,106 @@ public class IspSelectionFragment extends Fragment implements HttpResponseListen
                     }
                     mGetUtilityProviderListTask = null;
                 }
+            } else if (result.getApiCommand().equals(Constants.COMMAND_GET_SAVED_BILL_LIST)) {
+                if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
+                    mSavedBillResponse = new Gson().fromJson(result.getJsonString(), GetSavedBillResponse.class);
+                    mSavedBills = mSavedBillResponse.getSavedBills();
+                    mRecentBill = dataHelper.getBills("LINK3");
+
+                    if (mSavedBills != null && mSavedBills.size() > 0) {
+
+                        List<RecentBill> tempRecentBills = new ArrayList<>();
+
+                        for (RecentBill recentBill : mRecentBill) {
+                            String providerCode = recentBill.getParamValue();
+                            boolean isFound = false;
+                            for (SavedBill savedBill : mSavedBills) {
+                                if (savedBill.getBillParams().get(0).getParamValue().equalsIgnoreCase(providerCode)) {
+                                    isFound = true;
+                                    recentBill.setShortName(savedBill.getShortName());
+                                    recentBill.setScheduledToo(savedBill.getIsScheduledToo());
+                                    recentBill.setSaved(true);
+                                    recentBill.setProviderCode(savedBill.getProviderCode());
+                                    recentBill.setDateOfBillPayment(savedBill.getDateOfBillPayment());
+                                    Date date1 =null;
+                                    Date date2 = null;
+                                    try {
+                                        date2 = dateFormater.parse(savedBill.getLastPaid());
+                                        date1 = dateFormater.parse(recentBill.getLastPaid());
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                    if (date1.compareTo(date2) <= 0) {
+                                        recentBill.setLastPaid(savedBill.getLastPaid());
+                                    }
+                                    if (date1.compareTo(date2) <= 0) {
+                                        recentBill.setLastPaid(savedBill.getLastPaid());
+                                    }
+                                    recentBill.setPaidForOthers(savedBill.getPaidForOthers());
+                                    recentBill.setMetaData(new Gson().toJson(savedBill.getMetaData()));
+
+                                    recentBill.setParamId(savedBill.getBillParams().get(0).getParamId());
+                                    recentBill.setParamLabel(savedBill.getBillParams().get(0).getParamLabel());
+                                    recentBill.setParamValue(savedBill.getBillParams().get(0).getParamValue());
+                                    if (savedBill.getBillParams().size() > 1) {
+                                        for (int i = 1; i < savedBill.getBillParams().size(); i++) {
+                                            if (savedBill.getBillParams().get(i).getParamId().equalsIgnoreCase("amount"))
+                                                recentBill.setAmount(savedBill.getBillParams().get(i).getParamValue());
+                                            if (savedBill.getBillParams().get(i).getParamId().equalsIgnoreCase("amountType"))
+                                                recentBill.setAmountType(savedBill.getBillParams().get(i).getParamValue());
+                                            if (savedBill.getBillParams().get(i).getParamId().equalsIgnoreCase("locationCode"))
+                                                recentBill.setAmountType(savedBill.getBillParams().get(i).getParamValue());
+
+                                        }
+
+                                    }
+                                    tempRecentBills.add(recentBill);
+                                    break;
+
+                                }
+                            }
+
+                            if (!isFound) {
+                                recentBill.setSaved(false);
+                                tempRecentBills.add(recentBill);
+                            }
+                        }
+
+                        dataHelper.createBills(tempRecentBills);
+                    } else {
+                        List<RecentBill> tempRecentBills = new ArrayList<>();
+
+                        for (RecentBill recentBill : mRecentBill) {
+                            recentBill.setSaved(false);
+                            tempRecentBills.add(recentBill);
+                        }
+                        dataHelper.createBills(tempRecentBills);
+                    }
+                }
+
+                mRecentBill = dataHelper.getBills("LINK3");
+
+                if((mRecentBill !=null && mRecentBill.size()>0) || (mSavedBills != null&& mSavedBills.size()>0)){
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Constants.NAME, getString(R.string.link_three));
+                    bundle.putSerializable("SAVED_DATA", (Serializable) mSavedBills);
+                    bundle.putSerializable("RECENT_DATA", (Serializable) mRecentBill);
+                    ((IPayUtilityBillPayActionActivity) getActivity()).
+                            switchFragment(new BillPaySavedNumberSelectFragment(), bundle, 1, true);
+                }else{
+                    ((IPayUtilityBillPayActionActivity) getActivity()).
+                            switchFragment(new LinkThreeSubscriberIdInputFragment(), null, 1, true);
+                }
+                mCustomProgressDialog.dismissDialogue();
+                mGetSavedBillListTask = null;
             }
 
         } catch (Exception e) {
-            mGetUtilityProviderListTask = null;
+            mCustomProgressDialog.dismissDialogue();
+            ((IPayUtilityBillPayActionActivity) getActivity()).
+                    switchFragment(new LinkThreeSubscriberIdInputFragment(), null, 1, true);
+
+            mGetSavedBillListTask = null;
         }
     }
 
@@ -219,8 +351,7 @@ public class IspSelectionFragment extends Fragment implements HttpResponseListen
                         getActivity().finish();
                         break;
                     case Constants.LINK3:
-                        ((IPayUtilityBillPayActionActivity) getActivity()).
-                                switchFragment(new LinkThreeSubscriberIdInputFragment(), null, 1, true);
+                        getSavedList("LINK3");
                         break;
                     case Constants.CARNIVAL:
                         ((IPayUtilityBillPayActionActivity) getActivity()).

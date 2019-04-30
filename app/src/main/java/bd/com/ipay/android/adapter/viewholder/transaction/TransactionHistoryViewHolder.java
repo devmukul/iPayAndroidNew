@@ -148,6 +148,9 @@ public class TransactionHistoryViewHolder extends PagedListViewHolder<Transactio
                     .load(Constants.BASE_URL_FTP_SERVER
                             + transactionHistory.getAdditionalInfo()
                             .getUserProfilePic())
+
+                    .placeholder(R.drawable.ic_profile)
+                    .error(R.drawable.ic_profile)
                     .transform(circleTransform)
                     .crossFade()
                     .into(transactionImageView);
@@ -156,6 +159,8 @@ public class TransactionHistoryViewHolder extends PagedListViewHolder<Transactio
                 Glide.with(itemView.getContext())
                         .load(transactionHistory.getAdditionalInfo().
                                 getImageWithType(itemView.getContext()))
+                        .placeholder(R.drawable.ic_profile)
+                        .error(R.drawable.ic_profile)
                         .transform(circleTransform)
                         .crossFade()
                         .into(transactionImageView);

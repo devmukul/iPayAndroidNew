@@ -12,7 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -28,6 +31,11 @@ public abstract class IPayAbstractUserIdInputFragment extends Fragment {
 	private TextView inputMessageTextView;
 	private EditText userIdEditText;
 	private Button continueButton;
+	private View otherPersionMobileView;
+	private View otherPersionNameView;
+	private EditText otherPersionMobileEditText;
+	private EditText otherPersionNameEditText;
+	private CheckBox isOtherPerson;
 
 	@Nullable
 	@Override
@@ -44,6 +52,27 @@ public abstract class IPayAbstractUserIdInputFragment extends Fragment {
 		merchantIconImageView = view.findViewById(R.id.merchant_icon_image_view);
 		inputMessageTextView = view.findViewById(R.id.input_message_text_view);
 		userIdEditText = view.findViewById(R.id.user_id_edit_text);
+		otherPersionMobileView = view.findViewById(R.id.other_person_mobile_view);
+		otherPersionNameView = view.findViewById(R.id.other_person_name_view);
+		otherPersionMobileEditText = view.findViewById(R.id.other_person_mobile_edit_text);
+		otherPersionNameEditText = view.findViewById(R.id.other_person_name_edit_text);
+		isOtherPerson = view.findViewById(R.id.paying_for_other_option);
+
+		isOtherPerson.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+				if (b){
+					otherPersionNameView.setVisibility(View.VISIBLE);
+					otherPersionMobileView.setVisibility(View.VISIBLE);
+				}else{
+					otherPersionNameView.setVisibility(View.GONE);
+					otherPersionMobileView.setVisibility(View.GONE);
+				}
+
+			}
+		});
+
 
 		if (getActivity() instanceof AppCompatActivity) {
 			((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
@@ -81,8 +110,6 @@ public abstract class IPayAbstractUserIdInputFragment extends Fragment {
 				.into(merchantIconImageView);
 	}
 
-
-
 	protected void setInputMessage(CharSequence inputMessage) {
 		inputMessageTextView.setVisibility(View.VISIBLE);
 		inputMessageTextView.setText(inputMessage, TextView.BufferType.SPANNABLE);
@@ -95,6 +122,34 @@ public abstract class IPayAbstractUserIdInputFragment extends Fragment {
 	protected String getUserId() {
 		return TextUtils.isEmpty(userIdEditText.getText()) ? null : userIdEditText.getText().toString().trim();
 	}
+
+	protected void setUserId(CharSequence userId) {
+        userIdEditText.setText(userId);
+	}
+
+	protected void setOtherPersonChecked(boolean isChecked){
+		isOtherPerson.setChecked(isChecked);
+	}
+
+	protected boolean ifPayingForOtherPerson() {
+        return isOtherPerson.isChecked();
+    }
+
+	protected void setOtherPersonName(CharSequence inputMessag) {
+		otherPersionNameEditText.setText(inputMessag);
+	}
+
+	protected void setOtherPersonMobile(CharSequence inputMessag) {
+		otherPersionMobileEditText.setText(inputMessag);
+	}
+
+    protected String getOtherPersonName() {
+        return TextUtils.isEmpty(otherPersionNameEditText.getText()) ? null : otherPersionNameEditText.getText().toString().trim();
+    }
+
+    protected String getOtherPersonMobile() {
+        return TextUtils.isEmpty(otherPersionMobileEditText.getText()) ? null : otherPersionMobileEditText.getText().toString().trim();
+    }
 
 	protected void showErrorMessage(String errorMessage) {
 		if (!TextUtils.isEmpty(errorMessage) && getActivity() != null) {

@@ -61,6 +61,11 @@ public class DescoBillInfoFragment extends Fragment {
     private Button payBillButton;
     private final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
 
+    private String billMonth;
+    private String billYear;
+    private String otherPersonName;
+    private String otherPersonMobile;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -79,6 +84,13 @@ public class DescoBillInfoFragment extends Fragment {
         billAmountString = numberFormat.format(billAmount);
         billNumberString = bundle.getString(Constants.BILL_NUMBER);
         accountIdString = bundle.getString(Constants.ACCOUNT_ID);
+
+        billMonth = bundle.getString(Constants.BILL_MONTH);
+        billYear = bundle.getString(Constants.BILL_YEAR);
+
+        otherPersonName = bundle.getString(UtilityBillPaymentActivity.OTHER_PERSON_NAME_KEY, "");
+        otherPersonMobile = bundle.getString(UtilityBillPaymentActivity.OTHER_PERSON_MOBILE_KEY, "");
+
         if (stampAmount != null) {
             stampAmountString = numberFormat.format(stampAmount);
         } else {
@@ -143,6 +155,12 @@ public class DescoBillInfoFragment extends Fragment {
                     bundle.putString(Constants.BILL_NUMBER, billNumberString);
                     bundle.putSerializable(Constants.TOTAL_AMOUNT, totalAmount);
                     bundle.putString(Constants.ACCOUNT_ID, accountIdString);
+
+                    bundle.putString(Constants.BILL_MONTH, billMonth);
+                    bundle.putString(Constants.BILL_YEAR, billYear);
+
+                    bundle.putString(UtilityBillPaymentActivity.OTHER_PERSON_NAME_KEY, otherPersonName);
+                    bundle.putString(UtilityBillPaymentActivity.OTHER_PERSON_MOBILE_KEY, otherPersonMobile);
                     ((UtilityBillPaymentActivity) getActivity()).switchToDescoBillConfirmationFragment(bundle);
                 }
             }

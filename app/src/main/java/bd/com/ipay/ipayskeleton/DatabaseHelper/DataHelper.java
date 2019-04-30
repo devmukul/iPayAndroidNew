@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SaveBill.RecentBill;
 import bd.com.ipay.ipayskeleton.Model.Contact.ContactNode;
 import bd.com.ipay.ipayskeleton.Model.SqLiteDatabase.BusinessAccountEntry;
 import bd.com.ipay.ipayskeleton.Utilities.ToasterAndLogger.Logger;
@@ -16,7 +17,7 @@ import bd.com.ipay.ipayskeleton.Utilities.TokenManager;
 
 public class DataHelper {
 
-    private static final int DATABASE_VERSION = 15;
+    private static final int DATABASE_VERSION = 16;
 
     private final Context context;
     private static DataHelper instance = null;
@@ -79,6 +80,158 @@ public class DataHelper {
         }
     }
 
+    public void createBills(List<RecentBill> billList) {
+        if (billList != null && !billList.isEmpty()) {
+
+            SQLiteDatabase db = dOpenHelper.getWritableDatabase();
+            db.beginTransaction();
+            try {
+                for (RecentBill recentBill : billList) {
+                    ContentValues values = new ContentValues();
+                    values.put(DBConstants.KEY_BILL_PROVIDER_CODE, recentBill.getProviderCode());
+                    values.put(DBConstants.KEY_BILL_PROVIDER_NAME, recentBill.getShortName());
+                    values.put(DBConstants.KEY_BILL_IS_SAVED, recentBill.getSaved() ? 1 : 0 );
+                    values.put(DBConstants.KEY_BILL_IS_SCHEDULED, recentBill.getScheduledToo() ? 1 : 0 );
+                    values.put(DBConstants.KEY_BILL_DATE, recentBill.getDateOfBillPayment());
+                    values.put(DBConstants.KEY_BILL_LAST_PAID_DATE, recentBill.getLastPaid());
+                    values.put(DBConstants.KEY_BILL_PAID_FOR_OTHERS, recentBill.getPaidForOthers() ? 1 : 0 );
+                    values.put(DBConstants.KEY_BILL_PARAMS_ID, recentBill.getParamId());
+                    values.put(DBConstants.KEY_BILL_PARAMS_LABEL, recentBill.getParamLabel());
+                    values.put(DBConstants.KEY_BILL_PARAMS_VALUE, recentBill.getParamValue() );
+                    values.put(DBConstants.KEY_BILL_AMOUNT, recentBill.getAmount() );
+                    values.put(DBConstants.KEY_BILL_AMOUNT_TYPE, recentBill.getAmountType());
+                    values.put(DBConstants.KEY_BILL_META_DATA, recentBill.getMetaData());
+
+                    db.insertWithOnConflict(DBConstants.DB_TABLE_SAVED_BILL, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            db.setTransactionSuccessful();
+            db.endTransaction();
+
+            context.getContentResolver().notifyChange(DBConstants.DB_TABLE_CONTACTS_URI, null);
+
+            Logger.logI("Contacts", "Inserted into the database");
+        }
+    }
+
+    public List<RecentBill> getBills(String provider) {
+
+        List<RecentBill> recentBills = new ArrayList<>();
+
+        try {
+            SQLiteDatabase db = dOpenHelper.getReadableDatabase();
+
+            String queryString = "SELECT * FROM " + DBConstants.DB_TABLE_SAVED_BILL
+                    + " WHERE " + DBConstants.KEY_BILL_PROVIDER_CODE + " LIKE '%" + provider+ "%'"
+                    +" ORDER BY " + DBConstants.KEY_BILL_LAST_PAID_DATE +" DESC, "
+                    +"_id DESC";
+
+            Logger.logW("Query", queryString);
+
+            Cursor cursor = db.rawQuery(queryString, null);
+
+            if (cursor.moveToFirst()) {
+                do {
+
+                    RecentBill recentBill = new RecentBill();
+                    recentBill.setProviderCode(cursor.getString(cursor.getColumnIndex(DBConstants.KEY_BILL_PROVIDER_CODE)));
+                    recentBill.setShortName(cursor.getString(cursor.getColumnIndex(DBConstants.KEY_BILL_PROVIDER_NAME)));
+                    int isSaved = cursor.getInt(cursor.getColumnIndex(DBConstants.KEY_BILL_IS_SAVED));
+                    if(isSaved==1)
+                        recentBill.setSaved(true);
+                    else
+                        recentBill.setSaved(false);
+                    int isSchedule = cursor.getInt(cursor.getColumnIndex(DBConstants.KEY_BILL_IS_SCHEDULED));
+                    if(isSchedule==1)
+                        recentBill.setScheduledToo(true);
+                    else
+                        recentBill.setScheduledToo(false);
+
+                    int isOther = cursor.getInt(cursor.getColumnIndex(DBConstants.KEY_BILL_PAID_FOR_OTHERS));
+                    if(isOther==1)
+                        recentBill.setPaidForOthers(true);
+                    else
+                        recentBill.setPaidForOthers(false);
+                    recentBill.setDateOfBillPayment(Integer.valueOf(cursor.getString(cursor.getColumnIndex(DBConstants.KEY_BILL_DATE))));
+                    recentBill.setLastPaid(cursor.getString(cursor.getColumnIndex(DBConstants.KEY_BILL_LAST_PAID_DATE)));
+                    recentBill.setParamId(cursor.getString(cursor.getColumnIndex(DBConstants.KEY_BILL_PARAMS_ID)));
+                    recentBill.setParamLabel(cursor.getString(cursor.getColumnIndex(DBConstants.KEY_BILL_PARAMS_LABEL)));
+                    recentBill.setParamValue(cursor.getString(cursor.getColumnIndex(DBConstants.KEY_BILL_PARAMS_VALUE)));
+                    recentBill.setAmount(cursor.getString(cursor.getColumnIndex(DBConstants.KEY_BILL_AMOUNT)));
+                    recentBill.setAmountType(cursor.getString(cursor.getColumnIndex(DBConstants.KEY_BILL_AMOUNT_TYPE)));
+                    recentBill.setLocationCode(cursor.getString(cursor.getColumnIndex(DBConstants.KEY_BILL_LOCATION_CODE)));
+                    recentBill.setMetaData(cursor.getString(cursor.getColumnIndex(DBConstants.KEY_BILL_META_DATA)));
+                    recentBills.add(recentBill);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return recentBills;
+    }
+
+    public List<RecentBill> getBills(String provider1, String provider2) {
+
+        List<RecentBill> recentBills = new ArrayList<>();
+
+        try {
+            SQLiteDatabase db = dOpenHelper.getReadableDatabase();
+
+            String queryString = "SELECT * FROM " + DBConstants.DB_TABLE_SAVED_BILL
+                    + " WHERE (" + DBConstants.KEY_BILL_PROVIDER_CODE + " LIKE '%" + provider1+ "%'"
+                    + " OR " + DBConstants.KEY_BILL_PROVIDER_CODE + " LIKE '%" + provider2+ "%'"
+                    +") ORDER BY " + DBConstants.KEY_BILL_LAST_PAID_DATE +" DESC, "
+                    +"_id DESC";
+
+            Logger.logW("Query", queryString);
+
+            Cursor cursor = db.rawQuery(queryString, null);
+
+            if (cursor.moveToFirst()) {
+                do {
+
+                    RecentBill recentBill = new RecentBill();
+                    recentBill.setProviderCode(cursor.getString(cursor.getColumnIndex(DBConstants.KEY_BILL_PROVIDER_CODE)));
+                    recentBill.setShortName(cursor.getString(cursor.getColumnIndex(DBConstants.KEY_BILL_PROVIDER_NAME)));
+                    int isSaved = cursor.getInt(cursor.getColumnIndex(DBConstants.KEY_BILL_IS_SAVED));
+                    if(isSaved==1)
+                        recentBill.setSaved(true);
+                    else
+                        recentBill.setSaved(false);
+                    int isSchedule = cursor.getInt(cursor.getColumnIndex(DBConstants.KEY_BILL_IS_SCHEDULED));
+                    if(isSchedule==1)
+                        recentBill.setScheduledToo(true);
+                    else
+                        recentBill.setScheduledToo(false);
+
+                    int isOther = cursor.getInt(cursor.getColumnIndex(DBConstants.KEY_BILL_PAID_FOR_OTHERS));
+                    if(isOther==1)
+                        recentBill.setPaidForOthers(true);
+                    else
+                        recentBill.setPaidForOthers(false);
+                    recentBill.setDateOfBillPayment(Integer.valueOf(cursor.getString(cursor.getColumnIndex(DBConstants.KEY_BILL_DATE))));
+                    recentBill.setLastPaid(cursor.getString(cursor.getColumnIndex(DBConstants.KEY_BILL_LAST_PAID_DATE)));
+                    recentBill.setParamId(cursor.getString(cursor.getColumnIndex(DBConstants.KEY_BILL_PARAMS_ID)));
+                    recentBill.setParamLabel(cursor.getString(cursor.getColumnIndex(DBConstants.KEY_BILL_PARAMS_LABEL)));
+                    recentBill.setParamValue(cursor.getString(cursor.getColumnIndex(DBConstants.KEY_BILL_PARAMS_VALUE)));
+                    recentBill.setAmount(cursor.getString(cursor.getColumnIndex(DBConstants.KEY_BILL_AMOUNT)));
+                    recentBill.setAmountType(cursor.getString(cursor.getColumnIndex(DBConstants.KEY_BILL_AMOUNT_TYPE)));
+                    recentBill.setLocationCode(cursor.getString(cursor.getColumnIndex(DBConstants.KEY_BILL_LOCATION_CODE)));
+                    recentBill.setMetaData(cursor.getString(cursor.getColumnIndex(DBConstants.KEY_BILL_META_DATA)));
+                    recentBills.add(recentBill);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return recentBills;
+    }
+
     public void createBusinessContacts(List<ContactNode> contactList) {
         if (contactList != null && !contactList.isEmpty()) {
 
@@ -113,7 +266,7 @@ public class DataHelper {
             db.setTransactionSuccessful();
             db.endTransaction();
 
-            context.getContentResolver().notifyChange(DBConstants.DB_TABLE_BUSINESS_CONTWACT_URI, null);
+            context.getContentResolver().notifyChange(DBConstants.DB_TABLE_BUSINESS_CONTACT_URI, null);
 
             Logger.logI("Contacts", "Inserted into the database");
         }

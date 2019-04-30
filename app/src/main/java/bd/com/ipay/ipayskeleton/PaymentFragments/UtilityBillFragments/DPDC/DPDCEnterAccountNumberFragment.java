@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -49,10 +51,14 @@ import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.DescoBillPay
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.DescoBillPayResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.DescoCustomerInfoResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.DpdcCustomerInfoResponse;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.LinkThree.LinkThreeBillAmountInputFragment;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.BusinessRuleCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.BusinessRuleConstants;
+import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
+import bd.com.ipay.ipayskeleton.Utilities.ContactEngine;
+import bd.com.ipay.ipayskeleton.Utilities.InputValidator;
 import bd.com.ipay.ipayskeleton.Utilities.ServiceIdConstants;
 import bd.com.ipay.ipayskeleton.Utilities.Utilities;
 
@@ -83,6 +89,16 @@ public class DPDCEnterAccountNumberFragment extends BaseFragment implements Http
     private List<String> mLocationList;
     private SelectorDialog locationSelectorDialog;
 
+    private View otherPersionMobileView;
+    private View otherPersionNameView;
+    private EditText otherPersionMobileEditText;
+    private EditText otherPersionNameEditText;
+    private CheckBox isOtherPerson;
+
+
+    private String mOtherPersonName;
+    private String mOtherPersonMobile;
+
     @Nullable
     @Override
 
@@ -106,6 +122,26 @@ public class DPDCEnterAccountNumberFragment extends BaseFragment implements Http
         mMonthEditText = view.findViewById(R.id.month_edit_text);
         mContinueButton = view.findViewById(R.id.continue_button);
         mDatePickerDialog = initDatePickerDialog(getActivity(), this, false);
+
+        otherPersionMobileView = view.findViewById(R.id.other_person_mobile_view);
+        otherPersionNameView = view.findViewById(R.id.other_person_name_view);
+        otherPersionMobileEditText = view.findViewById(R.id.other_person_mobile_edit_text);
+        otherPersionNameEditText = view.findViewById(R.id.other_person_name_edit_text);
+        isOtherPerson = view.findViewById(R.id.paying_for_other_option);
+
+        isOtherPerson.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            if (b){
+                otherPersionNameView.setVisibility(View.VISIBLE);
+                otherPersionMobileView.setVisibility(View.VISIBLE);
+            }else{
+                otherPersionNameView.setVisibility(View.GONE);
+                otherPersionMobileView.setVisibility(View.GONE);
+            }
+            }
+        });
+
         UtilityBillPaymentActivity.mMandatoryBusinessRules = BusinessRuleCacheManager.getBusinessRules(Constants.UTILITY_BILL_PAYMENT);
         setDefaultDate();
         getLocationLIst();
@@ -192,6 +228,25 @@ public class DPDCEnterAccountNumberFragment extends BaseFragment implements Http
         } else if(month == null || month.isEmpty()){
             mMonthEditText.setError(getString(R.string.select_bill_month));
             return false;
+        } else if (isOtherPerson.isChecked()) {
+            mOtherPersonName = otherPersionNameEditText.getText().toString();
+            mOtherPersonMobile = otherPersionMobileEditText.getText().toString();
+            String mobileNumber = ProfileInfoCacheManager.getMobileNumber();
+            if (TextUtils.isEmpty(mOtherPersonName)) {
+                otherPersionNameEditText.setError(getString(R.string.enter_name));
+                return false;
+            } else if (TextUtils.isEmpty(mOtherPersonMobile)) {
+                otherPersionMobileEditText.setError(getString(R.string.enter_mobile_number));
+                return false;
+            } else if (!InputValidator.isValidMobileNumberBD(mOtherPersonMobile)) {
+                otherPersionMobileEditText.setError(getString(R.string.please_enter_valid_mobile_number));
+                return false;
+            } else if (mobileNumber.equals(ContactEngine.formatMobileNumberBD(mOtherPersonMobile))) {
+                otherPersionMobileEditText.setError(getString(R.string.you_can_not_give_own_number));
+                return false;
+            } else {
+                return true;
+            }
         }
         else {
             return true;
@@ -237,6 +292,10 @@ public class DPDCEnterAccountNumberFragment extends BaseFragment implements Http
                         }
                         bundle.putSerializable(Constants.VAT_AMOUNT, numberFormat.parse(mDpdcCustomerInfoResponse.getVatAmount()));
                         bundle.putSerializable(Constants.TOTAL_AMOUNT, numberFormat.parse(mDpdcCustomerInfoResponse.getTotalAmount()));
+
+                        bundle.putString(UtilityBillPaymentActivity.OTHER_PERSON_NAME_KEY, mOtherPersonName);
+                        bundle.putString(UtilityBillPaymentActivity.OTHER_PERSON_MOBILE_KEY, ContactEngine.formatMobileNumberBD(mOtherPersonMobile) );
+
                         ((UtilityBillPaymentActivity) getActivity()).switchToDPDCBillInfoFragment(bundle);
                     } else {
                         if (!TextUtils.isEmpty(mDpdcCustomerInfoResponse.getMessage())) {

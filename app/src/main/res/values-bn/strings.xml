@@ -1004,7 +1004,7 @@
     <string name="request_failed">অনুরোধ ব্যর্থ</string>
     <string name="amber_it_customer_id">এম্বারআইটি গ্রাহক আইডি</string>
     <string name="amberit_bill_pay_message">
-অনুগ্রহ করে এম্বারআইটি কাস্টোমার আইডি ও পরিমাণ লিখুন
+অনুগ্রহ করে এম্বারআইটি কাস্টোমার আইডি লিখুন
 </string>
     <string name="swipe_up_to_see_more">আরো দেখতে উপরের দিকে তুলুন</string>
     <string name="swipe_down_to_close">বন্ধ করতে নীচে নামান</string>
@@ -1391,6 +1391,20 @@
     <string name="running">Running</string>
     <string name="installment_pending">Pending</string>
     <string name="no_schedule_payment_available">কোনো শিডিউল পেমেন্ট পাওয়া যায়নি!</string>
+    <string name="save_for_future_payment">ভবিষ্যত পেমেন্টের জন্য সংরক্ষণ করুন</string>
+    <string name="other_person_mobile">ব্যক্তির মোবাইল নাম্বার</string>
+    <string name="other_person_name">ব্যক্তির নাম</string>
+    <string name="paying_for_others">আমি অন্য ব্যক্তির জন্য এই বিল পরিশোধ করছি এবং আইপে ঐ ব্যক্তিকে এসএমএসের মাধ্যমে জানাবে</string>
+    <string name="enter_name">নাম দিন</string>
+    <string name="save_bill_info">বিল তথ্য সেভ করুন</string>
+    <string name="pay_for_other_account">অন্য অ্যাকাউন্টের জন্য বিল দিন</string>
+    <string name="select_schedule_date">Select schedule date</string>
+    <string name="schedule_bill_info">Schedule Bill</string>
+    <string name="you_can_not_give_own_number">আপনি অন্য ব্যক্তির নাম্বার হিসাবে আপনার নিজের নাম্বার ব্যবহার করতে পারবেন না।</string>
+    <string name="customer_id">কাস্টমার আইডি</string>
+    <string name="saved_bill_information">সেভ করা বিল</string>
+    <string name="recent_bill_information">সাম্প্রতিক বিল</string>
+    <string name="name_title">Name/Title</string>
 </resources>
 
 

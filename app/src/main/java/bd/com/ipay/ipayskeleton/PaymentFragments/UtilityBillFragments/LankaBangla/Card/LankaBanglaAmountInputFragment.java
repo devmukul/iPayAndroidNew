@@ -5,17 +5,22 @@ import android.support.annotation.Nullable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.view.View;
+
+import com.google.gson.Gson;
 
 import java.math.BigDecimal;
 
 import bd.com.ipay.ipayskeleton.Activities.UtilityBillPayActivities.IPayUtilityBillPayActionActivity;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SaveBill.MetaData;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractAmountFragment;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.SharedPrefManager;
 import bd.com.ipay.ipayskeleton.Utilities.CardNumberValidator;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
+import bd.com.ipay.ipayskeleton.Utilities.DecimalDigitsInputFilter;
 import bd.com.ipay.ipayskeleton.Utilities.DialogUtils;
 import bd.com.ipay.ipayskeleton.Utilities.InputValidator;
 import bd.com.ipay.ipayskeleton.Utilities.ServiceIdConstants;
@@ -27,11 +32,21 @@ public class LankaBanglaAmountInputFragment extends IPayAbstractAmountFragment {
     static final String MINIMUM_PAY_AMOUNT_KEY = "MINIMUM_PAY";
     static final String CARD_NUMBER_KEY = "CARD_NUMBER";
     static final String CARD_USER_NAME_KEY = "CARD_USER_NAME";
+    static final String OTHER_PERSON_NAME_KEY = "OTHER_PERSON_NAME";
+    static final String OTHER_PERSON_MOBILE_KEY = "OTHER_PERSON_MOBILE";
 
     private int totalOutstandingAmount;
     private int minimumPayAmount;
     private String cardNumber;
     private String cardUserName;
+
+    private String otherPersonName;
+    private String otherPersonMobile;
+    private boolean isFromSaved;
+    private String amount;
+    private String amountType;
+
+    private String cardType;
 
 
     @Override
@@ -42,6 +57,12 @@ public class LankaBanglaAmountInputFragment extends IPayAbstractAmountFragment {
             minimumPayAmount = getArguments().getInt(MINIMUM_PAY_AMOUNT_KEY, 0);
             cardNumber = getArguments().getString(CARD_NUMBER_KEY, "");
             cardUserName = getArguments().getString(CARD_USER_NAME_KEY, "");
+            otherPersonName = getArguments().getString(OTHER_PERSON_NAME_KEY, "");
+            otherPersonMobile = getArguments().getString(OTHER_PERSON_MOBILE_KEY, "");
+            isFromSaved = getArguments().getBoolean("IS_FROM_HISTORY", false);
+            amount = getArguments().getString(Constants.AMOUNT);
+            amountType = getArguments().getString(Constants.AMOUNT_TYPE);
+            cardType = getArguments().getString(Constants.CARD_TYPE);
         }
     }
 
@@ -54,15 +75,19 @@ public class LankaBanglaAmountInputFragment extends IPayAbstractAmountFragment {
 
         setBalanceInfoLayoutVisibility(View.VISIBLE);
         hideTransactionDescription();
-        setInputType(InputType.TYPE_CLASS_NUMBER);
+        setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_CLASS_NUMBER);
         setTransactionImageResource(R.drawable.ic_lankabd2);
         setName(CardNumberValidator.deSanitizeEntry(cardNumber, ' '));
         setUserName(cardUserName);
+
+        if(isFromSaved && !TextUtils.isEmpty(amountType) && amountType.equalsIgnoreCase(Constants.OTHER) && !TextUtils.isEmpty(amount)){
+            setAmount(amount);
+        }
     }
 
     @Override
     protected InputFilter getInputFilter() {
-        return new InputFilter() {
+        return new DecimalDigitsInputFilter() {
             @Override
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
                 if (source != null) {
@@ -84,7 +109,7 @@ public class LankaBanglaAmountInputFragment extends IPayAbstractAmountFragment {
                         e.printStackTrace();
                     }
                 }
-                return null;
+                return super.filter(source, start, end, dest, dstart, dend);
             }
         };
     }
@@ -143,7 +168,19 @@ public class LankaBanglaAmountInputFragment extends IPayAbstractAmountFragment {
         else
             bundle.putString(LankaBanglaBillConfirmationFragment.AMOUNT_TYPE_KEY, Constants.OTHER);
 
+        bundle.putString(Constants.CARD_TYPE, cardType);
+        bundle.putString(OTHER_PERSON_NAME_KEY, otherPersonName);
+        bundle.putString(OTHER_PERSON_MOBILE_KEY, otherPersonMobile);
+
+        if(isFromSaved) {
+            bundle.putBoolean("IS_FROM_HISTORY", true);
+        }
+
         if (getActivity() instanceof IPayUtilityBillPayActionActivity) {
+
+            int maxBackStack=3;
+            if(isFromSaved)
+                maxBackStack =4;
             ((IPayUtilityBillPayActionActivity) getActivity()).switchFragment(new LankaBanglaBillConfirmationFragment(), bundle, 3, true);
         }
     }

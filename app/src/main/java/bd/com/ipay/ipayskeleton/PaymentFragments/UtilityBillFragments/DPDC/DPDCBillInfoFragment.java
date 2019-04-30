@@ -63,6 +63,10 @@ public class DPDCBillInfoFragment extends Fragment {
     private Button payBillButton;
     private final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
 
+
+    private String otherPersonName;
+    private String otherPersonMobile;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -82,6 +86,9 @@ public class DPDCBillInfoFragment extends Fragment {
         dueDate = bundle.getString(Constants.DUE_DATE);
         transactionId = bundle.getString(Constants.TRANSACTION_ID);
         locationCode = bundle.getString(Constants.LOCATION_CODE);
+
+        otherPersonName = bundle.getString(UtilityBillPaymentActivity.OTHER_PERSON_NAME_KEY, "");
+        otherPersonMobile = bundle.getString(UtilityBillPaymentActivity.OTHER_PERSON_MOBILE_KEY, "");
         if (stampAmount != null) {
             stampAmountString = numberFormat.format(stampAmount);
         } else {
@@ -149,6 +156,9 @@ public class DPDCBillInfoFragment extends Fragment {
                     bundle.putString(Constants.LOCATION_CODE, locationCode);
                     bundle.putSerializable(Constants.TOTAL_AMOUNT, totalAmount);
                     bundle.putString(Constants.ACCOUNT_ID, accountIdString);
+
+                    bundle.putString(UtilityBillPaymentActivity.OTHER_PERSON_NAME_KEY, otherPersonName);
+                    bundle.putString(UtilityBillPaymentActivity.OTHER_PERSON_MOBILE_KEY, otherPersonMobile);
                     ((UtilityBillPaymentActivity) getActivity()).switchToDPDCBillConfirmationFragment(bundle);
                 }
             }

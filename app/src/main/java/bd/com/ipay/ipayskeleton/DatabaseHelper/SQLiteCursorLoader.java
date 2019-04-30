@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.v4.content.AsyncTaskLoader;
-import android.support.v4.content.Loader;
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
@@ -15,7 +14,7 @@ import java.util.Arrays;
 
 /**
  * A loader that queries the {@link ContentResolver} and returns a {@link Cursor}.
- * This class implements the {@link Loader} protocol in a standard way for
+ * This class implements the {@link android.support.v4.content.Loader} protocol in a standard way for
  * querying cursors, building on {@link AsyncTaskLoader} to perform the cursor
  * query on a background thread so that it does not block the application's UI.
  * <p>

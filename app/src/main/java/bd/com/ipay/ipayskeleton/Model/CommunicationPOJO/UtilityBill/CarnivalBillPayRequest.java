@@ -6,6 +6,7 @@ public class CarnivalBillPayRequest {
     private String amount;
     private String pin;
     private String otp;
+    private MetaData metaData;
 
     public CarnivalBillPayRequest(String userId, String amount, String pin) {
         this.userId = userId;
@@ -19,6 +20,14 @@ public class CarnivalBillPayRequest {
         this.amount = amount;
         this.pin = pin;
         this.otp = otp;
+    }
+
+
+    public CarnivalBillPayRequest(String userId, String amount, String pin, MetaData metaData) {
+        this.userId = userId;
+        this.amount = amount;
+        this.pin = pin;
+        this.metaData = metaData;
     }
 
     public String getUserId() {

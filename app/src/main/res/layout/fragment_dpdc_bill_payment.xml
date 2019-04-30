@@ -41,6 +41,7 @@
                     <EditText
                         android:id="@+id/customer_id_edit_text"
                         style="@style/CustomEditText"
+                        android:gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="0dp"
@@ -62,6 +63,7 @@
 
                     <EditText
                         android:id="@+id/location_code_edit_text"
+                        android:gravity="center"
                         style="@style/CustomEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -87,6 +89,7 @@
 
                     <EditText
                         android:id="@+id/month_edit_text"
+                        android:gravity="center"
                         style="@style/CustomEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -103,6 +106,64 @@
                     style="@style/Divider"
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/value16"
+                    android:id="@+id/other_person_mobile_view"
+                    android:visibility="gone">
+
+                    <EditText
+                        android:id="@+id/other_person_mobile_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:fontFamily="@font/open_sans_light"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:hint="@string/other_person_mobile"
+                        android:paddingTop="@dimen/value8"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dip"
+                        android:layout_marginTop="@dimen/value8"
+                        android:background="#19000000" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/value16"
+                    android:id="@+id/other_person_name_view"
+                    android:visibility="gone">
+
+                    <EditText
+                        android:id="@+id/other_person_name_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:fontFamily="@font/open_sans_light"
+                        android:gravity="center"
+                        android:inputType="text"
+                        android:hint="@string/other_person_name"
+                        android:paddingTop="@dimen/value8" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dip"
+                        android:layout_marginTop="@dimen/value8"
+                        android:background="#19000000" />
+                </android.support.design.widget.TextInputLayout>
+
+                <CheckBox
+                    android:id="@+id/paying_for_other_option"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/paying_for_others"
+                    android:textSize="13sp"
+                    android:textColor="#606060"
+                    android:lineSpacingExtra="4sp"
+                    android:layout_marginTop="@dimen/value16"/>
 
                 <TextView
                     android:id="@+id/message_text_view"

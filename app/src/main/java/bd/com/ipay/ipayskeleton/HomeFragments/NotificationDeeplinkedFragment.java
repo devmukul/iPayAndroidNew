@@ -392,7 +392,7 @@ public class NotificationDeeplinkedFragment extends ProgressFragment implements 
                                     deepLinkedNotification.getMeta().getImageUrl().equals("")) {
                                 Intent intent = new Intent(getActivity(), WebViewActivity.class);
                                 intent.putExtra("url", mDeepLinkedNotifications.get(pos).getDeepLink());
-                                intent.putExtra("sourceActivity", "NotificationForOther");
+                                intent.putExtra("sourceActivity", "Notification");
                                 startActivity(intent);
                                 new Handler().postDelayed(new Runnable() {
                                     @Override

@@ -382,7 +382,7 @@ public class DescoEnterBillNumberFragment extends BaseFragment implements HttpRe
         final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
         mBillMonth = getFormattedDate(month+1);
         mBillYear = String.valueOf(year);
-        mBillYear = mBillYear.substring(2,3);
+        mBillYear = mBillYear.substring(2,4);
 
         final Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         calendar.set(Calendar.YEAR, year);

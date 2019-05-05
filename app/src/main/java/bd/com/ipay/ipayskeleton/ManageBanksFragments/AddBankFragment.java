@@ -134,20 +134,20 @@ public class AddBankFragment extends BaseFragment implements HttpResponseListene
         List<Bank> bankNames = new ArrayList<>();
 
         chequebookCoverSelectorButtonClickListener = new ChequebookCoverSelectorButtonClickListener();
-        mChequebookCoverSelectorButton = (Button) v.findViewById(R.id.chequebook_cover_selector_button);
+        mChequebookCoverSelectorButton = v.findViewById(R.id.chequebook_cover_selector_button);
 
-        mBankListSelection = (EditText) v.findViewById(R.id.default_bank_accounts);
-        mDistrictSelection = (EditText) v.findViewById(R.id.branch_districts);
-        mAccountNameEditText = (EditText) v.findViewById(R.id.bank_account_name);
-        mAccountNumberEditText = (EditText) v.findViewById(R.id.bank_account_number);
-        Button addBank = (Button) v.findViewById(R.id.button_add_bank);
-        mBankBranchEditTextProgressBar = (EditTextWithProgressBar) v.findViewById(R.id.editText_with_progressBar_branch);
+        mBankListSelection = v.findViewById(R.id.default_bank_accounts);
+        mDistrictSelection = v.findViewById(R.id.branch_districts);
+        mAccountNameEditText = v.findViewById(R.id.bank_account_name);
+        mAccountNumberEditText = v.findViewById(R.id.bank_account_number);
+        Button addBank = v.findViewById(R.id.button_add_bank);
+        mBankBranchEditTextProgressBar = v.findViewById(R.id.editText_with_progressBar_branch);
         mBankBranchSelection = mBankBranchEditTextProgressBar.getEditText();
 
-        mChequebookCoverImageView = (ImageView) v.findViewById(R.id.chequebook_cover_image_view);
+        mChequebookCoverImageView = v.findViewById(R.id.chequebook_cover_image_view);
         mChequebookCoverSelectorButton.setOnClickListener(chequebookCoverSelectorButtonClickListener);
 
-        mChequebookCoverPageErrorTextView = (TextView) v.findViewById(R.id.chequebook_cover_error_text_view);
+        mChequebookCoverPageErrorTextView = v.findViewById(R.id.chequebook_cover_error_text_view);
         mChequebookCoverPageErrorTextView.setVisibility(View.INVISIBLE);
 
         if (!CommonData.isAvailableBankListLoaded()) {
@@ -575,13 +575,14 @@ public class AddBankFragment extends BaseFragment implements HttpResponseListene
                 customUploadPickerDialog.setOnResourceSelectedListener(new CustomUploadPickerDialog.OnResourceSelectedListener() {
                     @Override
                     public void onResourceSelected(int actionId, String action) {
-                        if (Constants.ACTION_TYPE_TAKE_PICTURE.equals(action) || Constants.ACTION_TYPE_SELECT_FROM_GALLERY.equals(action))
+                        if (action.equals(getString(R.string.take_a_picture_message)) || action.equals(getString(R.string.select_from_gallery_message))) {
                             if (Utilities.isNecessaryPermissionExists(getActivity(), DocumentPicker.DOCUMENT_PICK_PERMISSIONS))
                                 selectDocument(actionId);
                             else {
                                 mPickerActionId = actionId;
                                 Utilities.requestRequiredPermissions(AddBankFragment.this, REQUEST_CODE_PERMISSION, DocumentPicker.DOCUMENT_PICK_PERMISSIONS);
                             }
+                        }
                     }
                 });
                 customUploadPickerDialog.show();

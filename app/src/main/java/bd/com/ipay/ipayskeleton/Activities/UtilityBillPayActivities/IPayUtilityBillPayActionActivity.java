@@ -59,6 +59,7 @@ public final class IPayUtilityBillPayActionActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ipay_utility_bill_pay_action);
         if(getIntent().hasExtra(Constants.FROM_DASHBOARD)){
+            BusinessRuleCacheManager.fetchBusinessRule(this, ServiceIdConstants.UTILITY_BILL_PAYMENT);
             if(getIntent().getStringExtra(Constants.SERVICE).equals("CARD")) {
                 Bundle bundle = new Bundle();
                 bundle.putBoolean(Constants.FROM_DASHBOARD, true);

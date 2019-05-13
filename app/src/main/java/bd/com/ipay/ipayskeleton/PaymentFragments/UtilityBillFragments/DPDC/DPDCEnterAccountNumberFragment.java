@@ -105,7 +105,7 @@ public class DPDCEnterAccountNumberFragment extends BaseFragment implements Http
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dpdc_bill_payment, container, false);
         getActivity().setTitle(getString(R.string.dpdc));
-        attemptGetBusinessRule(ServiceIdConstants.UTILITY_BILL_PAYMENT);
+        attemptGetBusinessRule(ServiceIdConstants.DPDC);
         mProgressDialog = new CustomProgressDialog(getContext());
         mCustomProgressDialog = new AnimatedProgressDialog(getContext());
         setUpView(view);

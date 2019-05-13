@@ -120,7 +120,7 @@ public class DescoEnterBillNumberFragment extends BaseFragment implements HttpRe
         View view = inflater.inflate(R.layout.fragment_desco_bill_payment, container, false);
 
         getActivity().setTitle(getString(R.string.desco));
-        attemptGetBusinessRule(ServiceIdConstants.UTILITY_BILL_PAYMENT);
+        attemptGetBusinessRule(ServiceIdConstants.DESCO);
         mProgressDialog = new CustomProgressDialog(getContext());
         mCustomProgressDialog = new AnimatedProgressDialog(getContext());
         setUpView(view);
@@ -225,11 +225,10 @@ public class DescoEnterBillNumberFragment extends BaseFragment implements HttpRe
     }
 
     private boolean verifyUserInput() {
-        Editable editable;
-        editable = mEnterBillNumberEditText.getText();
         String month = mMonthEditText.getText().toString();
-        if (editable == null) {
-            mEnterBillNumberEditText.setError(getString(R.string.enter_customer_id));
+        mAccountNumber = mEnterBillNumberEditText.getText().toString();
+        if (mAccountNumber == null || TextUtils.isEmpty(mAccountNumber)) {
+            mEnterBillNumberEditText.setError(getString(R.string.enter_account_number));
             return false;
         } else if(month == null || month.isEmpty()){
             mMonthEditText.setError(getString(R.string.select_bill_month));
@@ -254,13 +253,7 @@ public class DescoEnterBillNumberFragment extends BaseFragment implements HttpRe
                 return true;
             }
         }else {
-            mAccountNumber = editable.toString();
-            if (mAccountNumber == null || mAccountNumber.isEmpty()) {
-                mEnterBillNumberEditText.setError(getString(R.string.enter_bill_no));
-                return false;
-            } else {
-                return true;
-            }
+            return true;
         }
     }
 

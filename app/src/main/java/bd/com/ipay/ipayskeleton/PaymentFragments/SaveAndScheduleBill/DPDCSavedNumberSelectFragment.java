@@ -96,19 +96,10 @@ public class DPDCSavedNumberSelectFragment extends Fragment implements HttpRespo
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+        getActivity().setTitle(getString(R.string.dpdc));
 
         customProgressDialog = new AnimatedProgressDialog(getActivity());
         customProgressDialog.setCancelable(false);
-
-		Toolbar toolbar = view.findViewById(R.id.toolbar);
-		toolbar.setTitle(title);
-
-        if (getActivity() instanceof AppCompatActivity) {
-            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-            final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-            if (actionBar != null)
-                actionBar.setDisplayHomeAsUpEnabled(true);
-        }
 
         mSavedListView = view.findViewById(R.id.saved_bill_view);
         mRecentListView = view.findViewById(R.id.recent_bill_view);

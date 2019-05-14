@@ -1,14 +1,23 @@
 package bd.com.ipay.ipayskeleton.PaymentFragments.WithdrawMoneyFragments;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
+
+import com.google.gson.Gson;
 
 import java.math.BigDecimal;
 
 import bd.com.ipay.ipayskeleton.Activities.IPayTransactionActionActivity;
+import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
+import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
+import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Balance.CreditBalanceResponse;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.BasicInfo.SetProfileInfoRequest;
 import bd.com.ipay.ipayskeleton.PaymentFragments.BankTransactionFragments.IPayAbstractBankTransactionAmountInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.BankTransactionFragments.IPayAbstractBankTransactionConfirmationFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.BankTransactionFragments.IPayAbstractWithdrawAmountInputFragment;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.SharedPrefManager;
@@ -19,6 +28,9 @@ import bd.com.ipay.ipayskeleton.Utilities.ServiceIdConstants;
 import bd.com.ipay.ipayskeleton.Utilities.Utilities;
 
 public class IPayWithdrawMoneyFromBankAmountInputFragment extends IPayAbstractBankTransactionAmountInputFragment {
+
+
+
 	@Override
 	protected void setupViewProperties() {
 		hideTransactionDescription();
@@ -26,13 +38,17 @@ public class IPayWithdrawMoneyFromBankAmountInputFragment extends IPayAbstractBa
 		setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_CLASS_NUMBER);
 		setTransactionImageResource(bankAccountList.getBankIcon(getContext()));
 		setBalanceType(BalanceType.SETTLED_BALANCE);
+
 	}
+
+
 
 	@Override
 	protected void performContinueAction() {
 		if (getActivity() instanceof IPayTransactionActionActivity) {
 			final Bundle bundle = new Bundle();
 			bundle.putParcelable(Constants.SELECTED_BANK_ACCOUNT, bankAccountList);
+			bundle.putBoolean("IS_INSTANT", isInstant);
 			bundle.putSerializable(IPayAbstractBankTransactionConfirmationFragment.TRANSACTION_AMOUNT_KEY, getAmount());
 			((IPayTransactionActionActivity) getActivity()).switchFragment(new IPayWithdrawMoneyFromBankConfirmationFragment(), bundle, 2, true);
 		}
@@ -82,4 +98,6 @@ public class IPayWithdrawMoneyFromBankAmountInputFragment extends IPayAbstractBa
 	protected int getServiceId() {
 		return ServiceIdConstants.WITHDRAW_MONEY;
 	}
+
+
 }

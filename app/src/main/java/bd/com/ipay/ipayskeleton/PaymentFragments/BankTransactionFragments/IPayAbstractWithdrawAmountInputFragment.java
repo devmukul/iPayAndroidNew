@@ -7,21 +7,19 @@ import android.text.Spanned;
 
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Bank.BankAccountList;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractAmountFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractWIthdrawMoneyAmountFragment;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Utilities.DecimalDigitsInputFilter;
 
-public abstract class IPayAbstractBankTransactionAmountInputFragment extends IPayAbstractAmountFragment {
+public abstract class IPayAbstractWithdrawAmountInputFragment extends IPayAbstractWIthdrawMoneyAmountFragment {
 
 	protected BankAccountList bankAccountList;
-	protected boolean isInstant;
-
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (getArguments() != null) {
 			bankAccountList = getArguments().getParcelable(Constants.SELECTED_BANK_ACCOUNT);
-			isInstant = getArguments().getBoolean("IS_INSTANT", false);
 		}
 	}
 

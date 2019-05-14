@@ -17,7 +17,7 @@ public class IPayWithdrawMoneyFromBankConfirmationFragment extends IPayAbstractB
 
     @Override
     protected String getRequestJson() {
-        return gson.toJson(new WithdrawMoneyRequestV3(bankAccountList.getBankAccountId(), transactionAmount.doubleValue(), getNote()));
+        return gson.toJson(new WithdrawMoneyRequestV3(bankAccountList.getBankAccountId(), transactionAmount.doubleValue(), getNote(), isInstant));
     }
 
     @Override

@@ -954,7 +954,7 @@
 %1$s-কে সফলভাবে পেমেন্ট করা হয়েছে। বিস্তারিত জানতে \"লেনদেন\" দেখুন।
 </string>
     <string name="pay_bill_success_description">
-আপনি সফলভাবে পেমেন্ট করেছেন। বিস্তারিত জানতে দেখুন আপনার \'লেনদেন\'।
+আপনি সফলভাবে পেমেন্ট করেছেন। বিস্তারিত জানতে \'লেনদেন\' দেখুন।
 </string>
     <string name="request_money_success_description">
 আপনি যে টাকা অনুরোধ করেছেন সেটি আমরা প্রাপককে জানাবো। আপনার অনুরোধ গ্রহণ/বাতিল করা হলে আপনাকে জানানো হবে।
@@ -1405,6 +1405,7 @@
     <string name="saved_bill_information">সেভ করা বিল</string>
     <string name="recent_bill_information">সাম্প্রতিক বিল</string>
     <string name="name_title">Name/Title</string>
+    <string name="akash_subscriber_id_input_message">অনুগ্রহ করে আপনার আকাশ ডিটিএইচ সাবস্ক্রাইবার আইডি লিখুন</string>
 </resources>
 
 

@@ -135,6 +135,10 @@ public abstract class IPayAbstractUserIdInputFragment extends Fragment {
         return isOtherPerson.isChecked();
     }
 
+	protected void hidePayingForOtherPerson() {
+		isOtherPerson.setVisibility(View.GONE);
+	}
+
 	protected void setOtherPersonName(CharSequence inputMessag) {
 		otherPersionNameEditText.setText(inputMessag);
 	}

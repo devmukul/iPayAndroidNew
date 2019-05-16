@@ -309,6 +309,7 @@ public class Constants {
     public static final String COMMAND_LINK_THREE_BILL_PAY_DELETE = "COMMAND_LINK_THREE_BILL_PAY_DELETE";
     public static final String COMMAND_LINK_THREE_BILL_PAY_SCHEDULE = "COMMAND_LINK_THREE_BILL_PAY_SCHEDULE";
     public static final String AMOUNT_TYPE = "AMOUNT_TYPE";
+    public static final String BEXCOM = "BEXCOM";
 
 
     public static String ROLEID = "ROLEID";

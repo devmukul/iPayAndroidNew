@@ -152,6 +152,10 @@ public abstract class IPayAbstractTransactionConfirmationFragment extends Fragme
 		transactionDescriptionTextView.setText(transactionDescription, TextView.BufferType.SPANNABLE);
 	}
 
+	protected void hideUserName() {
+		userNameTextView.setVisibility(View.GONE);
+	}
+
 	protected void setName(CharSequence name) {
 		nameTextView.setText(name, TextView.BufferType.SPANNABLE);
 	}

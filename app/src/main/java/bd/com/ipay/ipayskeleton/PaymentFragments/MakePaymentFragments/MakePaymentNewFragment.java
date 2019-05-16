@@ -89,6 +89,8 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
 
     private View mBillPayView;
     private View mLink3BillPayView;
+
+    private View mAkashBillPayView;
     private View mBrilliantRechargeView;
     private View mWestZoneBillPayView;
     private View mDescoBillPayView;
@@ -148,6 +150,8 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
         mProviderAvailabilityMap = new HashMap<>();
         mBillPayView = view.findViewById(R.id.billPayView);
         mLink3BillPayView = view.findViewById(R.id.linkThreeBill);
+        mAkashBillPayView = view.findViewById(R.id.akash_dth);
+
         mDescoBillPayView = view.findViewById(R.id.desco);
         if (ACLManager.hasServicesAccessibility(ServiceIdConstants.DESCO)) {
             mDescoBillPayView.setVisibility(View.VISIBLE);
@@ -196,6 +200,13 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
             @Override
             public void onClick(View v) {
                 payBill(Constants.BLION, null);
+            }
+        });
+
+        mAkashBillPayView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                payBill(Constants.BEXCOM, null);
             }
         });
 
@@ -422,6 +433,7 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
                 return;
             }
         }
+
         pinChecker = new PinChecker(getActivity(), new PinChecker.PinCheckerListener() {
             @Override
             public void ifPinAdded() {
@@ -449,6 +461,12 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
                         getSavedList(providerCode1);
                         break;
                     case Constants.CARNIVAL:
+                        intent = new Intent(getActivity(), IPayUtilityBillPayActionActivity.class);
+                        intent.putExtra(IPayUtilityBillPayActionActivity.BILL_PAY_PARTY_NAME_KEY, IPayUtilityBillPayActionActivity.BILL_PAY_AKASH);
+                        startActivityForResult(intent, REQUEST_CODE_SUCCESSFUL_ACTIVITY_FINISH);
+                        getActivity().finish();
+                        break;
+                    case Constants.BEXCOM:
                         intent = new Intent(getActivity(), IPayUtilityBillPayActionActivity.class);
                         intent.putExtra(IPayUtilityBillPayActionActivity.BILL_PAY_PARTY_NAME_KEY, IPayUtilityBillPayActionActivity.BILL_PAY_CARNIVAL);
                         startActivityForResult(intent, REQUEST_CODE_SUCCESSFUL_ACTIVITY_FINISH);

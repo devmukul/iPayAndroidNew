@@ -206,7 +206,7 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
         mAkashBillPayView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                payBill(Constants.AKASHDTH, null);
+                payBill(Constants.BEXCOM, null);
             }
         });
 
@@ -433,6 +433,7 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
                 return;
             }
         }
+
         pinChecker = new PinChecker(getActivity(), new PinChecker.PinCheckerListener() {
             @Override
             public void ifPinAdded() {
@@ -465,7 +466,7 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
                         startActivityForResult(intent, REQUEST_CODE_SUCCESSFUL_ACTIVITY_FINISH);
                         getActivity().finish();
                         break;
-                    case Constants.AKASHDTH:
+                    case Constants.BEXCOM:
                         intent = new Intent(getActivity(), IPayUtilityBillPayActionActivity.class);
                         intent.putExtra(IPayUtilityBillPayActionActivity.BILL_PAY_PARTY_NAME_KEY, IPayUtilityBillPayActionActivity.BILL_PAY_CARNIVAL);
                         startActivityForResult(intent, REQUEST_CODE_SUCCESSFUL_ACTIVITY_FINISH);

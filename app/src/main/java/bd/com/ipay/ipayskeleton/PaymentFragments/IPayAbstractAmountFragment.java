@@ -468,6 +468,10 @@ public abstract class IPayAbstractAmountFragment extends Fragment {
         nameTextView.setVisibility(View.GONE);
     }
 
+    protected void hideUserName() {
+        userNameTextView.setVisibility(View.GONE);
+    }
+
     protected void setTransactionImageResource(int imageResource) {
         if (getContext() != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

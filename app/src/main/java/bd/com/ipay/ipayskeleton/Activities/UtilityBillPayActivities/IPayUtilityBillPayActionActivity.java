@@ -22,6 +22,8 @@ import bd.com.ipay.ipayskeleton.PaymentFragments.SchedulePayment.ScheduledPaymen
 import bd.com.ipay.ipayskeleton.PaymentFragments.SchedulePayment.ScheduledPaymentDetailsFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractTransactionSuccessFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IspSelectionFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.AkashDTH.AkashBillAmountInputFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.AkashDTH.AkashSubscriberIdInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.Carnival.CarnivalIdInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.CreditCard.CreditCardBankSelectionFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.LankaBangla.Card.LankaBanglaCardNumberInputFragment;
@@ -51,6 +53,7 @@ public final class IPayUtilityBillPayActionActivity extends BaseActivity {
     public static final String BILL_AMOUNT_KEY = "BILL_AMOUNT";
     public static final String BANK_CODE = "BANK_CODE";
     public static final String SCHEDULE_PAYMENT_LIST = "SCHEDULE_PAYMENT_LIST";
+    public static final String BILL_PAY_AKASH = "AKASH";
     private List<SavedBill> savedBills;
     private List<RecentBill> recentBills;
 
@@ -110,6 +113,9 @@ public final class IPayUtilityBillPayActionActivity extends BaseActivity {
                     }
                     break;
                 case BILL_PAY_CARNIVAL:
+                    switchFragment(new AkashSubscriberIdInputFragment(), bundle, 0, false);
+                    break;
+                case BILL_PAY_AKASH:
                     switchFragment(new CarnivalIdInputFragment(), bundle, 0, false);
                     break;
                 case CREDIT_CARD:

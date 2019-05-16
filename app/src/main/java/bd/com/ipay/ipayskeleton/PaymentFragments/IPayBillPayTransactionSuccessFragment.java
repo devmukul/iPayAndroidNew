@@ -124,6 +124,14 @@ public abstract class IPayBillPayTransactionSuccessFragment extends Fragment {
 		nameTextView.setText(name, TextView.BufferType.SPANNABLE);
 	}
 
+	protected void hideUserName() {
+		userNameTextView.setVisibility(View.GONE);
+	}
+
+	protected void hideSaveButton() {
+		saveBillButton.setVisibility(View.GONE);
+	}
+
 	protected void setUserName(CharSequence userName) {
 		userNameTextView.setVisibility(View.VISIBLE);
 		userNameTextView.setText(userName, TextView.BufferType.SPANNABLE);

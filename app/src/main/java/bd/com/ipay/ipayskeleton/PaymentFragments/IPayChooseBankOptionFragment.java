@@ -193,7 +193,7 @@ public class IPayChooseBankOptionFragment extends ProgressFragment implements Ht
 	protected void getBankInstantEligibleInfo(String bankCode) {
 		mProgressDialog.show();
 		mSetProfileInfoTask = new HttpRequestGetAsyncTask(Constants.COMMAND_SET_PROFILE_INFO_REQUEST,
-				"https://dev.ipay.com.bd/api/v1/money/withdraw-money/bank/instant-eligibility-check?bankCode="+bankCode, getActivity(), false);
+				"https://dev.ipay.com.bd/api/v1/money/withdraw-money/bank/mode?bankCode="+bankCode, getActivity(), false);
 		mSetProfileInfoTask.mHttpResponseListener = this;
 		mSetProfileInfoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
@@ -215,7 +215,7 @@ public class IPayChooseBankOptionFragment extends ProgressFragment implements Ht
 				if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
 					IsInstantResponse isInstantResponse = new Gson().fromJson(result.getJsonString(), IsInstantResponse.class);
 
-					if(isInstantResponse.getIsInstant()){
+					if(isInstantResponse.getInstant().getIsEligible()){
 						mBundle.putSerializable("INSTANT", isInstantResponse);
 						((IPayTransactionActionActivity) getActivity()).switchFragment(new IPayWithdrawOptionFragment(), mBundle, 1, true);
 					}else {

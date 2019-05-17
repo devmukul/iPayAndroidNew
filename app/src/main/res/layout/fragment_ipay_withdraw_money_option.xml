@@ -4,14 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
     android:focusableInTouchMode="true"
     tools:context=".Activities.IPayTransactionActionActivity">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white">
+        android:layout_height="match_parent">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar_layout"
@@ -32,19 +30,16 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/white">
+            android:layout_height="match_parent">
 
             <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
                 android:focusableInTouchMode="false">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/white"
                     android:orientation="vertical"
                     android:paddingTop="?attr/actionBarSize">
 
@@ -58,7 +53,7 @@
                         android:layout_marginRight="@dimen/value40"
                         android:fontFamily="@font/open_sans_light"
                         android:lineSpacingExtra="3sp"
-                        android:text="@string/choose_a_convenient_way"
+                        android:text="Choose \nwithdraw option"
                         android:textColor="#212121"
                         android:textSize="28sp" />
 
@@ -71,10 +66,9 @@
                         android:layout_marginEnd="@dimen/value32"
                         android:layout_marginRight="@dimen/value32"
                         android:fontFamily="@font/open_sans"
-                        android:text="@string/add_money_message"
+                        android:text="Please choose your desired option to withdraw money from your ipay wallet."
                         android:textColor="#666666"
-                        android:textSize="14sp"
-                        android:visibility="gone"/>
+                        android:textSize="14sp"/>
 
 
                     <android.support.v7.widget.CardView
@@ -86,9 +80,12 @@
                         android:layout_marginTop="@dimen/value12"
                         android:layout_marginEnd="@dimen/value32"
                         android:layout_marginRight="@dimen/value32"
-                        android:layout_marginBottom="@dimen/value12">
+                        android:layout_marginBottom="@dimen/value12"
+                        app:cardCornerRadius="5dp"
+                        app:cardElevation="6dp"
+                        android:elevation="6dp">
 
-                        <android.support.constraint.ConstraintLayout
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/activity_horizontal_margin">
@@ -98,44 +95,42 @@
                                 android:layout_width="72dip"
                                 android:layout_height="72dip"
                                 android:contentDescription="@string/card"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.0"
-                                android:src="@drawable/ic_bank_icon" />
+                                android:src="@drawable/ui_atoms_icons_color_instant_money"
+                                android:layout_centerVertical="true"/>
 
-                            <TextView
-                                android:id="@+id/instant_title_text_view"
-                                android:layout_width="0dp"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="8dip"
-                                android:layout_marginLeft="8dip"
-                                android:fontFamily="@font/open_sans_semibold"
-                                android:textColor="#212121"
-                                android:textSize="12sp"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.0"
-                                app:layout_constraintStart_toEndOf="@+id/instant_icon_image_view"
-                                app:layout_constraintTop_toTopOf="parent"
-                                android:text="INSTANT WITHDRAW" />
+                                android:layout_centerVertical="true"
+                                android:layout_toRightOf="@+id/instant_icon_image_view"
+                                android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/instant_description_text_view"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dip"
-                                android:layout_marginLeft="8dip"
-                                android:fontFamily="@font/open_sans"
-                                android:textColor="#666666"
-                                android:textSize="12sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.0"
-                                app:layout_constraintStart_toEndOf="@+id/instant_icon_image_view"
-                                app:layout_constraintTop_toBottomOf="@+id/instant_title_text_view"
-                                app:layout_constraintVertical_bias="0.0"
-                                android:text="@string/add_money_instant_option_message" />
-                        </android.support.constraint.ConstraintLayout>
+                                <TextView
+                                    android:id="@+id/instant_title_text_view"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dip"
+                                    android:layout_marginLeft="8dip"
+                                    android:fontFamily="@font/open_sans_semibold"
+                                    android:textColor="#212121"
+                                    android:textSize="12sp"
+                                    android:text="INSTANT WITHDRAW" />
+
+                                <TextView
+                                    android:id="@+id/instant_description_text_view"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dip"
+                                    android:layout_marginLeft="8dip"
+                                    android:fontFamily="@font/open_sans"
+                                    android:textColor="#666666"
+                                    android:textSize="12sp"
+                                    android:text="@string/add_money_instant_option_message" />
+
+                            </LinearLayout>
+
+
+                        </RelativeLayout>
                     </android.support.v7.widget.CardView>
 
                     <android.support.v7.widget.CardView
@@ -144,12 +139,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/value32"
                         android:layout_marginLeft="@dimen/value32"
-                        android:layout_marginTop="@dimen/value12"
+                        android:layout_marginTop="@dimen/value4"
                         android:layout_marginEnd="@dimen/value32"
                         android:layout_marginRight="@dimen/value32"
-                        android:layout_marginBottom="@dimen/value12">
+                        android:layout_marginBottom="@dimen/value12"
+                        app:cardCornerRadius="5dp"
+                        android:elevation="6dp"
+                        app:cardElevation="6dp">
 
-                        <android.support.constraint.ConstraintLayout
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/activity_horizontal_margin">
@@ -159,44 +157,42 @@
                                 android:layout_width="72dip"
                                 android:layout_height="72dip"
                                 android:contentDescription="@string/card"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.0"
-                                android:src="@drawable/ic_bank_icon" />
+                                android:src="@drawable/ui_atoms_icons_color_standard_money"
+                                android:layout_centerVertical="true"/>
 
-                            <TextView
-                                android:id="@+id/lazy_title_text_view"
-                                android:layout_width="0dp"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="8dip"
-                                android:layout_marginLeft="8dip"
-                                android:fontFamily="@font/open_sans_semibold"
-                                android:textColor="#212121"
-                                android:textSize="12sp"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.0"
-                                app:layout_constraintStart_toEndOf="@+id/lazy_icon_image_view"
-                                app:layout_constraintTop_toTopOf="parent"
-                                android:text="LAZY WITHDRAW" />
+                                android:layout_centerVertical="true"
+                                android:layout_toRightOf="@+id/lazy_icon_image_view"
+                                android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/lazy_description_text_view"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dip"
-                                android:layout_marginLeft="8dip"
-                                android:fontFamily="@font/open_sans"
-                                android:textColor="#666666"
-                                android:textSize="12sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.0"
-                                app:layout_constraintStart_toEndOf="@+id/lazy_icon_image_view"
-                                app:layout_constraintTop_toBottomOf="@+id/lazy_title_text_view"
-                                app:layout_constraintVertical_bias="0.0"
-                                android:text="@string/add_money_instant_option_message" />
-                        </android.support.constraint.ConstraintLayout>
+                                <TextView
+                                    android:id="@+id/lazy_title_text_view"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dip"
+                                    android:layout_marginLeft="8dip"
+                                    android:fontFamily="@font/open_sans_semibold"
+                                    android:textColor="#212121"
+                                    android:textSize="12sp"
+                                    android:text="REGULAR WITHDRAW" />
+
+                                <TextView
+                                    android:id="@+id/lazy_description_text_view"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dip"
+                                    android:layout_marginLeft="8dip"
+                                    android:fontFamily="@font/open_sans"
+                                    android:textColor="#666666"
+                                    android:textSize="12sp"
+                                    android:text="@string/add_money_instant_option_message" />
+
+                            </LinearLayout>
+
+
+                        </RelativeLayout>
                     </android.support.v7.widget.CardView>
 
                 </LinearLayout>

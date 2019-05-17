@@ -3,29 +3,36 @@ package bd.com.ipay.ipayskeleton.PaymentFragments.WithdrawMoneyFragments;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.View;
 
 import com.google.gson.Gson;
 
 import java.math.BigDecimal;
 
 import bd.com.ipay.ipayskeleton.Activities.IPayTransactionActionActivity;
+import bd.com.ipay.ipayskeleton.Activities.UtilityBillPayActivities.IPayUtilityBillPayActionActivity;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Balance.CreditBalanceResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.BasicInfo.SetProfileInfoRequest;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.CarnivalCustomerInfoResponse;
 import bd.com.ipay.ipayskeleton.PaymentFragments.BankTransactionFragments.IPayAbstractBankTransactionAmountInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.BankTransactionFragments.IPayAbstractBankTransactionConfirmationFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.BankTransactionFragments.IPayAbstractWithdrawAmountInputFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.Carnival.CarnivalBillAmountInputFragment;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.SharedPrefManager;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
+import bd.com.ipay.ipayskeleton.Utilities.ContactEngine;
 import bd.com.ipay.ipayskeleton.Utilities.DialogUtils;
 import bd.com.ipay.ipayskeleton.Utilities.InputValidator;
 import bd.com.ipay.ipayskeleton.Utilities.ServiceIdConstants;
 import bd.com.ipay.ipayskeleton.Utilities.Utilities;
+import bd.com.ipay.ipayskeleton.Widget.View.BillDetailsDialog;
+import bd.com.ipay.ipayskeleton.Widget.View.WithdrawMoneyDetailsDialog;
 
 public class IPayWithdrawMoneyFromBankAmountInputFragment extends IPayAbstractBankTransactionAmountInputFragment {
 
@@ -46,11 +53,19 @@ public class IPayWithdrawMoneyFromBankAmountInputFragment extends IPayAbstractBa
 	@Override
 	protected void performContinueAction() {
 		if (getActivity() instanceof IPayTransactionActionActivity) {
-			final Bundle bundle = new Bundle();
-			bundle.putParcelable(Constants.SELECTED_BANK_ACCOUNT, bankAccountList);
-			bundle.putBoolean("IS_INSTANT", isInstant);
-			bundle.putSerializable(IPayAbstractBankTransactionConfirmationFragment.TRANSACTION_AMOUNT_KEY, getAmount());
-			((IPayTransactionActionActivity) getActivity()).switchFragment(new IPayWithdrawMoneyFromBankConfirmationFragment(), bundle, 2, true);
+			double charge = flatRate + ((Double.valueOf( variableRate )*(getAmount().doubleValue()))/100);
+
+			if(maxRate!=0 && maxRate<charge)
+				charge = maxRate;
+			if(charge>0) {
+				showInfo(getAmount().doubleValue(), charge);
+			}else {
+				final Bundle bundle = new Bundle();
+				bundle.putParcelable(Constants.SELECTED_BANK_ACCOUNT, bankAccountList);
+				bundle.putBoolean("IS_INSTANT", isInstant);
+				bundle.putSerializable(IPayAbstractBankTransactionConfirmationFragment.TRANSACTION_AMOUNT_KEY, getAmount());
+				((IPayTransactionActionActivity) getActivity()).switchFragment(new IPayWithdrawMoneyFromBankConfirmationFragment(), bundle, 2, true);
+			}
 		}
 	}
 
@@ -97,6 +112,43 @@ public class IPayWithdrawMoneyFromBankAmountInputFragment extends IPayAbstractBa
 	@Override
 	protected int getServiceId() {
 		return ServiceIdConstants.WITHDRAW_MONEY;
+	}
+
+	private void showInfo(double ammount, double charge) {
+		if (getActivity() == null)
+			return;
+
+
+
+		final WithdrawMoneyDetailsDialog billDetailsDialog = new WithdrawMoneyDetailsDialog(getContext());
+		billDetailsDialog.setTitle("Transaction Details");
+		billDetailsDialog.setClientLogoImageResource(bankAccountList.getBankIcon(getContext()));
+		billDetailsDialog.setBillTitleInfo(bankAccountList.getBankName());
+		billDetailsDialog.setBillSubTitleInfo("Withdraw Money");
+
+		billDetailsDialog.setRequestAmountInfo(ammount);
+		billDetailsDialog.setChargeInfo(charge);
+		billDetailsDialog.setTotalInfo(ammount + charge);
+
+		billDetailsDialog.setCloseButtonAction(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				billDetailsDialog.cancel();
+			}
+		});
+		billDetailsDialog.setPayBillButtonAction(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+			billDetailsDialog.cancel();
+			final Bundle bundle = new Bundle();
+			bundle.putParcelable(Constants.SELECTED_BANK_ACCOUNT, bankAccountList);
+			bundle.putBoolean("IS_INSTANT", isInstant);
+			bundle.putSerializable(IPayAbstractBankTransactionConfirmationFragment.TRANSACTION_AMOUNT_KEY, getAmount());
+			((IPayTransactionActionActivity) getActivity()).switchFragment(new IPayWithdrawMoneyFromBankConfirmationFragment(), bundle, 2, true);
+
+			}
+		});
+		billDetailsDialog.show();
 	}
 
 

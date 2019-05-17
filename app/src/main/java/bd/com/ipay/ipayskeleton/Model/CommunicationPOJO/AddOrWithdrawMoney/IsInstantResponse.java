@@ -14,15 +14,12 @@ public class IsInstantResponse implements Serializable, Parcelable
     @SerializedName("message")
     @Expose
     private String message;
-    @SerializedName("isInstant")
+    @SerializedName("instant")
     @Expose
-    private Boolean isInstant;
-    @SerializedName("instantFeeDescription")
+    private Instant instant;
+    @SerializedName("lazy")
     @Expose
-    private String instantFeeDescription;
-    @SerializedName("lazyFeeDescription")
-    @Expose
-    private String lazyFeeDescription;
+    private Lazy lazy;
     public final static Creator<IsInstantResponse> CREATOR = new Creator<IsInstantResponse>() {
 
 
@@ -39,13 +36,12 @@ public class IsInstantResponse implements Serializable, Parcelable
 
     }
     ;
-    private final static long serialVersionUID = 3988749910375153108L;
+    private final static long serialVersionUID = -6978414530560489151L;
 
     protected IsInstantResponse(Parcel in) {
         this.message = ((String) in.readValue((String.class.getClassLoader())));
-        this.isInstant = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
-        this.instantFeeDescription = ((String) in.readValue((String.class.getClassLoader())));
-        this.lazyFeeDescription = ((String) in.readValue((String.class.getClassLoader())));
+        this.instant = ((Instant) in.readValue((Instant.class.getClassLoader())));
+        this.lazy = ((Lazy) in.readValue((Lazy.class.getClassLoader())));
     }
 
     /**
@@ -58,16 +54,14 @@ public class IsInstantResponse implements Serializable, Parcelable
     /**
      * 
      * @param message
-     * @param lazyFeeDescription
-     * @param instantFeeDescription
-     * @param isInstant
+     * @param lazy
+     * @param instant
      */
-    public IsInstantResponse(String message, Boolean isInstant, String instantFeeDescription, String lazyFeeDescription) {
+    public IsInstantResponse(String message, Instant instant, Lazy lazy) {
         super();
         this.message = message;
-        this.isInstant = isInstant;
-        this.instantFeeDescription = instantFeeDescription;
-        this.lazyFeeDescription = lazyFeeDescription;
+        this.instant = instant;
+        this.lazy = lazy;
     }
 
     public String getMessage() {
@@ -78,35 +72,26 @@ public class IsInstantResponse implements Serializable, Parcelable
         this.message = message;
     }
 
-    public Boolean getIsInstant() {
-        return isInstant;
+    public Instant getInstant() {
+        return instant;
     }
 
-    public void setIsInstant(Boolean isInstant) {
-        this.isInstant = isInstant;
+    public void setInstant(Instant instant) {
+        this.instant = instant;
     }
 
-    public String getInstantFeeDescription() {
-        return instantFeeDescription;
+    public Lazy getLazy() {
+        return lazy;
     }
 
-    public void setInstantFeeDescription(String instantFeeDescription) {
-        this.instantFeeDescription = instantFeeDescription;
-    }
-
-    public String getLazyFeeDescription() {
-        return lazyFeeDescription;
-    }
-
-    public void setLazyFeeDescription(String lazyFeeDescription) {
-        this.lazyFeeDescription = lazyFeeDescription;
+    public void setLazy(Lazy lazy) {
+        this.lazy = lazy;
     }
 
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(message);
-        dest.writeValue(isInstant);
-        dest.writeValue(instantFeeDescription);
-        dest.writeValue(lazyFeeDescription);
+        dest.writeValue(instant);
+        dest.writeValue(lazy);
     }
 
     public int describeContents() {

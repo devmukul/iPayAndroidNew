@@ -85,7 +85,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/open_sans_light"
                 android:gravity="start|center_vertical"
-                android:text="You wii recieve"
+                android:text="@string/you_wii_recieve"
                 android:textColor="#333333" />
 
             <TextView
@@ -119,7 +119,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/open_sans_light"
                 android:gravity="start|center_vertical"
-                android:text="Charge"
+                android:text="@string/charge"
                 android:textColor="#333333" />
 
             <TextView
@@ -159,7 +159,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/open_sans_semibold"
                 android:gravity="start|center_vertical"
-                android:text="Total"
+                android:text="@string/total"
                 android:textColor="#000000" />
 
             <TextView
@@ -192,7 +192,7 @@
         android:layout_margin="@dimen/value16"
         android:background="?android:attr/selectableItemBackground"
         android:fontFamily="@font/open_sans"
-        android:text="CONTINUE"
+        android:text="@string/confirm"
         android:textColor="#00c0af"
         android:textStyle="bold" />
 </LinearLayout>

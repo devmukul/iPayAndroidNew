@@ -121,10 +121,10 @@ public class IPayWithdrawMoneyFromBankAmountInputFragment extends IPayAbstractBa
 
 
 		final WithdrawMoneyDetailsDialog billDetailsDialog = new WithdrawMoneyDetailsDialog(getContext());
-		billDetailsDialog.setTitle("Transaction Details");
+		billDetailsDialog.setTitle(getString(R.string.transaction_details));
 		billDetailsDialog.setClientLogoImageResource(bankAccountList.getBankIcon(getContext()));
 		billDetailsDialog.setBillTitleInfo(bankAccountList.getBankName());
-		billDetailsDialog.setBillSubTitleInfo("Withdraw Money");
+		billDetailsDialog.setBillSubTitleInfo(getString(R.string.withdraw_money));
 
 		billDetailsDialog.setRequestAmountInfo(ammount);
 		billDetailsDialog.setChargeInfo(charge);
@@ -139,12 +139,32 @@ public class IPayWithdrawMoneyFromBankAmountInputFragment extends IPayAbstractBa
 		billDetailsDialog.setPayBillButtonAction(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-			billDetailsDialog.cancel();
-			final Bundle bundle = new Bundle();
-			bundle.putParcelable(Constants.SELECTED_BANK_ACCOUNT, bankAccountList);
-			bundle.putBoolean("IS_INSTANT", isInstant);
-			bundle.putSerializable(IPayAbstractBankTransactionConfirmationFragment.TRANSACTION_AMOUNT_KEY, getAmount());
-			((IPayTransactionActionActivity) getActivity()).switchFragment(new IPayWithdrawMoneyFromBankConfirmationFragment(), bundle, 2, true);
+				billDetailsDialog.cancel();
+
+				final String errorMessage;
+
+				final BigDecimal amount =  BigDecimal.valueOf(getAmount().doubleValue());
+				final CreditBalanceResponse creditBalanceResponse = SharedPrefManager.getCreditBalance();
+				final BigDecimal balance = new BigDecimal(SharedPrefManager.getUserBalance());
+				final BigDecimal unsettledBalance = creditBalanceResponse.getCreditLimit().subtract(creditBalanceResponse.getAvailableCredit());
+				final BigDecimal settledBalance = balance.subtract(unsettledBalance);
+				if (amount.compareTo(settledBalance) > 0) {
+					errorMessage = getString(R.string.insufficient_balance);
+				} else {
+					final BigDecimal minimumAmount = businessRules.getMIN_AMOUNT_PER_PAYMENT();
+					final BigDecimal maximumAmount = businessRules.getMAX_AMOUNT_PER_PAYMENT().min(settledBalance);
+					errorMessage = InputValidator.isValidAmount(getActivity(), amount, minimumAmount, maximumAmount);
+				}
+
+				if (errorMessage != null) {
+					showErrorMessage(errorMessage);
+				}else {
+					final Bundle bundle = new Bundle();
+					bundle.putParcelable(Constants.SELECTED_BANK_ACCOUNT, bankAccountList);
+					bundle.putBoolean("IS_INSTANT", isInstant);
+					bundle.putSerializable(IPayAbstractBankTransactionConfirmationFragment.TRANSACTION_AMOUNT_KEY, getAmount());
+					((IPayTransactionActionActivity) getActivity()).switchFragment(new IPayWithdrawMoneyFromBankConfirmationFragment(), bundle, 2, true);
+				}
 
 			}
 		});

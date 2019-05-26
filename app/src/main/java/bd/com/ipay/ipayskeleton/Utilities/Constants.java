@@ -310,6 +310,8 @@ public class Constants {
     public static final String COMMAND_LINK_THREE_BILL_PAY_SCHEDULE = "COMMAND_LINK_THREE_BILL_PAY_SCHEDULE";
     public static final String AMOUNT_TYPE = "AMOUNT_TYPE";
     public static final String BEXCOM = "BEXCOM";
+    public static final String COMMAND_ADD_MONEY_FROM_BARC_BANK = "COMMAND_ADD_MONEY_FROM_BARC_BANK";
+    public static final String COMMAND_GET_BRAC_BANK_TOKEN = "COMMAND_GET_BRAC_BANK_TOKEN";
 
 
     public static String ROLEID = "ROLEID";

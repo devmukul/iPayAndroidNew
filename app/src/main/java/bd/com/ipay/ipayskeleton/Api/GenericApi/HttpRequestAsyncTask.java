@@ -154,6 +154,8 @@ public abstract class HttpRequestAsyncTask extends AsyncTask<Void, Void, Generic
                     okHttpResponse.setResponse(response);
                 } catch (IOException e) {
 
+                    e.printStackTrace();
+
                     if (e instanceof SocketException) {
                         socketTimeOutConnection = mContext.getString(R.string.network_unreachable);
                     } else if (e instanceof SocketTimeoutException) {

@@ -17,12 +17,15 @@ public class IPayAddMoneyFromBankConfirmationFragment extends IPayAbstractBankTr
 
     @Override
     protected String getRequestJson() {
-        return gson.toJson(new AddMoneyByBankRequestV3(bankAccountList.getBankAccountId(), transactionAmount.doubleValue(), getNote()));
+        if(bankAccountList.getBankCode().equals("060"))
+            return gson.toJson(new AddMoneyByBankRequestV3(bankAccountList.getBankAccountId(), transactionAmount.doubleValue(), getNote(),true));
+        else
+            return gson.toJson(new AddMoneyByBankRequestV3(bankAccountList.getBankAccountId(), transactionAmount.doubleValue(), getNote()));
     }
 
     @Override
     protected String getUrl() {
-        return Constants.BASE_URL_SM + Constants.URL_ADD_MONEY_BY_BANK_V3;
+        return "http://192.168.1.149:8085/api/v1/money/" + Constants.URL_ADD_MONEY_BY_BANK_V3;
     }
 
     @Override

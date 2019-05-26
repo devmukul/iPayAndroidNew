@@ -5,10 +5,19 @@ public class AddMoneyByBankRequestV3 {
     private double amount;
     private String description;
 
+    private boolean isInstant;
+
     public AddMoneyByBankRequestV3(long userBankId, double amount, String description) {
         this.userBankId = userBankId;
         this.amount = amount;
         this.description = description;
+    }
+
+    public AddMoneyByBankRequestV3(long userBankId, double amount, String description, boolean isInstant) {
+        this.userBankId = userBankId;
+        this.amount = amount;
+        this.description = description;
+        this.isInstant = isInstant;
     }
 
     public long getUserBankId() {
@@ -33,5 +42,13 @@ public class AddMoneyByBankRequestV3 {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isInstant() {
+        return isInstant;
+    }
+
+    public void setInstant(boolean instant) {
+        isInstant = instant;
     }
 }

@@ -100,23 +100,47 @@ public abstract class IPayAbstractBankTransactionConfirmationFragment extends IP
 
                     switch (result.getStatus()) {
                         case Constants.HTTP_RESPONSE_STATUS_OK:
-                            if (mOTPVerificationForTwoFactorAuthenticationServicesDialog != null) {
-                                mOTPVerificationForTwoFactorAuthenticationServicesDialog.dismissDialog();
-                            }
-                            mCustomProgressDialog.showSuccessAnimationAndMessage(iPayTransactionResponse.getMessage());
-                            if (getActivity() != null)
-                                Utilities.hideKeyboard(getActivity());
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mCustomProgressDialog.hide();
-                                    Bundle bundle = new Bundle();
-                                    bundle.putSerializable(TRANSACTION_AMOUNT_KEY, transactionAmount);
-                                    bundle.putParcelable(Constants.SELECTED_BANK_ACCOUNT, bankAccountList);
-                                    bankTransactionSuccess(bundle);
+                            if(bankAccountList.getBankCode().equals("060")){
+
+                                if (otpVerificationForBracBankAddMoneyDialog != null) {
+                                    otpVerificationForBracBankAddMoneyDialog.dismissDialog();
+                                    mCustomProgressDialog.showSuccessAnimationAndMessage(iPayTransactionResponse.getMessage());
+                                    if (getActivity() != null)
+                                        Utilities.hideKeyboard(getActivity());
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mCustomProgressDialog.hide();
+                                            Bundle bundle = new Bundle();
+                                            bundle.putSerializable(TRANSACTION_AMOUNT_KEY, transactionAmount);
+                                            bundle.putParcelable(Constants.SELECTED_BANK_ACCOUNT, bankAccountList);
+                                            bankTransactionSuccess(bundle);
+                                        }
+                                    }, 2000);
+                                    sendSuccessEventTracking(transactionAmount);
+                                }else{
+                                    launchOTPVerificationBrac(500, iPayTransactionResponse.getTransactionId(), getApiCommand(), "http://192.168.1.149:8085/api/v1/money/add-money/brac/confirm");
+
                                 }
-                            }, 2000);
-                            sendSuccessEventTracking(transactionAmount);
+                            }else {
+                                if (mOTPVerificationForTwoFactorAuthenticationServicesDialog != null) {
+                                    mOTPVerificationForTwoFactorAuthenticationServicesDialog.dismissDialog();
+                                }
+                                mCustomProgressDialog.showSuccessAnimationAndMessage(iPayTransactionResponse.getMessage());
+                                if (getActivity() != null)
+                                    Utilities.hideKeyboard(getActivity());
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mCustomProgressDialog.hide();
+                                        Bundle bundle = new Bundle();
+                                        bundle.putSerializable(TRANSACTION_AMOUNT_KEY, transactionAmount);
+                                        bundle.putParcelable(Constants.SELECTED_BANK_ACCOUNT, bankAccountList);
+                                        bankTransactionSuccess(bundle);
+                                    }
+                                }, 2000);
+                                sendSuccessEventTracking(transactionAmount);
+                            }
                             break;
                         case Constants.HTTP_RESPONSE_STATUS_ACCEPTED:
                         case Constants.HTTP_RESPONSE_STATUS_NOT_EXPIRED:

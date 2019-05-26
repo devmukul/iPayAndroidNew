@@ -158,7 +158,7 @@ public class CreditCardBankSelectionFragment extends Fragment implements HttpRes
         }
 
         mGetSavedBillListTask = new HttpRequestGetAsyncTask(Constants.COMMAND_GET_SAVED_BILL_LIST,
-                Constants.BASE_URL_UTILITY + "/scheduled/saved-bills/?providerCodes="+providerCode1+"&providerCodes="+providerCode2, getActivity(), false);
+                Constants.BASE_URL_UTILITY + "scheduled/saved-bills/?providerCodes="+providerCode1+"&providerCodes="+providerCode2, getActivity(), false);
         mGetSavedBillListTask.mHttpResponseListener = this;
         mGetSavedBillListTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }

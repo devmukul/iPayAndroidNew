@@ -1229,5 +1229,6 @@
     <string name="recent_bill_information">Recent Bill Information</string>
     <string name="name_title">Name/Title</string>
     <string name="akash_subscriber_id_input_message">Please enter your Akash DTH Subscriber ID</string>
+    <string name="charge">Charge</string>
 
 </resources>

@@ -78,6 +78,8 @@ public class IPayBankListFragment extends ProgressFragment implements HttpRespon
 			transactionType = getArguments().getInt(IPayTransactionActionActivity.TRANSACTION_TYPE_KEY, IPayTransactionActionActivity.TRANSACTION_TYPE_INVALID);
 		}
 
+		getActivity().setTitle(R.string.bank);
+
 		mCustomProgressDialog = new AnimatedProgressDialog(getContext());
 		iPayBankListViewModel = ViewModelProviders.of(this).get(IPayBankListViewModel.class);
 		iPayBankListViewModel.getUserBankAccountListLiveData().observe(this, new Observer<List<Bank>>() {
@@ -186,7 +188,7 @@ public class IPayBankListFragment extends ProgressFragment implements HttpRespon
 					//final LinkBracBankResponse mAddMoneyByCreditOrDebitResponse = new Gson().fromJson(result.getJsonString(), LinkBracBankResponse.class);
 					switch (result.getStatus()) {
 						case Constants.HTTP_RESPONSE_STATUS_OK:
-							((ManageBanksActivity) getActivity()).switchToLinkBracBankSuccess();
+							((ManageBanksActivity) getActivity()).switchToBankAccountsFragment();
 							break;
 						default:
 							((ManageBanksActivity) getActivity()).switchToBankAccountsFragment();

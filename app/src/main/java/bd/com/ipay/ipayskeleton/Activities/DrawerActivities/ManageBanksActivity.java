@@ -159,20 +159,10 @@ public class ManageBanksActivity extends BaseActivity {
 
     public void switchToLinkBracBankSuccess() {
         getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new IPayBankListFragment()).commit();
+                    .replace(R.id.fragment_container, new IPayLinkBracBankSuccessFragment()).commit();
 
         mFabAddNewBank.setVisibility(View.GONE);
     }
-
-    public void switchToBankSuccessFragment() {
-        IPayLinkBracBankSuccessFragment bankListFragment = new IPayLinkBracBankSuccessFragment();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, bankListFragment).commit();
-
-    }
-
-
-
 
     public void switchToAddBankAgreementFragment(Bundle bundle) {
         // If started from manage bank or profile completion page

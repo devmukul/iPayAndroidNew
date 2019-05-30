@@ -166,7 +166,8 @@ public class BankAccountsFragment extends ProgressFragment implements HttpRespon
         }
 
         mGetBankTask = new HttpRequestGetAsyncTask(Constants.COMMAND_GET_BANK_LIST,
-                Constants.BASE_URL_MM + Constants.URL_GET_BANK, getActivity(), true);
+                "http://10.100.44.10:8085/api/v1/bank/", getActivity(), true);
+        //Constants.BASE_URL_MM + Constants.URL_GET_BANK
         mGetBankTask.mHttpResponseListener = this;
         mGetBankTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
@@ -427,25 +428,9 @@ public class BankAccountsFragment extends ProgressFragment implements HttpRespon
                 switch (result.getStatus()) {
                     case Constants.HTTP_RESPONSE_STATUS_OK:
                         ((ManageBanksActivity) getActivity()).switchToLinkBracBankSuccess();
-
-//							Intent intent = new Intent(getActivity(), BracBankLinkWebViewActivity.class);
-//							intent.putExtra("BANK_ID", mAddMoneyByCreditOrDebitResponse.getId());
-//							intent.putExtra(Constants.CARD_PAYMENT_URL, mAddMoneyByCreditOrDebitResponse.getCallbackUrl());
-//							startActivityForResult(intent, CARD_PAYMENT_WEB_VIEW_REQUEST);
-                        break;
-                    case 417:
-                        ((ManageBanksActivity) getActivity()).switchToBankAccountsFragment();
-
-//							Intent intent = new Intent(getActivity(), BracBankLinkWebViewActivity.class);
-//							intent.putExtra("BANK_ID", mAddMoneyByCreditOrDebitResponse.getId());
-//							intent.putExtra(Constants.CARD_PAYMENT_URL, mAddMoneyByCreditOrDebitResponse.getCallbackUrl());
-//							startActivityForResult(intent, CARD_PAYMENT_WEB_VIEW_REQUEST);
                         break;
                     default:
-                        if (getActivity() != null) {
-                            Toaster.makeText(getActivity(), R.string.service_not_available, Toast.LENGTH_SHORT);
-                            getActivity().finish();
-                        }
+                        ((ManageBanksActivity) getActivity()).switchToBankAccountsFragment();
                         break;
                 }
                 httpRequestPostAsyncTask = null;

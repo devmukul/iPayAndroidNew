@@ -1,6 +1,7 @@
 package bd.com.ipay.ipayskeleton.Activities;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -48,6 +49,10 @@ public class BracBankLinkWebViewActivity extends BaseActivity {
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_credit_or_debit_card_payment_web_view);
+
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+
 		mWebView = findViewById(R.id.web_view);
 		final ProgressBar progressBar = findViewById(R.id.progress_bar);
 

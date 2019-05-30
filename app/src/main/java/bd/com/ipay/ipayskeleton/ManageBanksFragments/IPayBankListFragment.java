@@ -187,25 +187,9 @@ public class IPayBankListFragment extends ProgressFragment implements HttpRespon
 					switch (result.getStatus()) {
 						case Constants.HTTP_RESPONSE_STATUS_OK:
 							((ManageBanksActivity) getActivity()).switchToLinkBracBankSuccess();
-
-//							Intent intent = new Intent(getActivity(), BracBankLinkWebViewActivity.class);
-//							intent.putExtra("BANK_ID", mAddMoneyByCreditOrDebitResponse.getId());
-//							intent.putExtra(Constants.CARD_PAYMENT_URL, mAddMoneyByCreditOrDebitResponse.getCallbackUrl());
-//							startActivityForResult(intent, CARD_PAYMENT_WEB_VIEW_REQUEST);
-							break;
-						case 417:
-							((ManageBanksActivity) getActivity()).switchToBankAccountsFragment();
-
-//							Intent intent = new Intent(getActivity(), BracBankLinkWebViewActivity.class);
-//							intent.putExtra("BANK_ID", mAddMoneyByCreditOrDebitResponse.getId());
-//							intent.putExtra(Constants.CARD_PAYMENT_URL, mAddMoneyByCreditOrDebitResponse.getCallbackUrl());
-//							startActivityForResult(intent, CARD_PAYMENT_WEB_VIEW_REQUEST);
 							break;
 						default:
-							if (getActivity() != null) {
-								Toaster.makeText(getActivity(), R.string.service_not_available, Toast.LENGTH_SHORT);
-								getActivity().finish();
-							}
+							((ManageBanksActivity) getActivity()).switchToBankAccountsFragment();
 							break;
 					}
 					httpRequestPostAsyncTask = null;

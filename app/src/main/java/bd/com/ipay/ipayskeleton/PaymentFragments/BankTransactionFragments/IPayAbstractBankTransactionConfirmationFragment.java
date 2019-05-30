@@ -119,7 +119,7 @@ public abstract class IPayAbstractBankTransactionConfirmationFragment extends IP
                                     }, 2000);
                                     sendSuccessEventTracking(transactionAmount);
                                 }else{
-                                    launchOTPVerificationBrac(500, iPayTransactionResponse.getTransactionId(), getApiCommand(), "http://192.168.1.149:8085/api/v1/money/add-money/brac/confirm");
+                                    launchOTPVerificationBrac(500, iPayTransactionResponse.getTransactionId(), getApiCommand(), "http://192.168.0.106:8085/api/v1/money/add-money/brac/confirm");
 
                                 }
                             }else {

@@ -32,12 +32,15 @@ public abstract class IPayAbstractBankTransactionConfirmationFragment extends IP
     protected BankAccountList bankAccountList;
     protected final Gson gson = new GsonBuilder().create();
 
+    protected boolean isInstant;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             transactionAmount = (Number) getArguments().getSerializable(TRANSACTION_AMOUNT_KEY);
             bankAccountList = getArguments().getParcelable(Constants.SELECTED_BANK_ACCOUNT);
+            isInstant = getArguments().getBoolean("IS_INSTANT", false);
         }
         mCustomProgressDialog = new AnimatedProgressDialog(getContext());
     }

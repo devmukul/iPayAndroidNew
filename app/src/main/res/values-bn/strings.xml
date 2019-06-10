@@ -1406,6 +1406,9 @@
     <string name="recent_bill_information">সাম্প্রতিক বিল</string>
     <string name="name_title">Name/Title</string>
     <string name="akash_subscriber_id_input_message">অনুগ্রহ করে আপনার আকাশ ডিটিএইচ সাবস্ক্রাইবার আইডি লিখুন</string>
+    <string name="total">সর্বমোট</string>
+    <string name="charge">চার্জ</string>
+    <string name="you_wii_recieve">টাকার পরিমাণ</string>
 </resources>
 
 

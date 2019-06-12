@@ -35,7 +35,14 @@ public class IPayBankListViewHolder extends IPayViewHolder<Bank> {
 
 	@Override
 	public void bindTo(Bank bankAccountList) {
-		Drawable icon = itemView.getContext().getResources().getDrawable(bankAccountList.getBankIcon(itemView.getContext()));
+		Drawable icon ;
+		try {
+			icon = itemView.getContext().getResources().getDrawable(bankAccountList.getBankIcon(itemView.getContext()));
+		}catch (Exception e){
+			e.printStackTrace();
+			icon = itemView.getContext().getResources().getDrawable(R.drawable.ic_bank111);
+
+		}
 		bankIconImageView.setImageDrawable(icon);
 		bankNameTextView.setText(bankAccountList.getName());
 	}

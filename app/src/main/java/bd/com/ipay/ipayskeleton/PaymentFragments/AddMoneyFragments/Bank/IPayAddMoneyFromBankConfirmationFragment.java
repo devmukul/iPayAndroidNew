@@ -25,7 +25,7 @@ public class IPayAddMoneyFromBankConfirmationFragment extends IPayAbstractBankTr
 
     @Override
     protected String getUrl() {
-        return "http://192.168.0.106:8085/api/v1/money/" + Constants.URL_ADD_MONEY_BY_BANK_V3;
+        return Constants.BASE_URL_SM + Constants.URL_ADD_MONEY_BY_BANK_V3;
     }
 
     @Override

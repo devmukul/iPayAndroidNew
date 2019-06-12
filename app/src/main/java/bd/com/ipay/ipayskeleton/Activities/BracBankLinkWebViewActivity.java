@@ -50,8 +50,8 @@ public class BracBankLinkWebViewActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_credit_or_debit_card_payment_web_view);
 
-		ActionBar actionBar = getActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
+//		ActionBar actionBar = getActionBar();
+//		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		mWebView = findViewById(R.id.web_view);
 		final ProgressBar progressBar = findViewById(R.id.progress_bar);

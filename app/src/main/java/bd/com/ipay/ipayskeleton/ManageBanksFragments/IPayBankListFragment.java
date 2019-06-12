@@ -185,12 +185,14 @@ public class IPayBankListFragment extends ProgressFragment implements HttpRespon
 				case Constants.COMMAND_GET_BRAC_BANK_TOKEN:
 					httpRequestPostAsyncTask = null;
 					mCustomProgressDialog.dismissDialog();
-					//final LinkBracBankResponse mAddMoneyByCreditOrDebitResponse = new Gson().fromJson(result.getJsonString(), LinkBracBankResponse.class);
+					final LinkBracBankResponse mAddMoneyByCreditOrDebitResponse1 = new Gson().fromJson(result.getJsonString(), LinkBracBankResponse.class);
 					switch (result.getStatus()) {
 						case Constants.HTTP_RESPONSE_STATUS_OK:
+							Toaster.makeText(getActivity(), mAddMoneyByCreditOrDebitResponse1.getMessage(), Toast.LENGTH_SHORT);
 							((ManageBanksActivity) getActivity()).switchToBankAccountsFragment();
 							break;
 						default:
+							Toaster.makeText(getActivity(), mAddMoneyByCreditOrDebitResponse1.getMessage(), Toast.LENGTH_SHORT);
 							((ManageBanksActivity) getActivity()).switchToBankAccountsFragment();
 							break;
 					}

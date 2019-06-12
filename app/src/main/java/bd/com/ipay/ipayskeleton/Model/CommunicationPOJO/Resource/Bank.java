@@ -30,9 +30,17 @@ public class Bank implements Resource {
     public int getBankIcon(Context context) {
         Resources resources = context.getResources();
         int resourceId;
-        if (bankCode != null)
-            resourceId = resources.getIdentifier("ic_bank" + getBankCode(), "drawable",
-                    context.getPackageName());
+        if (bankCode != null) {
+            try {
+                resourceId = resources.getIdentifier("ic_bank" + getBankCode(), "drawable",
+                        context.getPackageName());
+            }catch (Exception e){
+                e.printStackTrace();
+                resourceId = resources.getIdentifier("ic_bank" + "111", "drawable",
+                        context.getPackageName());
+            }
+
+        }
         else
             resourceId = resources.getIdentifier("ic_bank" + "111", "drawable",
                     context.getPackageName());

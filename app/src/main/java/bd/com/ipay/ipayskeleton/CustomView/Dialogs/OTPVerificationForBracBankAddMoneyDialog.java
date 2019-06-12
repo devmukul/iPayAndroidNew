@@ -51,7 +51,6 @@ public class OTPVerificationForBracBankAddMoneyDialog extends AlertDialog implem
     private EditText mOTPEditText;
     private Button mActivateButton;
     private Button mCancelButton;
-    private Button mResendOTPButton;
     private View view;
 
     //applicable only in make payment
@@ -105,7 +104,7 @@ public class OTPVerificationForBracBankAddMoneyDialog extends AlertDialog implem
     private void initializeView() {
         mOTPInputDialog = new MaterialDialog.Builder(this.getContext())
                 .title(R.string.title_otp_verification_for_change_password)
-                .customView(R.layout.dialog_otp_verification_change_password, true)
+                .customView(R.layout.dialog_otp_verification_barc_bank, true)
                 .show();
         mOTPInputDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
@@ -116,7 +115,6 @@ public class OTPVerificationForBracBankAddMoneyDialog extends AlertDialog implem
             return;
         mOTPEditText = view.findViewById(R.id.otp_edittext);
         mActivateButton = view.findViewById(R.id.buttonVerifyOTP);
-        mResendOTPButton = view.findViewById(R.id.buttonResend);
         mCancelButton = view.findViewById(R.id.buttonCancel);
 
         mCustomProgressDialog = new AnimatedProgressDialog(context);
@@ -156,29 +154,15 @@ public class OTPVerificationForBracBankAddMoneyDialog extends AlertDialog implem
                 mOTPInputDialog.dismiss();
             }
         });
-        mResendOTPButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Utilities.isConnectionAvailable(context))
-                    attemptDesiredRequestWithOTP(null);
-                else
-                    Toaster.makeText(context, R.string.no_internet_connection, Toast.LENGTH_LONG);
-            }
-        });
     }
 
     private void setCountDownTimer() {
-        mResendOTPButton.setEnabled(false);
         final long otpValidTime = otpValidFor != null ? otpValidFor : SecuritySettingsActivity.otpDuration;
         new CustomCountDownTimer(otpValidTime, 500) {
 
-            public void onTick(long millisUntilFinished) {
-                mResendOTPButton.setText(String.format(Locale.getDefault(), "%s %s", context.getString(R.string.resend), simpleDateFormat.format(new Date(millisUntilFinished))));
-            }
+            public void onTick(long millisUntilFinished) {}
 
-            public void onFinish() {
-                mResendOTPButton.setEnabled(true);
-            }
+            public void onFinish() {}
         }.start();
     }
 

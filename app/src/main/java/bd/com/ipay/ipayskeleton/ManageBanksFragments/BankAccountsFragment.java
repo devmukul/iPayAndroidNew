@@ -49,6 +49,7 @@ import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Bank.RemoveBankAccountRe
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Bank.VerifyBankWithAmountRequest;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Bank.VerifyBankWithAmountRequestBuilder;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Bank.VerifyBankWithAmountResponse;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.LinkBracBankResponse;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
@@ -424,12 +425,16 @@ public class BankAccountsFragment extends ProgressFragment implements HttpRespon
             case Constants.COMMAND_GET_BRAC_BANK_TOKEN:
                 httpRequestPostAsyncTask = null;
                 mProgressDialog.dismiss();
-                //final LinkBracBankResponse mAddMoneyByCreditOrDebitResponse = new Gson().fromJson(result.getJsonString(), LinkBracBankResponse.class);
+                final LinkBracBankResponse mAddMoneyByCreditOrDebitResponse = new Gson().fromJson(result.getJsonString(), LinkBracBankResponse.class);
                 switch (result.getStatus()) {
                     case Constants.HTTP_RESPONSE_STATUS_OK:
-                        ((ManageBanksActivity) getActivity()).switchToLinkBracBankSuccess();
+                        Toaster.makeText(getActivity(), mAddMoneyByCreditOrDebitResponse.getMessage(), Toast.LENGTH_SHORT);
+
+                        ((ManageBanksActivity) getActivity()).switchToBankAccountsFragment();
                         break;
                     default:
+                        Toaster.makeText(getActivity(), mAddMoneyByCreditOrDebitResponse.getMessage(), Toast.LENGTH_SHORT);
+
                         ((ManageBanksActivity) getActivity()).switchToBankAccountsFragment();
                         break;
                 }

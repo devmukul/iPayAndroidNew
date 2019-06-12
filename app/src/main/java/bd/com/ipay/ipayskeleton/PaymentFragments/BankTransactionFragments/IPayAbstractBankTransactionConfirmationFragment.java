@@ -103,7 +103,7 @@ public abstract class IPayAbstractBankTransactionConfirmationFragment extends IP
 
                     switch (result.getStatus()) {
                         case Constants.HTTP_RESPONSE_STATUS_OK:
-                            if(bankAccountList.getBankCode().equals("060")){
+                            if(bankAccountList.getBankCode().equals("060") && result.getApiCommand().equals(Constants.COMMAND_ADD_MONEY_FROM_BANK)){
 
                                 if (otpVerificationForBracBankAddMoneyDialog != null) {
                                     otpVerificationForBracBankAddMoneyDialog.dismissDialog();
@@ -122,7 +122,7 @@ public abstract class IPayAbstractBankTransactionConfirmationFragment extends IP
                                     }, 2000);
                                     sendSuccessEventTracking(transactionAmount);
                                 }else{
-                                    launchOTPVerificationBrac(500, iPayTransactionResponse.getTransactionId(), getApiCommand(), "http://192.168.0.106:8085/api/v1/money/add-money/brac/confirm");
+                                    launchOTPVerificationBrac(3000, iPayTransactionResponse.getTransactionId(), getApiCommand(), Constants.BASE_URL_SM +"add-money/brac/confirm");
 
                                 }
                             }else {

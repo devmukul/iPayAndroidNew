@@ -148,17 +148,4 @@ public class IPayWithdrawOptionFragment extends Fragment {
 
 	}
 
-//	public boolean onBackPressed() {
-//		if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-//			bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-//			if (getFragmentManager() != null)
-//				getFragmentManager().beginTransaction()
-//						.remove(addBankOptionFragment)
-//						.commit();
-//			return true;
-//		} else {
-//			return false;
-//		}
-//	}
-
 }

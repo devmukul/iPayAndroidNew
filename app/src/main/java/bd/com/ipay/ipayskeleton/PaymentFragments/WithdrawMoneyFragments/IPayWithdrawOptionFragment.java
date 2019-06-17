@@ -107,6 +107,14 @@ public class IPayWithdrawOptionFragment extends Fragment {
 		instantMsg = view.findViewById(R.id.instant_description_text_view);
 		lazyMsg = view.findViewById(R.id.lazy_description_text_view);
 
+		if(!isInstantResponse.getInstant().getIsEligible()){
+			instantWithdraw.setVisibility(View.GONE);
+		}
+
+		if(!isInstantResponse.getLazy().getIsEligible()){
+			lazyWithdraw.setVisibility(View.GONE);
+		}
+
 		instantMsg.setText(isInstantResponse.getInstant().getFeeDescription());
 		lazyMsg.setText(isInstantResponse.getLazy().getFeeDescription());
 

@@ -19,14 +19,7 @@ import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.LoginAndSignUp.LogoutRequest;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.LoginAndSignUp.LogoutResponse;
-import bd.com.ipay.ipayskeleton.ProfileCompletionHelperFragments.OnBoardAddBasicInfoFragment;
-import bd.com.ipay.ipayskeleton.ProfileCompletionHelperFragments.OnBoardAddBasicInfoHelperFragment;
-import bd.com.ipay.ipayskeleton.ProfileCompletionHelperFragments.OnBoardAddSourceOfFundHelperFragment;
-import bd.com.ipay.ipayskeleton.ProfileCompletionHelperFragments.OnBoardContactsFragment;
-import bd.com.ipay.ipayskeleton.ProfileCompletionHelperFragments.OnBoardIdentificationDocumentUploadFragment;
-import bd.com.ipay.ipayskeleton.ProfileCompletionHelperFragments.OnBoardPhotoIdUploadHelperFragment;
 import bd.com.ipay.ipayskeleton.ProfileCompletionHelperFragments.OnBoardProfilePictureUploadHelperFragment;
-import bd.com.ipay.ipayskeleton.ProfileFragments.IdentificationDocumentFragments.PreviewIdentificationDocumentFragment;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.SharedPrefManager;
@@ -54,23 +47,10 @@ public class ProfileVerificationHelperActivity extends BaseActivity implements H
         } else {
             if (!ProfileInfoCacheManager.isProfilePictureUploaded()) {
                 switchToProfilePictureFragment();
-            } else if (!ProfileInfoCacheManager.isIdentificationDocumentUploaded()) {
-                switchToPhotoIdUploadHelperFragment();
-            } else if (!ProfileInfoCacheManager.isBasicInfoAdded()) {
-                switchToBasicInfoEditHelperFragment();
-            } else if (!ProfileInfoCacheManager.isSourceOfFundAdded()) {
-                switchToSourceOfFundHelperFragment();
-            } else {
+            }else {
                 switchToHomeActivity();
             }
         }
-    }
-
-    public void switchToSourceOfFundHelperFragment() {
-        while (getSupportFragmentManager().getBackStackEntryCount() > 4)
-            getSupportFragmentManager().popBackStackImmediate();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new OnBoardAddSourceOfFundHelperFragment()).addToBackStack(null).commit();
     }
 
     @Override
@@ -139,42 +119,6 @@ public class ProfileVerificationHelperActivity extends BaseActivity implements H
                 .replace(R.id.fragment_container, new OnBoardProfilePictureUploadHelperFragment()).addToBackStack(null).commit();
     }
 
-    public void switchToPhotoIdUploadHelperFragment() {
-        OnBoardPhotoIdUploadHelperFragment onBoardIcdentificationFragment = new OnBoardPhotoIdUploadHelperFragment();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, onBoardIcdentificationFragment).addToBackStack(null).commit();
-    }
-
-    public void switchToUploadIdentificationDocumentFragment(Bundle bundle) {
-        while (getSupportFragmentManager().getBackStackEntryCount() > 4)
-            getSupportFragmentManager().popBackStackImmediate();
-        OnBoardIdentificationDocumentUploadFragment uploadIdentificationFragment = new OnBoardIdentificationDocumentUploadFragment();
-        uploadIdentificationFragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, uploadIdentificationFragment).addToBackStack(null).commit();
-    }
-
-    public void switchToPreviewIdentificationDocumentFragment(Bundle bundle) {
-        while (getSupportFragmentManager().getBackStackEntryCount() > 3)
-            getSupportFragmentManager().popBackStackImmediate();
-        PreviewIdentificationDocumentFragment previewIdentificationDocumentFragment = new PreviewIdentificationDocumentFragment();
-        previewIdentificationDocumentFragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, previewIdentificationDocumentFragment).addToBackStack(null).commit();
-    }
-
-    public void switchToBasicInfoEditHelperFragment() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new OnBoardAddBasicInfoHelperFragment()).addToBackStack(null).commit();
-    }
-
-    public void switchToBasicInfoEditFragment() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new OnBoardAddBasicInfoFragment()).addToBackStack(null).commit();
-    }
-
-    public void switchToContactFragment() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new OnBoardContactsFragment()).commit();
-    }
 
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {

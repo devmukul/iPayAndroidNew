@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chaos.view.PinView;
 import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 
@@ -59,8 +60,8 @@ public class OTPVerificationPersonalFragment extends Fragment implements HttpRes
     private GetUserDetailsResponse mGetUserDetailsResponse;
 
     private Button mActivateButton;
-    private Button mResendOTPButton;
-    private EditText mOTPEditText;
+    private TextView mResendOTPButton;
+    private PinView mOTPEditText;
     private TextView mTimerTextView;
 
     private String mDeviceID;

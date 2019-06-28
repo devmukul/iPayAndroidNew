@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+        <bd.com.ipay.ipayskeleton.CustomView.ProfileImageView
+            android:id="@+id/card_icon"
+            android:layout_width="45dp"
+            android:layout_marginRight="@dimen/activity_horizontal_margin_card"
+            android:layout_height="45dp" />
+
+        <TextView
+            android:id="@+id/card_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/value16"
+            android:layout_toRightOf="@+id/card_icon"
+            android:textSize="13sp"
+            android:textColor="#212121"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/no_card"/>
+
+        <TextView
+            android:id="@+id/no_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:fontFamily="sans-serif-medium"
+            android:textStyle="normal"
+            android:textColor="#33cdbf"
+            android:lineSpacingExtra="12sp"
+            android:gravity="end"
+            android:text="2 Card"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"/>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#CCCCCC"
+            android:layout_below="@id/card_icon"
+            android:layout_alignLeft="@id/card_name"
+            android:layout_marginTop="@dimen/value8"/>
+
+
+
+
+</RelativeLayout>

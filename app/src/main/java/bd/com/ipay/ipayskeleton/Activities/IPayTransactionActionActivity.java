@@ -15,12 +15,16 @@ import bd.com.ipay.ipayskeleton.PaymentFragments.AddMoneyFragments.Bank.IPayAddM
 import bd.com.ipay.ipayskeleton.PaymentFragments.AddMoneyFragments.Bank.Instant.IPayAddMoneyFromBankInstantlyOptionFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.AddMoneyFragments.Card.IPayAddMoneyFromCardAmountInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.AddMoneyFragments.IPayAddMoneyOptionFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractPaymentMethodOptionFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractTransactionSuccessFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayTransactionAmountInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayTransactionConfirmationFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayTransactionContactFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayTransactionSuccessFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.MakePaymentFragments.IPayMakePaymentFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.MakePaymentFragments.PayByCreditCard.IPayPayByCardConfirmationFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.MakePaymentFragments.PayByCreditCard.IPayPayByCardSavedCardFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.MakePaymentFragments.PayByCreditCard.IPayPaymentCardOptionFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.RequestMoneyFragments.IPayRequestMoneyAmountInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.SendMoneyFragments.IPaySendMoneyAmountInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.WithdrawMoneyFragments.IPayWithdrawMoneyFromBankOptionFragment;
@@ -152,16 +156,32 @@ public class IPayTransactionActionActivity extends BaseActivity {
         switchFragment(new IPayTransactionContactFragment(), bundle, 0, false);
     }
 
+    public void switchToSelectPaymentMethodFragment(@NonNull Bundle bundle) {
+        switchFragment(new IPayAbstractPaymentMethodOptionFragment() , bundle, 2, true);
+    }
+
     public void switchToAmountInputFragment(@NonNull Bundle bundle) {
         switchFragment(new IPayTransactionAmountInputFragment(), bundle, 1, true);
     }
 
+    public void switchToSavedCardFragment(@NonNull Bundle bundle) {
+        switchFragment(new IPayPayByCardSavedCardFragment(), bundle, 4, true);
+    }
+
+    public void switchToCardTypeFragment(@NonNull Bundle bundle) {
+        switchFragment(new IPayPaymentCardOptionFragment(), bundle, 3, true);
+    }
+
     public void switchToTransactionConfirmationFragment(@NonNull Bundle bundle) {
-        switchFragment(new IPayTransactionConfirmationFragment(), bundle, 2, true);
+        switchFragment(new IPayTransactionConfirmationFragment(), bundle, 3, true);
+    }
+
+    public void switchToPayByCardConfirmationFragment(@NonNull Bundle bundle) {
+        switchFragment(new IPayPayByCardConfirmationFragment(), bundle, 3, true);
     }
 
     public void switchToTransactionSuccessFragment(@NonNull Bundle bundle) {
-        switchFragment(new IPayTransactionSuccessFragment(), bundle, 3, true);
+        switchFragment(new IPayTransactionSuccessFragment(), bundle, 4, true);
     }
 
     private void switchToMakePaymentFragment(@NonNull Bundle bundle) {

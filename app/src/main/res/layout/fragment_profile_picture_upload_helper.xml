@@ -10,7 +10,7 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/value24"
+        android:layout_margin="@dimen/value32"
         android:orientation="vertical">
 
         <TextView
@@ -52,8 +52,7 @@
             android:layout_height="wrap_content"
             style="@style/ButtonPrimary"
             android:layout_marginTop="32dp"
-            android:text="Open Camera"
-            android:textColor="@color/colorPrimary"/>
+            android:text="Open Camera"/>
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

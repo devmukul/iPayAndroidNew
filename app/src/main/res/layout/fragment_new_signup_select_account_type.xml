@@ -17,7 +17,8 @@
             android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent">
+            android:background="@android:color/transparent"
+            app:elevation="0dp">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -73,7 +74,6 @@
                         android:fontFamily="@font/open_sans"
                         android:textSize="14sp"
                         android:textColor="#666666"
-                        android:lineSpacingExtra="10sp"
                         android:text="Please see the following account type. Choose the best one which is suit for your daily financial activities." />
 
 
@@ -83,10 +83,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/value32"
                         android:layout_marginLeft="@dimen/value32"
-                        android:layout_marginTop="@dimen/value32"
+                        android:layout_marginTop="@dimen/value16"
                         android:layout_marginEnd="@dimen/value32"
                         android:layout_marginRight="@dimen/value32"
-                        android:layout_marginBottom="@dimen/value12"
+                        android:layout_marginBottom="@dimen/value8"
                         app:cardCornerRadius="5dp"
                         app:cardElevation="5dp"
                         app:cardBackgroundColor="@color/colorWhite">
@@ -96,13 +96,13 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/activity_horizontal_margin">
 
-                            <com.makeramen.roundedimageview.RoundedImageView
+                            <ImageView
                                 android:id="@+id/account_type_personal_image_view"
                                 android:layout_width="72dip"
                                 android:layout_height="72dip"
-                                android:contentDescription="@string/card"
                                 android:src="@drawable/icon_personal_account_small"
-                                android:layout_centerVertical="true"/>
+                                android:layout_centerVertical="true"
+                                android:padding="@dimen/value8"/>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -145,10 +145,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/value32"
                         android:layout_marginLeft="@dimen/value32"
-                        android:layout_marginTop="@dimen/value12"
+                        android:layout_marginTop="@dimen/value8"
                         android:layout_marginEnd="@dimen/value32"
                         android:layout_marginRight="@dimen/value32"
-                        android:layout_marginBottom="@dimen/value12"
+                        android:layout_marginBottom="@dimen/value8"
                         app:cardCornerRadius="5dp"
                         app:cardElevation="5dp"
                         app:cardBackgroundColor="@color/colorWhite">
@@ -158,16 +158,16 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/activity_horizontal_margin">
 
-                            <com.makeramen.roundedimageview.RoundedImageView
+                            <ImageView
                                 android:id="@+id/account_type_business_image_view"
                                 android:layout_width="72dip"
                                 android:layout_height="72dip"
-                                android:contentDescription="@string/card"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintVertical_bias="0.0"
-                                android:src="@drawable/icons_business_account_small" />
+                                android:src="@drawable/icons_business_account_small"
+                                android:padding="@dimen/value8"/>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -185,7 +185,7 @@
                                     android:fontFamily="@font/open_sans_semibold"
                                     android:textColor="#212121"
                                     android:textSize="12sp"
-                                    android:text="PERSONAL ACCOUNT" />
+                                    android:text="BUSINESS ACCOUNT" />
 
                                 <TextView
                                     android:id="@+id/account_type_business_description_text_view"
@@ -196,7 +196,7 @@
                                     android:fontFamily="@font/open_sans"
                                     android:textColor="#666666"
                                     android:textSize="12sp"
-                                    android:text="Pay for purchases and make daily personal transactions."/>
+                                    android:text="Keep your business transactions &amp; other financial activities in one place."/>
 
                             </LinearLayout>
                         </RelativeLayout>

@@ -109,6 +109,7 @@ public class IPayBankListFragment extends ProgressFragment implements HttpRespon
 		bankStatusErrorActionButton = view.findViewById(R.id.bank_status_error_action_button);
 		userBankListRecyclerView.setHasFixedSize(false);
 		setContentShown(false);
+
 		if (getContext() != null) {
 			userBankListAdapter = new IPayBankListAdapter(getContext(), new OnItemClickListener() {
 				@Override

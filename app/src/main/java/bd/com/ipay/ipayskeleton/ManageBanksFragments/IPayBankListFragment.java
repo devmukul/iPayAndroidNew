@@ -71,11 +71,22 @@ public class IPayBankListFragment extends ProgressFragment implements HttpRespon
 	protected HttpRequestPostAsyncTask httpRequestPostAsyncTask = null;
 	protected AnimatedProgressDialog mCustomProgressDialog = null;
 
+    private boolean startedFromProfileCompletion = false;
+    private boolean isSwitchedFromOnBoard = false;
+
+	private static final String STARTED_FROM_PROFILE_ACTIVITY = "started_from_profile_activity";
+
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (getArguments() != null) {
 			transactionType = getArguments().getInt(IPayTransactionActionActivity.TRANSACTION_TYPE_KEY, IPayTransactionActionActivity.TRANSACTION_TYPE_INVALID);
+
+			isSwitchedFromOnBoard = false;
+			startedFromProfileCompletion = getArguments().getBoolean(STARTED_FROM_PROFILE_ACTIVITY);
+			if (getArguments().getBoolean(Constants.FROM_ON_BOARD, false)) {
+				isSwitchedFromOnBoard = getArguments().getBoolean(Constants.FROM_ON_BOARD, false);
+			}
 		}
 
 		getActivity().setTitle(R.string.bank);
@@ -121,7 +132,12 @@ public class IPayBankListFragment extends ProgressFragment implements HttpRespon
 							getBracBankUrl();
 							break;
 						default:
-							((ManageBanksActivity) getActivity()).switchToAddNewBankFragment();
+							Bundle bundle = new Bundle();
+							bundle.putInt(Constants.SELECTED_BANK_ID, bank.getId());
+							bundle.putString(Constants.SELECTED_BANK_BANE, bank.getName());
+							bundle.putBoolean(Constants.FROM_ON_BOARD, isSwitchedFromOnBoard);
+							bundle.putBoolean(Constants.IS_STARTED_FROM_PROFILE_COMPLETION, startedFromProfileCompletion);
+							((ManageBanksActivity) getActivity()).switchToAddNewBankFragmentTest(bundle);
 							break;
 					}
 

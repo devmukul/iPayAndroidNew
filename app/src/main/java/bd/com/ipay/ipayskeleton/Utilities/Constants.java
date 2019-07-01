@@ -312,6 +312,8 @@ public class Constants {
     public static final String BEXCOM = "BEXCOM";
     public static final String COMMAND_ADD_MONEY_FROM_BARC_BANK = "COMMAND_ADD_MONEY_FROM_BARC_BANK";
     public static final String COMMAND_GET_BRAC_BANK_TOKEN = "COMMAND_GET_BRAC_BANK_TOKEN";
+    public static final String SELECTED_BANK_ID = "SELECTED_BANK_ID";
+    public static final String SELECTED_BANK_BANE = "SELECTED_BANK_BANE";
 
 
     public static String ROLEID = "ROLEID";

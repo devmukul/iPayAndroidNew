@@ -68,7 +68,6 @@ public class AddBankFragment extends BaseFragment implements HttpResponseListene
     private static final int ACTION_UPLOAD_CHEQUEBOOK_COVER = 100;
     private static final int REQUEST_CODE_PERMISSION = 1001;
     private static final String STARTED_FROM_PROFILE_ACTIVITY = "started_from_profile_activity";
-    private HttpRequestGetAsyncTask mGetBankTask = null;
     private HttpRequestGetAsyncTask mGetBankBranchesTask = null;
 
     private CustomProgressDialog mProgressDialog;
@@ -86,8 +85,6 @@ public class AddBankFragment extends BaseFragment implements HttpResponseListene
     private EditText mAccountNameEditText;
     private EditText mAccountNumberEditText;
     private EditTextWithProgressBar mBankBranchEditTextProgressBar;
-
-    private ResourceSelectorDialog<Bank> bankSelectorDialog;
     private ResourceSelectorDialog<AccountName> accountNameDialog;
 
     private CustomSelectorDialog districtSelectorDialog;
@@ -124,14 +121,14 @@ public class AddBankFragment extends BaseFragment implements HttpResponseListene
             if (args.getBoolean(Constants.FROM_ON_BOARD, false)) {
                 isSwitchedFromOnBoard = args.getBoolean(Constants.FROM_ON_BOARD, false);
             }
+            mSelectedBankId = args.getInt(Constants.SELECTED_BANK_ID);
+            mSelectedBankName = args.getString(Constants.SELECTED_BANK_BANE, null);
         }
 
         mProgressDialog = new CustomProgressDialog(getActivity());
-        mSelectedBankId = -1;
         mDistrictNames = new ArrayList<>();
         mBranches = new ArrayList<>();
         mBranchNames = new ArrayList<>();
-        List<Bank> bankNames = new ArrayList<>();
 
         chequebookCoverSelectorButtonClickListener = new ChequebookCoverSelectorButtonClickListener();
         mChequebookCoverSelectorButton = v.findViewById(R.id.chequebook_cover_selector_button);
@@ -150,12 +147,10 @@ public class AddBankFragment extends BaseFragment implements HttpResponseListene
         mChequebookCoverPageErrorTextView = v.findViewById(R.id.chequebook_cover_error_text_view);
         mChequebookCoverPageErrorTextView.setVisibility(View.INVISIBLE);
 
-        if (!CommonData.isAvailableBankListLoaded()) {
-            attemptRefreshAvailableBankNames();
-        } else {
-            bankNames.addAll(CommonData.getAvailableBanks());
-            setBankAdapter(bankNames);
-        }
+        mBankListSelection.setError(null);
+        mBankListSelection.setText(mSelectedBankName);
+        ((ManageBanksActivity) getActivity()).mSelectedBankId = mSelectedBankId;
+        getBankBranches(mSelectedBankId);
 
         mAccountNameEditText.setText(ProfileInfoCacheManager.getUserName());
         if (!ProfileInfoCacheManager.isBusinessAccount()) {
@@ -232,51 +227,6 @@ public class AddBankFragment extends BaseFragment implements HttpResponseListene
         mBranches = ((ManageBanksActivity) getActivity()).mBranches;
         mBranchNames = ((ManageBanksActivity) getActivity()).mBranchNames;
         Utilities.sendScreenTracker(mTracker, getString(R.string.screen_name_add_bank));
-    }
-
-    private void attemptRefreshAvailableBankNames() {
-        GetAvailableBankAsyncTask mGetAvailableBankAsyncTask = new GetAvailableBankAsyncTask(getActivity(),
-                new GetAvailableBankAsyncTask.BankLoadListener() {
-                    @Override
-                    public void onLoadSuccess() {
-                        mProgressDialog.dismissDialogue();
-                        setBankAdapter(CommonData.getAvailableBanks());
-
-                    }
-
-                    @Override
-                    public void onLoadFailed() {
-                        if (getActivity() != null) {
-                            Toaster.makeText(getActivity(), R.string.failed_available_bank_list_loading, Toast.LENGTH_LONG);
-                            getActivity().finish();
-                        }
-                    }
-                });
-        mProgressDialog.show();
-        mGetAvailableBankAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    }
-
-    private void setBankAdapter(List<Bank> bankList) {
-
-        bankSelectorDialog = new ResourceSelectorDialog<>(getContext(), getString(R.string.select_a_bank), bankList);
-        bankSelectorDialog.setOnResourceSelectedListener(new ResourceSelectorDialog.OnResourceSelectedListener() {
-            @Override
-            public void onResourceSelected(int id, String name) {
-                mBankListSelection.setError(null);
-                mBankListSelection.setText(name);
-                mSelectedBankId = id;
-                mSelectedDistrictId = -1;
-                mSelectedBankName = name;
-                getBankBranches(mSelectedBankId);
-            }
-        });
-
-        mBankListSelection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bankSelectorDialog.show();
-            }
-        });
     }
 
     private void setBankAccountNameAdapter(List<AccountName> accounyNameList) {
@@ -427,17 +377,17 @@ public class AddBankFragment extends BaseFragment implements HttpResponseListene
         mGetBankBranchesTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    private void getBankList() {
-        if (mGetBankTask != null) {
-            return;
-        }
-        mProgressDialog.show();
-        mGetBankTask = new HttpRequestGetAsyncTask(Constants.COMMAND_GET_BANK_LIST,
-                Constants.BASE_URL_MM + Constants.URL_GET_BANK, getActivity(), false);
-        mGetBankTask.mHttpResponseListener = this;
-
-        mGetBankTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    }
+//    private void getBankList() {
+//        if (mGetBankTask != null) {
+//            return;
+//        }
+//        mProgressDialog.show();
+//        mGetBankTask = new HttpRequestGetAsyncTask(Constants.COMMAND_GET_BANK_LIST,
+//                Constants.BASE_URL_MM + Constants.URL_GET_BANK, getActivity(), false);
+//        mGetBankTask.mHttpResponseListener = this;
+//
+//        mGetBankTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {

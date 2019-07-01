@@ -61,7 +61,7 @@ public class ManageBanksActivity extends BaseActivity {
             Bundle bundle = new Bundle();
             bundle.putBoolean(Constants.FROM_ON_BOARD, switchedFromOnBoard);
             mFabAddNewBank.setVisibility(View.GONE);
-            switchToAddNewBankFragment(bundle);
+            switchToBankListFragment(bundle);
         } else if (getIntent().getStringExtra(Constants.INTENDED_FRAGMENT) != null) {
             if (getIntent().getStringExtra(Constants.INTENDED_FRAGMENT).equals(Constants.BANK_ACCOUNT)) {
                 switchToBankAccountsFragment();
@@ -121,6 +121,7 @@ public class ManageBanksActivity extends BaseActivity {
         mFabAddNewBank.setVisibility(View.GONE);
     }
 
+
     public void switchToAddNewBankFragment() {
         if (!switchedFromBankVerification) {
             while (getSupportFragmentManager().getBackStackEntryCount() > 1)
@@ -135,11 +136,36 @@ public class ManageBanksActivity extends BaseActivity {
         mFabAddNewBank.setVisibility(View.GONE);
     }
 
+    public void switchToAddNewBankFragmentTest(Bundle bundle) {
+
+        AddBankFragment addBankFragment = new AddBankFragment();
+        addBankFragment.setArguments(bundle);
+        if (!switchedFromBankVerification) {
+            while (getSupportFragmentManager().getBackStackEntryCount() > 1)
+                getSupportFragmentManager().popBackStackImmediate();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, addBankFragment).addToBackStack(null).commit();
+        } else {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, addBankFragment).commit();
+        }
+
+        mFabAddNewBank.setVisibility(View.GONE);
+    }
+
     public void switchToAddNewBankFragment(Bundle bundle) {
         AddBankFragment addBankFragment = new AddBankFragment();
         addBankFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, addBankFragment).commit();
+
+    }
+
+    public void switchToBankListFragment(Bundle bundle) {
+        IPayBankListFragment iPayBankListFragment = new IPayBankListFragment();
+        iPayBankListFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, iPayBankListFragment).commit();
 
     }
 

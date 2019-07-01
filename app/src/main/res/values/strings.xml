@@ -580,7 +580,7 @@
     <string name="manage_bank_accounts">Manage Bank Accounts</string>
     <string name="edit_business_information">Edit Business Information</string>
     <string name="profile_completion_detail_text">For verification purpose you need to complete the following information - your Profile Picture, Photo Identification, Basic Information and Source of Fund</string>
-    <string name="withdraw_money_to_bank_info">It may take 3–5 business days to complete the operation</string>
+    <string name="withdraw_money_to_bank_info">It may take 1–2 business days to complete the operation</string>
     <string name="prompt_grant_permission">Please grant necessary permissions</string>
     <string name="net_amount">Net Amount (Tk)</string>
     <string name="recipient_net_amount">Recipient will get (Tk)</string>

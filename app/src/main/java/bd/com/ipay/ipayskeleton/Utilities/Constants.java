@@ -953,6 +953,7 @@ public class Constants {
     public static final int SERVICE_ID_TRANSACTION_REVERT = 966002;
     public static final int SERVICE_ID_UTILITY_BILL = 6010;
     public static final int SERVICE_ID_DEEP_LINK_NOTIFICATION = 1234;
+    public static final int SERVICE_ID_CREDIT_CARD_BILL_PAYMENT = 6050;
 
     public static final String RESULT = "Result";
     public static final String GET_REQUEST = "GET_RESULT: ";

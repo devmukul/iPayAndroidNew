@@ -672,7 +672,7 @@ public class HomeFragment extends BaseFragment implements HttpResponseListener {
 		}
 
 		mGetSavedBillListTask = new HttpRequestGetAsyncTask(Constants.COMMAND_GET_SAVED_BILL_LIST,
-				Constants.BASE_URL_UTILITY + "/scheduled/saved-bills/?providerCodes="+providerCode, getActivity(), false);
+				Constants.BASE_URL_UTILITY + "scheduled/saved-bills/?providerCodes="+providerCode, getActivity(), false);
 		mGetSavedBillListTask.mHttpResponseListener = this;
 		mGetSavedBillListTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}

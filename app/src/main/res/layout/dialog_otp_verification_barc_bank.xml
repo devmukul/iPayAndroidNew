@@ -61,7 +61,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/value5"
                 android:layout_weight="1"
-                android:enabled="false"
                 android:text="@string/cancel"
                 android:layout_marginRight="@dimen/value8"/>
 

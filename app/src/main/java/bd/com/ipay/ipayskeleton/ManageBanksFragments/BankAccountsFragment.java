@@ -167,7 +167,10 @@ public class BankAccountsFragment extends ProgressFragment implements HttpRespon
         }
 
         mGetBankTask = new HttpRequestGetAsyncTask(Constants.COMMAND_GET_BANK_LIST,
-                "http://10.100.44.10:8085/api/v1/bank/", getActivity(), true);
+                Constants.BASE_URL_MM+ "bank/", getActivity(), true);
+
+//        mGetBankTask = new HttpRequestGetAsyncTask(Constants.COMMAND_GET_BANK_LIST,
+//                "http://10.100.44.10:8085/api/v1/bank/", getActivity(), true);
         //Constants.BASE_URL_MM + Constants.URL_GET_BANK
         mGetBankTask.mHttpResponseListener = this;
         mGetBankTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);

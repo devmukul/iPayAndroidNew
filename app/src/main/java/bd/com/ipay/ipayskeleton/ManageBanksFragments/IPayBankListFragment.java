@@ -147,15 +147,21 @@ public class IPayBankListFragment extends ProgressFragment implements HttpRespon
 	}
 
 	public void getBracBankUrl() {
-		httpRequestPostAsyncTask = new HttpRequestPostAsyncTask(Constants.COMMAND_ADD_MONEY_FROM_BARC_BANK, "http://10.100.44.10:8085/api/v1/bank/brac",
+		httpRequestPostAsyncTask = new HttpRequestPostAsyncTask(Constants.COMMAND_ADD_MONEY_FROM_BARC_BANK, Constants.BASE_URL_MM+ "bank/brac",
 				null, getActivity(), this, false);
+//		httpRequestPostAsyncTask = new HttpRequestPostAsyncTask(Constants.COMMAND_ADD_MONEY_FROM_BARC_BANK, "http://10.100.44.10:8085/api/v1/bank/brac",
+//				null, getActivity(), this, false);
 		httpRequestPostAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		mCustomProgressDialog.showDialog();
 	}
 
 	public void getBracBankToken(long bakId) {
-		httpRequestPostAsyncTask = new HttpRequestPostAsyncTask(Constants.COMMAND_GET_BRAC_BANK_TOKEN, "http://10.100.44.10:8085/api/v1/bank/brac/"+bakId,
+
+		httpRequestPostAsyncTask = new HttpRequestPostAsyncTask(Constants.COMMAND_GET_BRAC_BANK_TOKEN, Constants.BASE_URL_MM+ "bank/brac/"+bakId,
 				null, getActivity(), this, false);
+
+//		httpRequestPostAsyncTask = new HttpRequestPostAsyncTask(Constants.COMMAND_GET_BRAC_BANK_TOKEN, "http://10.100.44.10:8085/api/v1/bank/brac/"+bakId,
+//				null, getActivity(), this, false);
 		httpRequestPostAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		mCustomProgressDialog.showDialog();
 	}

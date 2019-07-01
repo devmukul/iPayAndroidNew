@@ -13,6 +13,7 @@ import com.google.gson.GsonBuilder;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.AnimatedProgressDialog;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.OTPVerificationForBracBankAddMoneyDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Bank.BankAccountList;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SendMoney.IPayTransactionResponse;
@@ -74,6 +75,7 @@ public abstract class IPayAbstractBankTransactionConfirmationFragment extends IP
 
     @Override
     protected void performContinueAction() {
+        otpVerificationForBracBankAddMoneyDialog = null;
         mCustomProgressDialog.showDialog();
         httpRequestPostAsyncTask = new HttpRequestPostAsyncTask(getApiCommand(), getUrl(), getRequestJson(), getActivity(), this, false);
         httpRequestPostAsyncTask.setPinAsHeader(getPin());
@@ -107,6 +109,7 @@ public abstract class IPayAbstractBankTransactionConfirmationFragment extends IP
 
                                 if (otpVerificationForBracBankAddMoneyDialog != null) {
                                     otpVerificationForBracBankAddMoneyDialog.dismissDialog();
+
                                     mCustomProgressDialog.showSuccessAnimationAndMessage(iPayTransactionResponse.getMessage());
                                     if (getActivity() != null)
                                         Utilities.hideKeyboard(getActivity());
@@ -122,8 +125,8 @@ public abstract class IPayAbstractBankTransactionConfirmationFragment extends IP
                                     }, 2000);
                                     sendSuccessEventTracking(transactionAmount);
                                 }else{
+                                    mCustomProgressDialog.dismissDialog();
                                     launchOTPVerificationBrac(3000, iPayTransactionResponse.getTransactionId(), getApiCommand(), Constants.BASE_URL_SM +"add-money/brac/confirm");
-
                                 }
                             }else {
                                 if (mOTPVerificationForTwoFactorAuthenticationServicesDialog != null) {

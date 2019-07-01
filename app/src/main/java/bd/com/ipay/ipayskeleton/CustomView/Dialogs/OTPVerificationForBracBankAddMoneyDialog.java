@@ -118,7 +118,6 @@ public class OTPVerificationForBracBankAddMoneyDialog extends AlertDialog implem
         mCancelButton = view.findViewById(R.id.buttonCancel);
 
         mCustomProgressDialog = new AnimatedProgressDialog(context);
-        setCountDownTimer();
         setButtonActions();
 
     }
@@ -154,16 +153,6 @@ public class OTPVerificationForBracBankAddMoneyDialog extends AlertDialog implem
                 mOTPInputDialog.dismiss();
             }
         });
-    }
-
-    private void setCountDownTimer() {
-        final long otpValidTime = otpValidFor != null ? otpValidFor : SecuritySettingsActivity.otpDuration;
-        new CustomCountDownTimer(otpValidTime, 500) {
-
-            public void onTick(long millisUntilFinished) {}
-
-            public void onFinish() {}
-        }.start();
     }
 
     private void verifyInput() {

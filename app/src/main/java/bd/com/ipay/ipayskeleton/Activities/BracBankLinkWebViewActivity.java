@@ -49,10 +49,6 @@ public class BracBankLinkWebViewActivity extends BaseActivity {
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_credit_or_debit_card_payment_web_view);
-
-//		ActionBar actionBar = getActionBar();
-//		actionBar.setDisplayHomeAsUpEnabled(true);
-
 		mWebView = findViewById(R.id.web_view);
 		final ProgressBar progressBar = findViewById(R.id.progress_bar);
 
@@ -63,7 +59,6 @@ public class BracBankLinkWebViewActivity extends BaseActivity {
 				progressBar.setProgress(newProgress);
 			}
 		});
-
 
 		mWebView.setWebViewClient(new WebViewClient() {
 
@@ -184,17 +179,6 @@ public class BracBankLinkWebViewActivity extends BaseActivity {
 
 	private void finishWithResult(final int transactionStatusCode) {
 		Intent intent = new Intent();
-
-//		switch (transactionStatusCode) {
-//			case CARD_TRANSACTION_CANCELED:
-//				showTransactionErrorDialog(intent, getString(R.string.add_money_from_credit_or_debit_card_cancel_title), getString(R.string.add_money_from_credit_or_debit_card_cancel_message));
-//				break;
-//			case CARD_TRANSACTION_FAILED:
-//				showTransactionErrorDialog(intent, getString(R.string.add_money_from_credit_or_debit_card_failed_title), getString(R.string.add_money_from_credit_or_debit_card_failed_message));
-//				break;
-//		}
-
-
 		intent.putExtra("BANK_ID", bankId);
 		setResult(transactionStatusCode, intent);
 		finish();

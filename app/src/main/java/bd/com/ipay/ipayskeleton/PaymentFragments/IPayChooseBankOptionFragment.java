@@ -57,7 +57,6 @@ public class IPayChooseBankOptionFragment extends ProgressFragment implements Ht
 
 	Bundle mBundle;
 
-
 	private int transactionType = IPayTransactionActionActivity.TRANSACTION_TYPE_INVALID;
 
 	@Override

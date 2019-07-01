@@ -377,18 +377,6 @@ public class AddBankFragment extends BaseFragment implements HttpResponseListene
         mGetBankBranchesTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-//    private void getBankList() {
-//        if (mGetBankTask != null) {
-//            return;
-//        }
-//        mProgressDialog.show();
-//        mGetBankTask = new HttpRequestGetAsyncTask(Constants.COMMAND_GET_BANK_LIST,
-//                Constants.BASE_URL_MM + Constants.URL_GET_BANK, getActivity(), false);
-//        mGetBankTask.mHttpResponseListener = this;
-//
-//        mGetBankTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-//    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         switch (requestCode) {

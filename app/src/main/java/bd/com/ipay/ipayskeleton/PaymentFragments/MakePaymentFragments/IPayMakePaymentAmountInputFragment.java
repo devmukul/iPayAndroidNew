@@ -1,4 +1,4 @@
-package bd.com.ipay.ipayskeleton.PaymentFragments;
+package bd.com.ipay.ipayskeleton.PaymentFragments.MakePaymentFragments;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -29,7 +29,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -62,7 +61,7 @@ import bd.com.ipay.ipayskeleton.Widgets.IPaySnackbar;
 
 import static android.view.View.GONE;
 
-public class IPayTransactionAmountInputFragment extends Fragment implements View.OnClickListener {
+public class IPayMakePaymentAmountInputFragment extends Fragment implements View.OnClickListener {
 
     public MandatoryBusinessRules mMandatoryBusinessRules;
     private static final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
@@ -379,9 +378,6 @@ public class IPayTransactionAmountInputFragment extends Fragment implements View
                 || !Utilities.isValueAvailable(mMandatoryBusinessRules.getMAX_AMOUNT_PER_PAYMENT())) {
             DialogUtils.showDialogForBusinessRuleNotAvailable(getActivity());
             return false;
-        } else if (mMandatoryBusinessRules.isVERIFICATION_REQUIRED() && !ProfileInfoCacheManager.isAccountVerified()) {
-            DialogUtils.showDialogVerificationRequired(getActivity());
-            return false;
         }
 
         String errorMessage;
@@ -393,17 +389,7 @@ public class IPayTransactionAmountInputFragment extends Fragment implements View
                 errorMessage = getString(R.string.please_enter_amount);
             }
             else {
-                final BigDecimal minimumAmount = mMandatoryBusinessRules.getMIN_AMOUNT_PER_PAYMENT();
-                final BigDecimal maximumAmount;
-                final BigDecimal amount = new BigDecimal(mAmountDummyEditText.getText().toString().replaceAll("[^\\d.]", ""));
-                final BigDecimal balance = new BigDecimal(SharedPrefManager.getUserBalance());
-                if (transactionType == IPayTransactionActionActivity.TRANSACTION_TYPE_SEND_MONEY
-                        || transactionType == IPayTransactionActionActivity.TRANSACTION_TYPE_WITHDRAW_MONEY) {
-                    maximumAmount = mMandatoryBusinessRules.getMAX_AMOUNT_PER_PAYMENT().min(balance);
-                } else {
-                    maximumAmount = mMandatoryBusinessRules.getMAX_AMOUNT_PER_PAYMENT();
-                }
-                errorMessage = InputValidator.isValidAmount(getActivity(), amount, minimumAmount, maximumAmount);
+                errorMessage=null;
             }
         } else {
             if (SharedPrefManager.ifContainsUserBalance()) {
@@ -412,21 +398,7 @@ public class IPayTransactionAmountInputFragment extends Fragment implements View
                 } else if (!InputValidator.isValidDigit(mAmountDummyEditText.getText().toString().trim())) {
                     errorMessage = getString(R.string.please_enter_amount);
                 } else {
-                    final BigDecimal amount = new BigDecimal(mAmountDummyEditText.getText().toString().replaceAll("[^\\d.]", ""));
-                    final BigDecimal balance = new BigDecimal(SharedPrefManager.getUserBalance());
-                    if (((transactionType == IPayTransactionActionActivity.TRANSACTION_TYPE_SEND_MONEY) || (transactionType == IPayTransactionActionActivity.TRANSACTION_TYPE_TOP_UP) || (transactionType == IPayTransactionActionActivity.TRANSACTION_TYPE_MAKE_PAYMENT)) && amount.compareTo(balance) > 0) {
-                        errorMessage = getString(R.string.insufficient_balance);
-                    } else {
-                        final BigDecimal minimumAmount = mMandatoryBusinessRules.getMIN_AMOUNT_PER_PAYMENT();
-                        final BigDecimal maximumAmount;
-                        if (transactionType == IPayTransactionActionActivity.TRANSACTION_TYPE_SEND_MONEY
-                                || transactionType == IPayTransactionActionActivity.TRANSACTION_TYPE_WITHDRAW_MONEY) {
-                            maximumAmount = mMandatoryBusinessRules.getMAX_AMOUNT_PER_PAYMENT().min(balance);
-                        } else {
-                            maximumAmount = mMandatoryBusinessRules.getMAX_AMOUNT_PER_PAYMENT();
-                        }
-                        errorMessage = InputValidator.isValidAmount(getActivity(), amount, minimumAmount, maximumAmount);
-                    }
+                    errorMessage = null;
                 }
             } else {
                 errorMessage = null;

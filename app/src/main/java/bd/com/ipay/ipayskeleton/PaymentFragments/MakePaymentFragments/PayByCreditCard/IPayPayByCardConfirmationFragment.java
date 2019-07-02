@@ -440,7 +440,7 @@ public class IPayPayByCardConfirmationFragment extends Fragment implements HttpR
                                             Intent intent = new Intent(getActivity(), HomeActivity.class);
                                             startActivity(intent);
                                         } else {
-                                            ((IPayTransactionActionActivity) getActivity()).switchToTransactionSuccessFragment(bundle);
+                                            ((IPayTransactionActionActivity) getActivity()).switchToTransactionSuccessFragment(bundle, 4);
                                         }
                                     }
                                 }
@@ -586,7 +586,11 @@ public class IPayPayByCardConfirmationFragment extends Fragment implements HttpR
 
                             }
                             if (getActivity() instanceof IPayTransactionActionActivity) {
-                                ((IPayTransactionActionActivity) getActivity()).switchToTransactionSuccessFragment(bundle);
+
+                                if(isSavedCard)
+                                    ((IPayTransactionActionActivity) getActivity()).switchToTransactionSuccessFragment(bundle, 6);
+                                else
+                                    ((IPayTransactionActionActivity) getActivity()).switchToTransactionSuccessFragment(bundle, 5);
 
                             }
                             break;

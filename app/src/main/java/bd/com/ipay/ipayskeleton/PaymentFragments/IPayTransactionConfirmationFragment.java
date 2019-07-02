@@ -407,7 +407,7 @@ public class IPayTransactionConfirmationFragment extends Fragment implements Htt
                                             Intent intent = new Intent(getActivity(), HomeActivity.class);
                                             startActivity(intent);
                                         } else {
-                                            ((IPayTransactionActionActivity) getActivity()).switchToTransactionSuccessFragment(bundle);
+                                            ((IPayTransactionActionActivity) getActivity()).switchToTransactionSuccessFragment(bundle, 4);
                                         }
                                     }
                                 }

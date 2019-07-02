@@ -356,7 +356,7 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
 
                 bundle.putInt(IPayTransactionActionActivity.TRANSACTION_TYPE_KEY, transactionType);
                 if (getActivity() instanceof IPayTransactionActionActivity) {
-                    ((IPayTransactionActionActivity) getActivity()).switchToAmountInputFragment(bundle);
+                    ((IPayTransactionActionActivity) getActivity()).switchToMakePaymentAmountInputFragment(bundle);
                 }
             }
         });
@@ -897,7 +897,7 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
                                                     }
                                                     bundle.putInt(IPayTransactionActionActivity.TRANSACTION_TYPE_KEY, transactionType);
                                                     if (getActivity() instanceof IPayTransactionActionActivity) {
-                                                        ((IPayTransactionActionActivity) getActivity()).switchToAmountInputFragment(bundle);
+                                                        ((IPayTransactionActionActivity) getActivity()).switchToMakePaymentAmountInputFragment(bundle);
                                                     }
                                                 }
                                             });
@@ -914,7 +914,7 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
                                             }
                                             bundle.putInt(IPayTransactionActionActivity.TRANSACTION_TYPE_KEY, transactionType);
                                             if (getActivity() instanceof IPayTransactionActionActivity) {
-                                                ((IPayTransactionActionActivity) getActivity()).switchToAmountInputFragment(bundle);
+                                                ((IPayTransactionActionActivity) getActivity()).switchToMakePaymentAmountInputFragment(bundle);
                                             }
                                         }
                                     } else {
@@ -930,7 +930,7 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
                                         }
                                         bundle.putInt(IPayTransactionActionActivity.TRANSACTION_TYPE_KEY, transactionType);
                                         if (getActivity() instanceof IPayTransactionActionActivity) {
-                                            ((IPayTransactionActionActivity) getActivity()).switchToAmountInputFragment(bundle);
+                                            ((IPayTransactionActionActivity) getActivity()).switchToMakePaymentAmountInputFragment(bundle);
                                         }
                                     }
                                 }

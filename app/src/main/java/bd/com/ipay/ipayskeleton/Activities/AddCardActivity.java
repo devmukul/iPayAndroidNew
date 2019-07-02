@@ -175,7 +175,7 @@ public class AddCardActivity extends BaseActivity implements HttpResponseListene
 					final AddMoneyByCreditOrDebitCardResponse mAddMoneyByCreditOrDebitResponse = new Gson().fromJson(result.getJsonString(), AddMoneyByCreditOrDebitCardResponse.class);
 					switch (result.getStatus()) {
 						case Constants.HTTP_RESPONSE_STATUS_OK:
-							Intent intent = new Intent(AddCardActivity.this, PayByCardWebViewActivity.class);
+							Intent intent = new Intent(AddCardActivity.this, SaveCardWebViewActivity.class);
 							intent.putExtra(Constants.CARD_PAYMENT_URL, mAddMoneyByCreditOrDebitResponse.getForwardUrl());
 							startActivityForResult(intent, CARD_PAYMENT_WEB_VIEW_REQUEST);
 							break;

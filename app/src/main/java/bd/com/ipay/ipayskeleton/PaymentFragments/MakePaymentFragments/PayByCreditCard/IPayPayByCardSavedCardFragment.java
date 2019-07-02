@@ -132,7 +132,7 @@ public class IPayPayByCardSavedCardFragment extends Fragment {
 				bundle.putSerializable(Constants.AMOUNT, amount);
 
 				if (getActivity() instanceof IPayTransactionActionActivity) {
-					((IPayTransactionActionActivity) getActivity()).switchToPayByCardConfirmationFragment(bundle);
+					((IPayTransactionActionActivity) getActivity()).switchToPayByCardConfirmationFragment(bundle, 5);
 				}
 
 			}
@@ -187,7 +187,7 @@ public class IPayPayByCardSavedCardFragment extends Fragment {
 					bundle.putSerializable(Constants.AMOUNT, amount);
 
 					if (getActivity() instanceof IPayTransactionActionActivity) {
-						((IPayTransactionActionActivity) getActivity()).switchToPayByCardConfirmationFragment(bundle);
+						((IPayTransactionActionActivity) getActivity()).switchToPayByCardConfirmationFragment(bundle, 5);
 					}
                 }
             });

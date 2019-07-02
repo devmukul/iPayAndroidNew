@@ -361,13 +361,13 @@ public class IPayPaymentCardOptionFragment extends Fragment implements HttpRespo
 								if(visaCardList.size()>0){
 									bundle.putSerializable("SAVED_LIST", (Serializable) visaCardList);
 									if (getActivity() instanceof IPayTransactionActionActivity) {
-										((IPayTransactionActionActivity) getActivity()).switchToSavedCardFragment(bundle);
+										((IPayTransactionActionActivity) getActivity()).switchToSavedCardFragment(bundle, 4);
 									}
 
 								}else {
                                     bundle.putBoolean("IS_SAVED_CARD", false);
 									if (getActivity() instanceof IPayTransactionActionActivity) {
-										((IPayTransactionActionActivity) getActivity()).switchToPayByCardConfirmationFragment(bundle);
+										((IPayTransactionActionActivity) getActivity()).switchToPayByCardConfirmationFragment(bundle, 4);
 									}
 									//performVisa(Constants.VISA);
 								}
@@ -377,13 +377,13 @@ public class IPayPaymentCardOptionFragment extends Fragment implements HttpRespo
 								if(masterCardList.size()>0){
 									bundle.putSerializable("SAVED_LIST", (Serializable) masterCardList);
 									if (getActivity() instanceof IPayTransactionActionActivity) {
-										((IPayTransactionActionActivity) getActivity()).switchToSavedCardFragment(bundle);
+										((IPayTransactionActionActivity) getActivity()).switchToSavedCardFragment(bundle, 4);
 									}
 
 								}else {
                                     bundle.putBoolean("IS_SAVED_CARD", false);
 									if (getActivity() instanceof IPayTransactionActionActivity) {
-										((IPayTransactionActionActivity) getActivity()).switchToPayByCardConfirmationFragment(bundle);
+										((IPayTransactionActionActivity) getActivity()).switchToPayByCardConfirmationFragment(bundle, 4);
 									}
 									//performVisa(Constants.MASTERCARD);
 								}
@@ -419,7 +419,7 @@ public class IPayPaymentCardOptionFragment extends Fragment implements HttpRespo
 							Bundle bundle = new Bundle();
 							bundle.putSerializable(TRANSACTION_AMOUNT_KEY, amount);
 							if (getActivity() instanceof IPayTransactionActionActivity)
-								((IPayTransactionActionActivity) getActivity()).switchFragment(new IPayAddMoneyFromCardSuccessFragment(), bundle, 3, true);
+								((IPayTransactionActionActivity) getActivity()).switchFragment(new IPayAddMoneyFromCardSuccessFragment(), bundle, 4, true);
 							break;
 					}
 				}

@@ -577,7 +577,9 @@ public class Constants {
     public static final String URL_SET_PROFILE_INFO_REQUEST = "user/profile";
 
     // User Rest (Profile Completion)
-    public static final String URL_GET_PROFILE_COMPLETION_STATUS = "user/profilecompletion";
+   // public static final String URL_GET_PROFILE_COMPLETION_STATUS = "user/profilecompletion";
+
+    public static final String URL_GET_PROFILE_COMPLETION_STATUS = "user/profile-status";
 
     // Bulk Sign up
     public static final String URL_GET_BULK_SIGN_UP_USER_DETAILS = "/bulk/sign-up/user/details";

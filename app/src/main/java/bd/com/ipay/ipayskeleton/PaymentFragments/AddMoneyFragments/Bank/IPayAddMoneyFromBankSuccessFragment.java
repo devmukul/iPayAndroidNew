@@ -26,7 +26,11 @@ public class IPayAddMoneyFromBankSuccessFragment extends IPayAbstractTransaction
 	@Override
 	protected void setupViewProperties() {
 		setTransactionSuccessMessage(getStyledTransactionDescription(R.string.add_money_bank_success_message, transactionAmount));
-		setSuccessDescription(getString(R.string.add_money_bank_success_description));
+		if(!bankAccountList.getBankCode().equals("060")) {
+			setSuccessDescription(getString(R.string.add_money_bank_success_description));
+		}else{
+			hideDesc();
+		}
 		setName(bankAccountList.getBankName());
 		setReceiverImage(bankAccountList.getBankIcon(getContext()));
 	}

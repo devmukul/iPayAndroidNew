@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/value30">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:background="@android:color/white"
+        android:minHeight="@dimen/value30"
+        android:orientation="vertical"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbars="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/otp_going_to_send" />
+
+        <View
+            style="@style/DividerOnly"
+            android:layout_marginBottom="@dimen/activity_vertical_margin_card"
+            android:layout_marginTop="@dimen/activity_horizontal_margin_card" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/value5">
+
+            <EditText
+                android:id="@+id/otp_edittext"
+                style="@style/CustomEditTextWithNoMargin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_otp"
+                android:maxLength="6"
+                android:inputType="number">
+
+                <requestFocus />
+            </EditText>
+        </android.support.design.widget.TextInputLayout>
+
+        <View
+            style="@style/DividerOnly"
+            android:layout_marginBottom="@dimen/activity_vertical_margin_card"
+            android:layout_marginTop="@dimen/activity_horizontal_margin_card" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_horizontal_margin">
+
+            <Button
+                android:id="@+id/buttonCancel"
+                style="@style/ButtonSecondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/value5"
+                android:layout_weight="1"
+                android:text="@string/cancel"
+                android:layout_marginRight="@dimen/value8"/>
+
+            <Button
+                android:id="@+id/buttonVerifyOTP"
+                style="@style/ButtonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/value5"
+                android:layout_weight="1"
+                android:text="@string/verify"
+                android:layout_marginLeft="@dimen/value8"/>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

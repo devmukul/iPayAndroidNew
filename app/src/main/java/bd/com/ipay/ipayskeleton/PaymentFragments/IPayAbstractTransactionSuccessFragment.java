@@ -182,4 +182,9 @@ public abstract class IPayAbstractTransactionSuccessFragment extends Fragment {
 		spannableAmount.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorLightGreenSendMoney)), position, position + formattedAmountString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		return spannableAmount;
 	}
+
+	protected void hideDesc(){
+		successDescriptionTextView.setVisibility(View.GONE);
+	}
+
 }

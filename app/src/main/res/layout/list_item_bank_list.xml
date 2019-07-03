@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/value16"
+            android:layout_marginLeft="@dimen/value16"
+            android:layout_marginTop="@dimen/value12"
+            android:layout_marginEnd="@dimen/value16"
+            android:layout_marginRight="@dimen/value16"
+            android:layout_marginBottom="@dimen/value4">
+
+            <ImageView
+                android:id="@+id/bank_icon_image_view"
+                android:layout_width="40dip"
+                android:layout_height="40dip"
+                android:layout_margin="@dimen/value4"
+                android:contentDescription="@string/card"
+                tools:src="@drawable/ic_bank095"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:id="@+id/bank_name_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dip"
+                android:layout_marginLeft="8dip"
+                android:fontFamily="@font/open_sans_semibold"
+                android:lineSpacingExtra="4sp"
+                android:textColor="@android:color/black"
+                android:textSize="12sp"
+                tools:text="@string/dummy_bank_name"
+                android:layout_toRightOf="@+id/bank_icon_image_view"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:layout_marginStart="70dip"
+        android:layout_marginLeft="70dip"
+        android:layout_marginEnd="@dimen/value16"
+        android:layout_marginRight="@dimen/value16"
+        android:background="#33acacac" />
+</LinearLayout>

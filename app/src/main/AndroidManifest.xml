@@ -288,6 +288,14 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.ActionBarNoElevation"
             android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity
+            android:name=".Activities.BracBankLinkWebViewActivity"
+            android:label="@string/link_bank"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.ActionBarNoElevation"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
         <activity
             android:name=".QRScanner.BarcodeCaptureActivity"
             android:label="Scan QR Code"

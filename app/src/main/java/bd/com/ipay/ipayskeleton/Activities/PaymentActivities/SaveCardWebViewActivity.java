@@ -100,7 +100,7 @@ public class SaveCardWebViewActivity extends BaseActivity {
 					finishWithResult(CARD_TRANSACTION_FAILED, null);
 					return true;
 				} else if (url.matches(URL_REGEX_APP_TRANSACTION_CARD)) {
-					finishWithResult(CARD_TRANSACTION_SUCCESSFUL, url.replaceAll(URL_REGEX_APP_TRANSACTION_CARD, TRANSACTION_ID_POSITION));
+					finishWithResult(CARD_TRANSACTION_SUCCESSFUL, null);
 					return true;
 				} else {
 					return super.shouldOverrideUrlLoading(view, url);

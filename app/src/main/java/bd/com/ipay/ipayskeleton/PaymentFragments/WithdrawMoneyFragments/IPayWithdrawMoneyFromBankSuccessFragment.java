@@ -12,6 +12,7 @@ import bd.com.ipay.ipayskeleton.Utilities.Constants;
 public class IPayWithdrawMoneyFromBankSuccessFragment extends IPayAbstractTransactionSuccessFragment {
 	protected Number transactionAmount;
 	protected BankAccountList bankAccountList;
+	protected boolean isInstant;
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -19,6 +20,7 @@ public class IPayWithdrawMoneyFromBankSuccessFragment extends IPayAbstractTransa
 		if (getArguments() != null) {
 			transactionAmount = (Number) getArguments().getSerializable(IPayAbstractBankTransactionConfirmationFragment.TRANSACTION_AMOUNT_KEY);
 			bankAccountList = getArguments().getParcelable(Constants.SELECTED_BANK_ACCOUNT);
+			isInstant = getArguments().getBoolean("IS_INSTANT", false);
 		}
 	}
 
@@ -28,5 +30,8 @@ public class IPayWithdrawMoneyFromBankSuccessFragment extends IPayAbstractTransa
 		setSuccessDescription(getString(R.string.withdraw_money_success_description));
 		setName(bankAccountList.getBankName());
 		setReceiverImage(bankAccountList.getBankIcon(getContext()));
+
+		if(isInstant)
+			hideDesc();
 	}
 }

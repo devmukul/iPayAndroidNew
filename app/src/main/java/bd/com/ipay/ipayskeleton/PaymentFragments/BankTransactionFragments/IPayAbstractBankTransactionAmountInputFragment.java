@@ -13,12 +13,21 @@ import bd.com.ipay.ipayskeleton.Utilities.DecimalDigitsInputFilter;
 public abstract class IPayAbstractBankTransactionAmountInputFragment extends IPayAbstractAmountFragment {
 
 	protected BankAccountList bankAccountList;
+	protected boolean isInstant;
+	protected long flatRate;
+	protected long variableRate;
+	protected long maxRate;
+
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (getArguments() != null) {
 			bankAccountList = getArguments().getParcelable(Constants.SELECTED_BANK_ACCOUNT);
+			isInstant = getArguments().getBoolean("IS_INSTANT", false);
+			flatRate = getArguments().getLong("FLAT_FEE", 0);
+			variableRate = getArguments().getLong("VARIABLE_FEE", 0);
+			maxRate = getArguments().getLong("MAX_FEE", 0);
 		}
 	}
 

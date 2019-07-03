@@ -38,7 +38,7 @@ public class PayByCardWebViewActivity extends BaseActivity {
 
 	public static final String URL_REGEX_APP_CARD_CANCELLED = "(.+)/app/card/cancelled(/?.*)";
 	public static final String URL_REGEX_APP_CARD_FAILED = "(.+)/ebl-pay(/?.*.+)result=FAILURE&message=PAYMENT_FAILED";
-	public static final String URL_REGEX_APP_TRANSACTION_CARD = "(.+)/ebl-pay(.+)";
+    public static final String URL_REGEX_APP_TRANSACTION_CARD = "(.+)/app/transaction/card/(.+)";
 
 	private static final String TRANSACTION_ID_POSITION = "$2";
 

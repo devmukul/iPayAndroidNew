@@ -74,7 +74,7 @@ public class OTPVerificationTrustFragment extends BaseFragment implements HttpRe
     private Button mActivateButton;
     private EditText mOTPEditText;
     private TextView mTimerTextView;
-    private Button mResendOTPButton;
+    private TextView mResendOTPButton;
 
     private String mDeviceID;
     private String mDeviceName;

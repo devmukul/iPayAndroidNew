@@ -62,7 +62,8 @@
             android:textSize="12sp"
             android:textColor="#61000000"
             android:lineSpacingExtra="4sp"
-            android:text="Same as in your National ID card." />
+            android:text="Same as in your National ID card."
+            android:paddingLeft="@dimen/value8"/>
 
         <android.support.design.widget.TextInputLayout
             style="@style/CustomTextInputLayoutOutlinedBoxWithMargin"
@@ -113,7 +114,8 @@
             android:textSize="12sp"
             android:textColor="#61000000"
             android:lineSpacingExtra="4sp"
-            android:text="Password must be 8 digit, a capital letter and a number" />
+            android:text="Password must be 8 digit, a capital letter and a number"
+            android:paddingLeft="@dimen/value8"/>
 
         <android.support.design.widget.TextInputLayout
             style="@style/CustomTextInputLayoutOutlinedBoxWithMargin"
@@ -197,14 +199,13 @@
             android:id="@+id/terms_and_privacy_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
             android:layout_marginTop="@dimen/value16"
-            android:gravity="center"
+            android:gravity="left"
             android:text="@string/oath_sign_up"
             android:textColor="#858585"
             android:textColorLink="@color/colorPrimary"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:layout_marginLeft="@dimen/value8" />
 
         <Button
             android:id="@+id/personal_sign_in_button"

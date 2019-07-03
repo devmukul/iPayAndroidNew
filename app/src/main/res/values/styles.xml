@@ -46,7 +46,7 @@
     </style>
 
     <style name="my_checkbox_style">
-        <item name="buttonTint">@color/colorWhite</item>
+        <item name="buttonTint">#666666</item>
     </style>
 
     <style name="HomeBalanceButtonBackground">

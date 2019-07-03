@@ -398,7 +398,10 @@ public class IPayMakePaymentAmountInputFragment extends Fragment implements View
                 } else if (!InputValidator.isValidDigit(mAmountDummyEditText.getText().toString().trim())) {
                     errorMessage = getString(R.string.please_enter_amount);
                 } else {
-                    errorMessage = null;
+                    final BigDecimal amount = new BigDecimal(mAmountDummyEditText.getText().toString().replaceAll("[^\\d.]", ""));
+                    final BigDecimal minimumAmount = mMandatoryBusinessRules.getMIN_AMOUNT_PER_PAYMENT();
+                    final BigDecimal maximumAmount = mMandatoryBusinessRules.getMAX_AMOUNT_PER_PAYMENT();
+                    errorMessage = InputValidator.isValidAmount(getActivity(), amount, minimumAmount, maximumAmount);
                 }
             } else {
                 errorMessage = null;

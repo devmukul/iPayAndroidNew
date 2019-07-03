@@ -710,7 +710,7 @@
     <string name="profile_completion_detail_text">
 ভেরিফেকেশনের উদ্দেশ্যে আপনাকে নিম্নলিখিত তথ্যগুলি সম্পূর্ণ করতে হবে - আপনার প্রোফাইল ছবি, ফটো আইডেন্টিফিকেশন, বেসিক ইনফরমেশন এবং ফান্ড উৎস্য
 </string>
-    <string name="withdraw_money_to_bank_info">এটি সম্পন্ন হতে ৩ থেকে ৫ করমদিবস লাগতে পারেI</string>
+    <string name="withdraw_money_to_bank_info">এটি সম্পন্ন হতে ১ থেকে ২ করমদিবস লাগতে পারে</string>
     <string name="prompt_grant_permission">অনুগ্রহ করে প্রয়োজনীয় অনুমতি প্রদান করুন</string>
     <string name="verified_user_can_send_invitation">
 শুধুমাত্র ভেরিফাইড ব্যবহারকারী আমন্ত্রণ পাঠাতে পারেন
@@ -1406,7 +1406,9 @@
     <string name="recent_bill_information">সাম্প্রতিক বিল</string>
     <string name="name_title">Name/Title</string>
     <string name="akash_subscriber_id_input_message">অনুগ্রহ করে আপনার আকাশ ডিটিএইচ সাবস্ক্রাইবার আইডি লিখুন</string>
+    <string name="total">সর্বমোট</string>
     <string name="charge">চার্জ</string>
+    <string name="you_wii_recieve">টাকার পরিমাণ</string>
 </resources>
 
 

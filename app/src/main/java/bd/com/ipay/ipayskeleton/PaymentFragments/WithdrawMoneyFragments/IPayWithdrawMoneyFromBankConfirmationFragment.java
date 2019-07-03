@@ -17,7 +17,7 @@ public class IPayWithdrawMoneyFromBankConfirmationFragment extends IPayAbstractB
 
     @Override
     protected String getRequestJson() {
-        return gson.toJson(new WithdrawMoneyRequestV3(bankAccountList.getBankAccountId(), transactionAmount.doubleValue(), getNote()));
+        return gson.toJson(new WithdrawMoneyRequestV3(bankAccountList.getBankAccountId(), transactionAmount.doubleValue(), getNote(), isInstant));
     }
 
     @Override
@@ -35,8 +35,10 @@ public class IPayWithdrawMoneyFromBankConfirmationFragment extends IPayAbstractB
 
     @Override
     protected void bankTransactionSuccess(final Bundle bundle) {
-        if (getActivity() instanceof IPayTransactionActionActivity)
+        if (getActivity() instanceof IPayTransactionActionActivity) {
+            bundle.putBoolean("IS_INSTANT", isInstant);
             ((IPayTransactionActionActivity) getActivity()).switchFragment(new IPayWithdrawMoneyFromBankSuccessFragment(), bundle, 3, true);
+        }
     }
 
     @Override

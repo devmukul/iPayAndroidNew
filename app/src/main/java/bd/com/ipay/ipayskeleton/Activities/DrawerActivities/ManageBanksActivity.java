@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -13,8 +14,11 @@ import bd.com.ipay.ipayskeleton.Activities.BaseActivity;
 import bd.com.ipay.ipayskeleton.ManageBanksFragments.AddBankFragment;
 import bd.com.ipay.ipayskeleton.ManageBanksFragments.BankAccountsFragment;
 import bd.com.ipay.ipayskeleton.ManageBanksFragments.ConsentAgreementForBankFragment;
+import bd.com.ipay.ipayskeleton.ManageBanksFragments.IPayBankListFragment;
+import bd.com.ipay.ipayskeleton.ManageBanksFragments.IPayLinkBracBankSuccessFragment;
 import bd.com.ipay.ipayskeleton.ManageBanksFragments.PreviewChequebookCoverFragment;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Resource.BankBranch;
+import bd.com.ipay.ipayskeleton.PaymentFragments.IPayChooseBankOptionFragment;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Utilities.Utilities;
@@ -49,7 +53,7 @@ public class ManageBanksActivity extends BaseActivity {
         mFabAddNewBank.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchToAddNewBankFragment();
+                switchToBankListFragment();
             }
         });
         switchedFromOnBoard = intent.getBooleanExtra(Constants.FROM_ON_BOARD, false);
@@ -57,17 +61,17 @@ public class ManageBanksActivity extends BaseActivity {
             Bundle bundle = new Bundle();
             bundle.putBoolean(Constants.FROM_ON_BOARD, switchedFromOnBoard);
             mFabAddNewBank.setVisibility(View.GONE);
-            switchToAddNewBankFragment(bundle);
+            switchToBankListFragment(bundle);
         } else if (getIntent().getStringExtra(Constants.INTENDED_FRAGMENT) != null) {
             if (getIntent().getStringExtra(Constants.INTENDED_FRAGMENT).equals(Constants.BANK_ACCOUNT)) {
                 switchToBankAccountsFragment();
             } else if (getIntent().getStringExtra(Constants.INTENDED_FRAGMENT).equals(Constants.ADD_BANK)) {
-                switchToAddNewBankFragment();
+                switchToBankListFragment();
             }
         } else {
             switchedFromBankVerification = getIntent().getBooleanExtra(Constants.SWITCHED_FROM_BANK_VERIFICATION, false);
             if (switchedFromBankVerification)
-                switchToAddNewBankFragment();
+                switchToBankListFragment();
             else
                 switchToBankAccountsFragment();
         }
@@ -117,6 +121,7 @@ public class ManageBanksActivity extends BaseActivity {
         mFabAddNewBank.setVisibility(View.GONE);
     }
 
+
     public void switchToAddNewBankFragment() {
         if (!switchedFromBankVerification) {
             while (getSupportFragmentManager().getBackStackEntryCount() > 1)
@@ -131,13 +136,58 @@ public class ManageBanksActivity extends BaseActivity {
         mFabAddNewBank.setVisibility(View.GONE);
     }
 
-    public void switchToAddNewBankFragment(Bundle bundle) {
+    public void switchToAddNewBankFragmentTest(Bundle bundle) {
 
+        AddBankFragment addBankFragment = new AddBankFragment();
+        addBankFragment.setArguments(bundle);
+        if (!switchedFromBankVerification) {
+            while (getSupportFragmentManager().getBackStackEntryCount() > 1)
+                getSupportFragmentManager().popBackStackImmediate();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, addBankFragment).addToBackStack(null).commit();
+        } else {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, addBankFragment).commit();
+        }
+
+        mFabAddNewBank.setVisibility(View.GONE);
+    }
+
+    public void switchToAddNewBankFragment(Bundle bundle) {
         AddBankFragment addBankFragment = new AddBankFragment();
         addBankFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, addBankFragment).commit();
 
+    }
+
+    public void switchToBankListFragment(Bundle bundle) {
+        IPayBankListFragment iPayBankListFragment = new IPayBankListFragment();
+        iPayBankListFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, iPayBankListFragment).commit();
+
+    }
+
+    public void switchToBankListFragment() {
+        if (!switchedFromBankVerification) {
+            while (getSupportFragmentManager().getBackStackEntryCount() > 1)
+                getSupportFragmentManager().popBackStackImmediate();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new IPayBankListFragment()).addToBackStack(null).commit();
+        } else {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new IPayBankListFragment()).commit();
+        }
+
+        mFabAddNewBank.setVisibility(View.GONE);
+    }
+
+    public void switchToLinkBracBankSuccess() {
+        getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new IPayLinkBracBankSuccessFragment()).commit();
+
+        mFabAddNewBank.setVisibility(View.GONE);
     }
 
     public void switchToAddBankAgreementFragment(Bundle bundle) {

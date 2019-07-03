@@ -35,6 +35,7 @@ import java.util.Locale;
 import bd.com.ipay.ipayskeleton.Activities.PaymentActivities.UtilityBillPaymentActivity;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.AnimatedProgressDialog;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.OTPVerificationForBracBankAddMoneyDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.OTPVerificationForTwoFactorAuthenticationServicesDialog;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
@@ -56,6 +57,8 @@ public abstract class IPayAbstractTransactionConfirmationFragment extends Fragme
 	protected final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
 	protected OTPVerificationForTwoFactorAuthenticationServicesDialog mOTPVerificationForTwoFactorAuthenticationServicesDialog;
 	protected AnimatedProgressDialog customProgressDialog;
+	protected OTPVerificationForBracBankAddMoneyDialog otpVerificationForBracBankAddMoneyDialog;
+
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -255,6 +258,16 @@ public abstract class IPayAbstractTransactionConfirmationFragment extends Fragme
 					url, Constants.METHOD_POST, otpValidFor,pin);
 			mOTPVerificationForTwoFactorAuthenticationServicesDialog.setOtpValidFor(otpValidFor);
 			mOTPVerificationForTwoFactorAuthenticationServicesDialog.mParentHttpResponseListener = this;
+
+		}
+	}
+
+	protected void launchOTPVerificationBrac(long otpValidFor, String transactionId, String apiCommand, String url) {
+		if (getActivity() != null) {
+			otpVerificationForBracBankAddMoneyDialog = new OTPVerificationForBracBankAddMoneyDialog(getActivity(), transactionId, apiCommand,
+					url, Constants.METHOD_POST, otpValidFor);
+			otpVerificationForBracBankAddMoneyDialog.setOtpValidFor(otpValidFor);
+			otpVerificationForBracBankAddMoneyDialog.mParentHttpResponseListener = this;
 
 		}
 	}

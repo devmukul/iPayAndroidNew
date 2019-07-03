@@ -22,6 +22,7 @@ public abstract class ResourceRequestBuilder {
     }
 
     private void generateUri() {
+
         Uri uri;
         if (filter == -1) uri = Uri.parse(Constants.BASE_URL_MM + Constants.URL_RESOURCE)
                 .buildUpon()

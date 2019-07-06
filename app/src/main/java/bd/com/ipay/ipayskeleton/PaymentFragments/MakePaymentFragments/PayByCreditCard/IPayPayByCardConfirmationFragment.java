@@ -333,7 +333,11 @@ public class IPayPayByCardConfirmationFragment extends Fragment implements HttpR
                     paymentRequest.setCardId(mCardID);
                     url = Constants.BASE_URL_SM + "payment/saved-card";
                 }else{
-                    url = Constants.BASE_URL_SM + "payment/wo-card-token";
+                    if(mCardType.equalsIgnoreCase(Constants.AMEX)){
+                        url =  Constants.BASE_URL_SM + "payment/card";
+                    }else {
+                        url = Constants.BASE_URL_SM + "payment/wo-card-token";
+                    }
                 }
                 requestJson = gson.toJson(paymentRequest);
                 break;

@@ -274,10 +274,11 @@ public class BankAccountsFragment extends ProgressFragment implements HttpRespon
         mRemoveBankDialog.show();
     }
 
-    private void showVerifyBankWithAmountDialog(final long bankAccountID) {
+    private void showVerifyBankWithAmountDialog(final long bankAccountID, String bankName) {
+        String title = getString(R.string.enter_the_amount_we_sent, bankName);
         final InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
-                .title(R.string.enter_the_amount_we_sent)
+                .title(title)
                 .customView(R.layout.dialog_verify_bank_with_amount, true)
                 .positiveText(R.string.submit)
                 .negativeText(R.string.cancel)
@@ -533,7 +534,7 @@ public class BankAccountsFragment extends ProgressFragment implements HttpRespon
                                     } else if (getContext().getString(R.string.verify).equalsIgnoreCase(action)) {
                                         if (!verificationStatus.equals(Constants.BANK_ACCOUNT_STATUS_VERIFIED)) {
                                             mCustomSelectorDialog.dismiss();
-                                            showVerifyBankWithAmountDialog(bankAccountID);
+                                            showVerifyBankWithAmountDialog(bankAccountID, bankName);
                                         }
                                     }
                                 }

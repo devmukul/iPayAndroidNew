@@ -97,7 +97,7 @@
     <string name="error_loading_data">Error loading data. Please try again.</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="join_us">Join Us</string>
-    <string name="enter_the_amount_we_sent">We have sent you a token money to your bank account. Please check with your bank and enter the token amount.</string>
+    <string name="enter_the_amount_we_sent">We have sent you a token money to your %1$s account. Please check with your bank and enter the token amount.</string>
     <string name="bank_verification_help">Steps to verify a bank account: \n\nStep 1. iPay will send a small amount of money to your bank account, this may take 3–5 business days. \nStep 2. You have to contact your bank to know the exact amount. \nStep 3. Tap the name of your bank and select Verify. \nStep 4. Enter the exact amount and tap OK. \n\n*Entering an incorrect amount 5 times will permanently block the bank account.</string>
     <string name="are_you_sure">Are you sure?</string>
     <string name="are_you_sure_to_invite">Do you want to invite this person to iPay? By inviting to iPay you acknowledge that you know this person personally.</string>

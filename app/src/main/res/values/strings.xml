@@ -1232,5 +1232,18 @@
     <string name="total">Total</string>
     <string name="charge">Charge</string>
     <string name="you_wii_recieve">You will recieve</string>
+    <string name="card_save_dialog_title">Card Save Successful</string>
+    <string name="card_save_dialog_text">Your card has been saved!</string>
+    <string name="payment_cancel">Payment Cancelled</string>
+    <string name="payment_cancel_msg">You have cancelled your payment. Please try to make payment again.</string>
+    <string name="payment_failed_msg">Your payment has failed. Please ensure that you have provided accurate information and there is sufficient balance in your card, then try again. If you still face problem after providing accurate information, please write to us at support@ipay.com.bd</string>
+    <string name="card_save_cancel_dialog_text">Card Save Cancelled</string>
+    <string name="card_save_fail_dialog_text">Card Save Failed</string>
+    <string name="card_save_cancel_dialog_msg">You have cancelled your request. Please try to save card again.</string>
+    <string name="card_save_fail_dialog_msg">Your Card Save has failed. Please ensure that you have provided accurate information, then try again. If you still face problem after providing accurate information, please write to us at support@ipay.com.bd</string>
+    <string name="ipay_balance_title">IPAY BALANCE</string>
+    <string name="you_can_pay_with_your_ipay_wallet">You can pay with your ipay wallet.</string>
+    <string name="debit_credit_card_title">DEBIT/CREDIT CARD</string>
+    <string name="you_can_pay_with_your_visa_master_and_amex_debit_or_credit_card">You can pay with your visa, master and amex debit or credit card.</string>
 
 </resources>

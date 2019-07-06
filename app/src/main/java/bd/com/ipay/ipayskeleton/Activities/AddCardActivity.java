@@ -62,8 +62,6 @@ public class AddCardActivity extends BaseActivity implements HttpResponseListene
 	private HttpRequestGetAsyncTask mGetAllAddedCards;
 	protected HttpRequestPostAsyncTask httpRequestPostAsyncTask = null;
 
-	//private List<CardDetails> mCardList;
-
 	private List<SavedCardInfo> mCardList;
 
 	public FloatingActionButton mFabAddNewBank;
@@ -101,7 +99,6 @@ public class AddCardActivity extends BaseActivity implements HttpResponseListene
 			@ValidateAccess(ServiceIdConstants.ADD_MONEY_BY_CREDIT_OR_DEBIT_CARD)
 			public void onClick(View v) {
 				performContinueAction();
-				//showCardType();
 			}
 		});
 	}
@@ -130,15 +127,6 @@ public class AddCardActivity extends BaseActivity implements HttpResponseListene
 			mProgressDialog.show();
 		}
 	}
-
-//	private void getAddedCards() {
-//		if (mGetAllAddedCards == null) {
-//			mGetAllAddedCards = new HttpRequestGetAsyncTask(Constants.COMMAND_ADD_CARD,
-//					Constants.BASE_URL_MM + Constants.URL_GET_CARD, this, this, false);
-//			mGetAllAddedCards.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-//			mProgressDialog.show();
-//		}
-//	}
 
 	private int getAppropriateCardIcon(String imageUrl) {
 		return getResources().getIdentifier(imageUrl, "drawable", this.getPackageName());
@@ -207,27 +195,7 @@ public class AddCardActivity extends BaseActivity implements HttpResponseListene
 					mProgressDialog.dismiss();
 					mGetAllAddedCards = null;
 					break;
-
 			}
-
-
-
-
-//			try {
-//				Gson gson = new Gson();
-//				if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
-//					AddCardResponse addCardResponse = gson.fromJson(result.getJsonString(), AddCardResponse.class);
-//					mCardList = addCardResponse.getUserCardList();
-//					if (mCardList.size() == 0) mDescriptionTextView.setVisibility(View.VISIBLE);
-//					else mDescriptionTextView.setVisibility(View.GONE);
-//					CardAdapter cardAdapter = new CardAdapter();
-//					mAllCardListRecyclerView.setAdapter(cardAdapter);
-//					mAllCardListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//					cardAdapter.notifyDataSetChanged();
-//				}
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
 		}
 
 	}
@@ -327,8 +295,7 @@ public class AddCardActivity extends BaseActivity implements HttpResponseListene
 							break;
 						case CardPaymentWebViewActivity.CARD_TRANSACTION_SUCCESSFUL:
 							ProfileInfoCacheManager.addSourceOfFund(true);
-							showTransactionErrorDialog(getIntent(), "Card Save Successful", "Your card has been saved!");
-
+							showTransactionErrorDialog(getIntent(), getString(R.string.card_save_dialog_title), getString(R.string.card_save_dialog_text));
 							break;
 					}
 				}

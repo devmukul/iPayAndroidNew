@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import bd.com.ipay.ipayskeleton.Activities.AddCardActivity;
 import bd.com.ipay.ipayskeleton.Activities.DrawerActivities.ManageBanksActivity;
@@ -22,9 +24,7 @@ public class IpaySourceOfFundListFragment extends Fragment implements View.OnCli
     private View iPayBeneficiaryView;
     private View iPaySponsorView;
     private View cardView;
-    private View divider2;
-    private View divider3;
-    private View divider;
+    private TextView nidRequired;
 
     @Nullable
     @Override
@@ -37,14 +37,21 @@ public class IpaySourceOfFundListFragment extends Fragment implements View.OnCli
         bankView = view.findViewById(R.id.bank_layout);
         iPaySponsorView = view.findViewById(R.id.sponsor_layout);
         iPayBeneficiaryView = view.findViewById(R.id.beneficiary_layout);
-        divider = view.findViewById(R.id.divider);
-        divider2 = view.findViewById(R.id.divider2);
-        divider3 = view.findViewById(R.id.divider3);
         cardView = view.findViewById(R.id.card_layout);
+        nidRequired = view.findViewById(R.id.nid_text_link_bank);
+        nidRequired.setText(Html.fromHtml("<p><u>"+getContext().getString(R.string.nid_required)+"</u></p>").toString());
+
+        if (!ProfileInfoCacheManager.isIdentificationDocumentUploaded()){
+            nidRequired.setVisibility(View.VISIBLE);
+        }else {
+            nidRequired.setVisibility(View.GONE);
+        }
+
         iPayBeneficiaryView.setOnClickListener(this);
         iPaySponsorView.setOnClickListener(this);
         bankView.setOnClickListener(this);
         cardView.setOnClickListener(this);
+        nidRequired.setOnClickListener(this);
 
 
         adjustViewAccordingToAcl();
@@ -53,8 +60,6 @@ public class IpaySourceOfFundListFragment extends Fragment implements View.OnCli
             iPaySponsorView.setVisibility(View.GONE);
             iPayBeneficiaryView.setVisibility(View.GONE);
             cardView.setVisibility(View.GONE);
-            divider3.setVisibility(View.GONE);
-            divider2.setVisibility(View.GONE);
         }
         View backButton = view.findViewById(R.id.back);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -67,21 +72,15 @@ public class IpaySourceOfFundListFragment extends Fragment implements View.OnCli
 
     private void adjustViewAccordingToAcl() {
         if (!ACLManager.hasServicesAccessibility(ServiceIdConstants.GET_SOURCE_OF_FUND)) {
-            divider2.setVisibility(View.GONE);
             iPayBeneficiaryView.setVisibility(View.GONE);
             iPaySponsorView.setVisibility(View.GONE);
-            divider3.setVisibility(View.GONE);
         } else {
-            divider2.setVisibility(View.VISIBLE);
             iPayBeneficiaryView.setVisibility(View.VISIBLE);
             iPaySponsorView.setVisibility(View.VISIBLE);
-            divider3.setVisibility(View.VISIBLE);
         }
         if (!ACLManager.hasServicesAccessibility(ServiceIdConstants.SEE_BANK_ACCOUNTS)) {
-            divider.setVisibility(View.GONE);
             bankView.setVisibility(View.GONE);
         } else {
-            divider.setVisibility(View.VISIBLE);
             bankView.setVisibility(View.VISIBLE);
         }
     }
@@ -111,6 +110,10 @@ public class IpaySourceOfFundListFragment extends Fragment implements View.OnCli
                 } else {
                     DialogUtils.showServiceNotAllowedDialog(getContext());
                 }
+                break;
+            case R.id.nid_text_link_bank:
+//                Intent intent2 = new Intent(getActivity(), AddCardActivity.class);
+//                startActivity(intent2);
                 break;
             case R.id.card_layout:
                 Intent intent1 = new Intent(getActivity(), AddCardActivity.class);

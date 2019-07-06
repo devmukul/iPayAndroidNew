@@ -1232,5 +1232,6 @@
     <string name="total">Total</string>
     <string name="charge">Charge</string>
     <string name="you_wii_recieve">You will recieve</string>
+    <string name="nid_required">-  National ID Card Required</string>
 
 </resources>

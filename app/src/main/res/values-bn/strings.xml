@@ -1409,6 +1409,7 @@
     <string name="total">সর্বমোট</string>
     <string name="charge">চার্জ</string>
     <string name="you_wii_recieve">টাকার পরিমাণ</string>
+    <string name="nid_required">-  National ID Card Required</string>
 </resources>
 
 

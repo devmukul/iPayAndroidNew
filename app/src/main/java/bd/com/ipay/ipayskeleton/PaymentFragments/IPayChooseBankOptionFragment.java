@@ -4,6 +4,7 @@ package bd.com.ipay.ipayskeleton.PaymentFragments;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -14,8 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.devspark.progressfragment.ProgressFragment;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -23,16 +26,24 @@ import bd.com.ipay.ipayskeleton.Activities.DrawerActivities.ManageBanksActivity;
 import bd.com.ipay.ipayskeleton.Activities.IPayTransactionActionActivity;
 import bd.com.ipay.ipayskeleton.Adapters.OnItemClickListener;
 import bd.com.ipay.ipayskeleton.Adapters.UserBankListAdapter;
+import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestGetAsyncTask;
+import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
+import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
+import bd.com.ipay.ipayskeleton.HttpErrorHandler;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.AddOrWithdrawMoney.IsInstantResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Bank.BankAccountList;
 import bd.com.ipay.ipayskeleton.PaymentFragments.AddMoneyFragments.Bank.IPayAddMoneyFromBankAmountInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.AddMoneyFragments.Bank.Instant.IPayAddMoneyFromBankInstantlyAmountInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.WithdrawMoneyFragments.IPayWithdrawMoneyFromBankAmountInputFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.WithdrawMoneyFragments.IPayWithdrawOptionFragment;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.BusinessRuleCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
+import bd.com.ipay.ipayskeleton.Utilities.ToasterAndLogger.Toaster;
 import bd.com.ipay.ipayskeleton.ViewModel.IPayChooseBankOptionViewModel;
 
-public class IPayChooseBankOptionFragment extends ProgressFragment {
+public class IPayChooseBankOptionFragment extends ProgressFragment implements HttpResponseListener {
 
 	private UserBankListAdapter userBankListAdapter;
 	private IPayChooseBankOptionViewModel iPayChooseBankOptionViewModel;
@@ -40,6 +51,11 @@ public class IPayChooseBankOptionFragment extends ProgressFragment {
 	private View userBankStatusErrorViewHolder;
 	private TextView bankStatusErrorMessageTextView;
 	private Button bankStatusErrorActionButton;
+	private CustomProgressDialog mProgressDialog;
+
+	HttpRequestGetAsyncTask mSetProfileInfoTask;
+
+	Bundle mBundle;
 
 	private int transactionType = IPayTransactionActionActivity.TRANSACTION_TYPE_INVALID;
 
@@ -49,6 +65,8 @@ public class IPayChooseBankOptionFragment extends ProgressFragment {
 		if (getArguments() != null) {
 			transactionType = getArguments().getInt(IPayTransactionActionActivity.TRANSACTION_TYPE_KEY, IPayTransactionActionActivity.TRANSACTION_TYPE_INVALID);
 		}
+
+		mProgressDialog = new CustomProgressDialog(getContext());
 		iPayChooseBankOptionViewModel = ViewModelProviders.of(this).get(IPayChooseBankOptionViewModel.class);
 		iPayChooseBankOptionViewModel.getUserBankAccountListLiveData().observe(this, new Observer<List<BankAccountList>>() {
 			@Override
@@ -128,7 +146,8 @@ public class IPayChooseBankOptionFragment extends ProgressFragment {
 									((IPayTransactionActionActivity) getActivity()).switchFragment(new IPayAddMoneyFromBankInstantlyAmountInputFragment(), bundle, 1, true);
 									break;
 								case IPayTransactionActionActivity.TRANSACTION_TYPE_WITHDRAW_MONEY:
-									((IPayTransactionActionActivity) getActivity()).switchFragment(new IPayWithdrawMoneyFromBankAmountInputFragment(), bundle, 1, true);
+									mBundle = bundle;
+									getBankInstantEligibleInfo(iPayChooseBankOptionViewModel.getBankAccount(position).getBankCode());
 									break;
 							}
 						}
@@ -168,5 +187,53 @@ public class IPayChooseBankOptionFragment extends ProgressFragment {
 				iPayChooseBankOptionViewModel.fetchUserBankList();
 			}
 		}, 500);
+	}
+
+	protected void getBankInstantEligibleInfo(String bankCode) {
+		mProgressDialog.show();
+		mSetProfileInfoTask = new HttpRequestGetAsyncTask(Constants.COMMAND_SET_PROFILE_INFO_REQUEST,
+				Constants.BASE_URL_SM + "withdraw-money/bank/mode?bankCode="+bankCode, getActivity(), false);
+		mSetProfileInfoTask.mHttpResponseListener = this;
+		mSetProfileInfoTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+	}
+
+	@Override
+	public void httpResponseReceiver(GenericHttpResponse result) {
+
+		if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog)) {
+			mSetProfileInfoTask = null;
+			mProgressDialog.dismissDialogue();
+			return;
+		}
+
+		Gson gson = new Gson();
+
+		if (result.getApiCommand().equals(Constants.COMMAND_SET_PROFILE_INFO_REQUEST)) {
+
+			try {
+				if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
+					IsInstantResponse isInstantResponse = new Gson().fromJson(result.getJsonString(), IsInstantResponse.class);
+
+					if(isInstantResponse.getInstant().getIsEligible()){
+						mBundle.putSerializable("INSTANT", isInstantResponse);
+						((IPayTransactionActionActivity) getActivity()).switchFragment(new IPayWithdrawOptionFragment(), mBundle, 1, true);
+					}else {
+						mBundle.putBoolean("IS_INSTANT", false);
+						((IPayTransactionActionActivity) getActivity()).switchFragment(new IPayWithdrawMoneyFromBankAmountInputFragment(), mBundle, 1, true);
+					}
+				} else {
+					if (getActivity() != null)
+						Toaster.makeText(getActivity(), R.string.profile_info_fetch_failed, Toast.LENGTH_SHORT);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				if (getActivity() != null)
+					Toaster.makeText(getActivity(), R.string.profile_info_fetch_failed, Toast.LENGTH_SHORT);
+			}
+
+			mProgressDialog.dismissDialogue();
+			mSetProfileInfoTask = null;
+		}
+
 	}
 }

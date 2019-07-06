@@ -580,7 +580,7 @@
     <string name="manage_bank_accounts">Manage Bank Accounts</string>
     <string name="edit_business_information">Edit Business Information</string>
     <string name="profile_completion_detail_text">For verification purpose you need to complete the following information - your Profile Picture, Photo Identification, Basic Information and Source of Fund</string>
-    <string name="withdraw_money_to_bank_info">It may take 3–5 business days to complete the operation</string>
+    <string name="withdraw_money_to_bank_info">It may take 1–2 business days to complete the operation</string>
     <string name="prompt_grant_permission">Please grant necessary permissions</string>
     <string name="net_amount">Net Amount (Tk)</string>
     <string name="recipient_net_amount">Recipient will get (Tk)</string>
@@ -899,7 +899,7 @@
     <string name="your_ipay_balance">Your available iPay balance is</string>
     <string name="your_ipay_credit_balance">Your available Credit balance is</string>
     <string name="add_money_bank_success_description">You have successfully requested add money from bank to your iPay wallet. It may take 3&#8211;5 business day to complete.\n See further details under \'Transactions\'.</string>
-    <string name="withdraw_money_success_description">You have successfully requested to withdraw money from your iPay wallet to your bank account. It will take 3&#8211;5 business days to complete the transaction/process.\n See further details under \'Transactions\'.</string>
+    <string name="withdraw_money_success_description">You have successfully requested to withdraw money from your iPay wallet to your bank account. It will take 1&#8211;2 business days to complete the transaction/process.\n See further details under \'Transactions\'.</string>
     <string name="add_money_card_success_description">You have successfully added balance to your iPay wallet.\n See further details under \'Transactions\'.</string>
     <string name="add_instant_money_success_description">You have successfully added balance to your iPay wallet. Instant money amount will be adjusted from the selected bank within 3&#8211;5 business days.\n See further details under \'Transactions\'.</string>
     <string name="send_money_success_description">We will notify receiver that you have sent money.\n See further details under \'Transactions\'.</string>
@@ -1229,6 +1229,8 @@
     <string name="recent_bill_information">Recent Bill Information</string>
     <string name="name_title">Name/Title</string>
     <string name="akash_subscriber_id_input_message">Please enter your Akash DTH Subscriber ID</string>
+    <string name="total">Total</string>
     <string name="charge">Charge</string>
+    <string name="you_wii_recieve">You will recieve</string>
 
 </resources>

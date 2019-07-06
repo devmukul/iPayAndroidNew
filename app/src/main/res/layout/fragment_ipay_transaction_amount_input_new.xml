@@ -206,6 +206,8 @@
                             app:srcCompat="@drawable/ic_info_24dp"
                             tools:visibility="visible" />
                     </LinearLayout>
+
+
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

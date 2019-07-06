@@ -13,6 +13,7 @@ import com.google.gson.GsonBuilder;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.AnimatedProgressDialog;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.OTPVerificationForBracBankAddMoneyDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Bank.BankAccountList;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SendMoney.IPayTransactionResponse;
@@ -32,12 +33,15 @@ public abstract class IPayAbstractBankTransactionConfirmationFragment extends IP
     protected BankAccountList bankAccountList;
     protected final Gson gson = new GsonBuilder().create();
 
+    protected boolean isInstant;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             transactionAmount = (Number) getArguments().getSerializable(TRANSACTION_AMOUNT_KEY);
             bankAccountList = getArguments().getParcelable(Constants.SELECTED_BANK_ACCOUNT);
+            isInstant = getArguments().getBoolean("IS_INSTANT", false);
         }
         mCustomProgressDialog = new AnimatedProgressDialog(getContext());
     }
@@ -71,6 +75,7 @@ public abstract class IPayAbstractBankTransactionConfirmationFragment extends IP
 
     @Override
     protected void performContinueAction() {
+        otpVerificationForBracBankAddMoneyDialog = null;
         mCustomProgressDialog.showDialog();
         httpRequestPostAsyncTask = new HttpRequestPostAsyncTask(getApiCommand(), getUrl(), getRequestJson(), getActivity(), this, false);
         httpRequestPostAsyncTask.setPinAsHeader(getPin());
@@ -100,23 +105,48 @@ public abstract class IPayAbstractBankTransactionConfirmationFragment extends IP
 
                     switch (result.getStatus()) {
                         case Constants.HTTP_RESPONSE_STATUS_OK:
-                            if (mOTPVerificationForTwoFactorAuthenticationServicesDialog != null) {
-                                mOTPVerificationForTwoFactorAuthenticationServicesDialog.dismissDialog();
-                            }
-                            mCustomProgressDialog.showSuccessAnimationAndMessage(iPayTransactionResponse.getMessage());
-                            if (getActivity() != null)
-                                Utilities.hideKeyboard(getActivity());
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mCustomProgressDialog.hide();
-                                    Bundle bundle = new Bundle();
-                                    bundle.putSerializable(TRANSACTION_AMOUNT_KEY, transactionAmount);
-                                    bundle.putParcelable(Constants.SELECTED_BANK_ACCOUNT, bankAccountList);
-                                    bankTransactionSuccess(bundle);
+                            if(bankAccountList.getBankCode().equals("060") && result.getApiCommand().equals(Constants.COMMAND_ADD_MONEY_FROM_BANK)){
+
+                                if (otpVerificationForBracBankAddMoneyDialog != null) {
+                                    otpVerificationForBracBankAddMoneyDialog.dismissDialog();
+
+                                    mCustomProgressDialog.showSuccessAnimationAndMessage(iPayTransactionResponse.getMessage());
+                                    if (getActivity() != null)
+                                        Utilities.hideKeyboard(getActivity());
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mCustomProgressDialog.hide();
+                                            Bundle bundle = new Bundle();
+                                            bundle.putSerializable(TRANSACTION_AMOUNT_KEY, transactionAmount);
+                                            bundle.putParcelable(Constants.SELECTED_BANK_ACCOUNT, bankAccountList);
+                                            bankTransactionSuccess(bundle);
+                                        }
+                                    }, 2000);
+                                    sendSuccessEventTracking(transactionAmount);
+                                }else{
+                                    mCustomProgressDialog.dismissDialog();
+                                    launchOTPVerificationBrac(3000, iPayTransactionResponse.getTransactionId(), getApiCommand(), Constants.BASE_URL_SM +"add-money/brac/confirm");
                                 }
-                            }, 2000);
-                            sendSuccessEventTracking(transactionAmount);
+                            }else {
+                                if (mOTPVerificationForTwoFactorAuthenticationServicesDialog != null) {
+                                    mOTPVerificationForTwoFactorAuthenticationServicesDialog.dismissDialog();
+                                }
+                                mCustomProgressDialog.showSuccessAnimationAndMessage(iPayTransactionResponse.getMessage());
+                                if (getActivity() != null)
+                                    Utilities.hideKeyboard(getActivity());
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mCustomProgressDialog.hide();
+                                        Bundle bundle = new Bundle();
+                                        bundle.putSerializable(TRANSACTION_AMOUNT_KEY, transactionAmount);
+                                        bundle.putParcelable(Constants.SELECTED_BANK_ACCOUNT, bankAccountList);
+                                        bankTransactionSuccess(bundle);
+                                    }
+                                }, 2000);
+                                sendSuccessEventTracking(transactionAmount);
+                            }
                             break;
                         case Constants.HTTP_RESPONSE_STATUS_ACCEPTED:
                         case Constants.HTTP_RESPONSE_STATUS_NOT_EXPIRED:

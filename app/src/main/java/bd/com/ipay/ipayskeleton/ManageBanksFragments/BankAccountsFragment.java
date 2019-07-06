@@ -1,6 +1,8 @@
 package bd.com.ipay.ipayskeleton.ManageBanksFragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -29,6 +31,7 @@ import com.google.gson.Gson;
 import java.util.Arrays;
 import java.util.List;
 
+import bd.com.ipay.ipayskeleton.Activities.BracBankLinkWebViewActivity;
 import bd.com.ipay.ipayskeleton.Activities.DrawerActivities.ManageBanksActivity;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestDeleteAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestGetAsyncTask;
@@ -37,6 +40,7 @@ import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.Api.ResourceApi.GetAvailableBankAsyncTask;
 import bd.com.ipay.ipayskeleton.CustomView.CustomSwipeRefreshLayout;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.AnimatedProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomSelectorDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
@@ -46,6 +50,7 @@ import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Bank.RemoveBankAccountRe
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Bank.VerifyBankWithAmountRequest;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Bank.VerifyBankWithAmountRequestBuilder;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Bank.VerifyBankWithAmountResponse;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.LinkBracBankResponse;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
@@ -74,6 +79,11 @@ public class BankAccountsFragment extends ProgressFragment implements HttpRespon
 
     private CustomSwipeRefreshLayout mSwipeRefreshLayout;
     private Tracker mTracker;
+
+
+    protected HttpRequestPostAsyncTask httpRequestPostAsyncTask = null;
+
+    private static final int CARD_PAYMENT_WEB_VIEW_REQUEST = 2001;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -158,7 +168,7 @@ public class BankAccountsFragment extends ProgressFragment implements HttpRespon
         }
 
         mGetBankTask = new HttpRequestGetAsyncTask(Constants.COMMAND_GET_BANK_LIST,
-                Constants.BASE_URL_MM + Constants.URL_GET_BANK, getActivity(), true);
+                Constants.BASE_URL_MM+ "bank/", getActivity(), true);
         mGetBankTask.mHttpResponseListener = this;
         mGetBankTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
@@ -195,7 +205,6 @@ public class BankAccountsFragment extends ProgressFragment implements HttpRespon
         mRemoveBankAccountTask.mHttpResponseListener = this;
         mRemoveBankAccountTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
-
 
     private void processGetBankListResponse(String json) {
 
@@ -338,6 +347,7 @@ public class BankAccountsFragment extends ProgressFragment implements HttpRespon
             mProgressDialog.dismissDialogue();
             mGetBankTask = null;
             mRemoveBankAccountTask = null;
+            httpRequestPostAsyncTask = null;
             return;
         }
 
@@ -370,8 +380,6 @@ public class BankAccountsFragment extends ProgressFragment implements HttpRespon
                     if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
                         if (getActivity() != null)
                             Toaster.makeText(getActivity(), mRemoveBankAccountResponse.getMessage(), Toast.LENGTH_LONG);
-
-                        // Refresh bank list
                         refreshBankList();
 
                     } else {
@@ -410,6 +418,25 @@ public class BankAccountsFragment extends ProgressFragment implements HttpRespon
 
                 mProgressDialog.dismissDialogue();
                 mSendForVerificationWithAmountTask = null;
+                break;
+
+            case Constants.COMMAND_GET_BRAC_BANK_TOKEN:
+                httpRequestPostAsyncTask = null;
+                mProgressDialog.dismiss();
+                final LinkBracBankResponse mAddMoneyByCreditOrDebitResponse = new Gson().fromJson(result.getJsonString(), LinkBracBankResponse.class);
+                switch (result.getStatus()) {
+                    case Constants.HTTP_RESPONSE_STATUS_OK:
+                        Toaster.makeText(getActivity(), mAddMoneyByCreditOrDebitResponse.getMessage(), Toast.LENGTH_SHORT);
+
+                        ((ManageBanksActivity) getActivity()).switchToBankAccountsFragment();
+                        break;
+                    default:
+                        Toaster.makeText(getActivity(), mAddMoneyByCreditOrDebitResponse.getMessage(), Toast.LENGTH_SHORT);
+
+                        ((ManageBanksActivity) getActivity()).switchToBankAccountsFragment();
+                        break;
+                }
+                httpRequestPostAsyncTask = null;
                 break;
         }
     }
@@ -457,6 +484,8 @@ public class BankAccountsFragment extends ProgressFragment implements HttpRespon
                 final String branchName = mListUserBankClasses.get(pos).getBranchName();
                 final String verificationStatus = mListUserBankClasses.get(pos).getVerificationStatus();
                 final String bankAccountNumber = mListUserBankClasses.get(pos).getAccountNumber();
+                final String bankCode = mListUserBankClasses.get(pos).getBankCode();
+
                 try {
                     Drawable icon = getResources().getDrawable(mListUserBankClasses.get(pos).getBankIcon(getContext()));
                     bankIcon.setImageDrawable(icon);
@@ -523,6 +552,7 @@ public class BankAccountsFragment extends ProgressFragment implements HttpRespon
                         } else if (verificationStatus.equals(Constants.BANK_ACCOUNT_STATUS_UNCONSENTED)) {
                             launchAddBankAgreementPage(mListUserBankClasses.get(pos));
                         }else {
+
                             mCustomSelectorDialog = new CustomSelectorDialog(getActivity(), bankName, mBankActionList);
                             mCustomSelectorDialog.setOnResourceSelectedListener(new CustomSelectorDialog.OnResourceSelectedListener() {
                                 @Override
@@ -532,9 +562,23 @@ public class BankAccountsFragment extends ProgressFragment implements HttpRespon
                                         showRemoveBankAccountDialog(bankAccountID);
 
                                     } else if (getContext().getString(R.string.verify).equalsIgnoreCase(action)) {
-                                        if (!verificationStatus.equals(Constants.BANK_ACCOUNT_STATUS_VERIFIED)) {
-                                            mCustomSelectorDialog.dismiss();
-                                            showVerifyBankWithAmountDialog(bankAccountID, bankName);
+                                        if(bankCode.equals("060")){
+                                            if(mListUserBankClasses.get(pos).getMeta()!=null){
+                                                Intent intent = new Intent(getActivity(), BracBankLinkWebViewActivity.class);
+                                                intent.putExtra("BANK_ID", mListUserBankClasses.get(pos).getBankAccountId());
+                                                intent.putExtra(Constants.CARD_PAYMENT_URL, mListUserBankClasses.get(pos).getMeta().getSessionIdURL());
+                                                startActivityForResult(intent, CARD_PAYMENT_WEB_VIEW_REQUEST);
+                                            }else {
+                                                if (!verificationStatus.equals(Constants.BANK_ACCOUNT_STATUS_VERIFIED)) {
+                                                    mCustomSelectorDialog.dismiss();
+                                                    showVerifyBankWithAmountDialog(bankAccountID, bankName);
+                                                }
+                                            }
+                                        }else {
+                                            if (!verificationStatus.equals(Constants.BANK_ACCOUNT_STATUS_VERIFIED)) {
+                                                mCustomSelectorDialog.dismiss();
+                                                showVerifyBankWithAmountDialog(bankAccountID, bankName);
+                                            }
                                         }
                                     }
                                 }
@@ -620,5 +664,28 @@ public class BankAccountsFragment extends ProgressFragment implements HttpRespon
         bundle.putLong(Constants.BANK_ACCOUNT_ID, bankAccountList.getBankAccountId());
 
         ((ManageBanksActivity) getActivity()).switchToAddBankAgreementFragment(bundle);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case CARD_PAYMENT_WEB_VIEW_REQUEST:
+                if (data != null) {
+                    final long bankID = data.getLongExtra("BANK_ID",0);
+                    getBracBankToken(bankID);
+                }
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+                break;
+        }
+    }
+
+    public void getBracBankToken(long bakId) {
+        httpRequestPostAsyncTask = new HttpRequestPostAsyncTask(Constants.COMMAND_GET_BRAC_BANK_TOKEN, "http://10.100.44.10:8085/api/v1/bank/brac/"+bakId,
+                null, getActivity(), this, false);
+        httpRequestPostAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        mProgressDialog.showDialog();
     }
 }

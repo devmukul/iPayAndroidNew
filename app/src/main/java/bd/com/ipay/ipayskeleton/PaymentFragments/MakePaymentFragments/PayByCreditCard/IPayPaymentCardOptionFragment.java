@@ -312,7 +312,7 @@ public class IPayPaymentCardOptionFragment extends Fragment implements HttpRespo
 				mTotalCard.setVisibility(View.GONE);
 
 				if(mCardType.get(position).getCardKey().equalsIgnoreCase(Constants.VISA)){
-					if(masterCardList.size()>0){
+					if(visaCardList.size()>0){
 						mTotalCard.setVisibility(View.VISIBLE);
 						mTotalCard.setText(visaCardList.size() +" card");
 					}
@@ -324,16 +324,6 @@ public class IPayPaymentCardOptionFragment extends Fragment implements HttpRespo
 						mTotalCard.setText(masterCardList.size() + " card");
 					}
 				}
-
-//				if(mCardType.get(position).getCardKey().equalsIgnoreCase(Constants.VISA) && visaCardList.size()>0){
-//					mTotalVard.setText(visaCardList.size());
-//				}else if(mCardType.get(position).getCardKey().equalsIgnoreCase(Constants.MASTERCARD) && masterCardList.size()>0){
-//					mTotalVard.setText(masterCardList.size());
-//				}else {
-//					mTotalVard.setVisibility(View.GONE);
-//				}
-
-
 
 				itemView.setOnClickListener(new View.OnClickListener() {
 					@Override

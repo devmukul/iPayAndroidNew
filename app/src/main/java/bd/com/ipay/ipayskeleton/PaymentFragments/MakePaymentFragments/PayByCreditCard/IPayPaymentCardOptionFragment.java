@@ -164,24 +164,6 @@ public class IPayPaymentCardOptionFragment extends Fragment implements HttpRespo
 		}
 	}
 
-	private void performContinueAction() {
-		final String requestJson = gson.toJson(new PaymentRequestAmex(ContactEngine.formatMobileNumberBD(mobileNumber),
-				amount.toString(), null, null, mOutletId, 0.0, 0.0, "AMEX"));
-		httpRequestPostAsyncTask = new HttpRequestPostAsyncTask(Constants.COMMAND_ADD_MONEY_FROM_CREDIT_DEBIT_CARD, Constants.BASE_URL_SM + "payment/card",
-				requestJson, getActivity(), this, false);
-		httpRequestPostAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-		mCustomProgressDialog.show();
-	}
-
-    private void performVisa(String brand) {
-        final String requestJson = gson.toJson(new PaymentRequestAmex(ContactEngine.formatMobileNumberBD(mobileNumber),
-                amount.toString(), null, null, mOutletId, 0.0, 0.0, brand));
-        httpRequestPostAsyncTask = new HttpRequestPostAsyncTask(Constants.COMMAND_ADD_MONEY_FROM_CREDIT_DEBIT_CARD, Constants.BASE_URL_SM + "payment/wo-card-token",
-                requestJson, getActivity(), this, false);
-        httpRequestPostAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        mCustomProgressDialog.show();
-    }
-
 	private void genarateCardType() {
 		cardTypes = new ArrayList<>();
 		CardType cardType = new CardType(Constants.VISA_CARD, Constants.VISA, R.drawable.visa);
@@ -329,22 +311,27 @@ public class IPayPaymentCardOptionFragment extends Fragment implements HttpRespo
 					@Override
 					public void onClick(View view) {
 
-						if(mCardType.get(position).getCardKey().equalsIgnoreCase(Constants.AMEX)){
-							performContinueAction();
-						}else {
-							Bundle bundle = new Bundle();
-							bundle.putInt(IPayTransactionActionActivity.TRANSACTION_TYPE_KEY, transactionType);
-							bundle.putString(Constants.NAME, name);
-							bundle.putString(Constants.MOBILE_NUMBER, mobileNumber);
-							bundle.putString(Constants.PHOTO_URI, profilePicture);
-							bundle.putString(Constants.ADDRESS, mAddressString);
-							bundle.putLong(Constants.SPONSOR_ACCOUNT_ID, sponsorAccountID);
-							bundle.putString(Constants.SPONSOR_NAME, sponsorName);
-							bundle.putString(Constants.SPONSOR_PROFILE_PICTURE, sponsorProfilePictureUrl);
-							if (mOutletId != null)
-								bundle.putLong(Constants.OUTLET_ID, mOutletId);
-							bundle.putSerializable(Constants.AMOUNT, amount);
+						Bundle bundle = new Bundle();
+						bundle.putInt(IPayTransactionActionActivity.TRANSACTION_TYPE_KEY, transactionType);
+						bundle.putString(Constants.NAME, name);
+						bundle.putString(Constants.MOBILE_NUMBER, mobileNumber);
+						bundle.putString(Constants.PHOTO_URI, profilePicture);
+						bundle.putString(Constants.ADDRESS, mAddressString);
+						bundle.putLong(Constants.SPONSOR_ACCOUNT_ID, sponsorAccountID);
+						bundle.putString(Constants.SPONSOR_NAME, sponsorName);
+						bundle.putString(Constants.SPONSOR_PROFILE_PICTURE, sponsorProfilePictureUrl);
+						if (mOutletId != null)
+							bundle.putLong(Constants.OUTLET_ID, mOutletId);
+						bundle.putSerializable(Constants.AMOUNT, amount);
 
+
+						if(mCardType.get(position).getCardKey().equalsIgnoreCase(Constants.AMEX)){
+							bundle.putString("CARD_TYPE", Constants.AMEX);
+							bundle.putBoolean("IS_SAVED_CARD", false);
+							if (getActivity() instanceof IPayTransactionActionActivity) {
+								((IPayTransactionActionActivity) getActivity()).switchToPayByCardConfirmationFragment(bundle, 4);
+							}
+						}else {
 							if(mCardType.get(position).getCardKey().equalsIgnoreCase(Constants.VISA)){
 								bundle.putString("CARD_TYPE", Constants.VISA);
 

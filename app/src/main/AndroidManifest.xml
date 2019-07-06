@@ -32,7 +32,8 @@
         android:largeHeap="true"
         android:logo="@drawable/logo_ipay"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -292,6 +293,20 @@
         <activity
             android:name=".Activities.BracBankLinkWebViewActivity"
             android:label="@string/link_bank"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.ActionBarNoElevation"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity
+            android:name=".Activities.PaymentActivities.PayByCardWebViewActivity"
+            android:label="@string/make_payment"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.ActionBarNoElevation"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity
+            android:name=".Activities.PaymentActivities.SaveCardWebViewActivity"
+            android:label="Save Card"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.ActionBarNoElevation"
             android:windowSoftInputMode="adjustResize|stateHidden" />

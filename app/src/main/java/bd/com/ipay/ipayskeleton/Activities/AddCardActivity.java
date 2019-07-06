@@ -17,24 +17,38 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import bd.com.ipay.ipayskeleton.Activities.PaymentActivities.CardPaymentWebViewActivity;
+import bd.com.ipay.ipayskeleton.Activities.PaymentActivities.PayByCardWebViewActivity;
+import bd.com.ipay.ipayskeleton.Activities.PaymentActivities.SaveCardWebViewActivity;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestGetAsyncTask;
+import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.Aspect.ValidateAccess;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.AddCardResponse;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.AddOrWithdrawMoney.AddMoneyByCreditOrDebitCardResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.CardDetails;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.MakePayment.Card.GetSavedCardResponse;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.MakePayment.Card.PaymentRequestAmex;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.MakePayment.Card.SavedCardInfo;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Resource.BankBranch;
 import bd.com.ipay.ipayskeleton.PaymentFragments.AddMoneyFragments.Card.IPayAddMoneyFromCardAmountInputFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.AddMoneyFragments.Card.IPayAddMoneyFromCardSuccessFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.MakePaymentFragments.PayByCreditCard.IPayPaymentCardOptionFragment;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.BusinessRuleCacheManager;
+import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
+import bd.com.ipay.ipayskeleton.Utilities.ContactEngine;
 import bd.com.ipay.ipayskeleton.Utilities.ServiceIdConstants;
 import bd.com.ipay.ipayskeleton.Utilities.ToasterAndLogger.Toaster;
 import bd.com.ipay.ipayskeleton.Utilities.Utilities;
@@ -43,9 +57,12 @@ import bd.com.ipay.ipayskeleton.Widget.View.CardSelectDialog;
 public class AddCardActivity extends BaseActivity implements HttpResponseListener {
 
 	private static final int INVALID_RESOURCE_ID = 0;
-	private HttpRequestGetAsyncTask mGetAllAddedCards;
 
-	private List<CardDetails> mCardList;
+	private static final int CARD_PAYMENT_WEB_VIEW_REQUEST = 2001;
+	private HttpRequestGetAsyncTask mGetAllAddedCards;
+	protected HttpRequestPostAsyncTask httpRequestPostAsyncTask = null;
+
+	private List<SavedCardInfo> mCardList;
 
 	public FloatingActionButton mFabAddNewBank;
 	private TextView mDescriptionTextView;
@@ -81,7 +98,7 @@ public class AddCardActivity extends BaseActivity implements HttpResponseListene
 			@Override
 			@ValidateAccess(ServiceIdConstants.ADD_MONEY_BY_CREDIT_OR_DEBIT_CARD)
 			public void onClick(View v) {
-				showCardType();
+				performContinueAction();
 			}
 		});
 	}
@@ -105,7 +122,7 @@ public class AddCardActivity extends BaseActivity implements HttpResponseListene
 	private void getAddedCards() {
 		if (mGetAllAddedCards == null) {
 			mGetAllAddedCards = new HttpRequestGetAsyncTask(Constants.COMMAND_ADD_CARD,
-					Constants.BASE_URL_MM + Constants.URL_GET_CARD, this, this, false);
+					Constants.BASE_URL_SM + "saved-cards", this, this, false);
 			mGetAllAddedCards.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 			mProgressDialog.show();
 		}
@@ -138,22 +155,47 @@ public class AddCardActivity extends BaseActivity implements HttpResponseListene
 		if (HttpErrorHandler.isErrorFound(result, this, null)) {
 			mGetAllAddedCards = null;
 		} else {
-			try {
-				Gson gson = new Gson();
-				if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
-					AddCardResponse addCardResponse = gson.fromJson(result.getJsonString(), AddCardResponse.class);
-					mCardList = addCardResponse.getUserCardList();
-					if (mCardList.size() == 0) mDescriptionTextView.setVisibility(View.VISIBLE);
-					else mDescriptionTextView.setVisibility(View.GONE);
-					CardAdapter cardAdapter = new CardAdapter();
-					mAllCardListRecyclerView.setAdapter(cardAdapter);
-					mAllCardListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-					cardAdapter.notifyDataSetChanged();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
+
+			switch (result.getApiCommand()) {
+				case Constants.COMMAND_ADD_MONEY_FROM_CREDIT_DEBIT_CARD:
+					httpRequestPostAsyncTask = null;
+					mProgressDialog.dismiss();
+					final AddMoneyByCreditOrDebitCardResponse mAddMoneyByCreditOrDebitResponse = new Gson().fromJson(result.getJsonString(), AddMoneyByCreditOrDebitCardResponse.class);
+					switch (result.getStatus()) {
+						case Constants.HTTP_RESPONSE_STATUS_OK:
+							Intent intent = new Intent(AddCardActivity.this, SaveCardWebViewActivity.class);
+							intent.putExtra(Constants.CARD_PAYMENT_URL, mAddMoneyByCreditOrDebitResponse.getForwardUrl());
+							startActivityForResult(intent, CARD_PAYMENT_WEB_VIEW_REQUEST);
+							break;
+						case Constants.HTTP_RESPONSE_STATUS_BAD_REQUEST:
+						case Constants.HTTP_RESPONSE_STATUS_NOT_ACCEPTABLE:
+							Toaster.makeText(AddCardActivity.this, mAddMoneyByCreditOrDebitResponse.getMessage(), Toast.LENGTH_SHORT);
+							break;
+						default:
+							Toaster.makeText(AddCardActivity.this, R.string.service_not_available, Toast.LENGTH_SHORT);
+							break;
+					}
+					break;
+				case Constants.COMMAND_ADD_CARD:
+					try {
+						Gson gson = new Gson();
+						if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
+							GetSavedCardResponse addCardResponse = gson.fromJson(result.getJsonString(), GetSavedCardResponse.class);
+							mCardList = addCardResponse.getSavedCardInfos();
+							if (mCardList.size() == 0) mDescriptionTextView.setVisibility(View.VISIBLE);
+							else mDescriptionTextView.setVisibility(View.GONE);
+							CardAdapter cardAdapter = new CardAdapter();
+							mAllCardListRecyclerView.setAdapter(cardAdapter);
+							mAllCardListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+							cardAdapter.notifyDataSetChanged();
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					mProgressDialog.dismiss();
+					mGetAllAddedCards = null;
+					break;
 			}
-			mGetAllAddedCards = null;
 		}
 
 	}
@@ -169,18 +211,15 @@ public class AddCardActivity extends BaseActivity implements HttpResponseListene
 
 		@Override
 		public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
-			holder.mTitleTextView.setText(mCardList.get(position).getCardInfo());
-			final int iconId = getAppropriateCardIcon(mCardList.get(position).getCardType().toLowerCase());
+			holder.mTitleTextView.setText(mCardList.get(position).getMaskedCardNumber());
+			final int iconId = getAppropriateCardIcon(mCardList.get(position).getCardBrand().toLowerCase());
 			if (iconId == INVALID_RESOURCE_ID) {
 				holder.mCardImageView.setImageResource(R.drawable.basic_card);
 			} else {
 				holder.mCardImageView.setImageResource(iconId);
 			}
-			if (mCardList.get(position).getCardStatus().equals(Constants.VERIFIED)) {
-				holder.mVerifyImageView.setVisibility(View.VISIBLE);
-			} else {
-				holder.mVerifyImageView.setVisibility(View.GONE);
-			}
+
+			holder.mVerifyImageView.setVisibility(View.GONE);
 		}
 
 		@Override
@@ -233,4 +272,55 @@ public class AddCardActivity extends BaseActivity implements HttpResponseListene
 		});
 		cardSelectDialog.show();
 	}
+
+	private void performContinueAction() {
+		httpRequestPostAsyncTask = new HttpRequestPostAsyncTask(Constants.COMMAND_ADD_MONEY_FROM_CREDIT_DEBIT_CARD, Constants.BASE_URL_SM + "saved-cards",
+				null, AddCardActivity.this, this, false);
+		httpRequestPostAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		mProgressDialog.show();
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+			case CARD_PAYMENT_WEB_VIEW_REQUEST:
+				if (data != null) {
+					final int transactionStatusCode = data.getIntExtra(Constants.ADD_MONEY_BY_CREDIT_OR_DEBIT_CARD_STATUS, CardPaymentWebViewActivity.CARD_TRANSACTION_CANCELED);
+					switch (transactionStatusCode) {
+						case CardPaymentWebViewActivity.CARD_TRANSACTION_CANCELED:
+								this.finish();
+							break;
+						case CardPaymentWebViewActivity.CARD_TRANSACTION_FAILED:
+							this.finish();
+							break;
+						case CardPaymentWebViewActivity.CARD_TRANSACTION_SUCCESSFUL:
+							ProfileInfoCacheManager.addSourceOfFund(true);
+							showTransactionErrorDialog(getIntent(), getString(R.string.card_save_dialog_title), getString(R.string.card_save_dialog_text));
+							break;
+					}
+				}
+				break;
+			default:
+				super.onActivityResult(requestCode, resultCode, data);
+				break;
+		}
+	}
+
+	private void showTransactionErrorDialog(final Intent intent, String title, String message) {
+		MaterialDialog transactionErrorDialog = new MaterialDialog.Builder(this).
+				title(title).
+				content(message).
+				negativeText(R.string.ok).
+				onNegative(new MaterialDialog.SingleButtonCallback() {
+					@Override
+					public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+						dialog.cancel();
+						setResult(RESULT_OK, intent);
+						finish();
+					}
+				}).cancelable(false).build();
+		transactionErrorDialog.show();
+	}
+
+
 }

@@ -15,12 +15,17 @@ import bd.com.ipay.ipayskeleton.PaymentFragments.AddMoneyFragments.Bank.IPayAddM
 import bd.com.ipay.ipayskeleton.PaymentFragments.AddMoneyFragments.Bank.Instant.IPayAddMoneyFromBankInstantlyOptionFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.AddMoneyFragments.Card.IPayAddMoneyFromCardAmountInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.AddMoneyFragments.IPayAddMoneyOptionFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractPaymentMethodOptionFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractTransactionSuccessFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayTransactionAmountInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayTransactionConfirmationFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayTransactionContactFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayTransactionSuccessFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.MakePaymentFragments.IPayMakePaymentAmountInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.MakePaymentFragments.IPayMakePaymentFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.MakePaymentFragments.PayByCreditCard.IPayPayByCardConfirmationFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.MakePaymentFragments.PayByCreditCard.IPayPayByCardSavedCardFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.MakePaymentFragments.PayByCreditCard.IPayPaymentCardOptionFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.RequestMoneyFragments.IPayRequestMoneyAmountInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.SendMoneyFragments.IPaySendMoneyAmountInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.WithdrawMoneyFragments.IPayWithdrawMoneyFromBankOptionFragment;
@@ -97,7 +102,7 @@ public class IPayTransactionActionActivity extends BaseActivity {
                 }
                 if (!getIntent().getBooleanExtra(Constants.FROM_CONTACT, false) &&
                         !getIntent().getBooleanExtra(Constants.FROM_QR_SCAN, false)) {
-                    switchToMakePaymentFragment(bundle);
+                    switchToMakePaymentFragment(bundle, 0);
                 } else {
                     bundle.putString(Constants.MOBILE_NUMBER, getIntent().getStringExtra(Constants.MOBILE_NUMBER));
                     bundle.putString(Constants.NAME, getIntent().getStringExtra(Constants.NAME));
@@ -106,7 +111,7 @@ public class IPayTransactionActionActivity extends BaseActivity {
                         bundle.putString(Constants.ADDRESS, getIntent().getStringExtra(Constants.ADDRESS));
                     if (getIntent().hasExtra(Constants.OUTLET_ID))
                         bundle.putLong(Constants.OUTLET_ID, getIntent().getLongExtra(Constants.OUTLET_ID, 0));
-                    switchToAmountInputFragment(bundle);
+                    switchToMakePaymentAmountInputFragment(bundle);
                 }
                 break;
             case TRANSACTION_TYPE_SEND_MONEY:
@@ -156,15 +161,35 @@ public class IPayTransactionActionActivity extends BaseActivity {
         switchFragment(new IPayTransactionAmountInputFragment(), bundle, 1, true);
     }
 
-    public void switchToTransactionConfirmationFragment(@NonNull Bundle bundle) {
-        switchFragment(new IPayTransactionConfirmationFragment(), bundle, 2, true);
+    public void switchToMakePaymentAmountInputFragment(@NonNull Bundle bundle) {
+        switchFragment(new IPayMakePaymentAmountInputFragment(), bundle, 1, true);
     }
 
-    public void switchToTransactionSuccessFragment(@NonNull Bundle bundle) {
-        switchFragment(new IPayTransactionSuccessFragment(), bundle, 3, true);
+    public void switchToSelectPaymentMethodFragment(@NonNull Bundle bundle) {
+        switchFragment(new IPayAbstractPaymentMethodOptionFragment() , bundle, 2, true);
     }
 
-    private void switchToMakePaymentFragment(@NonNull Bundle bundle) {
+    public void switchToTransactionConfirmationFragment(@NonNull Bundle bundle, int backStackEntryCount) {
+        switchFragment(new IPayTransactionConfirmationFragment(), bundle, backStackEntryCount, true);
+    }
+
+    public void switchToTransactionSuccessFragment(@NonNull Bundle bundle, int backStackEntryCount) {
+        switchFragment(new IPayTransactionSuccessFragment(), bundle, backStackEntryCount, true);
+    }
+
+    public void switchToCardTypeFragment(@NonNull Bundle bundle , int backStackEntryCount) {
+        switchFragment(new IPayPaymentCardOptionFragment(), bundle, backStackEntryCount, true);
+    }
+
+    public void switchToSavedCardFragment(@NonNull Bundle bundle, int backStackEntryCount) {
+        switchFragment(new IPayPayByCardSavedCardFragment(), bundle, backStackEntryCount, true);
+    }
+
+    public void switchToPayByCardConfirmationFragment(@NonNull Bundle bundle, int backStackEntryCount) {
+        switchFragment(new IPayPayByCardConfirmationFragment(), bundle, backStackEntryCount, true);
+    }
+
+    private void switchToMakePaymentFragment(@NonNull Bundle bundle, int backStackEntryCount) {
         switchFragment(new IPayMakePaymentFragment(), bundle, 0, true);
     }
 

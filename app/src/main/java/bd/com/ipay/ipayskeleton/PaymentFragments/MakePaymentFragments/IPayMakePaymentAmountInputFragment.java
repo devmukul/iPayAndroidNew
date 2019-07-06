@@ -1,4 +1,4 @@
-package bd.com.ipay.ipayskeleton.PaymentFragments;
+package bd.com.ipay.ipayskeleton.PaymentFragments.MakePaymentFragments;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -29,7 +29,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -62,7 +61,7 @@ import bd.com.ipay.ipayskeleton.Widgets.IPaySnackbar;
 
 import static android.view.View.GONE;
 
-public class IPayTransactionAmountInputFragment extends Fragment implements View.OnClickListener {
+public class IPayMakePaymentAmountInputFragment extends Fragment {
 
     public MandatoryBusinessRules mMandatoryBusinessRules;
     private static final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
@@ -75,11 +74,6 @@ public class IPayTransactionAmountInputFragment extends Fragment implements View
     private int operatorType;
     private String operatorCode;
     private String profilePicture;
-    private LinearLayout mTopUpDefaultAmountLayout;
-    private TextView mTakaFiftyTextView;
-    private TextView mTakaHundredTextView;
-    private TextView mTakaTwoHundredTextView;
-    private TextView mTakaFiveHundredTextView;
     private View sponsorView;
     private TextView sponsorNameTextView;
     private ImageView cancelSponsorImageView;
@@ -172,17 +166,6 @@ public class IPayTransactionAmountInputFragment extends Fragment implements View
             }
         });
 
-        mTopUpDefaultAmountLayout = (LinearLayout) view.findViewById(R.id.default_top_up_amount);
-        mTakaFiftyTextView = (TextView) view.findViewById(R.id.text_view_taka_fifty);
-        mTakaHundredTextView = (TextView) view.findViewById(R.id.text_view_taka_hundred);
-        mTakaTwoHundredTextView = (TextView) view.findViewById(R.id.text_view_taka_two_hundred);
-        mTakaFiveHundredTextView = (TextView) view.findViewById(R.id.text_view_taka_five_hundred);
-
-        mTakaFiveHundredTextView.setOnClickListener(this);
-        mTakaTwoHundredTextView.setOnClickListener(this);
-        mTakaHundredTextView.setOnClickListener(this);
-        mTakaFiftyTextView.setOnClickListener(this);
-
         sponsorNameTextView = (TextView) view.findViewById(R.id.name);
         cancelSponsorImageView = (ImageView) view.findViewById(R.id.cancel);
 
@@ -201,20 +184,10 @@ public class IPayTransactionAmountInputFragment extends Fragment implements View
         }
 
         switch (transactionType) {
-            case IPayTransactionActionActivity.TRANSACTION_TYPE_REQUEST_MONEY:
-                transactionDescriptionTextView.setText(R.string.request_money_from);
-                balanceInfoLayout.setVisibility(View.GONE);
-                mTopUpDefaultAmountLayout.setVisibility(View.GONE);
-                break;
-            case IPayTransactionActionActivity.TRANSACTION_TYPE_SEND_MONEY:
-                transactionDescriptionTextView.setText(R.string.send_money_to);
-                balanceInfoLayout.setVisibility(View.VISIBLE);
-                mTopUpDefaultAmountLayout.setVisibility(View.GONE);
-                break;
+
             case IPayTransactionActionActivity.TRANSACTION_TYPE_MAKE_PAYMENT:
                 transactionDescriptionTextView.setVisibility(GONE);
                 balanceInfoLayout.setVisibility(View.VISIBLE);
-                mTopUpDefaultAmountLayout.setVisibility(View.GONE);
                 if (sponsorList != null) {
                     if (sponsorList.size() > 0) {
                         sponsorView.setVisibility(View.VISIBLE);
@@ -230,16 +203,9 @@ public class IPayTransactionAmountInputFragment extends Fragment implements View
                     }
                 }
                 break;
-            case IPayTransactionActionActivity.TRANSACTION_TYPE_TOP_UP:
-                transactionDescriptionTextView.setText(R.string.top_up_to);
-                balanceInfoLayout.setVisibility(View.VISIBLE);
-                mTopUpDefaultAmountLayout.setVisibility(View.VISIBLE);
-                mAmountDummyEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
-                break;
             case IPayTransactionActionActivity.TRANSACTION_TYPE_INVALID:
             default:
                 transactionDescriptionTextView.setText(R.string.empty_string);
-                mTopUpDefaultAmountLayout.setVisibility(View.GONE);
                 break;
         }
         if (name != null && !name.equals("")) {
@@ -314,14 +280,6 @@ public class IPayTransactionAmountInputFragment extends Fragment implements View
                 final String resultString;
                 if (charSequence != null) {
                     resultString = charSequence.toString();
-                    if (transactionType == ServiceIdConstants.TOP_UP) {
-                        if (beforeString.equals("500") && charSequence.toString().equals("50")) {
-                            setUpDefaultTopUpAmountTextViewColorsUnselected(new TextView(getContext()));
-                        } else if (!resultString.equals("50") && !resultString.equals("100") &&
-                                !resultString.equals("200") && !resultString.equals("500")) {
-                            setUpDefaultTopUpAmountTextViewColorsUnselected(new TextView(getContext()));
-                        }
-                    }
                 } else
                     resultString = null;
                 if (resultString != null && resultString.length() > 0) {
@@ -379,9 +337,6 @@ public class IPayTransactionAmountInputFragment extends Fragment implements View
                 || !Utilities.isValueAvailable(mMandatoryBusinessRules.getMAX_AMOUNT_PER_PAYMENT())) {
             DialogUtils.showDialogForBusinessRuleNotAvailable(getActivity());
             return false;
-        } else if (mMandatoryBusinessRules.isVERIFICATION_REQUIRED() && !ProfileInfoCacheManager.isAccountVerified()) {
-            DialogUtils.showDialogVerificationRequired(getActivity());
-            return false;
         }
 
         String errorMessage;
@@ -393,17 +348,7 @@ public class IPayTransactionAmountInputFragment extends Fragment implements View
                 errorMessage = getString(R.string.please_enter_amount);
             }
             else {
-                final BigDecimal minimumAmount = mMandatoryBusinessRules.getMIN_AMOUNT_PER_PAYMENT();
-                final BigDecimal maximumAmount;
-                final BigDecimal amount = new BigDecimal(mAmountDummyEditText.getText().toString().replaceAll("[^\\d.]", ""));
-                final BigDecimal balance = new BigDecimal(SharedPrefManager.getUserBalance());
-                if (transactionType == IPayTransactionActionActivity.TRANSACTION_TYPE_SEND_MONEY
-                        || transactionType == IPayTransactionActionActivity.TRANSACTION_TYPE_WITHDRAW_MONEY) {
-                    maximumAmount = mMandatoryBusinessRules.getMAX_AMOUNT_PER_PAYMENT().min(balance);
-                } else {
-                    maximumAmount = mMandatoryBusinessRules.getMAX_AMOUNT_PER_PAYMENT();
-                }
-                errorMessage = InputValidator.isValidAmount(getActivity(), amount, minimumAmount, maximumAmount);
+                errorMessage=null;
             }
         } else {
             if (SharedPrefManager.ifContainsUserBalance()) {
@@ -413,20 +358,9 @@ public class IPayTransactionAmountInputFragment extends Fragment implements View
                     errorMessage = getString(R.string.please_enter_amount);
                 } else {
                     final BigDecimal amount = new BigDecimal(mAmountDummyEditText.getText().toString().replaceAll("[^\\d.]", ""));
-                    final BigDecimal balance = new BigDecimal(SharedPrefManager.getUserBalance());
-                    if (((transactionType == IPayTransactionActionActivity.TRANSACTION_TYPE_SEND_MONEY) || (transactionType == IPayTransactionActionActivity.TRANSACTION_TYPE_TOP_UP) || (transactionType == IPayTransactionActionActivity.TRANSACTION_TYPE_MAKE_PAYMENT)) && amount.compareTo(balance) > 0) {
-                        errorMessage = getString(R.string.insufficient_balance);
-                    } else {
-                        final BigDecimal minimumAmount = mMandatoryBusinessRules.getMIN_AMOUNT_PER_PAYMENT();
-                        final BigDecimal maximumAmount;
-                        if (transactionType == IPayTransactionActionActivity.TRANSACTION_TYPE_SEND_MONEY
-                                || transactionType == IPayTransactionActionActivity.TRANSACTION_TYPE_WITHDRAW_MONEY) {
-                            maximumAmount = mMandatoryBusinessRules.getMAX_AMOUNT_PER_PAYMENT().min(balance);
-                        } else {
-                            maximumAmount = mMandatoryBusinessRules.getMAX_AMOUNT_PER_PAYMENT();
-                        }
-                        errorMessage = InputValidator.isValidAmount(getActivity(), amount, minimumAmount, maximumAmount);
-                    }
+                    final BigDecimal minimumAmount = mMandatoryBusinessRules.getMIN_AMOUNT_PER_PAYMENT();
+                    final BigDecimal maximumAmount = mMandatoryBusinessRules.getMAX_AMOUNT_PER_PAYMENT();
+                    errorMessage = InputValidator.isValidAmount(getActivity(), amount, minimumAmount, maximumAmount);
                 }
             } else {
                 errorMessage = null;
@@ -480,97 +414,4 @@ public class IPayTransactionAmountInputFragment extends Fragment implements View
                 mMandatoryBusinessRules = BusinessRuleCacheManager.getBusinessRules(BusinessRuleCacheManager.getTag(transactionType));
         }
     };
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.text_view_taka_fifty:
-                mAmountDummyEditText.setText("50");
-                mTakaFiftyTextView.setBackground(getResources().getDrawable(R.drawable.background_default_top_up_amount_selected));
-                mTakaFiftyTextView.setTextColor(getResources().getColor(R.color.colorTopUpAmount));
-                Utilities.hideKeyboard(getActivity());
-                setUpDefaultTopUpAmountTextViewColorsUnselected(mTakaFiftyTextView);
-                break;
-            case R.id.text_view_taka_hundred:
-                mTakaHundredTextView.setBackground(getResources().getDrawable(R.drawable.background_default_top_up_amount_selected));
-                mTakaHundredTextView.setTextColor(getResources().getColor(R.color.colorTopUpAmount));
-                mAmountDummyEditText.setText("100");
-                setUpDefaultTopUpAmountTextViewColorsUnselected(mTakaHundredTextView);
-                Utilities.hideKeyboard(getActivity());
-                break;
-            case R.id.text_view_taka_two_hundred:
-                mTakaTwoHundredTextView.setBackground(getResources().getDrawable(R.drawable.background_default_top_up_amount_selected));
-                mTakaTwoHundredTextView.setTextColor(getResources().getColor(R.color.colorTopUpAmount));
-                mAmountDummyEditText.setText("200");
-                setUpDefaultTopUpAmountTextViewColorsUnselected(mTakaTwoHundredTextView);
-                Utilities.hideKeyboard(getActivity());
-                break;
-            case R.id.text_view_taka_five_hundred:
-                mTakaFiveHundredTextView.setBackground(getResources().getDrawable(R.drawable.background_default_top_up_amount_selected));
-                mTakaFiveHundredTextView.setTextColor(getResources().getColor(R.color.colorTopUpAmount));
-                mAmountDummyEditText.setText("500");
-                setUpDefaultTopUpAmountTextViewColorsUnselected(mTakaFiveHundredTextView);
-                Utilities.hideKeyboard(getActivity());
-                break;
-
-        }
-    }
-
-    private void setUpDefaultTopUpAmountTextViewColorsUnselected(TextView textView) {
-        if (textView.getId() == R.id.text_view_taka_fifty) {
-            mTakaHundredTextView.setBackground(getResources().getDrawable(R.drawable.background_default_top_up_amount));
-            mTakaHundredTextView.setTextColor(getResources().getColor(R.color.colorWhite));
-
-            mTakaTwoHundredTextView.setBackground(getResources().getDrawable(R.drawable.background_default_top_up_amount));
-            mTakaTwoHundredTextView.setTextColor(getResources().getColor(R.color.colorWhite));
-
-            mTakaFiveHundredTextView.setBackground(getResources().getDrawable(R.drawable.background_default_top_up_amount));
-            mTakaFiveHundredTextView.setTextColor(getResources().getColor(R.color.colorWhite));
-
-        } else if (textView.getId() == R.id.text_view_taka_hundred) {
-
-            mTakaFiftyTextView.setBackground(getResources().getDrawable(R.drawable.background_default_top_up_amount));
-            mTakaFiftyTextView.setTextColor(getResources().getColor(R.color.colorWhite));
-
-            mTakaTwoHundredTextView.setBackground(getResources().getDrawable(R.drawable.background_default_top_up_amount));
-            mTakaTwoHundredTextView.setTextColor(getResources().getColor(R.color.colorWhite));
-
-            mTakaFiveHundredTextView.setBackground(getResources().getDrawable(R.drawable.background_default_top_up_amount));
-            mTakaFiveHundredTextView.setTextColor(getResources().getColor(R.color.colorWhite));
-        } else if (textView.getId() == R.id.text_view_taka_two_hundred) {
-
-            mTakaHundredTextView.setBackground(getResources().getDrawable(R.drawable.background_default_top_up_amount));
-            mTakaHundredTextView.setTextColor(getResources().getColor(R.color.colorWhite));
-
-            mTakaFiftyTextView.setBackground(getResources().getDrawable(R.drawable.background_default_top_up_amount));
-            mTakaFiftyTextView.setTextColor(getResources().getColor(R.color.colorWhite));
-
-            mTakaFiveHundredTextView.setBackground(getResources().getDrawable(R.drawable.background_default_top_up_amount));
-            mTakaFiveHundredTextView.setTextColor(getResources().getColor(R.color.colorWhite));
-        } else if (textView.getId() == R.id.text_view_taka_five_hundred) {
-
-            mTakaHundredTextView.setBackground(getResources().getDrawable(R.drawable.background_default_top_up_amount));
-            mTakaHundredTextView.setTextColor(getResources().getColor(R.color.colorWhite));
-
-            mTakaTwoHundredTextView.setBackground(getResources().getDrawable(R.drawable.background_default_top_up_amount));
-            mTakaTwoHundredTextView.setTextColor(getResources().getColor(R.color.colorWhite));
-
-            mTakaFiftyTextView.setBackground(getResources().getDrawable(R.drawable.background_default_top_up_amount));
-            mTakaFiftyTextView.setTextColor(getResources().getColor(R.color.colorWhite));
-        } else {
-            mTakaFiftyTextView.setBackground(getResources().getDrawable(R.drawable.background_default_top_up_amount));
-            mTakaFiftyTextView.setTextColor(getResources().getColor(R.color.colorWhite));
-
-            mTakaHundredTextView.setBackground(getResources().getDrawable(R.drawable.background_default_top_up_amount));
-            mTakaHundredTextView.setTextColor(getResources().getColor(R.color.colorWhite));
-
-            mTakaTwoHundredTextView.setBackground(getResources().getDrawable(R.drawable.background_default_top_up_amount));
-            mTakaTwoHundredTextView.setTextColor(getResources().getColor(R.color.colorWhite));
-
-            mTakaFiveHundredTextView.setBackground(getResources().getDrawable(R.drawable.background_default_top_up_amount));
-            mTakaFiveHundredTextView.setTextColor(getResources().getColor(R.color.colorWhite));
-        }
-    }
-
-
 }

@@ -1,4 +1,4 @@
-package bd.com.ipay.ipayskeleton.PaymentFragments;
+package bd.com.ipay.ipayskeleton.PaymentFragments.MakePaymentFragments.PayByCreditCard;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -40,18 +40,23 @@ import java.util.Locale;
 
 import bd.com.ipay.ipayskeleton.Activities.HomeActivity;
 import bd.com.ipay.ipayskeleton.Activities.IPayTransactionActionActivity;
+import bd.com.ipay.ipayskeleton.Activities.PaymentActivities.CardPaymentWebViewActivity;
+import bd.com.ipay.ipayskeleton.Activities.PaymentActivities.PayByCardWebViewActivity;
 import bd.com.ipay.ipayskeleton.Api.GenericApi.HttpRequestPostAsyncTask;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.GenericHttpResponse;
 import bd.com.ipay.ipayskeleton.Api.HttpResponse.HttpResponseListener;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.AnimatedProgressDialog;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.OTPVerificationForTwoFactorAuthenticationServicesDialog;
 import bd.com.ipay.ipayskeleton.HttpErrorHandler;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.AddOrWithdrawMoney.AddMoneyByCreditOrDebitCardResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.BusinessRuleAndServiceCharge.BusinessRule.MandatoryBusinessRules;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.MakePayment.Card.PaymentRequestAmex;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.MakePayment.PaymentRequest;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.RequestMoney.RequestMoneyRequest;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SendMoney.IPayTransactionResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.SendMoney.SendMoneyRequest;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.TopUp.TopupRequest;
+import bd.com.ipay.ipayskeleton.PaymentFragments.AddMoneyFragments.Card.IPayAddMoneyFromCardSuccessFragment;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.BusinessRuleCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
@@ -67,7 +72,10 @@ import bd.com.ipay.ipayskeleton.Widgets.IPaySnackbar;
 
 import static android.view.View.GONE;
 
-public class IPayTransactionConfirmationFragment extends Fragment implements HttpResponseListener {
+public class IPayPayByCardConfirmationFragment extends Fragment implements HttpResponseListener {
+
+    private static final int CARD_PAYMENT_WEB_VIEW_REQUEST = 2001;
+    public static final String TRANSACTION_AMOUNT_KEY = "TRANSACTION_AMOUNT";
     private MandatoryBusinessRules mandatoryBusinessRules;
     private static final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
 
@@ -86,16 +94,21 @@ public class IPayTransactionConfirmationFragment extends Fragment implements Htt
     private Long mOutletId = null;
 
     private EditText mNoteEditText;
-    private EditText mPinEditText;
+    private EditText mCVVEditText;
 
     private String operatorCode;
     private int operatorType;
     private AnimatedProgressDialog mCustomProgressDialog;
 
-    private String mPin;
+    private String mCVV;
     private OTPVerificationForTwoFactorAuthenticationServicesDialog mOTPVerificationForTwoFactorAuthenticationServicesDialog;
 
     protected Tracker mTracker;
+
+    private String mCardType;
+    private String mCardID;
+    private boolean isSavedCard;
+
 
 
     @Override
@@ -119,13 +132,16 @@ public class IPayTransactionConfirmationFragment extends Fragment implements Htt
                     sponsorProfilePictureUrl = getArguments().getString(Constants.SPONSOR_PROFILE_PICTURE);
                 }
 
+                mCardType = getArguments().getString("CARD_TYPE");
+
+                isSavedCard = getArguments().getBoolean("IS_SAVED_CARD");
+
+                if (getArguments().containsKey("CARD_ID")) {
+                    mCardID = getArguments().getString("CARD_ID");
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        if (transactionType == ServiceIdConstants.TOP_UP) {
-            operatorCode = getArguments().getString(Constants.OPERATOR_CODE);
-            operatorType = getArguments().getInt(Constants.OPERATOR_TYPE);
         }
 
         numberFormat.setMinimumFractionDigits(0);
@@ -142,7 +158,7 @@ public class IPayTransactionConfirmationFragment extends Fragment implements Htt
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_ipay_transaction_confirmation, container, false);
+        return inflater.inflate(R.layout.fragment_pay_by_card_confirmation, container, false);
     }
 
     @Override
@@ -150,20 +166,17 @@ public class IPayTransactionConfirmationFragment extends Fragment implements Htt
         super.onViewCreated(view, savedInstanceState);
 
         mNoteEditText = view.findViewById(R.id.note_edit_text);
-        mPinEditText = view.findViewById(R.id.pin_edit_text);
+        mCVVEditText = view.findViewById(R.id.cvv_edit_text);
 
         final Toolbar toolbar = view.findViewById(R.id.toolbar);
         final TextView transactionDescriptionTextView = view.findViewById(R.id.transaction_description_text_view);
         final TextView nameTextView = view.findViewById(R.id.name_text_view);
         final TextView addressTextView = view.findViewById(R.id.address_text_view);
-        final View pinLayoutHolder = view.findViewById(R.id.pin_layout_holder);
+        final View cvvLayoutHolder = view.findViewById(R.id.cvv_layout_holder);
         final View noteLayoutHolder = view.findViewById(R.id.note_layout_holder);
         final RoundedImageView profileImageView = view.findViewById(R.id.profile_image_view);
         final Button transactionConfirmationButton = view.findViewById(R.id.transaction_confirmation_button);
 
-        if (transactionType == ServiceIdConstants.TOP_UP) {
-            noteLayoutHolder.setVisibility(View.GONE);
-        }
         if (getActivity() instanceof AppCompatActivity) {
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
             ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
@@ -173,19 +186,20 @@ public class IPayTransactionConfirmationFragment extends Fragment implements Htt
             getActivity().setTitle(R.string.empty_string);
         }
 
-        if (mandatoryBusinessRules != null)
-            pinLayoutHolder.setVisibility(mandatoryBusinessRules.IS_PIN_REQUIRED() ? View.VISIBLE : View.GONE);
-
         final String amountValue = getString(R.string.balance_holder, numberFormat.format(amount));
         switch (transactionType) {
             case IPayTransactionActionActivity.TRANSACTION_TYPE_SEND_MONEY:
-                pinLayoutHolder.setVisibility(View.VISIBLE);
+                cvvLayoutHolder.setVisibility(View.VISIBLE);
                 updateTransactionDescription(transactionDescriptionTextView,
                         getString(R.string.send_money_confirmation_message, amountValue), 16, 16 + amountValue.length());
                 mNoteEditText.setHint(R.string.short_note_optional_hint);
                 transactionConfirmationButton.setText(R.string.send_money);
                 break;
             case IPayTransactionActionActivity.TRANSACTION_TYPE_MAKE_PAYMENT:
+                if(isSavedCard)
+                    cvvLayoutHolder.setVisibility(View.VISIBLE);
+                else
+                    cvvLayoutHolder.setVisibility(GONE);
                 updateTransactionDescription(transactionDescriptionTextView,
                         getString(R.string.make_payment_confirmation_message, amountValue), getString(R.string.money_amount).length()+1, getString(R.string.money_amount).length()+1 + amountValue.length());
                 mNoteEditText.setHint(R.string.short_note_optional_hint);
@@ -198,7 +212,7 @@ public class IPayTransactionConfirmationFragment extends Fragment implements Htt
                 transactionConfirmationButton.setText(R.string.top_up);
                 break;
             case IPayTransactionActionActivity.TRANSACTION_TYPE_REQUEST_MONEY:
-                pinLayoutHolder.setVisibility(View.GONE);
+                cvvLayoutHolder.setVisibility(View.GONE);
                 updateTransactionDescription(transactionDescriptionTextView,
                         getString(R.string.request_money_confirmation_message, amountValue), 19, 19 + amountValue.length());
                 mNoteEditText.setHint(R.string.short_note_hint);
@@ -211,9 +225,9 @@ public class IPayTransactionConfirmationFragment extends Fragment implements Htt
                 break;
         }
         if (getContext() != null) {
-            if (pinLayoutHolder.getVisibility() == View.VISIBLE) {
-                mPinEditText.requestFocus();
-                Utilities.showKeyboard(getContext(), mPinEditText);
+            if (cvvLayoutHolder.getVisibility() == GONE) {
+                mCVVEditText.requestFocus();
+                Utilities.showKeyboard(getContext(), mCVVEditText);
             } else {
                 mNoteEditText.requestFocus();
                 Utilities.showKeyboard(getContext(), mNoteEditText);
@@ -247,21 +261,14 @@ public class IPayTransactionConfirmationFragment extends Fragment implements Htt
         transactionConfirmationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (pinLayoutHolder.getVisibility() == View.VISIBLE) {
-                    Editable pin = mPinEditText.getText();
+                if (cvvLayoutHolder.getVisibility() == View.VISIBLE) {
+                    Editable pin = mCVVEditText.getText();
                     if (TextUtils.isEmpty(pin)) {
-                        IPaySnackbar.error(transactionConfirmationButton, R.string.please_enter_a_pin, IPaySnackbar.LENGTH_LONG).show();
+                        IPaySnackbar.error(transactionConfirmationButton, "Please enter CVV", IPaySnackbar.LENGTH_LONG).show();
                         return;
-                    } else if (pin.length() != 4) {
-                        IPaySnackbar.error(transactionConfirmationButton, R.string.minimum_pin_length_message, IPaySnackbar.LENGTH_LONG).show();
-                        showErrorMessage(getString(R.string.minimum_pin_length_message));
-                        return;
-                    }
-                }
-                if (transactionType == IPayTransactionActionActivity.TRANSACTION_TYPE_REQUEST_MONEY) {
-                    Editable noteEditTextText = mNoteEditText.getText();
-                    if (TextUtils.isEmpty(noteEditTextText)) {
-                        showErrorMessage(getString(R.string.please_write_note));
+                    } else if (pin.length() != 3) {
+                        IPaySnackbar.error(transactionConfirmationButton, "CVV must be at least 3 digit", IPaySnackbar.LENGTH_LONG).show();
+                        showErrorMessage("CVV must be at least 3 digit");
                         return;
                     }
                 }
@@ -308,21 +315,27 @@ public class IPayTransactionConfirmationFragment extends Fragment implements Htt
         final String apiCommand;
         final String url;
         final String note = mNoteEditText.getText().toString();
-        mPin = mPinEditText.getText().toString().trim();
+        mCVV = mCVVEditText.getText().toString().trim();
         switch (transactionType) {
             case IPayTransactionActionActivity.TRANSACTION_TYPE_SEND_MONEY:
                 apiCommand = Constants.COMMAND_SEND_MONEY;
                 requestJson = gson.toJson(new SendMoneyRequest(ContactEngine.formatMobileNumberBD(mobileNumber),
-                        amount.toString(), mPin));
+                        amount.toString(), mCVV));
                 url = Constants.BASE_URL_SM + Constants.URL_SEND_MONEY_V3;
                 break;
             case IPayTransactionActionActivity.TRANSACTION_TYPE_MAKE_PAYMENT:
                 apiCommand = Constants.COMMAND_PAYMENT;
-                PaymentRequest paymentRequest = new PaymentRequest(ContactEngine.formatMobileNumberBD(mobileNumber),
-                        amount.toString(), note, null, mOutletId, 0.0, 0.0);
-                paymentRequest.setPin(mPin);
+
+                PaymentRequestAmex paymentRequest = new PaymentRequestAmex(ContactEngine.formatMobileNumberBD(mobileNumber),
+                        amount.toString(), note, null, mOutletId, 0.0, 0.0, mCardType);
+                if(isSavedCard) {
+                    paymentRequest.setCvv(mCVV);
+                    paymentRequest.setCardId(mCardID);
+                    url = Constants.BASE_URL_SM + "payment/saved-card";
+                }else{
+                    url = Constants.BASE_URL_SM + "payment/wo-card-token";
+                }
                 requestJson = gson.toJson(paymentRequest);
-                url = Constants.BASE_URL_SM + Constants.URL_PAYMENT_V3;
                 break;
             case IPayTransactionActionActivity.TRANSACTION_TYPE_REQUEST_MONEY:
                 apiCommand = Constants.COMMAND_REQUEST_MONEY;
@@ -344,7 +357,7 @@ public class IPayTransactionConfirmationFragment extends Fragment implements Htt
         }
         httpRequestPostAsyncTask = new HttpRequestPostAsyncTask(apiCommand, url, requestJson, getContext(), this, false);
         if (transactionType == IPayTransactionActionActivity.TRANSACTION_TYPE_MAKE_PAYMENT) {
-            httpRequestPostAsyncTask.setPinAsHeader(mPin);
+            httpRequestPostAsyncTask.setPinAsHeader(mCVV);
             if (sponsorAccountID != -1) {
                 httpRequestPostAsyncTask.setSponsorAccountId(sponsorAccountID);
             }
@@ -360,8 +373,28 @@ public class IPayTransactionConfirmationFragment extends Fragment implements Htt
             mCustomProgressDialog.dismissDialog();
         } else {
             switch (result.getApiCommand()) {
-                case Constants.COMMAND_SEND_MONEY:
                 case Constants.COMMAND_PAYMENT:
+                    httpRequestPostAsyncTask = null;
+                    mCustomProgressDialog.dismiss();
+                    final AddMoneyByCreditOrDebitCardResponse mAddMoneyByCreditOrDebitResponse = gson.fromJson(result.getJsonString(), AddMoneyByCreditOrDebitCardResponse.class);
+                    switch (result.getStatus()) {
+                        case Constants.HTTP_RESPONSE_STATUS_OK:
+                            Intent intent = new Intent(getActivity(), PayByCardWebViewActivity.class);
+                            intent.putExtra(Constants.CARD_PAYMENT_URL, mAddMoneyByCreditOrDebitResponse.getForwardUrl());
+                            startActivityForResult(intent, CARD_PAYMENT_WEB_VIEW_REQUEST);
+                            break;
+                        case Constants.HTTP_RESPONSE_STATUS_BAD_REQUEST:
+                        case Constants.HTTP_RESPONSE_STATUS_NOT_ACCEPTABLE:
+                            if (getActivity() != null)
+                                Toaster.makeText(getActivity(), mAddMoneyByCreditOrDebitResponse.getMessage(), Toast.LENGTH_SHORT);
+                            break;
+                        default:
+                            if (getActivity() != null)
+                                Toaster.makeText(getActivity(), R.string.service_not_available, Toast.LENGTH_SHORT);
+                            break;
+                    }
+                    break;
+                case Constants.COMMAND_SEND_MONEY:
                 case Constants.COMMAND_REQUEST_MONEY:
                 case Constants.COMMAND_TOPUP_REQUEST:
                     final String apiCommand = result.getApiCommand();
@@ -510,6 +543,63 @@ public class IPayTransactionConfirmationFragment extends Fragment implements Htt
                     mOTPVerificationForTwoFactorAuthenticationServicesDialog.mParentHttpResponseListener = this;
                     break;
             }
+        }
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case CARD_PAYMENT_WEB_VIEW_REQUEST:
+                if (data != null) {
+                    final int transactionStatusCode = data.getIntExtra(Constants.ADD_MONEY_BY_CREDIT_OR_DEBIT_CARD_STATUS, CardPaymentWebViewActivity.CARD_TRANSACTION_CANCELED);
+                    switch (transactionStatusCode) {
+                        case CardPaymentWebViewActivity.CARD_TRANSACTION_CANCELED:
+                            if (getActivity() != null)
+                                getActivity().finish();
+                            break;
+                        case CardPaymentWebViewActivity.CARD_TRANSACTION_FAILED:
+                            if (getActivity() != null)
+                                getActivity().finish();
+                            break;
+                        case CardPaymentWebViewActivity.CARD_TRANSACTION_SUCCESSFUL:
+                            ProfileInfoCacheManager.addSourceOfFund(true);
+                            Bundle bundle = new Bundle();
+                            bundle.putString(Constants.NAME, name);
+                            bundle.putString(Constants.RECEIVER_IMAGE_URL, profilePicture);
+                            bundle.putInt(IPayTransactionActionActivity.TRANSACTION_TYPE_KEY, transactionType);
+                            bundle.putString(Constants.SENDER_IMAGE_URL, Constants.BASE_URL_FTP_SERVER + ProfileInfoCacheManager.getProfileImageUrl());
+                            bundle.putSerializable(Constants.AMOUNT, amount);
+                            if (sponsorAccountID != -1) {
+                                bundle.putString(Constants.SPONSOR_PROFILE_PICTURE,
+                                        sponsorProfilePictureUrl);
+                                bundle.putString(Constants.SPONSOR_NAME, sponsorName);
+                                Utilities.sendSuccessEventTracker(mTracker,
+                                        Constants.MAKE_PAYMENT_USING_SOF,
+                                        ProfileInfoCacheManager.getAccountId(),
+                                        amount.longValue());
+                            } else {
+                                Utilities.sendSuccessEventTracker(mTracker,
+                                        getTrackerCategory(),
+                                        ProfileInfoCacheManager.getAccountId(),
+                                        amount.longValue());
+
+                            }
+                            if (getActivity() instanceof IPayTransactionActionActivity) {
+
+                                if(isSavedCard)
+                                    ((IPayTransactionActionActivity) getActivity()).switchToTransactionSuccessFragment(bundle, 6);
+                                else
+                                    ((IPayTransactionActionActivity) getActivity()).switchToTransactionSuccessFragment(bundle, 5);
+
+                            }
+                            break;
+                    }
+                }
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+                break;
         }
     }
 }

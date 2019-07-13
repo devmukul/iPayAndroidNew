@@ -68,4 +68,5 @@ public class SharedPrefConstants {
     public static final String BULK_SIGNUP_PRESENT_ADDRESS = "BULK_SIGNUP_PRESENT_ADDRESS";
     public static final String BULK_SIGNUP_STATUS = "BULK_SIGNUP_STATUS";
     public static final String BULK_SIGNUP_THANA = "BULK_SIGNUP_THANA";
+    public static final String IS_SIGNUP = "IS_SIGNUP";
 }

@@ -188,10 +188,10 @@ public class PayByCardWebViewActivity extends BaseActivity {
 
 		switch (transactionStatusCode) {
 			case CARD_TRANSACTION_CANCELED:
-				showTransactionErrorDialog(intent, "Payment Cancelled", "You have cancelled your payment. Please try to make payment again.");
+				showTransactionErrorDialog(intent, getString(R.string.payment_cancel), getString(R.string.payment_cancel_msg));
 				break;
 			case CARD_TRANSACTION_FAILED:
-				showTransactionErrorDialog(intent, "Payment Failed", "Your payment has failed. Please ensure that you have provided accurate information and there is sufficient balance in your card, then try again. If you still face problem after providing accurate information, please write to us at support@ipay.com.bd");
+				showTransactionErrorDialog(intent, getString(R.string.payment_failed), getString(R.string.payment_failed_msg));
 				break;
 			case CARD_TRANSACTION_SUCCESSFUL:
 				ProfileInfoCacheManager.addSourceOfFund(true);

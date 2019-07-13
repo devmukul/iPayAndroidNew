@@ -35,6 +35,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -70,6 +72,8 @@ import bd.com.ipay.ipayskeleton.Aspect.ValidateAccess;
 import bd.com.ipay.ipayskeleton.CustomView.AutoResizeTextView;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.AddPromoDialogBuilder;
 import bd.com.ipay.ipayskeleton.CustomView.Dialogs.CustomProgressDialog;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.PinInputDialogBuilder;
+import bd.com.ipay.ipayskeleton.CustomView.Dialogs.WelcomeDialogBuilder;
 import bd.com.ipay.ipayskeleton.CustomView.ProfileImageView;
 import bd.com.ipay.ipayskeleton.DataCollectors.Model.LocationCollector;
 import bd.com.ipay.ipayskeleton.DataCollectors.Model.UserLocation;
@@ -87,6 +91,7 @@ import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.LoginAndSignUp.LogoutRes
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Notification.Notification;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.BasicInfo.GetProfileInfoResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.ProfileCompletion.ProfileCompletionPropertyConstants;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.ProfileCompletion.ProfileCompletionResponse;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.RefreshToken.FCMRefreshTokenRequest;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.RefreshToken.FcmLogoutRequest;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Resource.BusinessType;
@@ -120,6 +125,9 @@ public class HomeActivity extends BaseActivity
 
     private HttpRequestPostAsyncTask mLogoutTask = null;
     private HttpRequestGetAsyncTask mGetProfileInfoTask = null;
+
+    private HttpRequestGetAsyncTask mGetProfileCompletionStatusTask = null;
+    private ProfileCompletionResponse mProfileCompletionStatusResponse;
 
     private HttpRequestGetAsyncTask mGetAccessControlTask = null;
 
@@ -273,6 +281,12 @@ public class HomeActivity extends BaseActivity
             getAccessControlList();
         }
 
+        if(!ProfileInfoCacheManager.isIdentificationDocumentUploaded() || !ProfileInfoCacheManager.isSourceOfFundAdded()
+            || !ProfileInfoCacheManager.isProfilePictureUploaded()){
+
+            getProfileCompletionStatus();
+        }
+
         // Check if important permissions (e.g. Contacts permission) is given. If not,
         // request user for permission.
         attemptRequestForPermission();
@@ -288,6 +302,11 @@ public class HomeActivity extends BaseActivity
 
         LocalBroadcastManager.getInstance(this).registerReceiver(mProfileInfoUpdateBroadcastReceiver,
                 new IntentFilter(Constants.PROFILE_INFO_UPDATE_BROADCAST));
+
+        if(SharedPrefManager.getIsSignup()){
+            final WelcomeDialogBuilder pinInputDialogBuilder = new WelcomeDialogBuilder(this);
+            pinInputDialogBuilder.showDialog();
+        }
     }
 
     private Intent launchRequestMoneyReviewPageIntent(TransactionHistory transactionHistory, boolean isAccepted) {
@@ -1057,6 +1076,22 @@ public class HomeActivity extends BaseActivity
 
                 mGetBusinessInformationAsyncTask = null;
                 break;
+
+            case Constants.COMMAND_GET_PROFILE_COMPLETION_STATUS:
+                try {
+                    mProfileCompletionStatusResponse = gson.fromJson(result.getJsonString(), ProfileCompletionResponse.class);
+                    if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
+                        ProfileInfoCacheManager.switchedFromSignup(false);
+                        ProfileInfoCacheManager.uploadProfilePicture(mProfileCompletionStatusResponse.getProfilePictureSubmitted());
+                        ProfileInfoCacheManager.uploadIdentificationDocument(mProfileCompletionStatusResponse.getIdentificationDocumentSubmitted());
+                        ProfileInfoCacheManager.addSourceOfFund(mProfileCompletionStatusResponse.getSourceOfFundSubmitted());
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                mGetProfileCompletionStatusTask = null;
+                break;
             case Constants.COMMAND_POST_USER_LOCATION:
                 mLocationUpdateRequestAsyncTask = null;
                 break;
@@ -1144,5 +1179,14 @@ public class HomeActivity extends BaseActivity
             updateProfileData();
         }
     };
+
+    private void getProfileCompletionStatus() {
+        if (mGetProfileCompletionStatusTask != null) {
+            return;
+        }
+        mGetProfileCompletionStatusTask = new HttpRequestGetAsyncTask(Constants.COMMAND_GET_PROFILE_COMPLETION_STATUS,
+                Constants.BASE_URL_MM + Constants.URL_GET_PROFILE_COMPLETION_STATUS, this, this, true);
+        mGetProfileCompletionStatusTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
 
 }

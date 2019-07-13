@@ -18,24 +18,23 @@
             android:layout_height="wrap_content"
             android:textSize="32sp"
             android:textColor="@color/colorWhite"
-            android:lineSpacingExtra="8sp"
-            android:text="Shop, Send Money and Pay Bills Anytime, Anywhere." />
+            android:text="@string/tour_page_main_text" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:textColor="@color/colorWhite"
-            android:lineSpacingExtra="8sp"
+            android:lineSpacingExtra="4sp"
             android:layout_marginTop="@dimen/value20"
-            android:text="Pay for your purchases and make personal transactions like sending or requesting money to your friends. " />
+            android:text="@string/tour_page_sub_string" />
 
         <Button
             android:id="@+id/button_join_now"
             style="@style/ButtonPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Create an iPay Account"
+            android:text="@string/create_an_ipay_account"
             android:textColor="@color/colorWhite"
             android:layout_marginTop="@dimen/value32"/>
 
@@ -44,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:textColor="@color/colorWhite"
-            android:text="LOG IN TO MY iPAY ACCOUNT"
+            android:text="@string/log_in_to_my_ipay_account"
             android:gravity="center"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/value10"/>

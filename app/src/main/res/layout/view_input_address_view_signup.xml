@@ -6,93 +6,77 @@
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/text_input_address_line_1"
-        style="@style/CustomTextInputLayoutWithMargin"
+        style="@style/CustomTextInputLayoutOutlinedBoxWithMargin"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true">
 
-        <EditText
+        <android.support.design.widget.TextInputEditText
             android:id="@+id/address_line_1"
-            style="@style/CustomEditTextLogInSignUp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/CustomEditTextOutlinedBoxLogInSignUp"
             android:hint="@string/address_line_1"
             android:inputType="textPostalAddress"
-            android:maxLines="1"
-            android:singleLine="true" />
+            android:maxLines="1"/>
     </android.support.design.widget.TextInputLayout>
-
-    <View style="@style/DividerOnly" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/text_input_address_line_2"
-        style="@style/CustomTextInputLayoutWithMargin"
+        style="@style/CustomTextInputLayoutOutlinedBoxWithMargin"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true">
 
-        <EditText
+        <android.support.design.widget.TextInputEditText
             android:id="@+id/address_line_2"
-            style="@style/CustomEditTextLogInSignUp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/CustomEditTextOutlinedBoxLogInSignUp"
             android:hint="@string/address_line_2"
             android:inputType="textPostalAddress"
             android:maxLines="1" />
     </android.support.design.widget.TextInputLayout>
 
-    <View style="@style/DividerOnly" />
-
-    <bd.com.ipay.ipayskeleton.CustomView.EditTextWithProgressBar
+    <bd.com.ipay.ipayskeleton.CustomView.MaterialEditTextWithProgressBar
         android:id="@+id/district"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="@string/district"
-        android:inputType="textPostalAddress"
-        android:paddingTop="@dimen/value10" />
+        android:inputType="textPostalAddress"/>
 
-    <View style="@style/DividerOnly" />
-
-    <bd.com.ipay.ipayskeleton.CustomView.EditTextWithProgressBar
+    <bd.com.ipay.ipayskeleton.CustomView.MaterialEditTextWithProgressBar
         android:id="@+id/thana"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="@string/thana"
-        android:inputType="textPostalAddress"
-        android:paddingTop="@dimen/value10" />
-
-    <View style="@style/DividerOnly" />
+        android:inputType="textPostalAddress" />
 
     <android.support.design.widget.TextInputLayout
-        style="@style/CustomTextInputLayoutWithMargin"
+        style="@style/CustomTextInputLayoutOutlinedBoxWithMargin"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true">
 
-        <EditText
+        <android.support.design.widget.TextInputEditText
             android:id="@+id/postcode"
-            style="@style/CustomEditTextLogInSignUp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/CustomEditTextOutlinedBoxLogInSignUp"
             android:hint="@string/postcode"
             android:inputType="number"
             android:maxLength="4"
             android:maxLines="1" />
     </android.support.design.widget.TextInputLayout>
 
-    <View style="@style/DividerOnly" />
-
     <android.support.design.widget.TextInputLayout
-        style="@style/CustomTextInputLayoutWithMargin"
+        style="@style/CustomTextInputLayoutOutlinedBoxWithMargin"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true">
 
-        <EditText
+        <android.support.design.widget.TextInputEditText
             android:id="@+id/country"
-            style="@style/CustomEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/CustomEditTextOutlinedBoxLogInSignUp"
             android:enabled="false"
             android:hint="@string/country"
             android:inputType="textPostalAddress"
             android:maxLines="1"
-            android:text="@string/bangladesh" />
+            android:text="@string/bangladesh"/>
     </android.support.design.widget.TextInputLayout>
+
 </LinearLayout>

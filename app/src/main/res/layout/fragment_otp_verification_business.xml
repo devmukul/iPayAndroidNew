@@ -23,8 +23,9 @@
             android:textSize="12sp"
             android:textColor="#de000000"
             android:lineSpacingExtra="12sp"
-            android:text="@string/step_1_of_2"
-            android:layout_marginTop="@dimen/activity_vertical_margin"/>
+            android:text="Step 1 of 2"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:visibility="gone"/>
 
 
         <TextView
@@ -53,7 +54,7 @@
             android:textColor="#21c5b6"
             android:lineSpacingExtra="4sp"
             android:layout_marginTop="@dimen/value16"
-            android:text="@string/resend_verification_code"  />
+            android:text="@string/resend_verification_code" />
 
 
         <LinearLayout
@@ -96,7 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/value16"
-                android:text="@string/continue_button" />
+                android:text="@string/continue_button"  />
 
 
             <TextView

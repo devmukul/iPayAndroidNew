@@ -59,7 +59,7 @@
                         android:layout_marginRight="@dimen/value40"
                         android:fontFamily="@font/open_sans_light"
                         android:lineSpacingExtra="3sp"
-                        android:text="Which one perfect \nfit for You?"
+                        android:text="@string/select_account_type"
                         android:textColor="#212121"
                         android:textSize="28sp" />
 
@@ -74,7 +74,7 @@
                         android:fontFamily="@font/open_sans"
                         android:textSize="14sp"
                         android:textColor="#666666"
-                        android:text="Please see the following account type. Choose the best one which is suit for your daily financial activities." />
+                        android:text="@string/select_account_type_desc" />
 
 
                     <android.support.v7.widget.CardView
@@ -120,7 +120,8 @@
                                     android:fontFamily="@font/open_sans_semibold"
                                     android:textColor="#212121"
                                     android:textSize="12sp"
-                                    android:text="PERSONAL ACCOUNT" />
+                                    android:text="@string/personal_account"
+                                    android:textAllCaps="true"/>
 
                                 <TextView
                                     android:id="@+id/account_type_personal_description_text_view"
@@ -131,7 +132,7 @@
                                     android:fontFamily="@font/open_sans"
                                     android:textColor="#666666"
                                     android:textSize="12sp"
-                                    android:text="Pay for purchases and make daily personal transactions."/>
+                                    android:text="@string/personal_acc_desc"/>
 
                             </LinearLayout>
 
@@ -185,7 +186,8 @@
                                     android:fontFamily="@font/open_sans_semibold"
                                     android:textColor="#212121"
                                     android:textSize="12sp"
-                                    android:text="BUSINESS ACCOUNT" />
+                                    android:text="@string/business_account"
+                                    android:textAllCaps="true"/>
 
                                 <TextView
                                     android:id="@+id/account_type_business_description_text_view"
@@ -196,7 +198,7 @@
                                     android:fontFamily="@font/open_sans"
                                     android:textColor="#666666"
                                     android:textSize="12sp"
-                                    android:text="Keep your business transactions &amp; other financial activities in one place."/>
+                                    android:text="@string/business_account_desc"/>
 
                             </LinearLayout>
                         </RelativeLayout>

@@ -16,7 +16,7 @@ import android.widget.ProgressBar;
 
 import bd.com.ipay.ipayskeleton.R;
 
-public class EditTextWithProgressBar extends FrameLayout {
+public class MaterialEditTextWithProgressBar extends FrameLayout {
 
     private TextInputLayout mTextInputLayout;
     private EditText mEditText;
@@ -24,17 +24,17 @@ public class EditTextWithProgressBar extends FrameLayout {
 
     private OnClickListener mOnClickListener;
 
-    public EditTextWithProgressBar(Context context, AttributeSet attrs, int defStyle) {
+    public MaterialEditTextWithProgressBar(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initView(context, attrs);
     }
 
-    public EditTextWithProgressBar(Context context, AttributeSet attrs) {
+    public MaterialEditTextWithProgressBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView(context, attrs);
     }
 
-    public EditTextWithProgressBar(Context context) {
+    public MaterialEditTextWithProgressBar(Context context) {
         super(context);
         initView(context, null);
     }

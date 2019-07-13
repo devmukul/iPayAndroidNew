@@ -26,6 +26,14 @@ public class SharedPrefManager {
 		pref.edit().putBoolean(SharedPrefConstants.FIRST_LAUNCH, value).apply();
 	}
 
+	public static boolean getIsSignup() {
+		return pref.getBoolean(SharedPrefConstants.IS_SIGNUP, false);
+	}
+
+	public static void setIsSignup(boolean value) {
+		pref.edit().putBoolean(SharedPrefConstants.IS_SIGNUP, value).apply();
+	}
+
 	public static boolean isRememberMeActive() {
 		return pref.getBoolean(SharedPrefConstants.REMEMBER_ME, false);
 	}

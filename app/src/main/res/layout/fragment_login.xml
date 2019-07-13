@@ -41,7 +41,7 @@
                     android:textColor="#666666"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Please use your Password to login to your iPay account." />
+                    android:text="@string/login_text"/>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -157,7 +157,7 @@
                         android:textColor="@color/colorBlack"
                         android:lineSpacingExtra="4sp"
                         android:gravity="center_horizontal"
-                        android:text="Don’t have an iPay account?" />
+                        android:text="@string/don_t_have_an_ipay_account" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -166,7 +166,7 @@
                         android:layout_alignParentLeft="true"
                         android:paddingLeft="@dimen/activity_horizontal_margin_card"
                         android:paddingRight="@dimen/activity_horizontal_margin_card"
-                        android:text="Signup Now"
+                        android:text="@string/signup_now"
                         android:textAllCaps="false"
                         android:textColor="#21c5b6"
                         android:textSize="@dimen/text_size_small" />

@@ -97,7 +97,7 @@
     <string name="error_loading_data">Error loading data. Please try again.</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="join_us">Join Us</string>
-    <string name="enter_the_amount_we_sent">Enter the amount we sent to your bank account here.</string>
+    <string name="enter_the_amount_we_sent">We have sent you a token money to your %1$s account. Please check with your bank and enter the token amount.</string>
     <string name="bank_verification_help">Steps to verify a bank account: \n\nStep 1. iPay will send a small amount of money to your bank account, this may take 3–5 business days. \nStep 2. You have to contact your bank to know the exact amount. \nStep 3. Tap the name of your bank and select Verify. \nStep 4. Enter the exact amount and tap OK. \n\n*Entering an incorrect amount 5 times will permanently block the bank account.</string>
     <string name="are_you_sure">Are you sure?</string>
     <string name="are_you_sure_to_invite">Do you want to invite this person to iPay? By inviting to iPay you acknowledge that you know this person personally.</string>
@@ -205,7 +205,7 @@
     <string name="save_failed">Failed to save…</string>
     <string name="sending_otp">Sending OTP in your mobile…</string>
     <string name="change_pass_failed">Failed to change password</string>
-    <string name="otp_going_to_send">We have sent you a code via sms, please enter it below and press verify</string>
+    <string name="otp_going_to_send">We have sent you a code via sms, please enter it below and press continue</string>
     <string name="otp_going_to_send_sign_up">We have sent you a code via sms, please enter it below and press continue</string>
     <string name="done">Done</string>
     <string name="verify">Verify</string>
@@ -779,7 +779,7 @@
     <string name="onboard_get_introduced_upload_title">Ask for introduction</string>
     <string name="onboard_profile_info_update_page_title">Add basic information</string>
 
-    <string name="onboard_upload_photo_text">Upload your profile photo. Face the camera straight on, photo must be in focus and not blurry.</string>
+    <string name="onboard_upload_photo_text">Face the camera straight on, photo must be in focus and not blurry.</string>
     <string name="onboard_upload_photo_id_text">Please take a clear picture of your NID and upload.</string>
     <string name="onboard_upload_prifile_info_text">Update your Work and Address information for faster verification.</string>
     <string name="onboard_ask_for_introduction_text">Find an iPay user from your contact list and send request to introduce you.</string>
@@ -1207,8 +1207,8 @@
 
     <string name="select_location_code">Select Locaton Code</string>
     <string name="save_for_future_payment">SAVE IT FOR FUTURE PAYMENT</string>
-    <string name="other_person_mobile">Perosn’s Mobile Number</string>
-    <string name="other_person_name">Perosn’s Name</string>
+    <string name="other_person_mobile">Person’s Mobile Number</string>
+    <string name="other_person_name">Person’s Name</string>
     <string name="paying_for_others">I am paying this bill for other person and iPay will notify the person through SMS</string>
     <string name="enter_name">Please enter name</string>
     <string name="save_bill_info">Save Bill Info</string>
@@ -1233,5 +1233,46 @@
     <string name="charge">Charge</string>
     <string name="you_wii_recieve">You will recieve</string>
     <string name="nid_required">-  National ID Card Required</string>
+    <string name="card_save_dialog_title">Card Save Successful</string>
+    <string name="card_save_dialog_text">Your card has been saved!</string>
+    <string name="payment_cancel">Payment Cancelled</string>
+    <string name="payment_cancel_msg">You have cancelled your payment. Please try to make payment again.</string>
+    <string name="payment_failed_msg">Your payment has failed. Please ensure that you have provided accurate information and there is sufficient balance in your card, then try again. If you still face problem after providing accurate information, please write to us at support@ipay.com.bd</string>
+    <string name="card_save_cancel_dialog_text">Card Save Cancelled</string>
+    <string name="card_save_fail_dialog_text">Card Save Failed</string>
+    <string name="card_save_cancel_dialog_msg">You have cancelled your request. Please try to save card again.</string>
+    <string name="card_save_fail_dialog_msg">Your Card Save has failed. Please ensure that you have provided accurate information, then try again. If you still face problem after providing accurate information, please write to us at support@ipay.com.bd</string>
+    <string name="ipay_balance_title">IPAY BALANCE</string>
+    <string name="you_can_pay_with_your_ipay_wallet">You can pay with your ipay wallet.</string>
+    <string name="debit_credit_card_title">DEBIT/CREDIT CARD</string>
+    <string name="you_can_pay_with_your_visa_master_and_amex_debit_or_credit_card">You can pay with your visa, master and amex debit or credit card.</string>
+    <string name="same_as_in_your_national_id_card">Same as in your National ID card.</string>
+    <string name="tour_page_main_text">Shop, Send Money and Pay Bills Anytime, Anywhere.</string>
+    <string name="tour_page_sub_string">Pay for your purchases and make personal transactions like sending or requesting money to your friends.</string>
+    <string name="create_an_ipay_account">Create an iPay Account</string>
+    <string name="log_in_to_my_ipay_account">LOG IN TO MY IPAY ACCOUNT</string>
+    <string name="select_account_type">Select Your\nAccount Type</string>
+    <string name="select_account_type_desc">Please see the following account type. Choose the best one which is suitable for your daily financial activities.</string>
+    <string name="personal_acc_desc">Pay for purchases and make daily personal transactions.</string>
+    <string name="business_account_desc"><![CDATA[Keep your business transactions & other financial activities in one place.]]></string>
+    <string name="create_personal_account">Create Personal Account</string>
+    <string name="personal_account_hint">Use your Name, Phone, DOB and careate a Password to use iPay.</string>
+    <string name="create_business_account">Create Business Account</string>
+    <string name="step_1_of_2">Step 1 of 2</string>
+    <string name="step_2_of_2">Step 2 of 2</string>
+    <string name="step_1_of_3">Step 1 of 3</string>
+    <string name="step_2_of_3">Step 2 of 3</string>
+    <string name="step_3_of_3">Step 3 of 3</string>
+    <string name="verification_code">Verification Code</string>
+    <string name="resend_verification_code">Resend Verification Code</string>
+    <string name="don_t_have_an_ipay_account">Don’t have an iPay account?</string>
+    <string name="signup_now">Signup Now</string>
+    <string name="login_text">Please use your Mobile Number and Password to login to your iPay account.</string>
+    <string name="take_a_selfie">Take a Selfie</string>
+    <string name="make_sure_your_full_face_view_directly_facing_the_camera">Make sure your full-face view directly facing the camera.</string>
+    <string name="open_camera">Open Camera</string>
+    <string name="select_language">Select Your\nPreferred Language</string>
+    <string name="you_have_successfully_created_your_ipay_wallet_account">You have successfully created your iPay wallet account.</string>
+    <string name="congratulation">Congratulations</string>
 
 </resources>

@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:fontFamily="@font/open_sans_light"
-            android:text="Verification Code"
+            android:text="@string/verification_code"
             android:textColor="#212121"
             android:textSize="28sp" />
 
@@ -41,7 +41,7 @@
             android:textColor="#21c5b6"
             android:lineSpacingExtra="4sp"
             android:layout_marginTop="@dimen/value16"
-            android:text="Resend Verification Code" />
+            android:text="@string/resend_verification_code"  />
 
 
         <LinearLayout
@@ -84,7 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/value16"
-                android:text="Continue" />
+                android:text="@string/continue_button" />
 
             <TextView
                 android:layout_width="fill_parent"

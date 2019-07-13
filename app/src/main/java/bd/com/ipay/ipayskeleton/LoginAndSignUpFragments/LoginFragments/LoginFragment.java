@@ -88,9 +88,6 @@ public class LoginFragment extends BaseFragment implements HttpResponseListener 
     private HttpRequestGetAsyncTask mGetProfileInfoTask = null;
     private GetProfileInfoResponse mGetProfileInfoResponse;
 
-    private HttpRequestGetAsyncTask mGetAllAddedCards = null;
-    private GetCardResponse mGetCardResponse;
-
     private HttpRequestGetAsyncTask mGetBulkSignupUserDetailsTask = null;
     private GetUserDetailsResponse mGetUserDetailsResponse;
 
@@ -361,7 +358,6 @@ public class LoginFragment extends BaseFragment implements HttpResponseListener 
         if (HttpErrorHandler.isErrorFound(result, getContext(), mProgressDialog) && !result.getApiCommand().equals(Constants.COMMAND_GET_BULK_SIGN_UP_USER_DETAILS)) {
             hideProgressDialog();
             mLoginTask = null;
-            mGetAllAddedCards = null;
             mGetProfileCompletionStatusTask = null;
             mGetProfileInfoTask = null;
             return;
@@ -486,7 +482,6 @@ public class LoginFragment extends BaseFragment implements HttpResponseListener 
                 mLoginTask = null;
                 break;
             case Constants.COMMAND_ADD_TRUSTED_DEVICE:
-                hideProgressDialog();
 
                 try {
                     mAddToTrustedDeviceResponse = gson.fromJson(result.getJsonString(), AddToTrustedDeviceResponse.class);
@@ -604,8 +599,6 @@ public class LoginFragment extends BaseFragment implements HttpResponseListener 
     }
 
     private void getProfileCompletionStatus() {
-
-        mProgressDialog.show();
 
         if (mGetProfileCompletionStatusTask != null) {
             return;

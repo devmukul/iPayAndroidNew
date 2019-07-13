@@ -85,6 +85,7 @@ public class UploadIdentificationFragment extends BaseFragment implements HttpRe
 
     private CustomProgressDialog mProgressDialog;
     private boolean isSwitchedFromOnBoard;
+    private boolean isSwitchedFromSourceOfFund;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,6 +93,7 @@ public class UploadIdentificationFragment extends BaseFragment implements HttpRe
         if (getArguments() != null) {
             mSelectedIdentificationDocument = getArguments().getParcelable(Constants.SELECTED_IDENTIFICATION_DOCUMENT);
             isSwitchedFromOnBoard = getArguments().getBoolean(Constants.FROM_ON_BOARD, false);
+            isSwitchedFromSourceOfFund = getArguments().getBoolean(Constants.IS_FROM_SOURCE_OF_FUND, false);
             if (mSelectedIdentificationDocument != null) {
                 maxDocumentSideCount = IdentificationDocumentConstants.getMaxDocumentPageCount(mSelectedIdentificationDocument.getDocumentType());
                 mIsOtherTypeDocument = mSelectedIdentificationDocument.getDocumentType().equals(IdentificationDocumentConstants.DOCUMENT_TYPE_OTHER);
@@ -364,8 +366,13 @@ public class UploadIdentificationFragment extends BaseFragment implements HttpRe
                 switch (result.getStatus()) {
                     case Constants.HTTP_RESPONSE_STATUS_OK:
                         if (getActivity() instanceof ProfileActivity) {
-                            if(!isSwitchedFromOnBoard)
-                                ((ProfileActivity) getActivity()).switchToIdentificationDocumentListFragment();
+                            ProfileInfoCacheManager.uploadIdentificationDocument(true);
+                            if(!isSwitchedFromOnBoard) {
+                                if (!isSwitchedFromSourceOfFund)
+                                    ((ProfileActivity) getActivity()).switchToIdentificationDocumentListFragment();
+                                else
+                                    getActivity().finish();
+                            }
                             else
                                 getActivity().finish();
                         }

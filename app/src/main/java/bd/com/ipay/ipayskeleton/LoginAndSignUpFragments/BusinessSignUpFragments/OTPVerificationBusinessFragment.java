@@ -60,7 +60,7 @@ public class OTPVerificationBusinessFragment extends BaseFragment implements Htt
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_otp_verification, container, false);
+        View v = inflater.inflate(R.layout.fragment_otp_verification_business, container, false);
         mActivateButton = v.findViewById(R.id.buttonVerifyOTP);
         mResendOTPButton = v.findViewById(R.id.buttonResend);
         mTimerTextView = v.findViewById(R.id.txt_timer);

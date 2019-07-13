@@ -52,8 +52,8 @@ public class AddressInputSignUpView extends FrameLayout implements HttpResponseL
 	private EditText mDistrictSelection;
 	private EditText mCountrySelection;
 	private EditText mPostalCodeField;
-	private EditTextWithProgressBar mDistrictEditTextProgressBar;
-	private EditTextWithProgressBar mThanaEditTextProgressBar;
+	private MaterialEditTextWithProgressBar mDistrictEditTextProgressBar;
+	private MaterialEditTextWithProgressBar mThanaEditTextProgressBar;
 
 	private ResourceSelectorDialog<District> districtSelectorDialog;
 	private ResourceSelectorDialog<Thana> thanaSelectorDialog;

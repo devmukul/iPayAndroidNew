@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_all_layout_tour"
+    tools:context=".Activities.TourActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/value32">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="32sp"
+            android:textColor="@color/colorWhite"
+            android:text="@string/select_language" />
+
+        <LinearLayout
+            android:id="@+id/bangla"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/value16"
+            android:paddingBottom="@dimen/value16"
+            android:layout_marginTop="@dimen/value32">
+
+            <ImageView
+                android:id="@+id/bangla_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_material_icons_black_chevron_right"
+                android:tint="@color/colorWhite"/>
+
+            <TextView
+                android:id="@+id/bangla_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                android:textColor="@color/colorWhite"
+                android:lineSpacingExtra="8sp"
+                android:text="বাংলা"
+                android:layout_marginLeft="@dimen/value8" />
+
+        </LinearLayout>
+
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.75dp"
+            android:background="#5e5e5e"
+            android:layout_marginLeft="@dimen/value32"/>
+
+        <LinearLayout
+            android:id="@+id/english"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/value16"
+            android:paddingBottom="@dimen/value16">
+
+            <ImageView
+                android:id="@+id/english_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_material_icons_black_chevron_right"
+                android:tint="#5e5e5e"/>
+
+            <TextView
+                android:id="@+id/english_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                android:lineSpacingExtra="8sp"
+                android:text="English"
+                android:layout_marginLeft="@dimen/value8"
+                android:textColor="#5e5e5e"/>
+
+        </LinearLayout>
+
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.75dp"
+            android:background="#5e5e5e"
+            android:layout_marginLeft="@dimen/value32"/>
+
+        <Button
+            android:id="@+id/button_continue"
+            style="@style/ButtonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/continue_button"
+            android:textColor="@color/colorWhite"
+            android:layout_marginTop="@dimen/value48"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

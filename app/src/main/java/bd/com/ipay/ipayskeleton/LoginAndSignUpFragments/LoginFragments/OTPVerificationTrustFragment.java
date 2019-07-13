@@ -65,9 +65,6 @@ public class OTPVerificationTrustFragment extends BaseFragment implements HttpRe
     private HttpRequestGetAsyncTask mGetProfileInfoTask = null;
     private GetProfileInfoResponse mGetProfileInfoResponse;
 
-    private HttpRequestGetAsyncTask mGetAllAddedCards = null;
-    private GetCardResponse mGetCardResponse;
-
     private HttpRequestGetAsyncTask mGetBulkSignupUserDetailsTask = null;
     private GetUserDetailsResponse mGetUserDetailsResponse;
 
@@ -197,21 +194,11 @@ public class OTPVerificationTrustFragment extends BaseFragment implements HttpRe
         }
     }
 
-    private void getAddedCards() {
-        if (mGetAllAddedCards != null) return;
-        else {
-            mGetAllAddedCards = new HttpRequestGetAsyncTask(Constants.COMMAND_ADD_CARD,
-                    Constants.BASE_URL_MM + Constants.URL_GET_CARD, getActivity(), this, true);
-            mGetAllAddedCards.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        }
-    }
-
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
         if (HttpErrorHandler.isErrorFound(result, getContext(), null) && !result.getApiCommand().equals(Constants.COMMAND_GET_BULK_SIGN_UP_USER_DETAILS)) {
             hideProgressDialog();
             mLoginTask = null;
-            mGetAllAddedCards = null;
             mGetProfileCompletionStatusTask = null;
             mGetProfileInfoTask = null;
             return;
@@ -389,14 +376,12 @@ public class OTPVerificationTrustFragment extends BaseFragment implements HttpRe
                         ProfileInfoCacheManager.uploadIdentificationDocument(mProfileCompletionStatusResponse.getIdentificationDocumentSubmitted());
                         ProfileInfoCacheManager.addSourceOfFund(mProfileCompletionStatusResponse.getSourceOfFundSubmitted());
 
-                        if (ProfileInfoCacheManager.isSourceOfFundAdded()) {
-                            if (ProfileInfoCacheManager.getAccountType() == Constants.PERSONAL_ACCOUNT_TYPE && !ProfileInfoCacheManager.isAccountVerified() && !ProfileInfoCacheManager.isProfilePictureUploaded()) {
-                                ((SignupOrLoginActivity) getActivity()).switchToProfileCompletionHelperActivity();
-                            } else {
-                                ((SignupOrLoginActivity) getActivity()).switchToHomeActivity();
+                        if (ProfileInfoCacheManager.getAccountType() == Constants.PERSONAL_ACCOUNT_TYPE && !ProfileInfoCacheManager.isAccountVerified() && !ProfileInfoCacheManager.isProfilePictureUploaded()) {
+                            ((SignupOrLoginActivity) getActivity()).switchToProfileCompletionHelperActivity();
+                        } else {
+                            ((SignupOrLoginActivity) getActivity()).switchToHomeActivity();
 
-                            }
-                        } else getAddedCards();
+                        }
                     } else {
                         if (getActivity() != null) {
                             ((SignupOrLoginActivity) getActivity()).switchToHomeActivity();
@@ -413,30 +398,6 @@ public class OTPVerificationTrustFragment extends BaseFragment implements HttpRe
                     hideProgressDialog();
                 }
                 mGetProfileCompletionStatusTask = null;
-                break;
-
-            case Constants.COMMAND_ADD_CARD:
-                try {
-                    mGetCardResponse = gson.fromJson(result.getJsonString(), GetCardResponse.class);
-                    if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
-
-                        if (!mGetCardResponse.isAnyCardVerified()) {
-                            ProfileInfoCacheManager.addSourceOfFund(false);
-                        } else ProfileInfoCacheManager.addSourceOfFund(true);
-
-                        if (ProfileInfoCacheManager.getAccountType() == Constants.PERSONAL_ACCOUNT_TYPE && !ProfileInfoCacheManager.isAccountVerified() && (!ProfileInfoCacheManager.isProfilePictureUploaded() || !ProfileInfoCacheManager.isIdentificationDocumentUploaded()
-                                || !ProfileInfoCacheManager.isBasicInfoAdded() || !ProfileInfoCacheManager.isSourceOfFundAdded())) {
-                            ((SignupOrLoginActivity) getActivity()).switchToProfileCompletionHelperActivity();
-                        } else {
-                            ((SignupOrLoginActivity) getActivity()).switchToHomeActivity();
-                        }
-                    } else {
-                        Toaster.makeText(getActivity(), mGetCardResponse.getMessage(), Toast.LENGTH_SHORT);
-                    }
-                } catch (Exception e) {
-                    Toaster.makeText(getActivity(), R.string.service_not_available, Toast.LENGTH_SHORT);
-                }
-                mGetAllAddedCards = null;
                 break;
             default:
                 hideProgressDialog();

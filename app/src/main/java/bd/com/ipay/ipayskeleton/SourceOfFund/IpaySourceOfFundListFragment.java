@@ -13,10 +13,16 @@ import android.widget.TextView;
 
 import bd.com.ipay.ipayskeleton.Activities.AddCardActivity;
 import bd.com.ipay.ipayskeleton.Activities.DrawerActivities.ManageBanksActivity;
+import bd.com.ipay.ipayskeleton.Activities.DrawerActivities.ProfileActivity;
+import bd.com.ipay.ipayskeleton.Aspect.ValidateAccess;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.Documents.IdentificationDocument;
+import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Profile.ProfileCompletion.ProfileCompletionPropertyConstants;
 import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ACLManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
+import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Utilities.DialogUtils;
+import bd.com.ipay.ipayskeleton.Utilities.IdentificationDocumentConstants;
 import bd.com.ipay.ipayskeleton.Utilities.ServiceIdConstants;
 
 public class IpaySourceOfFundListFragment extends Fragment implements View.OnClickListener {
@@ -91,8 +97,18 @@ public class IpaySourceOfFundListFragment extends Fragment implements View.OnCli
         switch (v.getId()) {
             case R.id.bank_layout:
                 if (ACLManager.hasServicesAccessibility(ServiceIdConstants.SEE_BANK_ACCOUNTS)) {
-                    Intent intent = new Intent(getActivity(), ManageBanksActivity.class);
-                    startActivity(intent);
+                    if(ProfileInfoCacheManager.isIdentificationDocumentUploaded()) {
+                        Intent intent = new Intent(getActivity(), ManageBanksActivity.class);
+                        startActivity(intent);
+                    }else{
+                        IdentificationDocument identificationDocument = new IdentificationDocument();
+                        identificationDocument.setDocumentTypeTitle(getResources().getString(R.string.national_id));
+                        identificationDocument.setDocumentType(IdentificationDocumentConstants.DOCUMENT_TYPE_NATIONAL_ID);
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable(Constants.SELECTED_IDENTIFICATION_DOCUMENT, identificationDocument);
+                        bundle.putBoolean(Constants.IS_FROM_SOURCE_OF_FUND, true);
+                        launchEditProfileActivity(Constants.UPLOAD_DOCUMENT, bundle);
+                    }
                 } else {
                     DialogUtils.showServiceNotAllowedDialog(getContext());
                 }
@@ -119,5 +135,14 @@ public class IpaySourceOfFundListFragment extends Fragment implements View.OnCli
                 Intent intent1 = new Intent(getActivity(), AddCardActivity.class);
                 startActivity(intent1);
         }
+    }
+
+    @ValidateAccess
+    private void launchEditProfileActivity(String type, Bundle bundle) {
+        Intent intent = new Intent(getContext(), ProfileActivity.class);
+        intent.putExtra(Constants.TARGET_FRAGMENT, type);
+        intent.putExtra(Constants.BUNDLE, bundle);
+        startActivity(intent);
+        getActivity().finish();
     }
 }

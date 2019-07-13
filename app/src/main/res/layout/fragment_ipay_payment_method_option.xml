@@ -101,8 +101,9 @@
                                 android:layout_width="72dip"
                                 android:layout_height="72dip"
                                 android:contentDescription="@string/card"
-                                android:src="@drawable/ui_atoms_icons_color_wallet"
-                                android:layout_centerVertical="true"/>
+                                android:src="@drawable/ic_ipay_walet_icon"
+                                android:layout_centerVertical="true"
+                                android:padding="@dimen/value8"/>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -120,7 +121,7 @@
                                     android:fontFamily="@font/open_sans_semibold"
                                     android:textColor="#212121"
                                     android:textSize="12sp"
-                                    android:text="IPAY BALANCE" />
+                                    android:text="@string/ipay_balance_title" />
 
                                 <TextView
                                     android:id="@+id/pay_by_ipay_description_text_view"
@@ -131,7 +132,7 @@
                                     android:fontFamily="@font/open_sans"
                                     android:textColor="#666666"
                                     android:textSize="12sp"
-                                    android:text="You can pay with your ipay wallet." />
+                                    android:text="@string/you_can_pay_with_your_ipay_wallet" />
 
                             </LinearLayout>
 
@@ -182,7 +183,7 @@
                                     android:fontFamily="@font/open_sans_semibold"
                                     android:textColor="#212121"
                                     android:textSize="12sp"
-                                    android:text="DEBIT/CREDIT CARD" />
+                                    android:text="@string/debit_credit_card_title" />
 
                                 <TextView
                                     android:id="@+id/pay_by_credit_card_description_text_view"
@@ -193,7 +194,7 @@
                                     android:fontFamily="@font/open_sans"
                                     android:textColor="#666666"
                                     android:textSize="12sp"
-                                    android:text="You can pay with your visa, master and  amex debit or credit card." />
+                                    android:text="@string/you_can_pay_with_your_visa_master_and_amex_debit_or_credit_card" />
 
                             </LinearLayout>
 

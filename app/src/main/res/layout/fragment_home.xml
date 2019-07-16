@@ -415,11 +415,12 @@
                             android:id="@+id/button_request_paymnet"
                             style="@style/HomeImageLinearLayoutStyleHorizontal"
                             android:layout_weight="1"
+                            tools:ignore="NestedWeights"
                             android:visibility="gone">
 
                             <TextView
                                 style="@style/HomeImageLinearLayoutTextStyleHorizontal"
-                                android:drawableTop="@drawable/request_payment"
+                                android:drawableTop="@drawable/background_icon_request_money"
                                 android:ellipsize="marquee"
                                 android:singleLine="true"
                                 android:fontFamily="@font/open_sans_semibold"

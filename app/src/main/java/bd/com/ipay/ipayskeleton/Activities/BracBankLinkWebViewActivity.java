@@ -34,9 +34,9 @@ public class BracBankLinkWebViewActivity extends BaseActivity {
 	public static final int CARD_TRANSACTION_CANCELED = 0;
 	public static final int CARD_TRANSACTION_SUCCESSFUL = 1;
 
-	public static final String URL_REGEX_APP_CARD_CANCELLED = "(.+)/page/cancel/";
-	public static final String URL_REGEX_APP_CARD_FAILED = "(.+)/page/fail/";
-	public static final String URL_REGEX_APP_TRANSACTION_CARD = "(.+)/page/success/";
+	public static final String URL_REGEX_APP_CARD_CANCELLED = "(.+)/page/cancel";
+	public static final String URL_REGEX_APP_CARD_FAILED = "(.+)/page/fail";
+	public static final String URL_REGEX_APP_TRANSACTION_CARD = "(.+)/page/success(/?.*)";
 
 	private static final String TRANSACTION_ID_POSITION = "$2";
 

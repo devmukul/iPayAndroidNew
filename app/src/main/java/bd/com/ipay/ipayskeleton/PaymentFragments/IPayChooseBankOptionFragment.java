@@ -147,7 +147,14 @@ public class IPayChooseBankOptionFragment extends ProgressFragment implements Ht
 									break;
 								case IPayTransactionActionActivity.TRANSACTION_TYPE_WITHDRAW_MONEY:
 									mBundle = bundle;
-									getBankInstantEligibleInfo(iPayChooseBankOptionViewModel.getBankAccount(position).getBankCode());
+									if(iPayChooseBankOptionViewModel.getBankAccount(position).getBranchName().equalsIgnoreCase("INTERNET")){
+										mBundle.putSerializable("INSTANT", true);
+										((IPayTransactionActionActivity) getActivity()).switchFragment(new IPayWithdrawMoneyFromBankAmountInputFragment(), mBundle, 1, true);
+									}else {
+										mBundle.putBoolean("IS_INSTANT", false);
+										((IPayTransactionActionActivity) getActivity()).switchFragment(new IPayWithdrawMoneyFromBankAmountInputFragment(), mBundle, 1, true);
+									}
+									//getBankInstantEligibleInfo(iPayChooseBankOptionViewModel.getBankAccount(position).getBankCode());
 									break;
 							}
 						}

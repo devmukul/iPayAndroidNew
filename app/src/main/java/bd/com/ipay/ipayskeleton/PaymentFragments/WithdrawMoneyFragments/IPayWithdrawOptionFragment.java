@@ -115,6 +115,12 @@ public class IPayWithdrawOptionFragment extends Fragment {
 			lazyWithdraw.setVisibility(View.GONE);
 		}
 
+		if(bankAccountList.getBankCode().equals("060")){
+			if(bankAccountList.getBranchName().equalsIgnoreCase("INTERNET")){
+				lazyWithdraw.setVisibility(View.GONE);
+			}
+		}
+
 		instantMsg.setText(isInstantResponse.getInstant().getFeeDescription());
 		lazyMsg.setText(isInstantResponse.getLazy().getFeeDescription());
 

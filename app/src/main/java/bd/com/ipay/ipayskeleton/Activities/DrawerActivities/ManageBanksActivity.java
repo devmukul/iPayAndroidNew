@@ -16,6 +16,7 @@ import bd.com.ipay.ipayskeleton.ManageBanksFragments.BankAccountsFragment;
 import bd.com.ipay.ipayskeleton.ManageBanksFragments.ConsentAgreementForBankFragment;
 import bd.com.ipay.ipayskeleton.ManageBanksFragments.IPayBankListFragment;
 import bd.com.ipay.ipayskeleton.ManageBanksFragments.IPayLinkBracBankSuccessFragment;
+import bd.com.ipay.ipayskeleton.ManageBanksFragments.LinkBankOptionFragment;
 import bd.com.ipay.ipayskeleton.ManageBanksFragments.PreviewChequebookCoverFragment;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.Resource.BankBranch;
 import bd.com.ipay.ipayskeleton.PaymentFragments.IPayChooseBankOptionFragment;
@@ -166,6 +167,15 @@ public class ManageBanksActivity extends BaseActivity {
         iPayBankListFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, iPayBankListFragment).commit();
+
+    }
+
+    public void switchToLinkBankOptionFragment(Bundle bundle) {
+        LinkBankOptionFragment iPayBankListFragment = new LinkBankOptionFragment();
+        iPayBankListFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, iPayBankListFragment).commit();
+        mFabAddNewBank.setVisibility(View.GONE);
 
     }
 

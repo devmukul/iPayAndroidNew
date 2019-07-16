@@ -1245,5 +1245,12 @@
     <string name="you_can_pay_with_your_ipay_wallet">You can pay with your ipay wallet.</string>
     <string name="debit_credit_card_title">DEBIT/CREDIT CARD</string>
     <string name="you_can_pay_with_your_visa_master_and_amex_debit_or_credit_card">You can pay with your visa, master and amex debit or credit card.</string>
+    <string name="choose_nconvenient_way">Choose\nConvenient Way</string>
+    <string name="please_choose_your_desired_option_to_link_bank_with_your_ipay_wallet">Please choose your desired option to link bank with your ipay wallet.</string>
+    <string name="internet_banking">Internet Banking</string>
+    <string name="internet_banking_details">You need to log in to your internet banking account to verify your iPay account details.</string>
+    <string name="token_money">Token Money</string>
+    <string name="token_money_details">iPay will send a token amount to your bank account. You to confirm the token amount for bank.</string>
+    <string name="barc_bank_pin_msg">Please check your Brac bank registered phone number or email address for the security code.</string>
 
 </resources>

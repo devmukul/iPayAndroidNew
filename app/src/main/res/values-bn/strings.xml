@@ -1421,6 +1421,13 @@
     <string name="you_can_pay_with_your_ipay_wallet">You can pay with your ipay wallet.</string>
     <string name="debit_credit_card_title">DEBIT/CREDIT CARD</string>
     <string name="you_can_pay_with_your_visa_master_and_amex_debit_or_credit_card">You can pay with your visa, master and amex debit or credit card.</string>
+    <string name="choose_nconvenient_way">সুবিধাজনক মাধ্যম নির্বাচন করুন</string>
+    <string name="please_choose_your_desired_option_to_link_bank_with_your_ipay_wallet">আপনার আইপে ওয়ালেটের সাথে ব্যাংক লিংক করার পছন্দসই মাধ্যম নির্বাচন করুন।</string>
+    <string name="internet_banking">ইন্টারনেট ব্যাংকিং</string>
+    <string name="internet_banking_details">আপনার আইপে একাউন্ট এর বিশদ যাচাইয়ের জন্য আপনার ইন্টারনেট ব্যাংকিং অ্যাকাউন্টে লগ ইন করতে হবে।</string>
+    <string name="token_money">টোকেন এমাউন্ট</string>
+    <string name="token_money_details">আইপে থেকে আপনার ব্যাংক অ্যাকাউন্টের একটি টোকেন এমাউন্ট পাঠানো হবে। ব্যাংক লিংক করার জন্য আপনার সঠিক টোকেন পরিমাণ নিশ্চিত করতে।</string>
+    <string name="barc_bank_pin_msg">অনুগ্রহপূর্বক নিরাপত্তা কোডের জন্য আপনার ব্র্যাক ব্যাংকের রেজিস্টার্ড ফোন নম্বর বা ইমেল চেক করুন।</string>
 </resources>
 
 

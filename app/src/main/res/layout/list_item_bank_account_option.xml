@@ -32,10 +32,10 @@
                 android:layout_height="48dip"
                 android:layout_margin="@dimen/value4"
                 android:contentDescription="@string/card"
+                android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
                 tools:src="@drawable/ic_bank095" />
 
             <TextView
@@ -55,20 +55,37 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="@string/dummy_bank_name" />
 
+
+
+            <TextView
+                android:id="@+id/bank_branch_name_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:layout_marginStart="8dip"
+                android:layout_marginLeft="8dip"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/bank_icon_image_view"
+                app:layout_constraintTop_toBottomOf="@+id/bank_name_text_view"
+                tools:text="@string/dummy_bank_account"
+                android:fontFamily="@font/open_sans"
+                android:textColor="#888888"
+                android:textSize="12sp"/>
+
             <TextView
                 android:id="@+id/bank_account_id_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dip"
                 android:layout_marginLeft="8dip"
-                android:layout_marginTop="2dip"
                 android:fontFamily="@font/open_sans"
                 android:textColor="#888888"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/bank_icon_image_view"
-                app:layout_constraintTop_toBottomOf="@+id/bank_name_text_view"
+                app:layout_constraintTop_toBottomOf="@+id/bank_branch_name_text_view"
                 app:layout_constraintVertical_bias="0.0"
                 tools:text="@string/dummy_bank_account" />
         </android.support.constraint.ConstraintLayout>

@@ -314,6 +314,7 @@ public class Constants {
     public static final String COMMAND_GET_BRAC_BANK_TOKEN = "COMMAND_GET_BRAC_BANK_TOKEN";
     public static final String SELECTED_BANK_ID = "SELECTED_BANK_ID";
     public static final String SELECTED_BANK_BANE = "SELECTED_BANK_BANE";
+    public static final String TRANSACTION_AMOUNT_KEY = "TRANSACTION_AMOUNT";
 
 
     public static String ROLEID = "ROLEID";

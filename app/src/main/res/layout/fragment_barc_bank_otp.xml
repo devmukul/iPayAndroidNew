@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorTransparent">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorTransparent"
+            app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:title="@string/empty_string"
+            app:titleTextColor="@android:color/white" />
+    </android.support.design.widget.AppBarLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/transaction_confirmation_button"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:fadingEdge="none"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/value32"
+                android:layout_marginLeft="@dimen/value32"
+                android:layout_marginRight="@dimen/value32"
+                android:layout_marginStart="@dimen/value32"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/value50"
+                android:paddingTop="@dimen/value50">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/profile_image_view"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/value8"
+                    android:background="@drawable/circular_background"
+                    android:contentDescription="@string/card"
+                    android:scaleType="fitCenter"
+                    app:riv_border_color="#d9d9d9"
+                    app:riv_border_width="0.5dip"
+                    app:riv_oval="true"
+                    android:src="@drawable/ic_bank060" />
+
+                <TextView
+                    android:id="@+id/name_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/value32"
+                    android:layout_marginRight="@dimen/value32"
+                    android:fontFamily="@font/open_sans_semibold"
+                    android:layout_marginTop="@dimen/value10"
+                    android:gravity="center"
+                    android:textColor="#212121"
+                    android:textSize="14sp"
+                    android:text="Brack Bank Limited" />
+
+                <TextView
+                    android:id="@+id/user_name_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans"
+                    android:gravity="center"
+                    android:textColor="#212121"
+                    android:textSize="12sp"
+                    android:text="@string/barc_bank_pin_msg"
+                    android:visibility="visible"
+                    android:layout_marginTop="@dimen/value10"/>
+
+
+                <com.chaos.view.PinView
+                    android:id="@+id/otp_edittext"
+                    style="@style/PinWidget.PinView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:cursorVisible="true"
+                    android:inputType="number"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:cursorWidth="2dp"
+                    app:itemCount="6"
+                    app:itemHeight="40dp"
+                    app:itemRadius="4dp"
+                    app:itemSpacing="10dp"
+                    app:itemWidth="38dp"
+                    app:lineColor="#eaeaea"
+                    app:lineWidth="2dp"
+                    app:viewType="rectangle"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/value18"
+                    android:layout_marginBottom="@dimen/value16">
+
+                    <requestFocus />
+                </com.chaos.view.PinView>
+
+
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/confirm_pin"
+        style="@style/ButtonPrimary.IPayTransactionAction.Normal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/value50"
+        android:layout_alignParentBottom="true"
+        android:fontFamily="@font/open_sans"
+        android:text="@string/continue_button"
+        android:textColor="@color/colorWhite"
+        android:textSize="14sp" />
+</RelativeLayout>

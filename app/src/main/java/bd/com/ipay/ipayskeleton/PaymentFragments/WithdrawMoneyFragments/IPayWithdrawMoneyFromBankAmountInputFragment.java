@@ -43,7 +43,7 @@ public class IPayWithdrawMoneyFromBankAmountInputFragment extends IPayAbstractBa
 			}else {
 				final Bundle bundle = new Bundle();
 				bundle.putParcelable(Constants.SELECTED_BANK_ACCOUNT, bankAccountList);
-				bundle.putBoolean("IS_INSTANT", isInstant);
+				bundle.putBoolean(Constants.IS_INSTANT, isInstant);
 				bundle.putSerializable(IPayAbstractBankTransactionConfirmationFragment.TRANSACTION_AMOUNT_KEY, getAmount());
 				((IPayTransactionActionActivity) getActivity()).switchFragment(new IPayWithdrawMoneyFromBankConfirmationFragment(), bundle, 2, true);
 			}
@@ -140,7 +140,7 @@ public class IPayWithdrawMoneyFromBankAmountInputFragment extends IPayAbstractBa
 				}else {
 					final Bundle bundle = new Bundle();
 					bundle.putParcelable(Constants.SELECTED_BANK_ACCOUNT, bankAccountList);
-					bundle.putBoolean("IS_INSTANT", isInstant);
+					bundle.putBoolean(Constants.IS_INSTANT, isInstant);
 					bundle.putSerializable(IPayAbstractBankTransactionConfirmationFragment.TRANSACTION_AMOUNT_KEY, getAmount());
 					((IPayTransactionActionActivity) getActivity()).switchFragment(new IPayWithdrawMoneyFromBankConfirmationFragment(), bundle, 2, true);
 				}

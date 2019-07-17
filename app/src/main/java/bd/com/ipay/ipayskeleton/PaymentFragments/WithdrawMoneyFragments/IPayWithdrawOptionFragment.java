@@ -129,7 +129,7 @@ public class IPayWithdrawOptionFragment extends Fragment {
 			public void onClick(View v) {
 				Bundle mBundle = new Bundle();
 				mBundle.putParcelable(Constants.SELECTED_BANK_ACCOUNT, bankAccountList);
-				mBundle.putBoolean("IS_INSTANT", false);
+				mBundle.putBoolean(Constants.IS_INSTANT, false);
 				mBundle.putLong("FLAT_FEE", isInstantResponse.getLazy().getFeeInfo().getFlatFee());
 				mBundle.putLong("VARIABLE_FEE", isInstantResponse.getLazy().getFeeInfo().getVariableFee());
 				mBundle.putLong("MAX_FEE", isInstantResponse.getLazy().getFeeInfo().getMaxFee());
@@ -143,7 +143,7 @@ public class IPayWithdrawOptionFragment extends Fragment {
 			public void onClick(View v) {
 				Bundle mBundle = new Bundle();
 				mBundle.putParcelable(Constants.SELECTED_BANK_ACCOUNT, bankAccountList);
-				mBundle.putBoolean("IS_INSTANT", true);
+				mBundle.putBoolean(Constants.IS_INSTANT, true);
 				mBundle.putLong("FLAT_FEE", isInstantResponse.getInstant().getFeeInfo().getFlatFee());
 				mBundle.putLong("VARIABLE_FEE", isInstantResponse.getInstant().getFeeInfo().getVariableFee());
 				mBundle.putLong("MAX_FEE", isInstantResponse.getInstant().getFeeInfo().getMaxFee());

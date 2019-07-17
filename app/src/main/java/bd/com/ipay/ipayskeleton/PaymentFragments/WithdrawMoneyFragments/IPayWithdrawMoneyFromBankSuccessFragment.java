@@ -20,7 +20,7 @@ public class IPayWithdrawMoneyFromBankSuccessFragment extends IPayAbstractTransa
 		if (getArguments() != null) {
 			transactionAmount = (Number) getArguments().getSerializable(IPayAbstractBankTransactionConfirmationFragment.TRANSACTION_AMOUNT_KEY);
 			bankAccountList = getArguments().getParcelable(Constants.SELECTED_BANK_ACCOUNT);
-			isInstant = getArguments().getBoolean("IS_INSTANT", false);
+			isInstant = getArguments().getBoolean(Constants.IS_INSTANT, false);
 		}
 	}
 

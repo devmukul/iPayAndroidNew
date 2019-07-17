@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chaos.view.PinView;
 import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 
@@ -37,6 +38,7 @@ import bd.com.ipay.ipayskeleton.R;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ACLManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.BulkSignupUserDetailsCacheManager;
 import bd.com.ipay.ipayskeleton.Utilities.CacheManager.ProfileInfoCacheManager;
+import bd.com.ipay.ipayskeleton.Utilities.CacheManager.SharedPrefManager;
 import bd.com.ipay.ipayskeleton.Utilities.Constants;
 import bd.com.ipay.ipayskeleton.Utilities.CustomCountDownTimer;
 import bd.com.ipay.ipayskeleton.Utilities.DeviceInfoFactory;
@@ -59,8 +61,8 @@ public class OTPVerificationPersonalFragment extends Fragment implements HttpRes
     private GetUserDetailsResponse mGetUserDetailsResponse;
 
     private Button mActivateButton;
-    private Button mResendOTPButton;
-    private EditText mOTPEditText;
+    private TextView mResendOTPButton;
+    private PinView mOTPEditText;
     private TextView mTimerTextView;
 
     private String mDeviceID;
@@ -216,6 +218,7 @@ public class OTPVerificationPersonalFragment extends Fragment implements HttpRes
                     String message = signupResponsePersonal.getMessage();
 
                     if (result.getStatus() == Constants.HTTP_RESPONSE_STATUS_OK) {
+                        SharedPrefManager.setIsSignup(true);
                         getBulkSignUpUserDetails();
                         Toaster.makeText(getActivity(), signupResponsePersonal.getMessage(), Toast.LENGTH_LONG);
 

@@ -33,7 +33,7 @@
     <string name="email_address">ইমেইল ঠিকানা</string>
     <string name="primary_email_address">প্রাথমিক ইমেইল ঠিকানা</string>
     <string name="other_email_address">অন্যান্য ইমেইল ঠিকানা</string>
-    <string name="full_name">পূর্ণ নাম(আপনার এনআইডি অনুসারে)</string>
+    <string name="full_name">পূর্ণ নাম</string>
     <string name="full_name_from_nid">পূর্ণ নাম(আপনার এনআইডি অনুসারে)</string>
     <string name="address">ঠিকানা</string>
     <string name="address_line_1">প্রথম লাইন</string>
@@ -240,7 +240,7 @@
     <string name="sending_otp">আপনার মোবাইলে কোড পাঠানো হচ্ছে…</string>
     <string name="change_pass_failed">পাসওয়ার্ড পরিবর্তন করা সম্ভব হয় নি</string>
     <string name="otp_going_to_send">
-এসএমএসের মাধ্যমে আপনাকে একটি কোড পাঠানো হয়েছে, অনুগ্রহ করে কোডটি দিন এবং যাচাই করুন চাপুন।
+এসএমএসের মাধ্যমে আপনাকে একটি কোড পাঠানো হয়েছে, অনুগ্রহ করে কোডটি দিন এবং পরবর্তী চাপুন।
 </string>
     <string name="otp_going_to_send_sign_up">
 আমরা আপনাকে এসএমএসের মাধ্যমে একটি কোড পাঠিয়েছি, দয়া করে এটি নীচে লিখুন এবং পরবর্তী চাপুন।
@@ -249,7 +249,7 @@
     <string name="verify">যাচাই করুন</string>
     <string name="verify_email">ইমেইল ভেরিফাই করুন</string>
     <string name="resend_otp_description">
-আপনি যদি এখনও এসএমএস না পেয়ে থাকেন, তবে সময় শেষ হওয়ার পরে \"পুনরায় পাঠান\" চাপুন।
+আপনি যদি এখনও এসএমএস না পেয়ে থাকেন, তবে সময় শেষ হওয়ার পরে \"ভেরিফিকেশন কোড পুনরায় পাঠান\" চাপুন।
 </string>
     <string name="verify_otp_for_trust_description">
 আপনি এটি দেখছেন কারণ আপনি এই ডিভাইস থেকে প্রথমবার লগ ইন করছেন অথবা আপনি সর্বোচ্চ সংখ্যক ট্রাস্টেড ডিভাইস যোগ করে ফেলেছেন।
@@ -348,7 +348,7 @@
 ইন্টারনেট সংযোগটি বিচ্ছিন রয়েছে। অনুগ্রহ করে সংযোগটি আছে কিনা পরীক্ষা করুন।
 </string>
     <string name="balance_update_failed">
-ব্যালেন্স আপডেট করা সম্ভব হয়নি। অনুগ্রহ করে একটি পর আবার চেষ্টা করুন।
+ব্যালেন্স আপডেট করা সম্ভব হয়নি। অনুগ্রহ করে কিছুক্ষণ পর আবার চেষ্টা করুন।
 </string>
     <string name="fetch_info_failed">তথ্যটি আনা সম্ভব হয়নি।</string>
     <string name="fetch_notification_failed">নোটিফিকেশনগুলো আনা সম্ভব হয়নি।</string>
@@ -1408,6 +1408,7 @@
     <string name="total">সর্বমোট</string>
     <string name="charge">চার্জ</string>
     <string name="you_wii_recieve">টাকার পরিমাণ</string>
+    <string name="nid_required">-  National ID Card Required</string>
     <string name="card_save_dialog_title">Card Save Successful</string>
     <string name="card_save_dialog_text">Your card has been saved!</string>
     <string name="payment_cancel">Payment Cancelled</string>
@@ -1428,6 +1429,34 @@
     <string name="token_money">টোকেন এমাউন্ট</string>
     <string name="token_money_details">আইপে থেকে আপনার ব্যাংক অ্যাকাউন্টের একটি টোকেন এমাউন্ট পাঠানো হবে। ব্যাংক লিংক করার জন্য আপনার সঠিক টোকেন পরিমাণ নিশ্চিত করতে।</string>
     <string name="barc_bank_pin_msg">অনুগ্রহপূর্বক নিরাপত্তা কোডের জন্য আপনার ব্র্যাক ব্যাংকের রেজিস্টার্ড ফোন নম্বর বা ইমেল চেক করুন।</string>
+    <string name="same_as_in_your_national_id_card">আপনার এনআইডি অনুসারে</string>
+    <string name="tour_page_main_text">শপিং করুন, টাকা পাঠান কিংবা বিল পে করুন যে কোন সময়, যে কোন জায়গায়।</string>
+    <string name="tour_page_sub_string">আপনার কেনাকাটার জন্য পে করুন কিংবা যে কোন ধরনের ব্যক্তিগত লেনদেন যেমন টাকা পাঠানো বা রিকোয়েস্ট মানি করুন।</string>
+    <string name="create_an_ipay_account">আইপে একাউন্ট খুলুন</string>
+    <string name="log_in_to_my_ipay_account">আইপে একাউন্টে লগইন করুন</string>
+    <string name="select_account_type">একাউন্ট টাইপ\nবাছাই করুন</string>
+    <string name="select_account_type_desc">নিচের একাউন্ট টাইপগুলো থেকে আপনার দৈনন্দিন লেনদেনের জন্য উপযুক্ত একাউন্ট টাইপ বাছাই করুন</string>
+    <string name="personal_acc_desc">দৈনন্দিন কেনাকাটার জন্য পে করুন এবং ব্যক্তিগত লেনদেন করুন।</string>
+    <string name="business_account_desc">আপনার ব্যবসায়িক লেনদেন এবং হিসাব নিকাশ একই জায়গায় রাখুন।</string>
+    <string name="create_personal_account">পার্সোনাল একাউন্ট খুলুন</string>
+    <string name="personal_account_hint">Use your Name, Phone, DOB and careate a Password to use iPay.</string>
+    <string name="create_business_account">বিজনেস একাউন্ট খুলুন</string>
+    <string name="step_1_of_2">স্টেপ ১</string>
+    <string name="step_2_of_2">স্টেপ ২</string>
+    <string name="step_1_of_3">স্টেপ ১</string>
+    <string name="step_2_of_3">স্টেপ ২</string>
+    <string name="step_3_of_3">স্টেপ ৩</string>
+    <string name="verification_code">ভেরিফিকেশন কোড</string>
+    <string name="resend_verification_code">ভেরিফিকেশন কোড পুনরায় পাঠান</string>
+    <string name="don_t_have_an_ipay_account">আইপে একাউন্ট নাই?</string>
+    <string name="signup_now">সাইন আপ করুন</string>
+    <string name="login_text">আপনার আইপে অ্যাকাউন্টে লগইন করতে আপনার মোবাইল নম্বর এবং পাসওয়ার্ড ব্যবহার করুন।</string>
+    <string name="take_a_selfie">সেলফি তুলুন</string>
+    <string name="make_sure_your_full_face_view_directly_facing_the_camera">Make sure your full-face view directly facing the camera.</string>
+    <string name="open_camera">ক্যামেরা </string>
+    <string name="select_language">আপনার পছন্দের\nভাষা নির্বাচন করুন</string>
+    <string name="you_have_successfully_created_your_ipay_wallet_account">আপনি সফলভাবে আইপে একাউন্ট এ সাইনআপ করেছেন।</string>
+    <string name="congratulation">অভিনন্দন</string>
 </resources>
 
 

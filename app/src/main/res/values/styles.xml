@@ -1,11 +1,12 @@
-<resources xmlns:android="http://schemas.android.com/tools" xmlns:tools="urn:oasis:names:tc:xliff:document:1.2">
+<resources
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="urn:oasis:names:tc:xliff:document:1.2">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-
         <item name="colorAccent">@color/colorAccent</item>
     </style>
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
@@ -46,7 +47,7 @@
     </style>
 
     <style name="my_checkbox_style">
-        <item name="buttonTint">@color/colorWhite</item>
+        <item name="buttonTint">#666666</item>
     </style>
 
     <style name="HomeBalanceButtonBackground">
@@ -748,6 +749,24 @@
         <item name="android:background">@android:color/transparent</item>
         <item name="android:paddingTop">@dimen/value10</item>
         <item name="android:textColorHint">@color/colorGray</item>
+    </style>
+
+    <style name="CustomTextInputLayoutOutlinedBoxWithMargin" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textSize">@dimen/text_size_small_medium</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:layout_marginTop">@dimen/value10</item>
+        <item name="android:textColorHint">@color/colorGray</item>
+    </style>
+
+    <style name="CustomEditTextOutlinedBoxLogInSignUp">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_small_medium</item>
+        <item name="android:textColorHint">@color/colorGray</item>
+        <item name="android:paddingLeft">@dimen/value10</item>
+        <item name="android:paddingRight">@dimen/value10</item>
     </style>
 
     <style name="CustomTextInputLayoutWithEqualMargin" parent="@android:style/Widget.Holo.TextView">

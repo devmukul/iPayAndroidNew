@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayout"
+        style="@style/CustomTextInputLayoutOutlinedBoxWithMargin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/edit_text"
+            style="@style/CustomEditTextOutlinedBoxLogInSignUp"
+            android:hint="@string/address_line_2"
+            android:focusable="false"
+            android:maxLines="1" />
+    </android.support.design.widget.TextInputLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:visibility="gone" />
+</RelativeLayout>

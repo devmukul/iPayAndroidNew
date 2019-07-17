@@ -49,9 +49,9 @@ public class EditTextWithProgressBar extends FrameLayout {
         mProgressBar = (ProgressBar) v.findViewById(R.id.progress_bar);
 
         if (attrs != null) {
-            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EditTextWithProgressBar, 0, 0);
-            int inputType = a.getInt(R.styleable.EditTextWithProgressBar_android_inputType, EditorInfo.TYPE_CLASS_TEXT);
-            String hint = a.getString(R.styleable.EditTextWithProgressBar_android_hint);
+            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialEditTextWithProgressBar, 0, 0);
+            int inputType = a.getInt(R.styleable.MaterialEditTextWithProgressBar_android_inputType, EditorInfo.TYPE_CLASS_TEXT);
+            String hint = a.getString(R.styleable.MaterialEditTextWithProgressBar_android_hint);
 
             if (hint != null)
                 mTextInputLayout.setHint(hint);

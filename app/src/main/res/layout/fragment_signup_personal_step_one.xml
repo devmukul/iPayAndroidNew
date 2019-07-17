@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_all_layout">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorWhite">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,221 +11,205 @@
         android:descendantFocusability="beforeDescendants"
         android:focusableInTouchMode="true"
         android:orientation="vertical"
-        android:padding="@dimen/activity_horizontal_margin">
+        android:padding="@dimen/value32">
 
-        <RelativeLayout
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#de000000"
+            android:lineSpacingExtra="12sp"
+            android:text="@string/step_1_of_2"
+            android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="28sp"
+            android:textColor="@color/colorBlack"
+            android:lineSpacingExtra="6sp"
+            android:text="@string/create_personal_account" />
+
+        <TextView
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#666666"
+            android:layout_marginTop="@dimen/value10"
+            android:text="@string/personal_account_hint"
+            android:visibility="gone"/>
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/CustomTextInputLayoutOutlinedBoxWithMargin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/user_name"
+                style="@style/CustomEditTextOutlinedBoxLogInSignUp"
+                android:hint="@string/full_name"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:paddingHorizontal="@dimen/value10"
+                android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ">
 
-            <ImageView
-                android:id="@+id/button_cross"
-                android:layout_width="@dimen/value30"
-                android:layout_height="@dimen/value30"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="@dimen/activity_horizontal_margin_card"
-                android:padding="@dimen/activity_horizontal_margin_card"
-                android:src="@drawable/ic_crossw"
-                android:visibility="visible" />
-        </RelativeLayout>
+                <requestFocus />
+            </android.support.design.widget.TextInputEditText>
+        </android.support.design.widget.TextInputLayout>
 
-        <LinearLayout
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#61000000"
+            android:lineSpacingExtra="4sp"
+            android:text="@string/same_as_in_your_national_id_card"
+            android:paddingLeft="@dimen/value8"/>
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/CustomTextInputLayoutOutlinedBoxWithMargin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/mobile_number"
+                style="@style/CustomEditTextOutlinedBoxLogInSignUp"
+                android:hint="@string/mobile_number"
+                android:inputType="phone"
+                android:maxLines="1" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/CustomTextInputLayoutOutlinedBoxWithMargin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:orientation="vertical">
+            android:layout_alignParentLeft="true">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/birthdayEditText"
+                style="@style/CustomEditTextOutlinedBoxLogInSignUp"
+                android:focusable="false"
+                android:hint="@string/birthday_dd_mm_yy"
+                android:inputType="number"
+                android:drawableRight="@drawable/ui_atoms_icons_dark_callender"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/CustomTextInputLayoutOutlinedBoxWithMargin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:passwordToggleEnabled = "true">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/password"
+                style="@style/CustomEditTextOutlinedBoxLogInSignUp"
+                android:hint="@string/prompt_password"
+                android:inputType="textPassword"
+                android:maxLines="1" />
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#61000000"
+            android:text="@string/password_hint"
+            android:paddingLeft="@dimen/value8"/>
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/CustomTextInputLayoutOutlinedBoxWithMargin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/confirm_password"
+                style="@style/CustomEditTextOutlinedBoxLogInSignUp"
+                android:hint="@string/confirm_password"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:visibility="gone"/>
+        </android.support.design.widget.TextInputLayout>
+
+
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/CustomTextInputLayoutOutlinedBoxWithMargin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:visibility="gone">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/promoCodeEditText"
+                style="@style/CustomEditTextOutlinedBoxLogInSignUp"
+                android:hint="@string/enter_promo_code_optional"
+                android:maxLines="1"
+                android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/value5"
+            android:paddingBottom="@dimen/value5"
+            android:visibility="gone">
 
             <android.support.design.widget.TextInputLayout
-                style="@style/CustomTextInputLayoutWithMargin"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:gravity="center_vertical"
                 android:theme="@style/CustomTextInputLayout">
 
-                <EditText
-                    android:id="@+id/user_name"
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/genderEditText"
                     style="@style/CustomEditTextLogInSignUp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/full_name"
-                    android:inputType="textCapWords"
-                    android:maxLines="1"
-                    android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ">
-
-                    <requestFocus />
-                </EditText>
-            </android.support.design.widget.TextInputLayout>
-
-            <View style="@style/DividerOnly" />
-
-            <android.support.design.widget.TextInputLayout
-                style="@style/CustomTextInputLayoutWithMargin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/mobile_number"
-                    style="@style/CustomEditTextLogInSignUp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/mobile_number"
-                    android:inputType="phone"
-                    android:maxLines="1" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <View style="@style/DividerOnly" />
-
-            <android.support.design.widget.TextInputLayout
-                style="@style/CustomTextInputLayoutWithMargin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/CustomTextInputLayout">
-
-                <EditText
-                    android:id="@+id/password"
-                    style="@style/CustomEditTextLogInSignUp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_password"
-                    android:inputType="textPassword"
-                    android:maxLines="1" />
-            </android.support.design.widget.TextInputLayout>
-
-            <View style="@style/DividerOnly" />
-
-            <android.support.design.widget.TextInputLayout
-                style="@style/CustomTextInputLayoutWithMargin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/CustomTextInputLayout">
-
-                <EditText
-                    android:id="@+id/confirm_password"
-                    style="@style/CustomEditTextLogInSignUp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/confirm_password"
-                    android:inputType="textPassword"
-                    android:maxLines="1" />
-            </android.support.design.widget.TextInputLayout>
-
-            <View style="@style/DividerOnly" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.design.widget.TextInputLayout
-                    style="@style/CustomTextInputLayoutWithMargin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:theme="@style/CustomTextInputLayout">
-
-                    <EditText
-                        android:id="@+id/birthdayEditText"
-                        style="@style/CustomEditTextLogInSignUp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:hint="@string/birthday_dd_mm_yy"
-                        android:inputType="number" />
-                </android.support.design.widget.TextInputLayout>
-
-            </RelativeLayout>
-
-            <View style="@style/DividerOnly" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.design.widget.TextInputLayout
-                    style="@style/CustomTextInputLayoutWithMargin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:theme="@style/CustomTextInputLayout">
-
-                    <EditText
-                        android:id="@+id/promoCodeEditText"
-                        style="@style/CustomEditTextLogInSignUp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/enter_promo_code_optional"
-                        android:maxLines="1"
-                        android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"/>
-                </android.support.design.widget.TextInputLayout>
-
-            </RelativeLayout>
-
-            <View style="@style/DividerOnly" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/value5"
-                android:paddingBottom="@dimen/value5"
-                android:visibility="gone">
-
-                <android.support.design.widget.TextInputLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:gravity="center_vertical"
-                    android:theme="@style/CustomTextInputLayout">
+                    android:focusable="false"
+                    android:paddingRight="@dimen/activity_horizontal_margin_semi_double"
+                    android:text="@string/gender"
+                    android:textColor="@color/colorGray" />
+            </android.support.design.widget.TextInputLayout>
 
-                    <EditText
-                        android:id="@+id/genderEditText"
-                        style="@style/CustomEditTextLogInSignUp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:paddingRight="@dimen/activity_horizontal_margin_semi_double"
-                        android:text="@string/gender"
-                        android:textColor="@color/colorGray" />
-                </android.support.design.widget.TextInputLayout>
+            <CheckBox
+                android:id="@+id/checkBoxMale"
+                style="@style/CheckBoxStyle"
+                android:layout_toLeftOf="@+id/checkBoxFemale"
+                android:background="@drawable/background_left_round_checkbox"
+                android:button="@null"
+                android:text="@string/male"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/value12" />
 
-                <CheckBox
-                    android:id="@+id/checkBoxMale"
-                    style="@style/CheckBoxStyle"
-                    android:layout_toLeftOf="@+id/checkBoxFemale"
-                    android:background="@drawable/background_left_round_checkbox"
-                    android:button="@null"
-                    android:text="@string/male"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/value12" />
-
-                <CheckBox
-                    android:id="@+id/checkBoxFemale"
-                    style="@style/CheckBoxStyle"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/value5"
-                    android:background="@drawable/background_right_round_checkbox"
-                    android:button="@null"
-                    android:text="@string/female"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/value12" />
-            </RelativeLayout>
-
-        </LinearLayout>
+            <CheckBox
+                android:id="@+id/checkBoxFemale"
+                style="@style/CheckBoxStyle"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/value5"
+                android:background="@drawable/background_right_round_checkbox"
+                android:button="@null"
+                android:text="@string/female"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/value12" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/terms_and_privacy_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
             android:layout_marginTop="@dimen/value16"
-            android:gravity="center"
+            android:gravity="left"
             android:text="@string/oath_sign_up"
-            android:textColor="@android:color/white"
-            android:textColorLink="@android:color/white"
-            android:textSize="14sp" />
+            android:textColor="#858585"
+            android:textColorLink="@color/colorPrimary"
+            android:textSize="14sp"
+            android:layout_marginLeft="@dimen/value8" />
 
         <Button
             android:id="@+id/personal_sign_in_button"
-            style="@style/ButtonSecondary_No_Border"
+            style="@style/ButtonPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_horizontal_margin"
@@ -245,7 +230,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginBottom="@dimen/value2"
                 android:text="@string/already_have_an_account"
-                android:textColor="@android:color/white"
+                android:textColor="#212121"
                 android:textSize="14sp" />
 
             <Button
@@ -262,7 +247,7 @@
                 android:paddingBottom="@dimen/activity_horizontal_margin_card"
                 android:text="@string/log_in"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white"
+                android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/text_size_small" />
         </LinearLayout>
 

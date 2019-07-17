@@ -37,7 +37,7 @@ public class SignupBusinessStepOneFragment extends BaseFragment implements HttpR
 
 	private EditText mBusinessEmailView;
 	private EditText mPasswordView;
-	private EditText mConfirmPasswordView;
+	//private EditText mConfirmPasswordView;
 	private EditText mBusinessMobileNumberView;
 
 	private CustomProgressDialog mProgressDialog;
@@ -50,7 +50,7 @@ public class SignupBusinessStepOneFragment extends BaseFragment implements HttpR
 		mProgressDialog = new CustomProgressDialog(getActivity());
 
 		mPasswordView = v.findViewById(R.id.password);
-		mConfirmPasswordView = v.findViewById(R.id.confirm_password);
+		//mConfirmPasswordView = v.findViewById(R.id.confirm_password);
 		mBusinessEmailView = v.findViewById(R.id.email);
 		mBusinessMobileNumberView = v.findViewById(R.id.business_mobile_number);
 
@@ -156,12 +156,13 @@ public class SignupBusinessStepOneFragment extends BaseFragment implements HttpR
 			focusView = mPasswordView;
 			cancel = true;
 
-		} else if (!mConfirmPasswordView.getText().toString().trim().equals(SignupOrLoginActivity.mPasswordBusiness) && mConfirmPasswordView.getVisibility() == View.VISIBLE) {
-			mConfirmPasswordView.setError(getString(R.string.confirm_password_not_matched));
-			focusView = mConfirmPasswordView;
-			cancel = true;
-
 		}
+//		else if (!mConfirmPasswordView.getText().toString().trim().equals(SignupOrLoginActivity.mPasswordBusiness) && mConfirmPasswordView.getVisibility() == View.VISIBLE) {
+//			mConfirmPasswordView.setError(getString(R.string.confirm_password_not_matched));
+//			focusView = mConfirmPasswordView;
+//			cancel = true;
+//
+//		}
 		if (cancel) {
 			// There was an error; don't attempt login and focus the first
 			// form field with an error.

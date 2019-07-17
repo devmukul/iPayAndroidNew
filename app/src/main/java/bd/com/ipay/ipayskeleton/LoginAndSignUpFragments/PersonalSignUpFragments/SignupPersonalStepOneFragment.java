@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -50,16 +51,16 @@ public class SignupPersonalStepOneFragment extends BaseFragment implements HttpR
 	private HttpRequestPostAsyncTask mRequestOTPTask = null;
 	private OTPResponsePersonalSignup mOtpResponsePersonalSignup;
 
-	private EditText mPasswordView;
-	private EditText mConfirmPasswordView;
-	private EditText mMobileNumberView;
-	private EditText mPromoCodeEditText;
+	private TextInputEditText mPasswordView;
+//	private TextInputEditText mConfirmPasswordView;
+	private TextInputEditText mMobileNumberView;
+	private TextInputEditText mPromoCodeEditText;
 
-	private EditText mNameView;
+	private TextInputEditText mNameView;
 	private CheckBox mMaleCheckBox;
 	private CheckBox mFemaleCheckBox;
-	private EditText mBirthdayEditText;
-	private EditText mGenderEditText;
+	private TextInputEditText mBirthdayEditText;
+	private TextInputEditText mGenderEditText;
 
 	private CustomProgressDialog mProgressDialog;
 
@@ -98,7 +99,7 @@ public class SignupPersonalStepOneFragment extends BaseFragment implements HttpR
 		DeepLinkAction mDeepLinkAction = getActivity().getIntent().getParcelableExtra(Constants.DEEP_LINK_ACTION);
 		mNameView = v.findViewById(R.id.user_name);
 		mPasswordView = v.findViewById(R.id.password);
-		mConfirmPasswordView = v.findViewById(R.id.confirm_password);
+		//mConfirmPasswordView = v.findViewById(R.id.confirm_password);
 		mMobileNumberView = v.findViewById(R.id.mobile_number);
 		final TextView termsAndPrivacyTextView = v.findViewById(R.id.terms_and_privacy_text_view);
 
@@ -145,7 +146,6 @@ public class SignupPersonalStepOneFragment extends BaseFragment implements HttpR
 		mBirthdayEditText = v.findViewById(R.id.birthdayEditText);
 		mPromoCodeEditText = v.findViewById(R.id.promoCodeEditText);
 		mGenderEditText = v.findViewById(R.id.genderEditText);
-		ImageView mCrossButton = v.findViewById(R.id.button_cross);
 		Button mLoginButton = v.findViewById(R.id.button_log_in);
 		mProgressDialog = new CustomProgressDialog(getActivity());
 
@@ -195,15 +195,6 @@ public class SignupPersonalStepOneFragment extends BaseFragment implements HttpR
 				if (Utilities.isConnectionAvailable(getActivity())) attemptRequestOTP();
 				else if (getActivity() != null)
 					Toast.makeText(getActivity(), R.string.no_internet_connection, Toast.LENGTH_LONG).show();
-			}
-		});
-
-		mCrossButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (getActivity() instanceof SignupOrLoginActivity) {
-					((SignupOrLoginActivity) getActivity()).switchToTourActivity();
-				}
 			}
 		});
 
@@ -277,12 +268,14 @@ public class SignupPersonalStepOneFragment extends BaseFragment implements HttpR
 			focusView = mPasswordView;
 			cancel = true;
 
-		} else if (!mConfirmPasswordView.getText().toString().trim().equals(SignupOrLoginActivity.mPassword) && mConfirmPasswordView.getVisibility() == View.VISIBLE) {
-			mConfirmPasswordView.setError(getString(R.string.confirm_password_not_matched));
-			focusView = mConfirmPasswordView;
-			cancel = true;
-
-		} else if (SignupOrLoginActivity.mBirthday == null || SignupOrLoginActivity.mBirthday.length() == 0) {
+		}
+//		else if (!mConfirmPasswordView.getText().toString().trim().equals(SignupOrLoginActivity.mPassword) && mConfirmPasswordView.getVisibility() == View.VISIBLE) {
+//			mConfirmPasswordView.setError(getString(R.string.confirm_password_not_matched));
+//			focusView = mConfirmPasswordView;
+//			cancel = true;
+//
+//		}
+		else if (SignupOrLoginActivity.mBirthday == null || SignupOrLoginActivity.mBirthday.length() == 0) {
 			mBirthdayEditText.setError(getString(R.string.error_invalid_birthday));
 			focusView = mBirthdayEditText;
 			cancel = true;

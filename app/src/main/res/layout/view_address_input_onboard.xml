@@ -22,7 +22,7 @@
 
     <View style="@style/Divider" />
 
-    <bd.com.ipay.ipayskeleton.CustomView.EditTextWithProgressBar
+    <bd.com.ipay.ipayskeleton.CustomView.MaterialEditTextWithProgressBar
         android:id="@+id/district"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
 
     <View style="@style/Divider" />
 
-    <bd.com.ipay.ipayskeleton.CustomView.EditTextWithProgressBar
+    <bd.com.ipay.ipayskeleton.CustomView.MaterialEditTextWithProgressBar
         android:id="@+id/thana"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

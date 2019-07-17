@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:focusableInTouchMode="true"
+    tools:context=".Activities.IPayTransactionActionActivity">
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            app:elevation="0dp">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/transparent"
+                app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                app:titleTextColor="@android:color/white">
+
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.AppBarLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white">
+
+            <android.support.v4.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:focusableInTouchMode="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:orientation="vertical"
+                    android:paddingTop="?attr/actionBarSize">
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/account_type_business_image_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/card"
+                        android:layout_marginStart="@dimen/value32"
+                        android:layout_marginLeft="@dimen/value32"
+                        android:src="@drawable/icon_handshake" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value32"
+                        android:layout_marginLeft="@dimen/value32"
+                        android:layout_marginEnd="@dimen/value32"
+                        android:layout_marginRight="@dimen/value32"
+                        android:fontFamily="@font/open_sans_light"
+                        android:text="Welcome to ipay,\nNow Complete Your Profile."
+                        android:textColor="#212121"
+                        android:textSize="26sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value32"
+                        android:layout_marginLeft="@dimen/value32"
+                        android:layout_marginTop="@dimen/value8"
+                        android:layout_marginEnd="@dimen/value32"
+                        android:layout_marginRight="@dimen/value32"
+                        android:fontFamily="@font/open_sans"
+                        android:textColor="#666666"
+                        android:textSize="14sp"
+                        android:text="Share your personal info which will help to verify your identity. " />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value32"
+                        android:layout_marginLeft="@dimen/value32"
+                        android:layout_marginTop="@dimen/value16"
+                        android:layout_marginEnd="@dimen/value32"
+                        android:layout_marginRight="@dimen/value32"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:id="@+id/nid_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:id="@+id/nid_image_view"
+                                android:layout_width="72dip"
+                                android:layout_height="72dip"
+                                android:src="@drawable/img_illustration_selfie"
+                                android:layout_centerVertical="true"/>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_toRightOf="@+id/nid_image_view"
+                                android:layout_centerVertical="true">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dip"
+                                    android:layout_marginLeft="8dip"
+                                    android:fontFamily="@font/open_sans_semibold"
+                                    android:textColor="#212121"
+                                    android:textSize="12sp"
+                                    android:text="Step 1: Take a Selfie" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dip"
+                                    android:layout_marginLeft="8dip"
+                                    android:fontFamily="@font/open_sans"
+                                    android:textColor="#666666"
+                                    android:textSize="12sp"
+                                    android:text="@string/add_money_instant_option_message" />
+
+                            </LinearLayout>
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/selfi_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/activity_horizontal_margin">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:id="@+id/selfi_image_view"
+                                android:layout_width="72dip"
+                                android:layout_height="72dip"
+                                android:src="@drawable/img_illustration_nid"
+                                android:layout_centerVertical="true"/>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_toRightOf="@+id/selfi_image_view"
+                                android:layout_centerVertical="true">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dip"
+                                    android:layout_marginLeft="8dip"
+                                    android:fontFamily="@font/open_sans_semibold"
+                                    android:textColor="#888888"
+                                    android:textSize="12sp"
+                                    android:text="Step 2: NID Verification" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dip"
+                                    android:layout_marginLeft="8dip"
+                                    android:fontFamily="@font/open_sans"
+                                    android:textColor="#AAAAAA"
+                                    android:textSize="12sp"
+                                    android:text="@string/add_money_instant_option_message" />
+
+                            </LinearLayout>
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/sof_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/activity_horizontal_margin">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:id="@+id/sof_image_view"
+                                android:layout_width="72dip"
+                                android:layout_height="72dip"
+                                android:src="@drawable/img_illustration_sof"
+                                android:layout_centerVertical="true"/>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_toRightOf="@+id/sof_image_view"
+                                android:layout_centerVertical="true">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dip"
+                                    android:layout_marginLeft="8dip"
+                                    android:fontFamily="@font/open_sans_semibold"
+                                    android:textColor="#888888"
+                                    android:textSize="12sp"
+                                    android:text="Step 3: Add Source of Fund" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dip"
+                                    android:layout_marginLeft="8dip"
+                                    android:fontFamily="@font/open_sans"
+                                    android:textColor="#AAAAAA"
+                                    android:textSize="12sp"
+                                    android:text="@string/add_money_instant_option_message" />
+
+                            </LinearLayout>
+
+
+                        </RelativeLayout>
+
+                        <Button
+                            android:id="@+id/continue_button"
+                            style="@style/ButtonPrimary"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/activity_horizontal_margin"
+                            android:text="@string/continue_button" />
+
+
+                    </LinearLayout>
+
+
+
+
+                </LinearLayout>
+            </android.support.v4.widget.NestedScrollView>
+        </RelativeLayout>
+    </android.support.design.widget.CoordinatorLayout>
+</android.support.design.widget.CoordinatorLayout>

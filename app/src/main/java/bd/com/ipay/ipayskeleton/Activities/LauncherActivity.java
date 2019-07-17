@@ -103,7 +103,7 @@ public class LauncherActivity extends IPayActivity {
 
     private void launchTourActivity() {
         Intent intent;
-        intent = new Intent(LauncherActivity.this, TourActivity.class);
+        intent = new Intent(LauncherActivity.this, LanguageActivity.class);
         startActivity(intent);
         finish();
     }

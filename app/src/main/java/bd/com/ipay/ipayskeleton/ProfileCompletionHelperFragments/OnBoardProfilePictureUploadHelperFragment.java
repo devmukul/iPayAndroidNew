@@ -57,10 +57,10 @@ public class OnBoardProfilePictureUploadHelperFragment extends Fragment implemen
     private UploadProfilePictureAsyncTask mUploadProfilePictureAsyncTask = null;
 
     private Button mUploadPhotoButton;
-    private Button mSelectPhotoButton;
+    //private Button mSelectPhotoButton;
     private CustomProgressDialog mProgressDialog;
-    private ProfileImageView mUploadImageView;
-    private TextView mDocumentHelperTextView;
+    //private ProfileImageView mUploadImageView;
+    //private TextView mDocumentHelperTextView;
 
     private List<String> mOptionsForImageSelectionList;
     private int mSelectedOptionForImage = -1;
@@ -69,17 +69,11 @@ public class OnBoardProfilePictureUploadHelperFragment extends Fragment implemen
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_onboard_profile_picture, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile_picture_upload_helper, container, false);
 
         initializeViews(view);
         initProfilePicHelperDialog();
         setButtonActions();
-
-        mUri = ((ProfileVerificationHelperActivity) getActivity()).mProfilePhotoUri;
-        if (ProfileInfoCacheManager.isProfilePictureUploaded()) {
-            mUploadImageView.setProfilePicture(mUri.getPath(), true);
-
-        }
         return view;
     }
 
@@ -90,65 +84,25 @@ public class OnBoardProfilePictureUploadHelperFragment extends Fragment implemen
 
     private void initializeViews(View view) {
         mProgressDialog = new CustomProgressDialog(getActivity());
-        mUploadPhotoButton = view.findViewById(R.id.button_upload_profile_pic);
-        mSelectPhotoButton = view.findViewById(R.id.button_select_profile_pic);
+        mUploadPhotoButton = view.findViewById(R.id.open_camera);
+        //mSelectPhotoButton = view.findViewById(R.id.button_select_profile_pic);
         mOptionsForImageSelectionList = Arrays.asList(getResources().getStringArray(R.array.upload_picker_action_for_profile_picture));
-        mUploadImageView = view.findViewById(R.id.profile_image_view);
-        mUploadImageView.setProfilePicture(R.drawable.ic_onboard_profile_pic_upload_helper);
-        mDocumentHelperTextView = view.findViewById(R.id.profile_pic_upload_helper_title);
-
-        if (mUri == null) {
-            mSelectPhotoButton.setVisibility(View.VISIBLE);
-            mUploadPhotoButton.setVisibility(View.GONE);
-            mDocumentHelperTextView.setText(getString(R.string.onboard_photo_upload_title));
-        } else {
-            mUploadPhotoButton.setVisibility(View.VISIBLE);
-            mSelectPhotoButton.setVisibility(View.GONE);
-            mDocumentHelperTextView.setText(getString(R.string.onboard_nice_profile_photo));
-        }
     }
 
     public void setButtonActions() {
-
-        mUploadImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (ProfileInfoCacheManager.isProfilePictureUploaded()) {
-                    showRepeatedPhotoSelectAlertDialog();
-                } else {
-                    if (Utilities.isNecessaryPermissionExists(getContext(), DocumentPicker.PROFILE_PICTURE_PERMISSION)) {
-                        Intent intent = DocumentPicker.createCameraIntent(getContext(), Constants.CAMERA_FRONT, "profile_picture.jpg");
-                        startActivityForResult(intent, ACTION_PICK_PROFILE_PICTURE);
-                    } else {
-                        Utilities.requestRequiredPermissions(OnBoardProfilePictureUploadHelperFragment.this,
-                                REQUEST_CODE_PERMISSION, DocumentPicker.PROFILE_PICTURE_PERMISSION);
-                    }
-                }
-            }
-        });
-
-        mSelectPhotoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (ProfileInfoCacheManager.isProfilePictureUploaded()) {
-                    showRepeatedPhotoSelectAlertDialog();
-                } else {
-                    if (Utilities.isNecessaryPermissionExists(getContext(), DocumentPicker.PROFILE_PICTURE_PERMISSION)) {
-                        Intent intent = DocumentPicker.createCameraIntent(getContext(), Constants.CAMERA_FRONT, "profile_picture.jpg");
-                        startActivityForResult(intent, ACTION_PICK_PROFILE_PICTURE);
-                    } else {
-                        Utilities.requestRequiredPermissions(OnBoardProfilePictureUploadHelperFragment.this,
-                                REQUEST_CODE_PERMISSION, DocumentPicker.PROFILE_PICTURE_PERMISSION);
-                    }
-                }
-            }
-        });
-
         mUploadPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mUri != null) {
-                    updateProfilePicture(mUri);
+                if (ProfileInfoCacheManager.isProfilePictureUploaded()) {
+                    showRepeatedPhotoSelectAlertDialog();
+                } else {
+                    if (Utilities.isNecessaryPermissionExists(getContext(), DocumentPicker.PROFILE_PICTURE_PERMISSION)) {
+                        Intent intent = DocumentPicker.createCameraIntent(getContext(), Constants.CAMERA_FRONT, "profile_picture.jpg");
+                        startActivityForResult(intent, ACTION_PICK_PROFILE_PICTURE);
+                    } else {
+                        Utilities.requestRequiredPermissions(OnBoardProfilePictureUploadHelperFragment.this,
+                                REQUEST_CODE_PERMISSION, DocumentPicker.PROFILE_PICTURE_PERMISSION);
+                    }
                 }
             }
         });
@@ -277,10 +231,9 @@ public class OnBoardProfilePictureUploadHelperFragment extends Fragment implemen
                     } else {
                         // Check for a valid profile picture
                         if (isSelectedProfilePictureValid(mUri)) {
-                            mUploadImageView.setProfilePicture(mUri.getPath());
-                            mDocumentHelperTextView.setText("Nice Profile Photo");
-                            mSelectPhotoButton.setVisibility(View.GONE);
-                            mUploadPhotoButton.setVisibility(View.VISIBLE);
+                            if (mUri != null) {
+                                updateProfilePicture(mUri);
+                            }
                         }
                     }
                 } else if (resultCode == CameraActivity.CAMERA_ACTIVITY_CRASHED) {
@@ -328,17 +281,8 @@ public class OnBoardProfilePictureUploadHelperFragment extends Fragment implemen
                     ((ProfileVerificationHelperActivity) getActivity()).mProfilePhotoUri = mUri;
                     ProfileInfoCacheManager.uploadProfilePicture(true);
                     getActivity().getSupportFragmentManager().popBackStack();
-                    if (ProfileInfoCacheManager.isSwitchedFromSignup()) {
-                        ((ProfileVerificationHelperActivity) getActivity()).switchToPhotoIdUploadHelperFragment();
-                    } else {
-                        if (!ProfileInfoCacheManager.isIdentificationDocumentUploaded()) {
-                            ((ProfileVerificationHelperActivity) getActivity()).switchToPhotoIdUploadHelperFragment();
-                        } else if (!ProfileInfoCacheManager.isBasicInfoAdded()) {
-                            ((ProfileVerificationHelperActivity) getActivity()).switchToBasicInfoEditHelperFragment();
-                        } else {
-                            ((ProfileVerificationHelperActivity) getActivity()).switchToHomeActivity();
-                        }
-                    }
+
+                    ((ProfileVerificationHelperActivity) getActivity()).switchToHomeActivity();
                 } else {
                     if (getActivity() != null) {
                         Toast.makeText(getActivity(), mSetProfilePictureResponse.getMessage(), Toast.LENGTH_SHORT).show();

@@ -82,7 +82,6 @@ public class BracBankPinDialog extends DialogFragment implements HttpResponseLis
 
         mOTPEditText = view.findViewById(R.id.otp_edittext);
         mActivateButton = view.findViewById(R.id.confirm_pin);
-       // mCancelButton = view.findViewById(R.id.buttonCancel);
 
         mCustomProgressDialog = new AnimatedProgressDialog(getContext());
         setButtonActions();

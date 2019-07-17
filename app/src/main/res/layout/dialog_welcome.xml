@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/value30"
+    android:background="@drawable/oval_shaped_white_button_no_border_default"
+    android:gravity="center_horizontal">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_success_tick"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/colorBlack"
+        android:lineSpacingExtra="4sp"
+        android:gravity="center_horizontal"
+        android:text="@string/congratulation"
+        android:layout_marginTop="@dimen/value10"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="#666666"
+        android:lineSpacingExtra="6sp"
+        android:gravity="center_horizontal"
+        android:text="@string/you_have_successfully_created_your_ipay_wallet_account"
+        android:layout_marginTop="@dimen/value10"
+        android:paddingLeft="@dimen/value10"
+        android:paddingRight="@dimen/value10" />
+
+    <Button
+        android:id="@+id/ok_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/ButtonPrimary"
+        android:text="@string/continue_button"
+        android:layout_marginTop="@dimen/value30"/>
+
+</LinearLayout>

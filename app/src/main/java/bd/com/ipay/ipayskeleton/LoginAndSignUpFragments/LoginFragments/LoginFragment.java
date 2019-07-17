@@ -343,15 +343,6 @@ public class LoginFragment extends BaseFragment implements HttpResponseListener 
         }
     }
 
-//    private void getAddedCards() {
-//        if (mGetAllAddedCards != null) return;
-//        else {
-//            mGetAllAddedCards = new HttpRequestGetAsyncTask(Constants.COMMAND_ADD_CARD,
-//                    Constants.BASE_URL_MM + Constants.URL_GET_CARD, getActivity(), this, false);
-//            mGetAllAddedCards.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-//        }
-//    }
-
     @Override
     public void httpResponseReceiver(GenericHttpResponse result) {
 

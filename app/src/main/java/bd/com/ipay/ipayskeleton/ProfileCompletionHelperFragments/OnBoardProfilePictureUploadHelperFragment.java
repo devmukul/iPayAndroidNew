@@ -74,12 +74,6 @@ public class OnBoardProfilePictureUploadHelperFragment extends Fragment implemen
         initializeViews(view);
         initProfilePicHelperDialog();
         setButtonActions();
-
-//        mUri = ((ProfileVerificationHelperActivity) getActivity()).mProfilePhotoUri;
-//        if (ProfileInfoCacheManager.isProfilePictureUploaded()) {
-//            mUploadImageView.setProfilePicture(mUri.getPath(), true);
-//
-//        }
         return view;
     }
 
@@ -93,40 +87,9 @@ public class OnBoardProfilePictureUploadHelperFragment extends Fragment implemen
         mUploadPhotoButton = view.findViewById(R.id.open_camera);
         //mSelectPhotoButton = view.findViewById(R.id.button_select_profile_pic);
         mOptionsForImageSelectionList = Arrays.asList(getResources().getStringArray(R.array.upload_picker_action_for_profile_picture));
-//        mUploadImageView = view.findViewById(R.id.profile_image_view);
-//        mUploadImageView.setProfilePicture(R.drawable.ic_onboard_profile_pic_upload_helper);
-//        mDocumentHelperTextView = view.findViewById(R.id.profile_pic_upload_helper_title);
-//
-//        if (mUri == null) {
-//            mSelectPhotoButton.setVisibility(View.VISIBLE);
-//            mUploadPhotoButton.setVisibility(View.GONE);
-//            mDocumentHelperTextView.setText(getString(R.string.onboard_photo_upload_title));
-//        } else {
-//            mUploadPhotoButton.setVisibility(View.VISIBLE);
-//            mSelectPhotoButton.setVisibility(View.GONE);
-//            mDocumentHelperTextView.setText(getString(R.string.onboard_nice_profile_photo));
-//        }
     }
 
     public void setButtonActions() {
-
-//        mUploadImageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (ProfileInfoCacheManager.isProfilePictureUploaded()) {
-//                    showRepeatedPhotoSelectAlertDialog();
-//                } else {
-//                    if (Utilities.isNecessaryPermissionExists(getContext(), DocumentPicker.PROFILE_PICTURE_PERMISSION)) {
-//                        Intent intent = DocumentPicker.createCameraIntent(getContext(), Constants.CAMERA_FRONT, "profile_picture.jpg");
-//                        startActivityForResult(intent, ACTION_PICK_PROFILE_PICTURE);
-//                    } else {
-//                        Utilities.requestRequiredPermissions(ProfilePictureUploadHelperFragment.this,
-//                                REQUEST_CODE_PERMISSION, DocumentPicker.PROFILE_PICTURE_PERMISSION);
-//                    }
-//                }
-//            }
-//        });
-//
         mUploadPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -143,13 +106,6 @@ public class OnBoardProfilePictureUploadHelperFragment extends Fragment implemen
                 }
             }
         });
-
-//        mUploadPhotoButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
     }
 
     private void showRepeatedPhotoSelectAlertDialog() {
@@ -278,10 +234,6 @@ public class OnBoardProfilePictureUploadHelperFragment extends Fragment implemen
                             if (mUri != null) {
                                 updateProfilePicture(mUri);
                             }
-//                            mUploadImageView.setProfilePicture(mUri.getPath());
-//                            mDocumentHelperTextView.setText("Nice Profile Photo");
-//                            mSelectPhotoButton.setVisibility(View.GONE);
-//                            mUploadPhotoButton.setVisibility(View.VISIBLE);
                         }
                     }
                 } else if (resultCode == CameraActivity.CAMERA_ACTIVITY_CRASHED) {

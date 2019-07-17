@@ -165,7 +165,6 @@ dependencies {
     //facebook sdk
     implementation 'com.facebook.android:facebook-android-sdk:4.38.1'
     implementation 'org.jetbrains:annotations-java5:15.0'
-
     implementation 'com.chaos.view:pinview:1.4.2'
 }
 

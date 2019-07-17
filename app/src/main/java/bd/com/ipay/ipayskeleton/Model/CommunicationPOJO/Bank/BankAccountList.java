@@ -43,9 +43,6 @@ public class BankAccountList implements Parcelable {
     @SerializedName("bankDocuments")
     @Expose
     private List<BankDocument> bankDocuments = null;
-    @SerializedName("meta")
-    @Expose
-    private Meta meta;
 
     public BankAccountList() {
     }
@@ -64,20 +61,6 @@ public class BankAccountList implements Parcelable {
         this.bankDocuments = bankDocuments;
     }
 
-    public BankAccountList(Long bankAccountId, String branchRoutingNumber, String accountName, String accountNumber, Long accountStatus, String verificationStatus, String bankName, String branchName, String bankCode,  List<BankDocument> bankDocuments, Meta meta) {
-        super();
-        this.bankAccountId = bankAccountId;
-        this.branchRoutingNumber = branchRoutingNumber;
-        this.accountName = accountName;
-        this.accountNumber = accountNumber;
-        this.accountStatus = accountStatus;
-        this.verificationStatus = verificationStatus;
-        this.bankName = bankName;
-        this.branchName = branchName;
-        this.bankCode = bankCode;
-        this.bankDocuments = bankDocuments;
-        this.meta = meta;
-    }
 
     protected BankAccountList(Parcel in) {
         if (in.readByte() == 0) {
@@ -219,14 +202,6 @@ public class BankAccountList implements Parcelable {
 
     public void setBankDocuments(List<BankDocument> bankDocuments) {
         this.bankDocuments = bankDocuments;
-    }
-
-    public Meta getMeta() {
-        return meta;
-    }
-
-    public void setMeta(Meta meta) {
-        this.meta = meta;
     }
 
     public int getBankIcon(Context context) {

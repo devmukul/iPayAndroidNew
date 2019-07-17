@@ -56,7 +56,7 @@ import bd.com.ipay.ipayskeleton.Utilities.ToasterAndLogger.Toaster;
 import bd.com.ipay.ipayskeleton.ViewModel.IPayBankListViewModel;
 import bd.com.ipay.ipayskeleton.ViewModel.IPayChooseBankOptionViewModel;
 
-public class IPayBankListFragment extends ProgressFragment implements HttpResponseListener {
+public class IPayBankListFragment extends ProgressFragment{
 
 	private IPayBankListAdapter userBankListAdapter;
 	private IPayBankListViewModel iPayBankListViewModel;
@@ -127,16 +127,17 @@ public class IPayBankListFragment extends ProgressFragment implements HttpRespon
 				public void onItemClick(int position, View view) {
 
 					Bank bank = iPayBankListViewModel.getBankAccount(position);
+
+					Bundle bundle = new Bundle();
+					bundle.putInt(Constants.SELECTED_BANK_ID, bank.getId());
+					bundle.putString(Constants.SELECTED_BANK_BANE, bank.getName());
+					bundle.putBoolean(Constants.FROM_ON_BOARD, isSwitchedFromOnBoard);
+					bundle.putBoolean(Constants.IS_STARTED_FROM_PROFILE_COMPLETION, startedFromProfileCompletion);
 					switch (bank.getBankCode()) {
 						case "060":
-							getBracBankUrl();
+							((ManageBanksActivity) getActivity()).switchToLinkBankOptionFragment(bundle);
 							break;
 						default:
-							Bundle bundle = new Bundle();
-							bundle.putInt(Constants.SELECTED_BANK_ID, bank.getId());
-							bundle.putString(Constants.SELECTED_BANK_BANE, bank.getName());
-							bundle.putBoolean(Constants.FROM_ON_BOARD, isSwitchedFromOnBoard);
-							bundle.putBoolean(Constants.IS_STARTED_FROM_PROFILE_COMPLETION, startedFromProfileCompletion);
 							((ManageBanksActivity) getActivity()).switchToAddNewBankFragmentTest(bundle);
 							break;
 					}
@@ -160,87 +161,5 @@ public class IPayBankListFragment extends ProgressFragment implements HttpRespon
 				iPayBankListViewModel.fetchBankList();
 			}
 		}, 500);
-	}
-
-	public void getBracBankUrl() {
-		httpRequestPostAsyncTask = new HttpRequestPostAsyncTask(Constants.COMMAND_ADD_MONEY_FROM_BARC_BANK, Constants.BASE_URL_MM+ "bank/brac",
-				null, getActivity(), this, false);
-		httpRequestPostAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-		mCustomProgressDialog.showDialog();
-	}
-
-	public void getBracBankToken(long bakId) {
-
-		httpRequestPostAsyncTask = new HttpRequestPostAsyncTask(Constants.COMMAND_GET_BRAC_BANK_TOKEN, Constants.BASE_URL_MM+ "bank/brac/"+bakId,
-				null, getActivity(), this, false);
-		httpRequestPostAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-		mCustomProgressDialog.showDialog();
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		switch (requestCode) {
-			case CARD_PAYMENT_WEB_VIEW_REQUEST:
-				if (data != null) {
-					final long bankID = data.getLongExtra("BANK_ID",0);
-					getBracBankToken(bankID);
-				}
-				break;
-			default:
-				super.onActivityResult(requestCode, resultCode, data);
-				break;
-		}
-	}
-
-	@Override
-	public void httpResponseReceiver(GenericHttpResponse result) {
-
-		if (HttpErrorHandler.isErrorFound(result, getContext(), mCustomProgressDialog)) {
-			httpRequestPostAsyncTask = null;
-			mCustomProgressDialog.dismissDialog();
-		} else {
-			switch (result.getApiCommand()) {
-				case Constants.COMMAND_GET_BRAC_BANK_TOKEN:
-					httpRequestPostAsyncTask = null;
-					mCustomProgressDialog.dismissDialog();
-					final LinkBracBankResponse mAddMoneyByCreditOrDebitResponse1 = new Gson().fromJson(result.getJsonString(), LinkBracBankResponse.class);
-					switch (result.getStatus()) {
-						case Constants.HTTP_RESPONSE_STATUS_OK:
-							Toaster.makeText(getActivity(), mAddMoneyByCreditOrDebitResponse1.getMessage(), Toast.LENGTH_SHORT);
-							((ManageBanksActivity) getActivity()).switchToBankAccountsFragment();
-							break;
-						default:
-							Toaster.makeText(getActivity(), mAddMoneyByCreditOrDebitResponse1.getMessage(), Toast.LENGTH_SHORT);
-							((ManageBanksActivity) getActivity()).switchToBankAccountsFragment();
-							break;
-					}
-					httpRequestPostAsyncTask = null;
-					break;
-				case Constants.COMMAND_ADD_MONEY_FROM_BARC_BANK:
-					httpRequestPostAsyncTask = null;
-					mCustomProgressDialog.dismissDialog();
-					final LinkBracBankResponse mAddMoneyByCreditOrDebitResponse = new Gson().fromJson(result.getJsonString(), LinkBracBankResponse.class);
-					switch (result.getStatus()) {
-						case Constants.HTTP_RESPONSE_STATUS_OK:
-							Intent intent = new Intent(getActivity(), BracBankLinkWebViewActivity.class);
-							intent.putExtra("BANK_ID", mAddMoneyByCreditOrDebitResponse.getId());
-							intent.putExtra(Constants.CARD_PAYMENT_URL, mAddMoneyByCreditOrDebitResponse.getSessionIdURL());
-							startActivityForResult(intent, CARD_PAYMENT_WEB_VIEW_REQUEST);
-							break;
-						case Constants.HTTP_RESPONSE_STATUS_BAD_REQUEST:
-						case Constants.HTTP_RESPONSE_STATUS_NOT_ACCEPTABLE:
-							if (getActivity() != null)
-								Toaster.makeText(getActivity(), mAddMoneyByCreditOrDebitResponse.getMessage(), Toast.LENGTH_SHORT);
-							break;
-						default:
-							if (getActivity() != null)
-								Toaster.makeText(getActivity(), R.string.service_not_available, Toast.LENGTH_SHORT);
-							break;
-					}
-					httpRequestPostAsyncTask = null;
-					break;
-			}
-		}
-
 	}
 }

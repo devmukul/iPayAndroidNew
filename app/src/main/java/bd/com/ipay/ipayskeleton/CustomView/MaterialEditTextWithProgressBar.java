@@ -42,7 +42,7 @@ public class MaterialEditTextWithProgressBar extends FrameLayout {
     private void initView(Context context, AttributeSet attrs) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.view_edit_text_with_progress_bar, this, true);
+        View v = inflater.inflate(R.layout.view_meterial_edit_text_with_progress_bar, this, true);
 
         mTextInputLayout = (TextInputLayout) v.findViewById(R.id.textInputLayout);
         mEditText = (EditText) v.findViewById(R.id.edit_text);

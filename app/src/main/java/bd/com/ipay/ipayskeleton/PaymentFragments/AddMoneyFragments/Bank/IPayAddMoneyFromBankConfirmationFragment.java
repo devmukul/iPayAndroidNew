@@ -17,7 +17,7 @@ public class IPayAddMoneyFromBankConfirmationFragment extends IPayAbstractBankTr
 
     @Override
     protected String getRequestJson() {
-        if(bankAccountList.getBankCode().equals("060"))
+        if(bankAccountList.getBankCode().equals("060") && bankAccountList.getBranchName().equalsIgnoreCase("INTERNET"))
             return gson.toJson(new AddMoneyByBankRequestV3(bankAccountList.getBankAccountId(), transactionAmount.doubleValue(), getNote(),true));
         else
             return gson.toJson(new AddMoneyByBankRequestV3(bankAccountList.getBankAccountId(), transactionAmount.doubleValue(), getNote()));

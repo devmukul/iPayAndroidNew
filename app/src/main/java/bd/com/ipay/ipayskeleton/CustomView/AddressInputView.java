@@ -53,8 +53,8 @@ public class AddressInputView extends FrameLayout implements HttpResponseListene
     private EditText mDistrictSelection;
     private EditText mCountrySelection;
     private EditText mPostalCodeField;
-    private MaterialEditTextWithProgressBar mDistrictEditTextProgressBar;
-    private MaterialEditTextWithProgressBar mThanaEditTextProgressBar;
+    private EditTextWithProgressBar mDistrictEditTextProgressBar;
+    private EditTextWithProgressBar mThanaEditTextProgressBar;
 
     private ResourceSelectorDialog<District> districtSelectorDialog;
     private ResourceSelectorDialog<Thana> thanaSelectorDialog;
@@ -84,8 +84,8 @@ public class AddressInputView extends FrameLayout implements HttpResponseListene
         mCountrySelection = (EditText) v.findViewById(R.id.country);
         mCountrySelection.setEnabled(false);
         mPostalCodeField = (EditText) v.findViewById(R.id.postcode);
-        mThanaEditTextProgressBar = (MaterialEditTextWithProgressBar) v.findViewById(R.id.thana);
-        mDistrictEditTextProgressBar = (MaterialEditTextWithProgressBar) v.findViewById(R.id.district);
+        mThanaEditTextProgressBar = v.findViewById(R.id.thana);
+        mDistrictEditTextProgressBar = v.findViewById(R.id.district);
         mDistrictSelection = mDistrictEditTextProgressBar.getEditText();
         mThanaSelection = mThanaEditTextProgressBar.getEditText();
 

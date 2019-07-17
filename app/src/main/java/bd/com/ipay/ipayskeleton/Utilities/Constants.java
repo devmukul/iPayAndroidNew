@@ -315,6 +315,7 @@ public class Constants {
     public static final String SELECTED_BANK_ID = "SELECTED_BANK_ID";
     public static final String SELECTED_BANK_BANE = "SELECTED_BANK_BANE";
     public static final String IS_FROM_SOURCE_OF_FUND = "IS_FROM_SOURCE_OF_FUND";
+    public static final String TRANSACTION_AMOUNT_KEY = "TRANSACTION_AMOUNT";
 
 
     public static String ROLEID = "ROLEID";
@@ -582,8 +583,7 @@ public class Constants {
     public static final String URL_SET_PROFILE_INFO_REQUEST = "user/profile";
 
     // User Rest (Profile Completion)
-   // public static final String URL_GET_PROFILE_COMPLETION_STATUS = "user/profilecompletion";
-
+    public static final String URL_GET_PROFILE_COMPLETION_STATUS_WITH_SCORE = "user/profilecompletion";
     public static final String URL_GET_PROFILE_COMPLETION_STATUS = "user/profile-status";
 
     // Bulk Sign up

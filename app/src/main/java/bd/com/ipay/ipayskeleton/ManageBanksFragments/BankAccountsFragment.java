@@ -562,23 +562,9 @@ public class BankAccountsFragment extends ProgressFragment implements HttpRespon
                                         showRemoveBankAccountDialog(bankAccountID);
 
                                     } else if (getContext().getString(R.string.verify).equalsIgnoreCase(action)) {
-                                        if(bankCode.equals("060")){
-                                            if(mListUserBankClasses.get(pos).getMeta()!=null){
-                                                Intent intent = new Intent(getActivity(), BracBankLinkWebViewActivity.class);
-                                                intent.putExtra("BANK_ID", mListUserBankClasses.get(pos).getBankAccountId());
-                                                intent.putExtra(Constants.CARD_PAYMENT_URL, mListUserBankClasses.get(pos).getMeta().getSessionIdURL());
-                                                startActivityForResult(intent, CARD_PAYMENT_WEB_VIEW_REQUEST);
-                                            }else {
-                                                if (!verificationStatus.equals(Constants.BANK_ACCOUNT_STATUS_VERIFIED)) {
-                                                    mCustomSelectorDialog.dismiss();
-                                                    showVerifyBankWithAmountDialog(bankAccountID, bankName);
-                                                }
-                                            }
-                                        }else {
-                                            if (!verificationStatus.equals(Constants.BANK_ACCOUNT_STATUS_VERIFIED)) {
-                                                mCustomSelectorDialog.dismiss();
-                                                showVerifyBankWithAmountDialog(bankAccountID, bankName);
-                                            }
+                                        if (!verificationStatus.equals(Constants.BANK_ACCOUNT_STATUS_VERIFIED)) {
+                                            mCustomSelectorDialog.dismiss();
+                                            showVerifyBankWithAmountDialog(bankAccountID, bankName);
                                         }
                                     }
                                 }

@@ -1274,5 +1274,12 @@
     <string name="select_language">Select Your\nPreferred Language</string>
     <string name="you_have_successfully_created_your_ipay_wallet_account">You have successfully created your iPay wallet account.</string>
     <string name="congratulation">Congratulations</string>
+    <string name="choose_nconvenient_way">Choose\nConvenient Way</string>
+    <string name="please_choose_your_desired_option_to_link_bank_with_your_ipay_wallet">Please choose your desired option to link bank with your ipay wallet.</string>
+    <string name="internet_banking">Internet Banking</string>
+    <string name="internet_banking_details">You need to log in to your internet banking account to verify your iPay account details.</string>
+    <string name="token_money">Token Money</string>
+    <string name="token_money_details">iPay will send a token amount to your bank account. You to confirm the token amount for bank.</string>
+    <string name="barc_bank_pin_msg">Please check your Brac bank registered phone number or email address for the security code.</string>
 
 </resources>

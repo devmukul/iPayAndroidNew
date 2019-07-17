@@ -34,9 +34,9 @@ public class BracBankLinkWebViewActivity extends BaseActivity {
 	public static final int CARD_TRANSACTION_CANCELED = 0;
 	public static final int CARD_TRANSACTION_SUCCESSFUL = 1;
 
-	public static final String URL_REGEX_APP_CARD_CANCELLED = "(.+)/page/cancel";
-	public static final String URL_REGEX_APP_CARD_FAILED = "(.+)/page/fail";
-	public static final String URL_REGEX_APP_TRANSACTION_CARD = "(.+)/page/success(/?.*)";
+//	public static final String URL_REGEX_APP_CARD_CANCELLED = "(.+)/page/cancel";
+//	public static final String URL_REGEX_APP_CARD_FAILED = "(.+)/page/fail";
+//	public static final String URL_REGEX_APP_TRANSACTION_CARD = "(.+)/page/success(/?.*)";
 
 	private static final String TRANSACTION_ID_POSITION = "$2";
 
@@ -92,13 +92,13 @@ public class BracBankLinkWebViewActivity extends BaseActivity {
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
 				Logger.logD("Redirect URL", url);
-				if (url.matches(URL_REGEX_APP_CARD_CANCELLED)) {
+				if (url.contains("/page/cancel")) {
 					finishWithResult(CARD_TRANSACTION_CANCELED);
 					return true;
-				} else if (url.matches(URL_REGEX_APP_CARD_FAILED)) {
+				} else if (url.contains("/page/fail")) {
 					finishWithResult(CARD_TRANSACTION_FAILED);
 					return true;
-				} else if (url.matches(URL_REGEX_APP_TRANSACTION_CARD)) {
+				} else if (url.contains("/page/success")) {
 					finishWithResult(CARD_TRANSACTION_SUCCESSFUL);
 					return true;
 				} else {

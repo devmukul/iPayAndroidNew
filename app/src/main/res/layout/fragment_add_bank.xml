@@ -52,7 +52,7 @@
 
         <View style="@style/Divider" />
 
-        <bd.com.ipay.ipayskeleton.CustomView.MaterialEditTextWithProgressBar
+        <bd.com.ipay.ipayskeleton.CustomView.EditTextWithProgressBar
             android:id="@+id/editText_with_progressBar_branch"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

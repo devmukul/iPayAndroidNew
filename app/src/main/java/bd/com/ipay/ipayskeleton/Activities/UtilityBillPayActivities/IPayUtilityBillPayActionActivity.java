@@ -24,6 +24,8 @@ import bd.com.ipay.ipayskeleton.PaymentFragments.IPayAbstractTransactionSuccessF
 import bd.com.ipay.ipayskeleton.PaymentFragments.IspSelectionFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.AkashDTH.AkashBillAmountInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.AkashDTH.AkashSubscriberIdInputFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.CNS.CNSSubscriberIdInputFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.COLBD.COLBDSubscriberIdInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.Carnival.CarnivalIdInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.CreditCard.CreditCardBankSelectionFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.LankaBangla.Card.LankaBanglaCardNumberInputFragment;
@@ -54,6 +56,8 @@ public final class IPayUtilityBillPayActionActivity extends BaseActivity {
     public static final String BANK_CODE = "BANK_CODE";
     public static final String SCHEDULE_PAYMENT_LIST = "SCHEDULE_PAYMENT_LIST";
     public static final String BILL_PAY_AKASH = "AKASH";
+    public static final String BILL_PAY_CNS = "CNS";
+    public static final String BILL_PAY_COLBD = "COLBD";
     private List<SavedBill> savedBills;
     private List<RecentBill> recentBills;
 
@@ -112,10 +116,16 @@ public final class IPayUtilityBillPayActionActivity extends BaseActivity {
                         switchFragment(new LinkThreeSubscriberIdInputFragment(), null, 0, true);
                     }
                     break;
-                case BILL_PAY_CARNIVAL:
+                case BILL_PAY_AKASH:
                     switchFragment(new AkashSubscriberIdInputFragment(), bundle, 0, false);
                     break;
-                case BILL_PAY_AKASH:
+                case BILL_PAY_CNS:
+                    switchFragment(new CNSSubscriberIdInputFragment(), bundle, 0, false);
+                    break;
+                case BILL_PAY_COLBD:
+                    switchFragment(new COLBDSubscriberIdInputFragment(), bundle, 0, false);
+                    break;
+                case BILL_PAY_CARNIVAL :
                     switchFragment(new CarnivalIdInputFragment(), bundle, 0, false);
                     break;
                 case CREDIT_CARD:

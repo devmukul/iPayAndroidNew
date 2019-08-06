@@ -44,6 +44,8 @@ import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.GetProviderR
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.Provider;
 import bd.com.ipay.ipayskeleton.Model.CommunicationPOJO.UtilityBill.ProviderCategory;
 import bd.com.ipay.ipayskeleton.PaymentFragments.SaveAndScheduleBill.BillPaySavedNumberSelectFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.CNS.CNSSubscriberIdInputFragment;
+import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.COLBD.COLBDSubscriberIdInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.Carnival.CarnivalIdInputFragment;
 import bd.com.ipay.ipayskeleton.PaymentFragments.UtilityBillFragments.LinkThree.LinkThreeSubscriberIdInputFragment;
 import bd.com.ipay.ipayskeleton.R;
@@ -114,6 +116,10 @@ public class IspSelectionFragment extends Fragment implements HttpResponseListen
         cardType = new ISP(getActivity().getString(R.string.banglalion), Constants.BLION , R.drawable.banglalion);
         ispTypes.add(cardType);
         cardType = new ISP(getActivity().getString(R.string.carnival), Constants.CARNIVAL ,  R.drawable.ic_carnival);
+        ispTypes.add(cardType);
+        cardType = new ISP(getActivity().getString(R.string.cns), Constants.CNS ,  R.drawable.cns);
+        ispTypes.add(cardType);
+        cardType = new ISP(getActivity().getString(R.string.colbd), Constants.COLBD ,  R.drawable.colbd);
         ispTypes.add(cardType);
         cardType = new ISP(getActivity().getString(R.string.link_three), Constants.LINK3 , R.drawable.link_three_logo);
         ispTypes.add(cardType);
@@ -356,6 +362,16 @@ public class IspSelectionFragment extends Fragment implements HttpResponseListen
                     case Constants.CARNIVAL:
                         ((IPayUtilityBillPayActionActivity) getActivity()).
                                 switchFragment(new CarnivalIdInputFragment(), null, 1, true);
+                        break;
+
+                    case Constants.CNS:
+                        ((IPayUtilityBillPayActionActivity) getActivity()).
+                                switchFragment(new CNSSubscriberIdInputFragment(), null, 1, true);
+                        break;
+
+                    case Constants.COLBD:
+                        ((IPayUtilityBillPayActionActivity) getActivity()).
+                                switchFragment(new COLBDSubscriberIdInputFragment(), null, 1, true);
                         break;
                     case Constants.BLION:
                         intent = new Intent(getActivity(), UtilityBillPaymentActivity.class);

@@ -17,7 +17,7 @@ public class DecimalDigitsInputFilter implements InputFilter {
 
     public DecimalDigitsInputFilter(boolean isOnlyDecimalDigit) {
         if (isOnlyDecimalDigit)
-            mPattern = Pattern.compile("0?(\\.[0-9]{0,2})?|1(\\.[0]{0,2})?");
+            mPattern = Pattern.compile("[0-9]{0,5}?(\\.[0-9]{0,2})?");
     }
 
     @Override

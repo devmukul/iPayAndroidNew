@@ -1229,6 +1229,7 @@
     <string name="recent_bill_information">Recent Bill Information</string>
     <string name="name_title">Name/Title</string>
     <string name="akash_subscriber_id_input_message">Please enter your Akash DTH Subscriber ID</string>
+    <string name="subscriber_id_input_message">Please enter your Subscriber ID</string>
     <string name="total">Total</string>
     <string name="charge">Charge</string>
     <string name="you_wii_recieve">You will recieve</string>
@@ -1281,5 +1282,8 @@
     <string name="token_money">Token Money</string>
     <string name="token_money_details">iPay will send a token amount to your bank account. You to confirm the token amount for bank.</string>
     <string name="barc_bank_pin_msg">Please check your Brac bank registered phone number or email address for the security code.</string>
+    <string name="akash_dth">Akash DTH</string>
+    <string name="cns">Crescent Network Service [CNS]</string>
+    <string name="colbd">COLBD</string>
 
 </resources>

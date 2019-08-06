@@ -82,7 +82,7 @@
                                 android:ellipsize="marquee"
                                 android:gravity="center_horizontal"
                                 android:singleLine="true"
-                                android:text="Akash DTH"
+                                android:text="@string/akash_dth"
                                 android:textColor="@color/colorBlack"
                                 android:textSize="@dimen/text_size_extra_smaller_value11"
                                 app:layout_constraintTop_toBottomOf="@+id/akash_dth_image" />
@@ -431,6 +431,79 @@
                                 android:textColor="@color/colorBlack"
                                 android:textSize="@dimen/text_size_extra_smaller_value11"
                                 app:layout_constraintTop_toBottomOf="@+id/dpdc_image" />
+                        </android.support.constraint.ConstraintLayout>
+
+                        <android.support.constraint.ConstraintLayout
+                            android:id="@+id/cns_isp"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="4dp">
+
+                            <ImageView
+                                android:id="@+id/cns_isp_image"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_gravity="center_horizontal"
+                                android:background="@drawable/semiround_white_default"
+                                android:elevation="@dimen/value2"
+                                android:padding="2dp"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/cns"
+                                app:layout_constraintDimensionRatio="1:1" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/activity_horizontal_margin_card"
+                                android:ellipsize="marquee"
+                                android:gravity="center_horizontal"
+                                android:text="Crescent Network Service [CNS]"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="@dimen/text_size_extra_smaller_value11"
+                                app:layout_constraintTop_toBottomOf="@+id/cns_isp_image" />
+                        </android.support.constraint.ConstraintLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="4">
+
+                        <android.support.constraint.ConstraintLayout
+                            android:id="@+id/colbd_isp"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:padding="4dp">
+
+                            <ImageView
+                                android:id="@+id/colbd_isp_image"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_gravity="center_horizontal"
+                                android:background="@drawable/semiround_white_default"
+                                android:elevation="@dimen/value2"
+                                android:padding="2dp"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/colbd"
+                                app:layout_constraintDimensionRatio="1:1" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/activity_horizontal_margin_card"
+                                android:ellipsize="marquee"
+                                android:gravity="center_horizontal"
+                                android:singleLine="true"
+                                android:text="COLBD"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="@dimen/text_size_extra_smaller_value11"
+                                app:layout_constraintTop_toBottomOf="@+id/colbd_isp_image" />
                         </android.support.constraint.ConstraintLayout>
 
                         <android.support.constraint.ConstraintLayout

@@ -91,6 +91,8 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
     private View mLink3BillPayView;
 
     private View mAkashBillPayView;
+    private View mCNSBillPayView;
+    private View mCOLBDBillPayView;
     private View mBrilliantRechargeView;
     private View mWestZoneBillPayView;
     private View mDescoBillPayView;
@@ -151,6 +153,8 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
         mBillPayView = view.findViewById(R.id.billPayView);
         mLink3BillPayView = view.findViewById(R.id.linkThreeBill);
         mAkashBillPayView = view.findViewById(R.id.akash_dth);
+        mCNSBillPayView = view.findViewById(R.id.cns_isp);
+        mCOLBDBillPayView = view.findViewById(R.id.colbd_isp);
 
         mDescoBillPayView = view.findViewById(R.id.desco);
         if (ACLManager.hasServicesAccessibility(ServiceIdConstants.DESCO)) {
@@ -207,6 +211,20 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
             @Override
             public void onClick(View v) {
                 payBill(Constants.BEXCOM, null);
+            }
+        });
+
+        mCNSBillPayView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                payBill(Constants.CNS, null);
+            }
+        });
+
+        mCOLBDBillPayView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                payBill(Constants.COLBD, null);
             }
         });
 
@@ -460,13 +478,25 @@ public class MakePaymentNewFragment extends BaseFragment implements HttpResponse
                         providerCode1 = "LINK3";
                         getSavedList(providerCode1);
                         break;
-                    case Constants.CARNIVAL:
+                    case Constants.BEXCOM:
                         intent = new Intent(getActivity(), IPayUtilityBillPayActionActivity.class);
                         intent.putExtra(IPayUtilityBillPayActionActivity.BILL_PAY_PARTY_NAME_KEY, IPayUtilityBillPayActionActivity.BILL_PAY_AKASH);
                         startActivityForResult(intent, REQUEST_CODE_SUCCESSFUL_ACTIVITY_FINISH);
                         getActivity().finish();
                         break;
-                    case Constants.BEXCOM:
+                    case Constants.CNS:
+                        intent = new Intent(getActivity(), IPayUtilityBillPayActionActivity.class);
+                        intent.putExtra(IPayUtilityBillPayActionActivity.BILL_PAY_PARTY_NAME_KEY, IPayUtilityBillPayActionActivity.BILL_PAY_CNS);
+                        startActivityForResult(intent, REQUEST_CODE_SUCCESSFUL_ACTIVITY_FINISH);
+                        getActivity().finish();
+                        break;
+                    case Constants.COLBD:
+                        intent = new Intent(getActivity(), IPayUtilityBillPayActionActivity.class);
+                        intent.putExtra(IPayUtilityBillPayActionActivity.BILL_PAY_PARTY_NAME_KEY, IPayUtilityBillPayActionActivity.BILL_PAY_COLBD);
+                        startActivityForResult(intent, REQUEST_CODE_SUCCESSFUL_ACTIVITY_FINISH);
+                        getActivity().finish();
+                        break;
+                    case Constants.CARNIVAL:
                         intent = new Intent(getActivity(), IPayUtilityBillPayActionActivity.class);
                         intent.putExtra(IPayUtilityBillPayActionActivity.BILL_PAY_PARTY_NAME_KEY, IPayUtilityBillPayActionActivity.BILL_PAY_CARNIVAL);
                         startActivityForResult(intent, REQUEST_CODE_SUCCESSFUL_ACTIVITY_FINISH);

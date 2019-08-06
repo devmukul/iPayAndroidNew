@@ -317,6 +317,8 @@ public class Constants {
     public static final String IS_FROM_SOURCE_OF_FUND = "IS_FROM_SOURCE_OF_FUND";
     public static final String TRANSACTION_AMOUNT_KEY = "TRANSACTION_AMOUNT";
     public static final String IS_INSTANT = "IS_INSTANT";
+    public static final String CNS = "CNS";
+    public static final String COLBD = "COLBD";
 
 
     public static String ROLEID = "ROLEID";
